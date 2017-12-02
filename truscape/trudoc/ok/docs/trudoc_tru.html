@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="generator" content="trudoc_tru, see www.strux.net"/>
+    <link rel="stylesheet" type="text/css" href="trudoc.css"/>
+    <title>trudoc_tru Reference Card</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+    <h1>trudoc_tru - Convert trudoc to html</h1>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <desc>This program takes a truer as argument and processes it&lsquo;s documentation to convert it to html.</desc><br/>
+    <desc>This is done by running &quot;truer -doc&quot; and processing this output.</desc><br/>
+    <desc>The resulting html-file needs trudoc.css as stylesheet.</desc><br/>
+    <h1> </h1>
+    <mainpart>Usage:</mainpart>
+      <howToRead>[
+	<a href="howtoread/options.html" title="how to read the options">help</a>
+      ]</howToRead>
+      <br/><br/>
+    <listing class="Usage">
+usage : trudoc_tru [Options] &lt;truer&gt;
+produce html documentation for &lt;truer&gt;.
+The output
+  is written to stdout.
+    you can use &lsquo;-o filename&lsquo; to write to filename.
+
+OPTIONS:
+       -noGives	don&lsquo;t complain missing &lsquo;gives:&lsquo;
+       -test1	only for testpurposes
+		and a comment for this option
+		  also on a strange indent and	with tabs
+       -test2	also for testpurposes
+
+       -vhelp shows more options
+    </listing>
+    <a name="L_Structure"></a>
+    <mainpart>complete Structure :</mainpart>
+      <howToRead>[
+	<a href="howtoread/structure.html" title="how to read the structure">help</a>
+      ]</howToRead>
+      <br/><br/>
+      <table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Indicator">param</a><ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_param">param</a><ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_EMPTY">EMPTY</a></td><td>=</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Signature203a">Signature :</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>Signature :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_exampleLine">exampleLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_see">see</a><ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_gives203a">gives :</a></td><td>=</td><td>gives :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_givesLine">givesLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Annotation203a">Annotation :</a></td><td>&gt;</td><td>.+ :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_detail">detail</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Testaction">Testaction</a></td><td>=</td><td>Testaction</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Testaction">Testaction</a></td><td>=</td><td>Testaction</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_anotheraction">anotheraction]</a></td><td>=</td><td>anotheraction</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_Testaction">whatever</a></td><td>= Testaction</td><td>whatever</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_inside">inside</a></td><td>=</td><td>inside</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_detail">det</a></td><td>= detail</td><td>det</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_test20action">test action</a></td><td>=</td><td>test action</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_3clooks_like_html3e">&lt;looks_like_html&gt;</a><ping><a title="here is a Tab">	</a>&lt;this_too&gt;</ping></td><td>=</td><td>&lt;looks_like_html&gt;<ping><a title="here is a Tab">	</a>&lt;this_too&gt;</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;</td><td>try</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_P5b3c5d215bplanname5d7b">P[&lt;]![planname]{</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>P&lt;?!.*\{</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Testaction3">using condition</a></td><td>= Testaction3($a)</td><td></td></tr>
+      </table>
+    <mainpart>Overview:</mainpart>
+      <howToRead>[
+	<a href="howtoread/overview.html" title="how to read the overview">help</a>
+      ]</howToRead>
+      <br/><br/>
+      <table class="overview">
+	<tr>
+	  <td>
+	    <A href="#A_Action">Action</a>
+	  </td>
+	  <td>
+	    an Action
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Parameters203a">Parameters :</a>
+	  </td>
+	  <td>
+	    The Params
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Indicator">Indicator</a>
+	  </td>
+	  <td>
+	    Parameter, that indicates a special block
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_param">param</a>
+	  </td>
+	  <td>
+	    Parameter
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Example203a">Example :</a>
+	  </td>
+	  <td>
+	    An Example
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_see">see</a>
+	  </td>
+	  <td>
+	    point to an Example in another Action
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_exampleLine">exampleLine</a>
+	  </td>
+	  <td>
+	    part of an Example
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_gives203a">gives :</a>
+	  </td>
+	  <td>
+	    Result of an Example
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_givesLine">givesLine</a>
+	  </td>
+	  <td>
+	    part of a gives-block
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_short">short</a>
+	  </td>
+	  <td>
+	    The short description
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_detail">detail</a>
+	  </td>
+	  <td>
+	    A detail line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Annotation203a">Annotation :</a>
+	  </td>
+	  <td>
+	    The details
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_file">file</a>
+	  </td>
+	  <td>
+	    Tells,where this part of the documentation is defined
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Signature203a">Signature :</a>
+	  </td>
+	  <td>
+	    define the signature for an Action
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_Testaction">Testaction</a>
+	  </td>
+	  <td>
+	    just for testing purposes
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_UNMATCHED">UNMATCHED</a>
+	  </td>
+	  <td>
+	    emit warning to STDERR
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_P5b3c5d215bplanname5d7b">P[&lt;]![planname]{</a>
+	  </td>
+	  <td>
+	    internal - just for test purposes
+	  </td>
+	</tr>
+      </table>
+    <a name="A_Action"></a>
+    <h1>Action       <shortText>an Action</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>Action<ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Indicator">param</a><ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_param">param</a><ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_EMPTY">EMPTY</a></td><td>=</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Signature203a">Signature :</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>Signature :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_exampleLine">exampleLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_see">see</a><ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_gives203a">gives :</a></td><td>=</td><td>gives :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_givesLine">givesLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Annotation203a">Annotation :</a></td><td>&gt;</td><td>.+ :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_detail">detail</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Action
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Action</td><td>mandatory</td><td>.+</td><td>The action</td></tr>
+      <tr><td>*</td><td>optional</td><td>.+</td><td>the args, each in it&lsquo;s own field</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>HitThis<ping><a title="here is a Tab">	</a>arg1</ping><pong><a title="here is a Tab">	</a>arg2</pong>
+</listing>
+    <br/>
+    <a name="A_Parameters203a"></a>
+    <h1>Parameters :       <shortText>The Params</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Parameters :</td><td>=</td><td>Parameters :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Indicator">param</a><ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_param">param</a><ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_EMPTY">EMPTY</a></td><td>=</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <annotation>Details :</annotation><br/>
+    <desc>  Describes the parameters for the action.</desc><br/>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Parameters :
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Parameters :</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>HitThis<ping><a title="here is a Tab">	</a>arg</ping>
+<a title = "Indent : 4">    </a>Parameters :
+<a title = "Indent : 6">      </a>HitThis<ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>HitThis</pong>
+<a title = "Indent : 6">      </a>arg<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>mandatory</ping><pong><a title="here is a Tab">	</a>&quot;a&quot; or &quot;b&quot;</pong><ping><a title="here is a Tab">	</a>the butt</ping>
+</listing>
+    <br/>
+    <a name="A_Indicator"></a>
+    <h1>Indicator       <shortText>Parameter, that indicates a special block</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>param<ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Indicator<ping><a title="here is a Tab">	</a>ind</ping><pong><a title="here is a Tab">	</a>re</pong>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Indicator</td><td>mandatory</td><td>.+</td><td>the name of the parameter</td></tr>
+      <tr><td>ind</td><td>Indicator</td><td>indicator</td><td></td></tr>
+      <tr><td>re</td><td>mandatory</td><td>.+</td><td>what is accepted by this action</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_Parameters203a">Parameters :</a>
+</listing>
+    <br/>
+    <a name="A_param"></a>
+    <h1>param       <shortText>Parameter</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>param<ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>param<ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>param</td><td>mandatory</td><td>.+</td><td>the name of the parameter</td></tr>
+      <tr><td>typ</td><td>mandatory</td><td>&quot;indicator&quot;,&quot;mandatory&quot; or &quot;optional&quot;</td><td>how this option must be used</td></tr>
+      <tr><td>re</td><td>mandatory</td><td>.+</td><td>what is allowed for this parameter</td></tr>
+      <tr><td>desc</td><td>mandatory</td><td>.+</td><td>a short description of this parameter</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_Parameters203a">Parameters :</a>
+</listing>
+    <br/>
+    <a name="A_Example203a"></a>
+    <h1>Example :       <shortText>An Example</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Example :<ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_exampleLine">exampleLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_see">see</a><ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Example :<ping><a title="here is a Tab">	</a>cmd</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Example :</td><td>Indicator</td><td>Example :</td><td></td></tr>
+      <tr><td>cmd</td><td>optional</td><td>.+</td><td>the command to run the Example</td></tr>
+    </table>
+    <br/>
+    <annotation>Details :</annotation><br/>
+    <desc>  the first tab of the child-block is removed, so the example can be nicely aligned.</desc><br/>
+    <desc>  You can have more than one example.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>short for foo
+<a title = "Indent : 6">      </a>Example :
+<a title = "Indent : 8">        </a>here comes the example 
+<a title = "Indent : 8">        </a>on many lines
+<a title = "Indent : 8">        </a>and it can contain one<ping><a title="here is a Tab">	</a>or more</ping><pong><a title="here is a Tab">	</a>tabs</pong>
+</listing>
+    <br/>
+    <a name="A_see"></a>
+    <h1>see       <shortText>point to an Example in another Action</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>see<ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>see<ping><a title="here is a Tab">	</a>what</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>see</td><td>Indicator</td><td>see</td><td></td></tr>
+      <tr><td>what</td><td>mandatory</td><td>.+</td><td>where the example can be found</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>short for foo
+<a title = "Indent : 6">      </a>Example :
+<a title = "Indent : 8">        </a>see<ping><a title="here is a Tab">	</a>anotherAction</ping>
+</listing>
+    <br/>
+    <a name="A_exampleLine"></a>
+    <h1>exampleLine       <shortText>part of an Example</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>exampleLine<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>exampleLine
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>exampleLine</td><td>mandatory</td><td>.*</td><td>one line of the example, can contain tabs</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_Example203a">Example :</a>
+</listing>
+    <br/>
+    <a name="A_gives203a"></a>
+    <h1>gives :       <shortText>Result of an Example</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>gives :</td><td>=</td><td>gives :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_givesLine">givesLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>gives :
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>gives :</td><td>Indicator</td><td>gives :</td><td></td></tr>
+    </table>
+    <br/>
+    <desc>this section is produced by trudocGivesCheck according to the cmd given to <A href="#A_Example203a">Example :</a>.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>short for foo
+<a title = "Indent : 6">      </a>Example :<ping><a title="here is a Tab">	</a>whatever_tru -report -daily</ping>
+<a title = "Indent : 8">        </a>4*5
+<a title = "Indent : 8">        </a>5+6
+<a title = "Indent : 6">      </a>gives :
+<a title = "Indent : 12">            </a>Daily Report
+<a title = "Indent : 8">        </a>twenty
+<a title = "Indent : 8">        </a>eleven
+</listing>
+    <br/>
+    <a name="A_givesLine"></a>
+    <h1>givesLine       <shortText>part of a gives-block</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_gives203a">gives :</a></td><td>=</td><td>gives :</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>givesLine<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>givesLine
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>givesLine</td><td>mandatory</td><td>.*</td><td>one line of the example-output, can contain tabs</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_gives203a">gives :</a>
+</listing>
+    <br/>
+    <a name="A_short"></a>
+    <h1>short       <shortText>The short description</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>short</td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Indicator">param</a><ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_param">param</a><ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_EMPTY">EMPTY</a></td><td>=</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Signature203a">Signature :</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>Signature :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_exampleLine">exampleLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_see">see</a><ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_gives203a">gives :</a></td><td>=</td><td>gives :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_givesLine">givesLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Annotation203a">Annotation :</a></td><td>&gt;</td><td>.+ :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_detail">detail</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>short
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>short</td><td>mandatory</td><td>.*</td><td>the short description</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>this is the short documentation
+<a title = "Indent : 6">      </a>long documentation
+<a title = "Indent : 6">      </a>follows here
+</listing>
+    <br/>
+    <a name="A_detail"></a>
+    <h1>detail       <shortText>A detail line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>detail<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Testaction">Testaction</a></td><td>=</td><td>Testaction</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>det</td><td>= detail</td><td>det</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_test20action">test action</a></td><td>=</td><td>test action</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>detail
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>detail</td><td>mandatory</td><td>.+</td><td>one line of the details, can contain tabs</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_Testaction">Testaction</a>
+</listing>
+    <br/>
+    <a name="A_Annotation203a"></a>
+    <h1>Annotation :       <shortText>The details</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Annotation :</td><td>&gt;</td><td>.+ :</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Annotation :
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Details :</td><td>Indicator</td><td>Details :</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>short for foo
+<a title = "Indent : 6">      </a>Details :
+<a title = "Indent : 8">        </a>this action does magic things
+</listing>
+    <br/>
+    <a name="A_file"></a>
+    <h1>file       <shortText>Tells,where this part of the documentation is defined</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>file<ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Parameters203a">Parameters :</a></td><td>=</td><td>Parameters :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Indicator">param</a><ping><a title="here is a Tab">	</a>indicator</ping><pong><a title="here is a Tab">	</a>re</pong></td><td>= Indicator</td><td>.+<ping><a title="here is a Tab">	</a>indicator</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_param">param</a><ping><a title="here is a Tab">	</a>typ</ping><pong><a title="here is a Tab">	</a>re</pong><ping><a title="here is a Tab">	</a>desc</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_EMPTY">EMPTY</a></td><td>=</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Signature203a">Signature :</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>Signature :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Example203a">Example :</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td>/.*\bexample\b.* :$/i</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_exampleLine">exampleLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_see">see</a><ping><a title="here is a Tab">	</a>what</ping></td><td>=</td><td>see</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_gives203a">gives :</a></td><td>=</td><td>gives :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_givesLine">givesLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Annotation203a">Annotation :</a></td><td>&gt;</td><td>.+ :</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_detail">detail</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;*</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>file<ping><a title="here is a Tab">	</a>filename</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>file</td><td>Indicator</td><td>from file</td><td></td></tr>
+      <tr><td>filename</td><td>mandatory</td><td>.+</td><td>the file, where this part of the documentation comes from</td></tr>
+    </table>
+    <br/>
+    <annotation>Details :</annotation><br/>
+    <desc>  This entry is automatically generated by &quot;truer -doc&quot;</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>from file<ping><a title="here is a Tab">	</a>whatever.tru</ping>
+<a title = "Indent : 4">    </a>short for foo
+</listing>
+    <br/>
+    <a name="A_Signature203a"></a>
+    <h1>Signature :       <shortText>define the signature for an Action</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Action">Action</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_file">file</a><ping><a title="here is a Tab">	</a>filename</ping></td><td>=</td><td>file</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_short">short</a></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Signature :<ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>Signature :</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>Signature :
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>Signature :</td><td>Indicator</td><td>Signature :</td><td></td></tr>
+      <tr><td>*</td><td>mandatory</td><td>.+</td><td>the actionname and it&lsquo;s parameters, each entry in it&lsquo;s own field</td></tr>
+    </table>
+    <br/>
+    <annotation>Details :</annotation><br/>
+    <desc>  only needed, if the signature is not the same as given on the arglist.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>actions
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>short for foo
+<a title = "Indent : 6">      </a>Signature :<ping><a title="here is a Tab">	</a>foo</ping><pong><a title="here is a Tab">	</a>*</pong>
+</listing>
+    <br/>
+    <a name="A_Testaction"></a>
+    <h1>Testaction       <shortText>just for testing purposes</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>Testaction</td><td>=</td><td>Testaction</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>Testaction</td><td>=</td><td>Testaction</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_anotheraction">anotheraction]</a></td><td>=</td><td>anotheraction</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>whatever</td><td>= Testaction</td><td>whatever</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_inside">inside</a></td><td>=</td><td>inside</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_detail">det</a></td><td>= detail</td><td>det</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_test20action">test action</a></td><td>=</td><td>test action</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_3clooks_like_html3e">&lt;looks_like_html&gt;</a><ping><a title="here is a Tab">	</a>&lt;this_too&gt;</ping></td><td>=</td><td>&lt;looks_like_html&gt;<ping><a title="here is a Tab">	</a>&lt;this_too&gt;</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;</td><td>try</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_P5b3c5d215bplanname5d7b">P[&lt;]![planname]{</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>P&lt;?!.*\{</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Testaction3">using condition</a></td><td>= Testaction3($a)</td><td></td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_42">42</a>
+</listing>
+    <br/>
+    <annotation>Details :</annotation><br/>
+    <desc>  this action has no Parameters</desc><br/>
+    <part>an Example with a command :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="cat -n">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 4">    </a>this is an example line
+
+<a title = "Indent : 4">    </a>blank line above
+</listing>
+    <br/>
+    <part>an (pseudo) Example with no command :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 4">    </a>this is a pseudo example line
+</listing>
+    <br/>
+    <desc>no &lsquo;gives :&lsquo; is created for this kind of example.</desc><br/>
+    <desc></desc><br/>
+    <desc>Descriptions can be at arbritrary places and can contain characters like &lt;, &gt; and &amp; / \</desc><br/>
+    <desc>and can contain <A href="#A_links">links</a></desc><br/>
+    <annotation>  Notes :</annotation><br/>
+    <desc>    Notes or other things here</desc><br/>
+    <annotation>  Example :</annotation><br/>
+    <desc>    This is not really an example since it is not at level 3.</desc><br/>
+    <desc>    It is merely another anotation</desc><br/>
+    <desc>    </desc><br/>
+    <desc>    blank line above</desc><br/>
+    <desc>    </desc><br/>
+    <desc>this line is after a blank line</desc><br/>
+    <desc></desc><br/>
+    <desc>this line too is after a blank line</desc><br/>
+    <desc></desc><br/>
+    <desc>checking html-like descriptions.</desc><br/>
+    <desc>the &lt;buffer&gt; should not be lost in the Parameters-block</desc><br/>
+    <a name="A_UNMATCHED"></a>
+    <h1>UNMATCHED       <shortText>emit warning to STDERR</shortText></h1>
+    <part>Special Action</part>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <a name="A_P5b3c5d215bplanname5d7b"></a>
+    <h1>P[&lt;]![planname]{       <shortText>internal - just for test purposes</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./trudoc_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="trudoc.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Testaction">Testaction</a></td><td>=</td><td>Testaction</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>P[&lt;]![planname]{<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>P&lt;?!.*\{</td></tr>
+</table>
+    <div align="right"><filename>trudoc.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>P[&lt;]![planname]{
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>P[&lt;]![planname]{</td><td>indicator</td><td>.*</td><td>planname can be empty</td></tr>
+      <tr><td>*</td><td>mandatory</td><td>.+</td><td>the strategies as a sequence of perl-expressions</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_P5b3c5d215bplanname5d7b">P[&lt;]![planname]{</a>
+</listing>
+    <br/>
+    <br/>
+    <div class="tellgenerator">
+      <hr/>
+      This Page was generated using <a href="trudoc_tru.html">trudoc_tru</a>. Find more on <a href="http://www.strux.net">www.strux.net</a>
+    </div>
+  </body>
+</html>

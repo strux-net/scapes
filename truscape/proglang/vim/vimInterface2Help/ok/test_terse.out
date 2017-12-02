@@ -1,0 +1,182 @@
+
+  COMMANDS FOR VIEW 	*
+
+    STRUX.ZOOMFONT~
+      <C-kPlus>       increase the font                                           |-<C-kPlus>|
+      <C-kMinus>      increase the font                                           |-<C-kMinus>|
+
+  COMMANDS FOR VIEW LL	*
+
+    <NO MENU ENTRY>~
+      <2-leftmouse>   Edit the file                                               |LL-<2-leftmouse>|
+
+    ENTRY~
+      <CR>            Edit the file                                               |LL-<CR>|
+
+    FILE~
+      fr              Rename the file under the cursor                            |LL-fr|
+      fc              Copy the file under the cursor                              |LL-fc|
+      fd              Delete the file under the cursor                            |LL-fd|
+      fe              Edit the file under the cursor in gvim                      |LL-fe|
+
+    FILE.CLIPBOARD~
+      f+              Put the filename into the clipboard                         |LL-f+|
+      f*              Put the filename into primary                               |LL-f_star|
+      f"              Put the filename into vim's unnamed register (")            |LL-f_quote|
+      fp+             Put the filename with path into the clipboard               |LL-fp+|
+      fp*             Put the filename with path into primary                     |LL-fp_star|
+      fp"             Put the filename with path into vim's unnamed register (")  |LL-fp_quote|
+
+    DO~
+      d<F4>           Execute a command                                           |LL-d<F4>|
+      d1<F4>          Execute a command in an xterm                               |LL-d1<F4>|
+      d2<F4>          Execute a command in an background xterm                    |LL-d2<F4>|
+      d<S-F4>         Execute a command and read output into a new buffer         |LL-d<S-F4>|
+      d.              Repeat last command                                         |LL-d.|
+
+    DO.ACCORDING TO CMD-VIEW~
+      cc              Open the command window                                     |LL-cc|
+      <F4>            Execute this command                                        |LL-<F4>|
+      1<F4>           Execute this command in an xterm                            |LL-1<F4>|
+      2<F4>           Execute this command in an background xterm                 |LL-2<F4>|
+      <S-F4>          Execute this command.Read Output into a &new buffer         |LL-<S-F4>|
+
+    DO.ACMD~
+      dd              Execute acmd for current file                               |LL-dd|
+      d?              Open acmd-menu for current file                             |LL-d?|
+      dr              Reread the acmd-database                                    |LL-dr|
+
+    SORT~
+      sn              Sort by Name                                                |LL-sn|
+      sI              Sort by Name (case ignored)                                 |LL-sI|
+      sN              Sort by Name (numerically)                                  |LL-sN|
+      se              Sort by Extension                                           |LL-se|
+      sL              Sort by Length of Basename                                  |LL-sL|
+      sd              Sort by Dev                                                 |LL-sd|
+      si              Sort by Ino                                                 |LL-si|
+      sM              Sort by Mode                                                |LL-sM|
+      sl              Sort by Nlink                                               |LL-sl|
+      su              Sort by Uid                                                 |LL-su|
+      sg              Sort by Gid                                                 |LL-sg|
+      sr              Sort by Rdev                                                |LL-sr|
+      ss              Sort by Size                                                |LL-ss|
+      sa              Sort by Atime                                               |LL-sa|
+      sm              Sort by Mtime                                               |LL-sm|
+      sc              Sort by Ctime                                               |LL-sc|
+      sB              Sort by Blksize                                             |LL-sB|
+      sb              Sort by Blocks                                              |LL-sb|
+      sx              Sort by X-Info                                              |LL-sx|
+
+    SORT.DIRECTION AND GROUPING~
+      S>              Sort order is descending                                    |LL-S>|
+      S<              Sort order is ascending                                     |LL-S<|
+      S/              Separate dirs                                               |LL-S/|
+      S#              Don't Separate dirs                                         |LL-S#|
+      Sx              Separate tagged                                             |LL-Sx|
+      SX              Don't Separate tagged                                       |LL-SX|
+      Sf              Fix the settings for this dir                               |LL-Sf|
+
+    ENTRY~
+      i               Inspect the file                                            |LL-i|
+      p               Preview the file                                            |LL-p|
+
+    TAGS~
+      xx              Tag the file                                                |LL-xx|
+      xX              Untag the file                                              |LL-xX|
+      xa              Tag all                                                     |LL-xa|
+      xA              Untag all                                                   |LL-xA|
+      xT              Toggle tags                                                 |LL-xT|
+      xt              Toggle this                                                 |LL-xt|
+      xp              Tag by Pattern                                              |LL-xp|
+      xP              Untag by Pattern                                            |LL-xP|
+      xf              Tag by file                                                 |LL-xf|
+      xF              Untag by file                                               |LL-xF|
+      xg              Tag by grep                                                 |LL-xg|
+      xG              Untag by grep                                               |LL-xG|
+      x<F4>           Execute a command to tagged files                           |LL-x<F4>|
+      x1<F4>          Execute a command to tagged files in an xterm               |LL-x1<F4>|
+      x2<F4>          Execute a command to tagged files in an background xterm    |LL-x2<F4>|
+      x<S-F4>         Execute a command to tagged files and read output into a new buffer|LL-x<S-F4>|
+
+    NAVIGATE~
+      <BS>            Go to the previously visited dir                            |LL-<BS>|
+      <tab>           Go to the next visited dir                                  |LL-<tab>|
+      ..              Go to parent dir                                            |LL-..|
+      ./              Go to root dir                                              |LL-./|
+      .~              Go to home dir                                              |LL-.~|
+      .:              Go to any dir                                               |LL-.:|
+      ff              Follow the link under the cursor                            |LL-ff|
+
+    VIEW~
+      <C-R>           Refresh the current view                                    |LL-<C-R>|
+      u               Update the current view                                     |LL-u|
+      U               Update the current view (keep deleted)                      |LL-U|
+      .?              View the list of visited dirs                               |LL-.?|
+      .!              View the back/forward stack                                 |LL-.!|
+
+    CONFIGURE~
+      cxfg            Configure the Global Per File Command                       |LL-cxfg|
+      cxfl            Configure the Local Per File Command                        |LL-cxfl|
+      cxdg            Configure the Global Per Dir Command                        |LL-cxdg|
+      cxdl            Configure the Local Per Dir Command                         |LL-cxdl|
+      cpg             Configure the global Parse String                           |LL-cpg|
+      cpl             Configure the local Parse String                            |LL-cpl|
+      cpr             Reread the LL-autocommands                                  |LL-cpr|
+
+  VISUAL MODE COMMANDS FOR VIEW LL	*
+
+    TAGS~
+      xx              Tag selected files                                          |v_LL-xx|
+      xX              Untag selected files                                        |v_LL-xX|
+      xt              Toggle selected files                                       |v_LL-xt|
+
+  COMMANDS FOR VIEW FREQUENTCOMMANDS	*
+
+    CMD~
+      <F4>            Execute this command                                        |frequentCommands-<F4>|
+      1<F4>           Execute this command in an xterm                            |frequentCommands-1<F4>|
+      2<F4>           Execute this command in an background xterm                 |frequentCommands-2<F4>|
+      <S-F4>          Execute this command and read output into a new buffer      |frequentCommands-<S-F4>|
+      1<S-F4>         Execute this command and read output                        |frequentCommands-1<S-F4>|
+      <F3>            LL file under cursor, remain in command-window              |frequentCommands-<F3>|
+      1<F3>           LL file under cursor                                        |frequentCommands-1<F3>|
+      2<F3>           LL file under cursor (whole line), remain in command-window |frequentCommands-2<F3>|
+      3<F3>           LL file under cursor (whole line)                           |frequentCommands-3<F3>|
+
+  COMMANDS FOR VIEW INSPECT	*
+
+    <NO MENU ENTRY>~
+      <2-leftmouse>   Inspect harder                                              |INSPECT-<2-leftmouse>|
+
+    INSPECT~
+      <CR>            Inspect harder                                              |INSPECT-<CR>|
+
+  COMMANDS FOR VIEW ACMD	*
+
+    ACMD~
+      i               Show the command                                            |ACMD-i|
+      <CR>            Do the command                                              |ACMD-<CR>|
+
+  COMMANDS FOR VIEW DIRSTACK	*
+
+    <NO MENU ENTRY>~
+      <2-leftmouse>   Select the dir                                              |DIRSTACK-<2-leftmouse>|
+
+    VIEW~
+      <CR>            Select the dir                                              |DIRSTACK-<CR>|
+      s               Show the dir                                                |DIRSTACK-s|
+
+  COMMANDS FOR VIEW VISITED	*
+
+    <NO MENU ENTRY>~
+      <2-leftmouse>   Select the dir                                              |VISITED-<2-leftmouse>|
+
+    VIEW~
+      <CR>            Select the dir                                              |VISITED-<CR>|
+      s               Show the dir                                                |VISITED-s|
+      dd              Forget this dir                                             |VISITED-dd|
+
+  VISUAL MODE COMMANDS FOR VIEW VISITED	*
+
+    VIEW~
+      dd              Forget selected views                                       |v_VISITED-dd|

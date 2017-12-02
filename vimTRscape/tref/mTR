@@ -1,0 +1,6 @@
+title			provide context view (indent related)
+tref.vim	tref.vimTR
+  install
+    m_copy tref.vim ~/.vim/plugin
+  doc
+    vimdefault	txt html commands

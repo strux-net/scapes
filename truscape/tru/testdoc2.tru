@@ -1,0 +1,13 @@
+VERSION	3.0
+actions
+  DOC
+    any special programming language
+      applies to my special proglang
+    >
+      "running testdoc2";
+  block	comment
+    l	localVar
+    a generic block
+      only valid in my special proglang
+# an action w/o description. This fact is noticable in the statistics
+  switch

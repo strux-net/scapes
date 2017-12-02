@@ -1,0 +1,27 @@
+title			convert .shTR to .sh
+sh_tru
+  build
+    tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
+    chmod +x sh_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+    PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s sh ./sh_tru >sh_tru.tmp
+    mv sh_tru.tmp sh_tru
+    chmod +x sh_tru
+    m_diff statistics.out
+    m_diff sh_tru
+  test	
+    ./sh_tru shtest.shTR			shtest.sh
+    -./sh_tru -invalid
+    bash shtest.sh -f test file1 file2		shtest.out
+    bash shtest.sh -version
+    -bash shtest.sh -x test file1 file2		shtest_illegal_option.out
+
+  doc
+    trudefault			txt html
+    : expect 1 warning - because try is not supported
+    trudoc_tru ./sh_tru		docs/sh_tru.html
+  helpers
+    tru.jar ./sh_tru shtest.shTR
+    perl -d:ptkdb ./sh_tru shtest.shTR
+    perl          ./sh_tru shtest.shTR >/dev/null
+  install
+    2struxbin

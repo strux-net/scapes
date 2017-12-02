@@ -1,0 +1,30 @@
+building style_test_tru
+tru -s statistics.out ../style.tru style_test.tru >style_test_tru
+GOOD	style_test_tru
+GOOD	statistics.out
+chmod +x style_test_tru
+testing style_test_tru
+: expect 2 warnings
+style_test_tru in >in.out
+./style_test_tru - warning : setting unsupported var var4 in style-section of in @ 5
+./style_test_tru - warning : setting unsupported var var5[] in style-section of in @ 9
+GOOD	in.out
+style_test_tru -show_vars
+style
+  var1	1
+  # var 2 can be used to set
+  # the blah blah
+  var2
+	2
+
+	2.1
+	2.2
+  #
+  B[]
+	north
+	south
+
+	east
+	west
+style
+  var3	3

@@ -1,0 +1,22 @@
+accessing arguments
+  Brunei	Bandar Seri Begawan
+naming the arguments
+  stupid answer	pi
+  universial answer	42
+live-time of an arg
+  l1 f1	l1 f2
+    l2 f1	l2 f2
+variable nr of arguments
+  1
+  1	1
+  1	2	1
+  1	3	3	1
+  1	4	6	4	1
+stack of arguments
+  galaxy
+    solar system
+      earth
+	europe
+	  germany
+a problematic name
+  a value for a problematic arg

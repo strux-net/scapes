@@ -1,0 +1,7 @@
+VERSION	3.0
+structure
+	common			=g
+	java			=g
+	try catch clause	=g
+	java_sql		=g
+	statement		=g

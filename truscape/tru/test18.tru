@@ -1,0 +1,32 @@
+VERSION	3.0
+WRITE
+  $_="$indent$_";
+actions
+  statement
+    >
+	$statement
+  ?	cond
+    l	mark_if
+    >
+	if ($cond) {
+    <
+      setmark("mark_if");
+	}
+  ?-	cond
+    >
+      usemark("mark_if");
+	} else if ($cond) {
+    <
+      unuseandsetmark("mark_if");
+  -
+    >
+      usemark("mark_if");
+	} else {
+    <
+      unusemark();
+structure
+	  statement	>
+	?	cond	=*2	\?
+	?-	cond	=*2	\?-
+	-		=*2	\-
+	  statement	>

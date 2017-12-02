@@ -1,0 +1,19 @@
+title		convert .txtTR to tex or pdf
+tex_tru	../../lib/style.tru ../common.tru tex.tru ../../lib/texREAD.tru ../../lib/basicUSAGE.tru
+  test
+    ./tex_tru style ../test.txtTR	test1.tex
+    ./tex_tru       ../test.txtTR	test1nostyle.tex
+    ./tex_tru -show_vars
+    -./tex_tru -invalid
+  doc
+    trudefault	txt html
+    trudoc_tru -noGives ./tex_tru	docs/tex_tru.html
+
+  helpers
+    let t:run = ':unsilent TRrm test1.aux;pdflatex  -halt-on-error test1.tex && pdflatex  -halt-on-error test1.tex && ( acroread test1.pdf & )'
+    let t:run = ':unsilent TRrm test1nostyle.aux;pdflatex  -halt-on-error test1nostyle.tex && pdflatex  -halt-on-error test1nostyle.tex && ( acroread test1nostyle.pdf & )'
+    let t:run = ':unsilent TRchmod +x tex_tru && xterm -e bash -c "~/bin/tru.jar ./tex_tru ../test.txt\TR;read"&'
+    let t:run = ':unsilent TRperl -d:ptkdb ./tex_tru style ../test.txt\TR&'
+    tru.jar ./tex_tru ../test.txtTR
+  install
+    2struxbin

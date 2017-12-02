@@ -1,0 +1,11 @@
+style
+  Pre			1
+  tableStart		<table class="howToReadTable">
+  tableEnd		</table>
+  bodyEnd
+	<br/>
+	<hr/> This Page was generated using <a href="../html_tru.html">html_tru</a>. Find more on <a href="http://www.strux.net">www.strux.net</a>
+	</body>
+  head
+	<head>
+	<link rel="stylesheet" href="../trudoc.css"/>

@@ -1,0 +1,92 @@
+style
+  Pre		1
+  Title		A sample for html_tru
+  Toc		1
+meta
+  charset	UTF-8
+style
+  Sections[]
+	\section
+	\subsection
+	\subsubsection
+	\paragraph
+	\subparagraph
+  documentStart	\documentclass[10pt,a4paper]{article}
+	\usepackage[utf8x]{inputenc}
+	\parindent=0mm
+	\topskip=0mm
+	\pagestyle{headings}
+	\usepackage{german}
+	\usepackage[
+	    pdftitle={demo for tex_tru},
+	    pdfsubject={Eine kurze Beschreibung, worum es geht},
+	    pdfauthor={Michael Naumann},
+	    pdfkeywords={meta, information, pdf, hyperref, latex},
+	]{hyperref}
+  urlStart		\pdfximage width \textwidth{
+  bodyStart
+	\begin{document}
+	\begin{titlepage}
+	  \vfill
+	  \hfill\Huge{A test document}
+
+	  \bigskip
+	  \bigskip
+	  \hfill\Large{Version 0.00.012}
+	  \vfill
+	  \hfill{\sl Internal use only}
+	\end{titlepage}
+	\begin{tabular}{|l|p{3in}|}
+	  \hline
+	  Verfasser & Michael Naumann \\
+	  \hline
+	  Freigabe durch & Jemand anderes \\
+	  \hline
+	  Status & draft \\
+	  \hline
+	\end{tabular}
+
+	\bigskip
+
+	\bigskip
+
+	\begin{tabular}{|l|l|l|p{3in}|}
+	  \hline
+	  \multicolumn{4}{|c|}{\sc Version-Control} \\
+	  \hline
+	  {\bf Version} & {\bf Date} & {\bf Author} & {\bf Changes} \\
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	  &&&\\
+	  \hline
+	\end{tabular}
+	\newpage
+  bodyEnd
+	{\bf Here the document ends}
+	\listoftables
+	\listoffigures
+	\end{document}
+  tabRowEnd		\\\hline
+  tableStart		\mbox{}\\\rule{0pt}{0pt}\\\begin{supertabular}{|l|l|l|l|l|l|l|}\hline
+meta
+  author	Michael Naumann
+  m1	cont for m1
+  m2	cont for m2

@@ -1,0 +1,54 @@
+VERSION	3.0
+actions
+  DOC
+    >
+	Doc starts here
+      setmark("mark_notused");
+      setmark("mark_test");
+	Body starts here
+      atmark("mark_not_set") {
+	will never be seen
+      }
+  line
+    >
+	$line
+  hit
+    >
+	here $hit
+      atmark("mark_test") {
+	  inserted $hit
+      }
+hooks
+  mark_test
+    {
+	1st in mark_test $count : $_
+    -
+	1st depth mark_test $count : $_
+    }
+	1st out mark_test $count : $_
+    [
+	1st outer in mark_test $count : $_
+    ]
+	1st outer out mark_test $count : $_
+  mark_test
+    {
+	2nd in mark_test $count : $_
+    -
+	2nd depth mark_test $count : $_
+    }
+	2nd out mark_test $count : $_
+    [
+	2nd outer in mark_test $count : $_
+    ]
+	2nd outer out mark_test $count : $_
+  mark_notused
+    n
+	mark_notused is not used (this line comes from the hook)
+      atmark("mark_test")
+	mark_notused is not used (this line comes from the hook)
+  mark_test
+    {	CLEAR
+	Cle in  mark_test : $_
+structure
+	hit	=	hit.*
+	line

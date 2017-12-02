@@ -1,0 +1,10 @@
+building prompt.sh
+sh_tru prompt.shTR >prompt.sh
+~/strux/bin/sh_tru : some text was never output (due to unset marks) when processing prompt.shTR
+  For mark mark_usage
+	  -version	show version information
+GOOD	prompt.sh
+chmod +x prompt.sh
+{ cat docs/README.txtTR ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing prompt.sh

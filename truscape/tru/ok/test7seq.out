@@ -1,0 +1,90 @@
+DOC	in	0	test7
+DOC	depth	0	test7
+outer	in	0	planet
+outer	depth	0	planet
+outer	going to call outerfoo1
+outerfoo1	in	0	outerfoo1	planet
+outerfoo1	depth	0	planet
+outerfoo1	going to call outerfoo11
+outerfoo11	in	0	outerfoo11	planet
+outerfoo11	depth	0	planet
+outerfoo1	outerfoo11 called
+outer	outerfoo1 called
+outer	going to call outerfoo2
+outerfoo2	in	0		
+outerfoo2	depth	0	
+outer	outerfoo2 called
+outer	depth	0	done
+inner	in	0	country
+inner	depth	0	country
+inner	going to call innerfoo1
+innerfoo1	in	0	innerfoo1	country
+innerfoo1	depth	0	country
+innerfoo1	going to call innerfoo11
+innerfoo11	in	0	innerfoo11	country
+innerfoo11	depth	0	country
+innerfoo1	innerfoo11 called
+inner	innerfoo1 called
+inner	going to call innerfoo2
+innerfoo2	in	0		
+innerfoo2	depth	0	
+inner	innerfoo2 called
+inner	depth	0	done
+innerfoo2	out	0	
+innerfoo11	out	0	country
+innerfoo1	out	0	country
+inner	out	0	country
+inner	going to call innerbar1
+innerbar1	in	0		country
+innerbar1	depth	0	country
+inner	innerbar1 called
+inner	going to call innerbar2
+innerbar2	in	0	innerbar2	constant	args	
+innerbar2	depth	0	arg1=constant arg2=args arg3=
+inner	innerbar2 called
+innerbar2	out	0	arg1=constant arg2=args arg3=
+innerbar1	out	0	country
+inner	in	0	ocean
+inner	depth	0	ocean
+inner	going to call innerfoo1
+innerfoo1	in	0	innerfoo1	ocean
+innerfoo1	depth	0	ocean
+innerfoo1	going to call innerfoo11
+innerfoo11	in	0	innerfoo11	ocean
+innerfoo11	depth	0	ocean
+innerfoo1	innerfoo11 called
+inner	innerfoo1 called
+inner	going to call innerfoo2
+innerfoo2	in	0		
+innerfoo2	depth	0	
+inner	innerfoo2 called
+inner	depth	0	done
+innerfoo2	out	0	
+innerfoo11	out	0	ocean
+innerfoo1	out	0	ocean
+inner	out	0	ocean
+inner	going to call innerbar1
+innerbar1	in	0		ocean
+innerbar1	depth	0	ocean
+inner	innerbar1 called
+inner	going to call innerbar2
+innerbar2	in	0	innerbar2	constant	args	
+innerbar2	depth	0	arg1=constant arg2=args arg3=
+inner	innerbar2 called
+innerbar2	out	0	arg1=constant arg2=args arg3=
+innerbar1	out	0	ocean
+outerfoo2	out	0	
+outerfoo11	out	0	planet
+outerfoo1	out	0	planet
+outer	out	0	planet
+outer	going to call outerbar1
+outerbar1	in	0		planet
+outerbar1	depth	0	planet
+outer	outerbar1 called
+outer	going to call outerbar2
+outerbar2	in	0	outerbar2	constant	args	
+outerbar2	depth	0	arg1=constant arg2=args arg3=
+outer	outerbar2 called
+outerbar2	out	0	arg1=constant arg2=args arg3=
+outerbar1	out	0	planet
+DOC	out	0	test7

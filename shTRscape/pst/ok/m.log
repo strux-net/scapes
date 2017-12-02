@@ -1,0 +1,9 @@
+building pst
+sh_tru pst.shTR >pst
+GOOD	pst
+chmod +x pst
+{ echo "pst\n  inspect the process-tree (needs vim)\n    usage"; ./pst -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tinspect the process-tree (needs vim)" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing pst

@@ -1,0 +1,29 @@
+Doc starts here
+mark_notused is not used (this line comes from the hook)
+1st outer in mark_test 1 : hit one
+2nd outer in mark_test 1 : hit one
+Cle in  mark_test : hit one
+1st depth mark_test 1 : hit one
+2nd depth mark_test 1 : hit one
+  inserted hit one
+2nd out mark_test 1 : hit one
+1st out mark_test 1 : hit one
+Cle in  mark_test : hit two
+1st depth mark_test 2 : hit two
+2nd depth mark_test 2 : hit two
+  inserted hit two
+2nd out mark_test 2 : hit two
+1st out mark_test 2 : hit two
+Cle in  mark_test : 
+1st depth mark_test 3 : 
+2nd depth mark_test 3 : 
+mark_notused is not used (this line comes from the hook)
+2nd out mark_test 3 : 
+1st out mark_test 3 : 
+2nd outer out mark_test 1 : hit one
+1st outer out mark_test 1 : hit one
+Body starts here
+ja
+here hit one
+nein
+here hit two

@@ -1,0 +1,129 @@
+VERSION	3.0
+actions
+  DOC
+    >
+	DOC	in	$NrOfLinesFollowing	$DOC
+    -
+	DOC	depth	$NrOfLinesFollowing	$DOC
+    <
+	DOC	out	$NrOfLinesFollowing	$DOC
+  outer
+    >
+	outer	in	$NrOfLinesFollowing	$outer
+    -
+	outer	depth	$NrOfLinesFollowing	$outer
+	outer	going to call outerfoo1
+      >>	outerfoo1	$outer
+	outer	outerfoo1 called
+	outer	going to call outerfoo2
+      >>outerfoo2
+	outer	outerfoo2 called
+	outer	depth	$NrOfLinesFollowing	done
+    <
+	outer	out	$NrOfLinesFollowing	$outer
+	outer	going to call outerbar1
+      >>	outerbar1	$outer
+	outer	outerbar1 called
+	outer	going to call outerbar2
+      >>outerbar2	outerbar2	constant	args
+	outer	outerbar2 called
+  outerfoo2	arg
+    >
+	outerfoo2	in	$NrOfLinesFollowing	$foo2	$arg
+    -
+	outerfoo2	depth	$NrOfLinesFollowing	$arg
+    <
+	outerfoo2	out	$NrOfLinesFollowing	$arg
+  outerfoo1	arg
+    >
+	outerfoo1	in	$NrOfLinesFollowing	$outerfoo1	$arg
+    -
+	outerfoo1	depth	$NrOfLinesFollowing	$arg
+	outerfoo1	going to call outerfoo11
+      >>	outerfoo11	$arg
+	outerfoo1	outerfoo11 called
+    <
+	outerfoo1	out	$NrOfLinesFollowing	$arg
+  outerfoo11	arg
+    >
+	outerfoo11	in	$NrOfLinesFollowing	$outerfoo11	$arg
+    -
+	outerfoo11	depth	$NrOfLinesFollowing	$arg
+    <
+	outerfoo11	out	$NrOfLinesFollowing	$arg
+  outerbar1	arg
+    >
+	outerbar1	in	$NrOfLinesFollowing	$bar1	$arg
+    -
+	outerbar1	depth	$NrOfLinesFollowing	$arg
+    <
+	outerbar1	out	$NrOfLinesFollowing	$arg
+  outerbar2	arg1	arg2	arg3
+    >
+	outerbar2	in	$NrOfLinesFollowing	$outerbar2	$arg1	$arg2	$arg3
+    -
+	outerbar2	depth	$NrOfLinesFollowing	arg1=$arg1 arg2=$arg2 arg3=$arg3
+    <
+	outerbar2	out	$NrOfLinesFollowing	arg1=$arg1 arg2=$arg2 arg3=$arg3
+
+  inner
+    >
+	inner	in	$NrOfLinesFollowing	$inner
+    -
+	inner	depth	$NrOfLinesFollowing	$inner
+	inner	going to call innerfoo1
+      >>	innerfoo1	$inner
+	inner	innerfoo1 called
+	inner	going to call innerfoo2
+      >>	innerfoo2
+	inner	innerfoo2 called
+	inner	depth	$NrOfLinesFollowing	done
+    <
+	inner	out	$NrOfLinesFollowing	$inner
+	inner	going to call innerbar1
+      >>	innerbar1	$inner
+	inner	innerbar1 called
+	inner	going to call innerbar2
+      >>	innerbar2	constant	args
+	inner	innerbar2 called
+  innerfoo2	arg
+    >
+	innerfoo2	in	$NrOfLinesFollowing	$foo2	$arg
+    -
+	innerfoo2	depth	$NrOfLinesFollowing	$arg
+    <
+	innerfoo2	out	$NrOfLinesFollowing	$arg
+  innerfoo1	arg
+    >
+	innerfoo1	in	$NrOfLinesFollowing	$innerfoo1	$arg
+    -
+	innerfoo1	depth	$NrOfLinesFollowing	$arg
+	innerfoo1	going to call innerfoo11
+      >>	innerfoo11	$arg
+	innerfoo1	innerfoo11 called
+    <
+	innerfoo1	out	$NrOfLinesFollowing	$arg
+  innerfoo11	arg
+    >
+	innerfoo11	in	$NrOfLinesFollowing	$innerfoo11	$arg
+    -
+	innerfoo11	depth	$NrOfLinesFollowing	$arg
+    <
+	innerfoo11	out	$NrOfLinesFollowing	$arg
+  innerbar1	arg
+    >
+	innerbar1	in	$NrOfLinesFollowing	$bar1	$arg
+    -
+	innerbar1	depth	$NrOfLinesFollowing	$arg
+    <
+	innerbar1	out	$NrOfLinesFollowing	$arg
+  innerbar2	arg1	arg2	arg3
+    >
+	innerbar2	in	$NrOfLinesFollowing	$innerbar2	$arg1	$arg2	$arg3
+    -
+	innerbar2	depth	$NrOfLinesFollowing	arg1=$arg1 arg2=$arg2 arg3=$arg3
+    <
+	innerbar2	out	$NrOfLinesFollowing	arg1=$arg1 arg2=$arg2 arg3=$arg3
+structure
+	outer
+	  inner

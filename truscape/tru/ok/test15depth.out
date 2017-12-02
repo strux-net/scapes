@@ -1,0 +1,117 @@
+>intro
+-intro
+mark1 and mark2:
+after usemark mark1 : class another
+should go before DOC
+before unusemark : class another
+after usemark mark1 : class anyclass
+should go before DOC
+before unusemark : class anyclass
+after usemark mark2 : class another
+having in class another
+before unusemark : class another
+after usemark mark2 : class another
+having depth class another
+before unusemark : class another
+after usemark mark2 : class another
+having out class another
+before unusemark : class another
+after usemark mark2 : class anyclass
+having in class anyclass
+before unusemark : class anyclass
+after usemark mark2 : class anyclass
+having depth class anyclass
+before unusemark : class anyclass
+after usemark mark2 : class anyclass
+having out class anyclass
+before unusemark : class anyclass
+mark5:
+docline : more
+docline : more repeated
+docline : one
+docline : one repeated
+docline : one,one
+docline : one,one repeated
+docline : two
+docline : two repeated
+-DOC
+Intro for class class another
+mark4 and mark3:
+after usemark mark3 : doc1
+>doc : doc1
+-doc : doc1
+>more
+-more	0 lines following
+<more
+<doc : doc1
+before unusemark : doc1
+after setmark
+before usemark mark2 : class another
+after unusemark : class another
+>class another
+-class another pre
+before usemark mark2 : class another
+after unusemark : class another
+-class another post
+before usemark mark3 : doc1
+after unusemark : doc1
+before usemark mark2 : class another
+after unusemark : class another
+before usemark mark1 : class another
+after unusemark : class another
+<class another
+Intro for class class anyclass
+mark4 and mark3:
+after usemark mark4 : above1
+>above1
+-above1	6 lines following
+>forced
+-forced
+>abovline : a1
+-abovline : a1	0 lines following
+<abovline : a1
+>abovline : a2
+-abovline : a2	0 lines following
+<abovline : a2
+<forced
+<above1
+before unusemark : above1
+after usemark mark3 : doc2
+>doc : doc2
+-doc : doc2
+>one
+-one	3 lines following
+>one,one
+-one,one	0 lines following
+<one,one
+<one
+>two
+-two	0 lines following
+<two
+before usemark mark4 : above1
+after unusemark : above1
+<doc : doc2
+before unusemark : doc2
+after setmark
+before usemark mark2 : class anyclass
+after unusemark : class anyclass
+>class anyclass
+-class anyclass pre
+before usemark mark2 : class anyclass
+after unusemark : class anyclass
+-class anyclass post
+before usemark mark3 : doc2
+after unusemark : doc2
+>main
+-main	3 lines following
+>code
+-code	0 lines following
+<code
+<main
+before usemark mark2 : class anyclass
+after unusemark : class anyclass
+before usemark mark1 : class anyclass
+after unusemark : class anyclass
+<class anyclass
+<intro
+<DOC

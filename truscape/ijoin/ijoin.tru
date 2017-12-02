@@ -1,0 +1,32 @@
+VERSION	3.0
+USAGE	ijoin [ file ...  ]
+	joins lines with their (indent-) parents.
+	Each input line gives one output line.
+
+	ijoin -j / for
+		a
+		  aa
+		  ab
+		    aba
+		  ac
+		b
+	gives
+		a
+		a/aa
+		a/ab
+		a/ab/aba
+		a/ac
+		b
+OPTIONS
+	j:string	joinstring, empty if unspecified
+actions
+  line
+    >
+      $r = join $opt_j,@line;
+	$r
+  EMPTY
+    >
+       |
+structure
+	line	*	>*	.+
+	EMPTY		>*	.{0}

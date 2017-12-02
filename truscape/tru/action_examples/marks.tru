@@ -1,0 +1,162 @@
+VERSION	3.0
+##	marks
+##	  marks can be used to place output at specified places.
+##
+##	  To define a mark use
+##	  code
+##		setmark("markname");
+#
+##	  To use a mark use
+##	  code
+##		usemark("markname");
+##	  and end the usage with
+##	  code
+##		unusemark();
+#
+##	  Another way to use a mark is
+##	  code
+##		atmark("markname") {
+##		  a block of code
+##		}
+#
+##	  usemark must pair with unusemark
+##	  usemark and unusemark can spread across in,depth,out actions
+##	  this means also that usemark can be in a different action than unusemark
+##
+##	  atmark("markname") { ... }
+##	      cannot spread across in,depth,out actions
+##	      must be the only statement in a line , as in
+##	        code
+##			atmark("mark_help") {
+##			  a block of code
+##			}
+##	      not valid is
+##	        code
+##			if (cond) { atmark("mark_help") {
+##			  # not valid, because atmark() is not the only statement in the line
+##			  ....
+##			  ....
+##			}}
+##	      also valid is
+##	        code
+##			atmark("mark_help")
+##			{
+##			  a block of code
+##			}
+##	      or even using the implicit forming of blocks for outstatements
+##	        code
+##			atmark("mark_help")
+##			<tabs>smth to print
+##			<tabs>smth more to print
+##
+##	      The following block
+##	        code
+##			atmark("markname") {
+##			  a block of code
+##			}
+#
+##	      is equvialent to
+##	        code
+##			usemark("markname")
+##			  a block of code
+##			unusemark()
+#
+##	  the order of setmark is relevant.
+##	    If you have two (or more) setmark in direct succession then the order is preserved.
+##	    There is a limit of 1000 marks that can be in direct succession.
+##
+##	  to unset a mark use
+##	  code
+##		undef $tru::Marks{"markname"}
+#
+##	  marks don't work in stream-mode.
+##	  they can be used before they are defined.
+
+#	  example1 shows the using of a mark that was defined earlier
+#	  example2 shows the using of a marks that will be defined after their usage
+#	  example2 also shows what happens if marks are used that will never be defined
+#	  example3 is for usemark() and unusemark()
+#	  example4 demonstrates the relevance of the order of marks that are in direct succession
+#	  example5 demonstrates how to unset a mark
+
+actions
+  example1
+    >
+	"example1" started. Mark for meta set in in-action. The mark is defined when using it.
+      setmark("mark_1");
+	"example1" finished
+  text
+    >
+	$text
+  meta1	name
+    >
+      atmark("mark_1")
+	meta : $name
+  example2
+    -
+	"example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
+      setmark("mark_2");
+	# again listing the metas
+      setmark("mark_3");
+	"example2" finished
+      atmark("mark_neverset")
+	This text will not be found in the output because the mark is never set.
+      atmark("mark_neverset1")
+	Also this text is never output for the same reasons.
+	This is here to demonstrate how the truer will tell this fact on STDERR
+  meta2	name
+    >
+      atmark("mark_2") {
+	meta : $name
+        # nesting works
+        atmark("mark_3") {
+	# $name
+        }
+      }
+  example3
+    >
+	This example demonstrates usemark() and unusemark()
+      setmark("mark_4");
+	all metas are collected before this line
+      usemark("mark_4");
+    <
+      unusemark();
+  meta3	name
+    >
+	$name
+  example4
+    >
+	this example demonstrates the relevance of the order of marks that are in direct succession
+      setmark("mark_4a");
+      setmark("mark_4b");
+	end of example4
+  meta4a	name
+    >
+      atmark("mark_4a")
+	$name
+  meta4b	name
+    >
+      atmark("mark_4b")
+	$name
+  meta5	name
+    >
+	this expamle demonstrates how to unset a mark
+      atmark("mark_4b")
+	$name
+      undef $tru::Marks{"mark_4b"}; # this unsets the marks
+      atmark("mark_4b")
+	$name
+structure
+	example1		=	example1
+	  text
+	  meta1	name		=	meta1
+	example2		=	example2
+	  text
+	  meta2	name		=	meta2
+	example3		=	example3
+	  meta3	name		=	meta3
+	example4		=	example4
+	  meta4a	name	=	meta4a
+	  meta4b	name	=	meta4b
+	example5		=	example5
+	  meta5		name	=	meta5

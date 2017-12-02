@@ -1,0 +1,144 @@
+VERSION	3.0
+OPTIONS
+	show_vars		show active .rc-vars
+	show_vars_default	show .rc-vars and their defaults
+BEGIN
+  sub show_vars()
+  {
+    for $var (sort keys %rc_vars) {
+      print "# $var : @{$rc_vars{$var}}[1]\n";
+      if (ref($rc_vars{$var}[0]) eq "ARRAY") {
+        if (@$var) {
+          print "$var\[]\n";
+          print "\t$_\n" for (@$var);
+        } else {
+          print "#$var\[]\n";
+        }
+      } else {
+        if (defined $$var) {
+          print "$var\t$$var\n";
+        } else {
+          print "#$var\n";
+        }
+      }
+    }
+    exit 0;
+  }
+  sub defaults()
+  {
+    while (($key,$val) = each %rc_vars) {
+      if (ref($rc_vars{$key}[0]) eq "ARRAY") {
+        @$key = @{$val->[0]};
+      } else {
+        $$key = @$val[0];
+      }
+    }
+  }
+  sub readrc($)
+  {
+    print STDERR "readrc() no nonger supported\n";
+    return;
+    defaults();
+    local ($_) = $opt_rc?$opt_rc:@_;
+    return if $_ eq "NONE";
+    local ($IN);
+    show_vars() if $opt_show_vars_default;
+    if ($IN = $_                         and open IN or
+        !($_ =~ m.^/.)                   and
+          $IN = "$ENV{HOME}/$_"          and open IN) {
+      while (<IN>) {
+        next if /^(#.*)?$/;
+        chop;
+        if ($ret = rc_line($_)) {
+          print STDERR "$0 - warning : $ret in rc-file $IN (Line $.)\n";
+        }
+      }
+      close (IN);
+    } else {
+      print STDERR "$0 - warning : cannot open $_ :$!\n";
+    }
+    show_vars() if $opt_show_vars;
+  }
+  sub rc_line($)
+  {
+    print STDERR "rc_line() no nonger supported\n";
+    return;
+    my $cont;
+    $_ = shift;
+    if (/^ /) {
+      return qq(invalid rc-line "$_");
+      next;
+    }
+    if (/^\t/) {
+      s/\t//;
+      if (!$readrcBEGIN::inarry and defined $$readrcBEGIN::var) {
+        $$readrcBEGIN::var.=$_;
+      } elsif ($readrcBEGIN::inarry and @$readrcBEGIN::var) {
+        push @$readrcBEGIN::var,$_;
+      } else {
+        return qq(invalid rc-line "\t$_");
+      }
+    } else {
+      undef $cont;
+      ($readrcBEGIN::var,$cont) = split /\t+/,$_,2;
+      if ($readrcBEGIN::var=~s/\[\]$//) {
+        $readrcBEGIN::inarry=1;
+        if ($cont ne "") {
+          @$readrcBEGIN::var=($cont);
+        } else {
+          @$readrcBEGIN::var=(1);	# I need this, 'cause else defined() lateron returns 0, if it never had a value
+          @$readrcBEGIN::var=();
+        }
+      } else {
+        $readrcBEGIN::inarry=0;
+        if ($cont ne "") {
+          if ($cont eq 'undef') {
+            undef $$readrcBEGIN::var;
+          } else {
+            $$readrcBEGIN::var=$cont;
+          }
+        } else {
+          $$readrcBEGIN::var=1;
+        }
+      }
+      unless (defined $rc_vars{$readrcBEGIN::var}) {
+        return qq(setting unsupported var $readrcBEGIN::var);
+      }
+    }
+    return "";
+  }
+actions
+  DOC
+    reading the rc-file
+      you can set vars in an rc-file.
+      the rc-file:
+        lines starting with # are comments and ignored.
+        empty lines are ignored.
+        if you have mulitple entries for the same var then the last wins.
+      Example :
+	#the next line looks like a value, yet no var is present
+		this is wrong
+	#set var a to 1 (per default, since no val is given)
+	a
+	#set var b to 20
+	b	20
+	#set var c to the string "four"
+	c	four
+	#set var d to the string "sixtyseven". In continuation lines, exactly one leading tab is stripped
+	d	sixty
+		seven
+	#set var e to the string "eighty	eight". One tab survives here
+	e	eighty
+			eight
+	#set var f to the string "1+2". Formulas are not evaluated.
+	f	1+2
+	#the next line is wrong. No Line can start with a blank
+	  g	this line is wrong
+	#setting a var to undef (so it has no value)
+	door	undef
+	#setting an array
+	colors[]
+		green
+		blue
+	array1[]	one
+		two

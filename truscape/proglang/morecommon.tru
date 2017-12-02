@@ -1,0 +1,18 @@
+VERSION	3.0
+actions
+  DOC
+    A tru-program
+      This is one of a family of proglang-truers.
+      Current members are:
+          c_tru	for c
+          java_tru	for java
+          js_tru	for java-script
+          perl_tru	for perl
+          sh_tru	for shell
+          vim_tru	for vim
+      They all share the same syntax-idea.
+      Some Options can be set to modify the output.
+WRITE
+  s:^:" "x($level+$offset):e;
+  s|(.+)\t/\*(.*)|sprintf("%-50s/*%s",$1,$2)|eo;
+  s|(.+)\t$cc(.*)|sprintf("%-50s $cc%s",$1,$2)|eo;

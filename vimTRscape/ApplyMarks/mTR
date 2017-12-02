@@ -1,0 +1,6 @@
+title		apply text-marks
+ApplyMarks.vim	ApplyMarks.vimTR
+  install
+    m_copy ApplyMarks.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html

@@ -1,0 +1,14 @@
+building ijoin
+tru -s statistics.out ijoin.tru >ijoin
+GOOD	ijoin
+GOOD	statistics.out
+chmod +x ijoin
+{ echo "ijoin\n  join lines with their (indent-) parents.\n    usage"; ./ijoin -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tjoin lines with their (indent-) parents." ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing ijoin
+./ijoin test >nodel
+GOOD	nodel
+./ijoin -j / test >delim
+GOOD	delim

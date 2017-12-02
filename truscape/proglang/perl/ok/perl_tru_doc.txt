@@ -1,0 +1,2285 @@
+VERSION	version
+  file	../common.tru
+    the version of this file
+      Parameters :
+        VERSION	indicator	.*
+        version	mandatory	.+	the version (any string)
+      The input can consist of many input files, hence there may be more than 1 occurence of VERSION
+  file	perl.tru
+    continued
+      the version is put as a comment into the output-file.
+
+      If the script has a main function
+        option -version is introduced into your script.
+
+        If the script is invoked like
+          script -version
+        then all version information is printed to stdout and the script exits with code 0.
+
+      Example :	perl_tru -noProtos -noIntro
+	VERSION	0.1
+	main
+	  "hello world\n"
+
+      gives :
+	#!/usr/bin/perl
+	# based on infile , version : 0.1
+
+	sub main
+	{
+	  if ( $ARGV[0] eq "-version" ) {
+	    print "Version :\n";
+	    print "  infile	0.1\n";
+	    exit 0
+	  }
+	  print "hello world\n";
+	}
+	main();
+      If the script has no main function
+        the version is ignored.
+
+        perl_tru will issue a message like
+	  perl_tru : some text was never output (due to unset marks) when processing filename
+	    For mark $mark_version
+		      print "  filename	0.9\n";
+	you can easily ignore this message.
+vars
+  file	../common.tru
+    introduces a block of declarations
+      Parameters :
+        vars	indicator	.*
+  file	perl.tru
+    continued
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	vars
+	  $count = 1		count the items
+	  @sizes		in different units
+	    1			inch
+	    2.54		cm
+	  $i = 0
+      gives :
+	# vars
+	$count = 1;                                        # count the items
+	@sizes = (                                         # in different units
+	  1,                                               # inch
+	  2.54,                                            # cm
+	);
+	$i = 0;
+var	comment
+  file	../common.tru
+    inside vars
+      Parameters :
+        var		mandatory	.+	the variable (and its initializiation)
+        comment	optional	.+	a comment
+      Example :
+        see	vars
+  file	perl.tru
+    continued
+enum	name
+  file	../common.tru
+    an enum
+      Parameters :
+        enum	indicator	.+
+        name	mandatory	.+	the name of the enum
+      Example :	perl_tru -noProtos -noIntro
+	vars
+	  enum	colors
+	    red		bad
+	    yellow	warning
+	    green	good
+      gives :
+	#!/usr/bin/perl
+	# vars
+	# enum for colors
+	colors_red = 1
+	colors_yellow = 2
+	colors_green = 3
+  file	perl.tru
+    continued
+enumline	comment
+  file	../common.tru
+    an element of an enum
+      Parameters :
+        enumline	mandatory	.+	the name of the element
+        comment	optional	.+	a comment
+      Example :
+        see	enum
+      the comment is silently ignored
+  file	perl.tru
+    continued
+usageline
+  file	../common.tru
+    inside a usage
+      Parameters :
+        usageline	mandatory	.+	copied unchanged
+      Example :
+        see	Option
+  file	perl.tru
+    continued
+usage	shortdesc
+  file	../common.tru
+    the usage
+      Parameters :
+        usage	indicator	.+
+        shortdesc	mandatory	.+	a short description
+      Example :
+        see	Option
+  file	perl.tru
+    continued
+Option	comment
+  file	../common.tru
+    defining Options for your program
+      Parameters :
+        Option	indicator	.*
+        comment	optional	.+	a comment
+      Allows you to pass options to your program
+  file	perl.tru
+    continued
+      perl_tru makes use of GetOpt() with the limitation that
+	it only supports 1-letter options
+	it is case-insensitive (-p is the same as -P)
+      The usual -- can still be used to stop option-processing.
+      Additionally to getopts features the following is also guaranteed:
+          The form -f=file is also supported.
+          If a not defined option is given then usage is called.
+
+      argv[] stays unchanged.
+      int optind is the index in argv[] of the first non-option argument.
+
+      -x results in the var opt_x
+        If -x takes no argument then the value of opt_x is
+	    0		if the option is not given
+	    1		if the option is given once
+	    n		the number 
+        If -x takes an argument then the value of opt_x is
+	    default		if option is not given. default can be empty.
+	    argument	the one given to the option.
+
+          The type of the opt_x is determined by the type of the default (as described in |opt:type[default]|)
+      Parameters :
+        Option	indicator	.*
+        comment	optional	.+	just a comment
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	usage	calculatePrettyNumber [options]
+		this program calculates the prettiest numbers.
+		it skips
+			10	like always
+			42	for obvious reasons
+	main
+	  Option		
+	    q			quiet
+	    v			verbose		"running"
+	    f:file[~/infile]	in-file
+	    nr:line[10]		nr of lines
+      gives :
+	$opt_q = 0;
+	$opt_v = 0;
+	$opt_f = '~/infile';
+	$opt_nr = 10;
+	if (@ARGV == 1 and $ARGV[0] eq '-?') {
+	  usage();
+	}
+
+	sub usage
+	{
+	  print STDERR <<'EOU';
+	usage : calculatePrettyNumber [options]
+	this program calculates the prettiest numbers.
+	it skips
+		10	like always
+		42	for obvious reasons
+	OPTIONS:
+	  -q	quiet
+	  -v	verbose
+	  -f:<file>	in-file
+		default for <file> is ~/infile
+	  -nr:<line>	nr of lines
+		default for <line> is 10
+	EOU
+	  exit(1);
+	}
+
+	sub main
+	{
+	  use Getopt::Long;
+	  usage() if !GetOptions('nr=s','f=s','v','q');
+	    # -q : quiet
+	    # -v : verbose
+	    if ($opt_v) {
+	      print "running";
+	    }
+	    # -f : in-file
+	    # -nr : nr of lines
+	}
+	main();
+opt:type[default]	shortdesc	statement
+  file	../common.tru
+    an Option with an argument
+      Parameters :
+        opt:type[default]	mandatory	/[^:]+:[^[]+(\[(.*)\])?/		the option name, its type and (optionally) its default value
+        shortdesc		mandatory	.+				a short description for this option
+        stmt		optional	.+				a statement to be executed if this option is seen
+      opt:type[default] consists of the 3 parts:
+          opt	: option name
+          type	: the type of this option (can be any string, eg. file or string or number)
+          default	: the default value for this option
+      Example :
+        see	Option
+  file	perl.tru
+    continued
+      For the default the following holds:
+        If it looks like a number (it matches /^\d+(\.\d+)?$/) then it is a number.
+        Else it is a string (surrounding quotes are optional).
+opt	shortdesc	statement
+  file	../common.tru
+    an Option with no argument
+      Parameters :
+        opt			mandatory	.+	the option name, its type and its default value
+        shortdesc		mandatory	.+	a short description for this option
+        stmt		optional	.+	a statement to be executed if this option is seen
+      Example :
+        see	Option
+  file	perl.tru
+    continued
+Optiondescription
+  file	../common.tru
+    a description for an option
+      Parameters :
+        Optiondescription	mandatory	.+	the description
+      the description is used for the produced help-entries
+      Example :
+        see	Option
+  file	perl.tru
+    continued
+statement	comment
+  file	../common.tru
+    a statement
+      Parameters :
+        statement	mandatory	.+	a statement
+        comment	optional	.+	a comment for this statement
+      This can be any statement, as shown here
+
+      Example :	perl_tru -noProtos -noIntro
+	doc	Note : This is pseudocode
+	foo
+	  an = 42					statement fits in one line, append a ; for c, js, java, perl
+	  pi =						statement starts here
+	    "technically seen ..."			... what follows are continuation statements
+	    + "\n" +
+	    "neither this"				neither this
+	    + "\n" +					... nor ...
+	    'nor this'					nor this are subject for an autoprint
+	    + "\n" +
+	    'are subject for autoprint'
+	    + "\n" +					and no strict rules for indenting are forced.
+	     '' +					any indent is legal
+	    'a final ; is NOT given automatically' ;	do NOT forget the ; for c, js, java, perl
+
+	  doc	depending on the language statements starting with a string are treated as autoprint
+	  "a double quoted string"			sh, c, perl , java, js
+	  'a single quoted string'			vim
+
+      gives :
+	#!/usr/bin/perl
+	#****************************************
+	# Note : This is pseudocode
+	#****************************************
+
+	sub foo
+	{
+	  an = 42;                                         # statement fits in one line, append a ; for c, js, java, perl
+	  pi =                                             # statement starts here
+	    "technically seen ..."                         # ... what follows are continuation statements
+	    + "\n" +
+	    "neither this"                                 # neither this
+	    + "\n" +                                       # ... nor ...
+	    'nor this'                                     # nor this are subject for an autoprint
+	    + "\n" +
+	    'are subject for autoprint'
+	    + "\n" +                                       # and no strict rules for indenting are forced.
+	     '' +                                          # any indent is legal
+	    'a final ; is NOT given automatically' ;       # do NOT forget the ; for c, js, java, perl
+	  #****************************************
+	  # depending on the language statements starting with a string are treated as autoprint
+	  #****************************************
+	  print "a double quoted string";                  # sh, c, perl , java, js
+	  'a single quoted string';                        # vim
+	}
+      a codeblock inside a statement starts a new piece of code:
+      Example :	perl_tru -noProtos -noIntro
+	foo
+	  a = pseudocode
+	    FOREVER	this is a simple statement continuation
+	    // but now a block is opened 
+	    {		and this opens a block and tru happily parses what's inside
+	      FOREVER	// here starts new code
+		?	expr	code
+	    }
+
+      gives :
+	#!/usr/bin/perl
+
+	sub foo
+	{
+	  a = pseudocode
+	    FOREVER                                        # this is a simple statement continuation
+	    // but now a block is opened 
+	    {                                              # and this opens a block and tru happily parses what's inside
+	      FOREVER                                      # // here starts new code
+	        if (expr) {
+	          code;
+	        }
+	    }
+	}
+      The same holds for comment lines.
+      They open a block and tru happily parses what's inside
+  file	../statementDelimiter.tru
+    continued
+      The statement-delimiter is appended automatically if the statement
+	is a single-line statement and
+	does not end in one of these 5 characters =,;[(
+	and there are no deeper lines
+
+      This auto-appending of ; can (in rare cases) have undesired side-effects.
+      Example :	js_tru -noIntro
+	function foo	describes the code-block
+	  doc	example for undesired effect
+	  response.writeHead(200, {		the { opens a new CODE block
+	    'Content-Type': 'text/html'	this looks like a one-line-statement, so append a ;
+	  });
+
+	  doc	workarounds for undesired effect
+
+	  doc	method 1 : make the block an 'object' - block
+	  response.writeHead(200, { // standard head	append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html'		we are in no block at all, so this simply contiues the previous line
+	  });
+	  doc	method 2 : put a , at the end of the last element
+	  response.writeHead(200, { // standard head	append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html',		we are in no block at all, so this simply contiues the previous line
+	  });
+
+      gives :
+
+	function foo(describes the code-block) {
+	  //****************************************
+	  // example for undesired effect
+	  //****************************************
+	  response.writeHead(200, {                        // the { opens a new CODE block
+	    'Content-Type': 'text/html';                   // this looks like a one-line-statement, so append a ;
+	  });
+	  //****************************************
+	  // workarounds for undesired effect
+	  //****************************************
+	  //****************************************
+	  // method 1 : make the block an 'object' - block
+	  //****************************************
+	  response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html'                    // we are in no block at all, so this simply contiues the previous line
+	  });
+	  //****************************************
+	  // method 2 : put a , at the end of the last element
+	  //****************************************
+	  response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html',                   // we are in no block at all, so this simply contiues the previous line
+	  });
+	}
+      To NOT automatically append ; to one-line-statements at all use option -noAutoSemicolon.
+  file	perl.tru
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          print statement;
+
+        Also a statement of the form
+	    STDxxx "string"
+        is treated this way (if perl_tru is not invoked with -vim)
+
+        If perl-tru is invoked with -vim, then this done via
+	    VIM::Msg(statement)
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  my $count =1		the linecount
+	  ?	$count != 1	STDERR "internal error"
+	  "$count"		tell it to the user
+      gives :
+
+	sub foo
+	{
+	  my $count =1;                                    # the linecount
+	  if ($count != 1) {
+	    print STDERR "internal error";
+	  }
+	  print "$count";                                  # tell it to the user
+	}
+U	cond	stmt
+  file	../common.tru
+    An Until Loop
+      Parameters :
+        U		indicator	.*
+        cond	mandatory	.+	the stop-condition
+        stmt	optional	.+	a statement
+      Execute a loop at least once.
+      Stop when cond ist true.
+  file	perl.tru
+    an until-loop
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  U	$i++>=10
+	    bar()
+      gives :
+
+	sub foo
+	{
+	  do {
+	    bar();
+	  } until	$i++>=10;
+	}
+W	cond	stmt
+  file	../common.tru
+    A While Loop
+      Parameters :
+        W		indicator	.*
+        cond	mandatory	.+	the condition
+        stmt	optional	.+	a statement
+      Execute a loop as long as cond is true.
+      Can be zero times.
+  file	perl.tru
+    continued
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  W	$i++<=10
+	    bar()
+	  doc	same as above
+	  W	$i++<=10	bar()
+      gives :
+
+	sub foo
+	{
+	  while ($i++<=10) {
+	    bar();
+	  }
+	  #****************************************
+	  # same as above
+	  #****************************************
+	  while ($i++<=10) {
+	    bar();
+	  }
+	}
+fancyFor	expr	statement
+  file	../common.tru
+    fancy for statement
+      Parameters :
+        fancyFor	indicator	.*
+        expr	mandatory	.+	the expression
+        stmt	optional	.+	the statement
+      In many programs you find coding for looping from a given start-value to (excluding) a given end value.
+      They have the (simplified) form
+          for (i=0;i<10;i++)
+      This can be written as
+          F	i=0...10
+  file	../common.tru
+    continued
+  file	perl.tru
+    continued
+      You can also have scope declarations in this statement, as in
+          F	my $i=0...10
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  F	my $i=10...20	"Nr : $i"
+      gives :
+
+	sub foo
+	{
+	  for (my $i=10;$i<20;$i=$i+1) {
+	    print "Nr : $i";
+	  }
+	}
+initialisation	comment
+  file	../common.tru
+    an initializiation (inside vars)
+      Parameters :
+        initialisation	mandatory	.+	the initialisation
+        comment		optional	.+	a comment
+      Example :
+        see	vars
+  file	perl.tru
+    continued
+      The var is an Array, the initialisation is an Array-item.
+For	cond	stmt
+  file	../common.tru
+    A For Loop
+      Parameters :
+        For		indicator	.*
+        cond	mandatory	.+	the condition
+        stmt	optional	.+	a statement
+      see also |fancyFor|
+  file	perl.tru
+    continued
+      If the condition has the form /;.*;/ then it is surrounded by ( and ).
+      Else the condition is used unchanged.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  F	$t (@T)
+	    "$t"
+	  F	$i=1;$i<100;$i+=4	"$i"
+      gives :
+
+	sub foo
+	{
+	  for $t (@T) {
+	    print "$t";
+	  }
+	  for ($i=1;$i<100;$i+=4) {
+	    print "$i";
+	  }
+	}
+S	expr	comment
+  file	../common.tru
+    A switch/case block
+      Parameters :
+        S		indicator	S|S\*
+        expr	mandatory	.+	the condition
+        comment	optional	.+	a comment
+
+      Picks the first case that is equal to expr.
+      If no case is picked the default is used.
+      The default is optional but must come after the last case.
+      If indicator is  S* then the semantics change to the logic used in the switch/case in c.
+        Here a fallthrough is the default and break must be used to prevent it.
+      Pseudo Example :
+	    S	expression
+	      a		code for a
+	      b		code for b
+	        nobreak
+	      default	code for the remaining cases
+      code for b will only be executed if expression == b.
+      Due to the nobreak it will also execute code for the remaining cases
+
+      Pseudo Example :
+	    S*	expression
+	      a		code for a
+	      b		code for b
+	      default	code for the remaining cases
+      If expression == a it executes
+          code for a
+          code for b
+          code for the remaining cases
+      If expression == b it executes
+          code for b
+          code for the remaining cases
+  file	perl.tru
+    continued
+      perl natively has no switch/break.
+      perl_tru mimics it with if-statements.
+      The case does not need to be a constant. It can be any expression.
+      The expression is evaluated only once.
+      Expression and case must be comparable with == .
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	main
+	  S	getindex()
+	    1		"one"
+	    2		"two"
+	    default	"something else"
+	      more_code_for_default()
+      gives :
+
+	sub main
+	{
+	  $perltruS1=getindex();
+	  while (1) {
+	    if ($perltruS1 == 1) {
+	      print "one";
+	      last;
+	    }
+	    if ($perltruS1 == 2) {
+	      print "two";
+	      last;
+	    }
+	    print "something else";
+	    more_code_for_default();
+	    last;
+	  }
+	}
+	main();
+default	statement	comment
+  file	../common.tru
+    a default statement inside a switch/case
+      Parameters :
+        default	indicator	.*
+        statement	optional	.+	a statement
+        comment	optional	.+	a comment
+      It must come after the last case.
+      Example :
+        see	S
+  file	perl.tru
+    continued
+case	statement	comment
+  file	../common.tru
+    a case inside in switch/case
+      Parameters :
+        case	mandatory	.+	the value to be checked
+        statement	optional	.+	a statement
+        comment	optional	.+	a comment
+      It must be the last statement in the case.
+      Example :
+        see	S
+  file	perl.tru
+    continued
+nobreak
+  file	../common.tru
+    supressing a break in a switch/case
+      Parameters :
+        nobreak	indicator	.*
+      It must be the last statement in the case.
+      Example :
+        see	S
+  file	perl.tru
+    continued
+try	statement
+  file	../common.tru
+    a try block
+      Parameters :
+        try		indicator	.*
+        statement	optional	.+	a statement
+  file	perl.tru
+    continued
+      perl_tru makes use of the module Try::Tiny.
+      Make sure it is installed.
+      You can do so with
+          cpan App::cpanminus  # do once before installing any module
+          cpanm Try::Tiny
+
+      The needed use-statement is created automatically.
+
+      The limitations described in "perldoc Try::Tiny" apply.
+      Especially that only the last catch block is used and that this block catches all errors.
+
+      Example (taken from Tiny.pm) :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  try
+	      die_sometimes()
+	    catch
+	      # ...code run in case of error
+	    finally
+	      ?	@_
+		"The try block died with: @_\n"
+	      -
+		"The try block ran without error.\n"
+      gives :
+
+	sub foo
+	{
+	  use Try::Tiny;
+	  try {
+	    die_sometimes();
+	  } catch {
+	    # ...code run in case of error
+	  } finally {
+	    if (@_) {
+	      print "The try block died with: @_\n";
+	    } else {
+	      print "The try block ran without error.\n";
+	    }
+	  }
+	}
+block
+  file	../common.tru
+    block
+      Parameters :
+        block	optional	.*	Introduces the block of code to be tried.
+      Example :
+        see	try
+finally	statement
+  file	../common.tru
+    finally
+      Parameters :
+        finally	indicator	.*
+        statement	optional	.+	a statement
+      Example :
+        see	try
+  file	perl.tru
+    continued
+catch	statement
+  file	../common.tru
+    a catch
+      Parameters :
+        catch	mandatory	.+	the object to catch
+        statement	optional	.+	a statement
+      Example :
+        see	try
+  file	perl.tru
+    continued
+      the keyword "catch" must be used here.
+      All Errors are caught in the last catch within a try.
+jdoc	jdocu
+  file	../common.tru
+    documenting the code
+      Parameters :
+        jdoc	indicator	.*
+        jdocu	optional	.*	the documentation header-line
+      Documenting the code.
+        tagless documentation can be given by starting at an indent of 4.
+
+      Example :	perl_tru -noProtos -noIntro
+	jdoc	a very special program
+	  author	buggs bunny
+	  this program does funny things
+	foo
+	  jdoc
+	    author	flash gordon
+	    the jdoc tag can be given, but there is no real need to (except at level 1).
+	  baz
+      gives :
+	#!/usr/bin/perl
+	### a very special program
+	#  @author buggs bunny
+	#  this program does funny things
+
+	sub foo
+	{
+	  ### 
+	  #  @author flash gordon
+	  #  the jdoc tag can be given, but there is no real need to (except at level 1).
+	  baz;
+	}
+  file	perl.tru
+    continued
+jdocu
+  file	../common.tru
+    a line inside jdocu
+      Parameters :
+        jdocu	mandatory	.+	the line
+      Example :
+        see	jdoc
+  file	perl.tru
+    continued
+jdtag	descr
+  file	../common.tru
+    a tag inside jdocu
+      Parameters :
+        jdtag	mandatory	.+	the name of the tag
+        descr	mandatory	.+	the value of the tag
+      Example :
+        see	jdoc
+autodoc
+  file	../common.tru
+    jdoc compatible documentation
+      Parameters :
+        autodoc	indicator	.*
+      Example :	perl_tru -noProtos -noIntro
+	foo
+	    author	mikey mouse
+	    this function does even more funny things
+	  bar
+      gives :
+	#!/usr/bin/perl
+	### 
+	#  @author mikey mouse
+	#  this function does even more funny things
+
+	sub foo
+	{
+	  bar;
+	}
+      Example :
+        see	jdoc
+native code
+  file	../common.tru
+    introduces a block of native language code
+      Parameters :
+        native code	indicator	.*
+      'native' must be replaced by the actual proglang used.
+      Currently supported are c, js, java, perl, sh and vim.
+      The block is reindented to the level of the indicator.
+      In the form "native code<" the block is indented to the far left.
+      Otherwise the whole block remains untouched.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  perl code
+		print "
+		  one		tabs survive
+		  two
+		  ";
+	  ?	doprint
+	    perl code<
+		print "
+		  three
+		  four
+		  ";
+      gives :
+
+	sub foo
+	{
+	  ## Hand written stuff	3
+	  print "
+	    one		tabs survive
+	    two
+	    ";
+	  ## Resuming generated code
+	  if (doprint) {
+	    ## Hand written stuff	5
+	print "
+	  three
+	  four
+	  ";
+	    ## Resuming generated code
+	  }
+	}
+      The numbers (3 and 5) after the comment indicate the level in the source
+      The comments can be supressed with -noMark
+nativeCodeLine
+  file	../common.tru
+    line inside a "native code"
+      Parameters :
+        nativeCodeLine	mandatory	.+	represents the line
+      Actually the complete line (including all tabs) is taken (starting from the first tabposition in the block)
+      Example :
+        see	native code
+2copy	comment
+  file	../common.tru
+    a block formed by { and }
+      Parameters :
+        2copy	mandatory	.+	represents the line
+        comment	optional	.+	a comment for this fragment
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	# comment with		tabs
+	foo
+	  {
+	    stmt
+	  }
+      gives :
+	# comment with		tabs
+
+	sub foo
+	{
+	  {
+	    stmt;
+	  }
+	}
+introcomment
+  file	../common.tru
+    internal Handles the intro-comment
+comment
+  file	../common.tru
+    a comment
+      Parameters :
+        comment	mandatory	.+	represents the line
+      the whole line is copied as is, tabs are preserved
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	# comment with		tabs
+	foo
+	  # an indented comment
+      gives :
+	# comment with		tabs
+
+	sub foo
+	{
+	  # an indented comment
+	}
+??	leftpart	rightpart	LeftOfStmt	RightOfStmt
+  file	../common.tru
+    fancy if-cascade, catching one hit
+      Parameters :
+        ??		indicator	.*
+        leftpart	optional	.+	the leftpart
+        rightpart	optional	.+	the rightpart
+        LeftOfStmt	optional	.+	for left of the statement
+        RightOfStmt	optional	.+	for right of the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  ??	a	0	print "		"
+	    <			smaller		negative numbers
+	    ==			equal		a zero
+	    >			greater		positive numbers
+      gives :
+
+	sub foo
+	{
+	  if (a<0) {
+	    print "smaller";
+	  } elsif (a==0) {
+	    print "equal";
+	  } elsif (a>0) {
+	    print "greater";
+	  }
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  ??
+	    a == 1	bar()
+	    b >= c	baz()
+	    -		foobar()
+      gives :
+
+	sub foo
+	{
+	  if (a == 1) {
+	    bar();
+	  } elsif (b >= c) {
+	    baz();
+	  } else {
+	    foobar();
+	  }
+	}
+      for catching many hits see |??*|
+??*	leftpart	rightpart	LeftOfStmt	RightOfStmt
+  file	../common.tru
+    fancy if-cascade, catching many hits
+      Parameters :
+        ??*		indicator	.*
+        leftpart	optional	.+	the leftpart
+        rightpart	optional	.+	the rightpart
+        LeftOfStmt	optional	.+	for left of the statement
+        RightOfStmt	optional	.+	for right of the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  ??*	flag & GC_	 != 0	print "file is 		"
+	    read	readable
+	    write	writeable
+	    exec	executable
+      gives :
+
+	sub foo
+	{
+	  if (flag & GC_read != 0) {
+	    print "file is readable";
+	  }
+	  if (flag & GC_write != 0) {
+	    print "file is writeable";
+	  }
+	  if (flag & GC_exec != 0) {
+	    print "file is executable";
+	  }
+	}
+      for catching one hit see |??|
+middlepart	stmt
+  file	../common.tru
+    part of a fancy if-cascade (catching one hit)
+      Parameters :
+        middlepart	mandatory	.+	the middle part
+        stmt	mandatory	.+	the statement
+      Example :
+        see	??
+middlepart_any	stmt
+  file	../common.tru
+    part of a fancy if-cascade (catching many hits)
+      Parameters :
+        middlepart	mandatory	.+	the middle part
+        stmt	mandatory	.+	the statement
+      Example :
+        see	??*
+FOREVER	stmt
+  file	../common.tru
+    an endless loop
+      Parameters :
+        FOREVER	indicator	.*
+        stmt	optional	.+	the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  FOREVER	bar()
+      gives :
+
+	sub foo
+	{
+	  while (1) {
+	    bar();
+	  }
+	}
+optcommon	getoptstr	expr	type	statmnt
+  file	../common.tru
+    internal an option
+      to be called from
+        opt:type[default]	shortdesc	statement
+        opt	shortdesc	statement
+      if the language has always something in the body (sh,c and java) the call must be from the in-action
+      for languages that do not always have something in the body (perl) the call must be from the depth-action
+      vim_tru does not use optcommon
+M
+  file	../common.tru
+    magic statement
+      Parameters :
+        M		indicator	M[;_*]*
+        *		optional	.+	delimiters
+      Produces a line of output for each non-empty line in the child-block.
+      The lines are the result of intermixing the delimiters given here with the fields of the lines.
+
+      The indicator specifies the order of the fields and the termination.
+      If indicator contains *
+        If there are more delimiters than Fields then the remaining delimiters will be a concatenated at the end.
+        In the following table D1 means delimiter1 (the first), F1 means field1 (the first). There are D1 ... D5 and F1 and F2.
+	    M	order D1F1D2F2D3D4D5, no semicolon at end
+	    M;	order D1F1D2F2D3D4D5,    semicolon at end
+	    M_	order F1D1F2D2D3D4D5, no semicolon at end
+	    M_;	order F1D1F2D2D3D4D5,    semicolon at end
+      else (indicator does not contain *)
+        If there are more delimiters than Fields then the remaining delimiters are silently skipped.
+        In the following table D1 means delimiter1 (the first), F1 means field1 (the first) There are D1 ... D3 and F1 and F2.
+	    M	order D1F1D2F2D3, no semicolon at end
+	    M;	order D1F1D2F2D3,    semicolon at end
+	    M_	order F1D1F2D2,   no semicolon at end
+	    M_;	order F1D1F2D2,      semicolon at end
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  M	bar("		");
+		      one
+		      two
+      gives :
+
+	sub foo
+	{
+	  bar("one");
+	  bar("two");
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	semicolon at end
+	foo
+	  M;	print 
+	    "one"
+	    1
+
+	  doc	same as above
+	  M	print 	;
+	    "one"
+	    1
+      gives :
+	#****************************************
+	# semicolon at end
+	#****************************************
+
+	sub foo
+	{
+	  print "one";
+	  print 1;
+	  #****************************************
+	  # same as above
+	  #****************************************
+	  print "one";
+	  print 1;
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	first field from the lines
+	foo
+	  M_		(bar(		)+baz(		));
+		      a		10		20
+		      b		100		200
+      gives :
+	#****************************************
+	# first field from the lines
+	#****************************************
+
+	sub foo
+	{
+	  a(bar(10)+baz(20));
+	  b(bar(100)+baz(200));
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	more params than fields
+	  remaining fields will simply be concatenated
+	foo
+	  M	print 
+	    0.	1
+	    0.	2	3
+      gives :
+	#****************************************
+	# more params than fields
+	#****************************************
+	# remaining fields will simply be concatenated
+	#****************************************
+
+	sub foo
+	{
+	  print 0.1
+	  print 0.23
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	more fields then params
+	  these fields are not used at all.
+	  they can be used as a comment.
+	foo
+	  M	print(		)	a comment
+			1
+			2
+      gives :
+	#****************************************
+	# more fields then params
+	#****************************************
+	# these fields are not used at all.
+	# they can be used as a comment.
+	#****************************************
+
+	sub foo
+	{
+	  print(1)
+	  print(2)
+	}
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	a more realistic example (in perl)
+	foo
+	  M	if ($size > (			 )) { return int($size/(		))."		";}
+				1024*1024*1024				1024*1024*1024		TB
+				1024*1024				1024*1024		GB
+				1024					1024			MB
+				0					1			kB
+      gives :
+	#****************************************
+	# a more realistic example (in perl)
+	#****************************************
+
+	sub foo
+	{
+	  if ($size > (1024*1024*1024 )) { return int($size/(1024*1024*1024))."TB";}
+	  if ($size > (1024*1024 )) { return int($size/(1024*1024))."GB";}
+	  if ($size > (1024 )) { return int($size/(1024))."MB";}
+	  if ($size > (0 )) { return int($size/(1))."kB";}
+	}
+doc	docu
+  file	../common.tru
+    documenting or commenting parts of code
+      Parameters :
+        doc		indicator	.*
+        docu	optional	.+	free text
+      Tabs survive in the child-block.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	this program calculates the prettiest number in the world
+	  some numbers are skipped:
+		  1.01		too ugly
+		  11.11		well known pretty number
+		  42		for obvious reasons
+	foo
+	  doc	helper function
+	  bar()
+      gives :
+	#****************************************
+	# this program calculates the prettiest number in the world
+	#****************************************
+	# some numbers are skipped:
+	#         1.01		too ugly
+	#         11.11		well known pretty number
+	#         42		for obvious reasons
+	#****************************************
+
+	sub foo
+	{
+	  #****************************************
+	  # helper function
+	  #****************************************
+	  bar();
+	}
+docu
+  file	../common.tru
+    part of doc
+      Parameters :
+        docu	optional	.+	free text
+      Example :
+        see	doc
+magic
+  file	../common.tru
+    part of M
+      Parameters :
+        magic	mandatory	.+	list of fields
+      Example :
+        see	M
+D	stmt
+  file	../common.tru
+    conditional blocks (compile-time)
+      Parameters :
+        D		indicator	D.*
+        stmt	optional	.+	a statement
+
+      The statement and the child-block are produced or skipped depending on option obeyD.
+      If option obeyD is not given, the child-node is skipped.
+      If obeyD is 1, the child-node is produced.
+      Else if obeyD contains the flags-string, the child-node is produced.
+
+      Example (-obeyD not given) :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+      gives :
+
+	sub foo
+	{
+	  bar(4);
+	}
+      Example (-obeyD xy) :	perl_tru -noIntro -noSharpBang -noProtos -obeyD xy
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+      gives :
+
+	sub foo
+	{
+	  bar(1);
+	  bar(2);
+	  bar(4);
+	}
+      Example (-obeyD 1) :	perl_tru -noIntro -noSharpBang -noProtos -obeyD 1
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+      gives :
+
+	sub foo
+	{
+	  bar(1);
+	  bar(2);
+	  bar(3);
+	  bar(4);
+	}
+R	list
+  file	../common.tru
+    repeated statements
+      Parameters :
+        R	indicator	R|R/.+/
+        list	mandatory	.+	list of replacements
+        *	optional	.+	a line to be repeated
+
+      The indicator R can be (immediately) followed by /string/.
+      The child-block is repeated as often as there are elements in the list.
+      Each occurrence of "string" is replaced with the elements of the list.
+      If no /string/ is given after R, the tab-sequences in the child-block are replaced.
+      Note :
+        This default of tab-sequences is chosen to be consistent with the rest of the coding-style (where one tab is as good as two) and thus allowing nicer alignment of code.
+        If an explicit /string/ is given, then really each occurence is replaced.
+
+      If there are more fields after 'list', then these are considered to form a line to be repeated.
+
+      Note : list is a perl-list, so something like 1..3,10..20 is a valid list.
+        A drawback is, that a list like pins,passwords,keys gives an error (see foo5 in the example below).
+        This will be reported to STDERR like 
+	  problem with list for R in filename @ 17 : Not enough arguments for keys at (eval 68) line 1, at EOF
+	If in doubt use notation like in foo3 or quote the words like in foo6
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos 2>/dev/null
+	foo1
+	  R	1..3
+	    foo	();
+	foo2
+	  R	1,5,7
+	    bar	();
+	foo3
+	  R	qw(north east west south)	print "	";
+	foo4
+	  R/object/	north,east,west,south
+	    object.add(); // add object to the pane
+	    print("added a object");
+	    // this line is copied unchanged
+	foo5
+	  doc	the list below will not be produced.
+	    Instead an error will be reported
+	  R	pins,passwords,keys
+	    process(	);
+	foo6
+	  doc	quoted words cause no trouble
+	  R	'pins','passwords','keys'
+	    process(	);
+      gives :
+
+	sub foo1
+	{
+	  foo1();
+	  foo2();
+	  foo3();
+	}
+
+	sub foo2
+	{
+	  bar1();
+	  bar5();
+	  bar7();
+	}
+
+	sub foo3
+	{
+	  print "north";
+	  print "east";
+	  print "west";
+	  print "south";
+	}
+
+	sub foo4
+	{
+	  north.add(); // add north to the pane
+	  print("added a north");
+	  // this line is copied unchanged
+	  east.add(); // add east to the pane
+	  print("added a east");
+	  // this line is copied unchanged
+	  west.add(); // add west to the pane
+	  print("added a west");
+	  // this line is copied unchanged
+	  south.add(); // add south to the pane
+	  print("added a south");
+	  // this line is copied unchanged
+	}
+
+	sub foo5
+	{
+	  #****************************************
+	  # the list below will not be produced.
+	  #****************************************
+	  # Instead an error will be reported
+	  #****************************************
+	}
+
+	sub foo6
+	{
+	  #****************************************
+	  # quoted words cause no trouble
+	  #****************************************
+	  process(pins);
+	  process(passwords);
+	  process(keys);
+	}
+repeatedLine
+  file	../common.tru
+    part of R
+      Parameters :
+        repeatedLine	mandatory	.+	the line to be processed
+      Example :
+        see	R
+hide	comment
+  file	../common.tru
+    hide parts of code
+      Parameters :
+        hide	indicator	.*
+        comment	optional	.*	any comment
+      The child-block is not processed.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  a=1
+	  hide	this code does not work
+	    // some experimental code
+	    a=2
+      gives :
+
+	sub foo
+	{
+	  a=1;
+	}
+ignored
+  file	../common.tru
+    ignored line
+      This line is silently ignored
+      Parameters :
+        ignored	indicator	.*
+      Example :
+        see	hide
+EMPTY
+  file	../common.tru
+    ignored line
+      Empty lines are silently ignored
+      Parameters :
+        EMPTY	indicator	.*
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	main
+	  stmt1
+
+	  stmt2
+      gives :
+
+	sub main
+	{
+	  stmt1;
+	  stmt2;
+	}
+	main();
+T
+  file	../common.tru
+    fancy table
+      Parameters :
+        T		indicator	T(?:\d*)(?:\\)?
+        *		mandatory	.+		the lines
+
+      Frequently in code you find repeated lines with different parts
+      T gives a means to pretty code them
+
+      if T is followed by a number then so many lines are skipped (useful for commenting the table).
+      if T is followed by \ then the resulting codeblocks are separated by a blank line.
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  T1\	bar("#1#");	baz(#2#);
+	    string	int
+	    one		1
+	    two		2
+	    three	3
+      gives :
+
+	sub foo
+	{
+	  bar("one");
+	  baz(1);
+
+	  bar("two");
+	  baz(2);
+
+	  bar("three");
+	  baz(3);
+
+	}
+      Another Example (for java) :	java_tru -noIntro
+	    class Foo
+	      void foo
+	        T1\	#1#Button.setText("#2#");	#1#.setMnemonic(KeyEvent.VK_#3#);
+	          button		Text		Hot-Key
+	          editOrView	View -> Edit	E
+	          saveChanges	Save changes	S
+	          refresh		Refresh		R
+	          details		Details		D
+	          newEntry		New Entry	N
+Titem
+  file	../common.tru
+    part of a fancy table
+      Parameters :
+        *	mandatory	.+	the items for T
+      Example :
+        see	T
+!	cond	truestmt	falsestmt
+  file	../common.tru
+    negated if
+      Parameters :
+        !		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :	perl_tru -noIntro -noProtos
+	foo
+	  !	i<=10
+	    bar()
+	  -
+	    baz()
+	  doc	same as above
+	  !	i<=10	bar()	baz()
+      gives :
+	#!/usr/bin/perl
+
+	sub foo
+	{
+	  if (!(i<=10)) {
+	    bar();
+	  } else {
+	    baz();
+	  }
+	  #****************************************
+	  # same as above
+	  #****************************************
+	  if (!(i<=10)) {
+	    bar();
+	  } else {
+	    baz();
+	  }
+	}
+!-	cond	truestmt	falsestmt
+  file	../common.tru
+    negated else-if
+      Parameters :
+        !-		indicator	.*
+        expr	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :
+        see	?
+?	cond	truestmt	falsestmt
+  file	../common.tru
+    an if-statement
+      Parameters :
+        ?		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :	perl_tru -noIntro -noProtos
+	foo
+	  ?	i<=10
+	    bar()
+	  -
+	    baz()
+	  doc	same as above
+	  ?	i<=10	bar()	baz()
+      gives :
+	#!/usr/bin/perl
+
+	sub foo
+	{
+	  if (i<=10) {
+	    bar();
+	  } else {
+	    baz();
+	  }
+	  #****************************************
+	  # same as above
+	  #****************************************
+	  if (i<=10) {
+	    bar();
+	  } else {
+	    baz();
+	  }
+	}
+      Example :	perl_tru -noIntro -noProtos
+	foo
+	  ?	i == 0		"zero"
+	  ?-	i == 1		"one"
+	  !-	i > 10		"small"
+	  -			"large"
+      gives :
+	#!/usr/bin/perl
+
+	sub foo
+	{
+	  if (i == 0) {
+	    print "zero";
+	  } elsif (i == 1) {
+	    print "one";
+	  } elsif (!(i > 10)) {
+	    print "small";
+	  } else {
+	    print "large";
+	  }
+	}
+?-	cond	truestmt	falsestmt
+  file	../common.tru
+    an ifelse statement
+      Parameters :
+        ?-		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :
+        see	?
+else	stmt
+  file	../common.tru
+    an else
+      Parameters :
+        else		indicator	.*
+        falsestmt	optional	.+	a statement
+      Example :
+        see	?
+TAB	pre	post
+  file	../common.tru
+    a Tab Aligned Block
+      Parameters :
+        TAB		indicator	.*
+        pre		optional	.+	text to be put before the block
+        post	optional	.+	text to be put after the block
+      The lines in a TAB block are taken as a whole (including all interfield tabs).
+      These lines have to start at or after the next tab-position, that is at least 2 characters right of the left/right indicator.
+      Of the indent only the part after this position survives.
+
+      For the use of pre and post see the example (second and third poem)
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  doc	These are pseudo examples.
+	    they may not be runnable code but can give the idea
+
+
+	  doc	not using pre and post
+	  TAB
+	    print '				';
+		Here a poem:
+
+		         this line
+		       and this line
+		   are here by intention
+		and both are my own invention
+	  doc	using pre and post, but not left and right
+	  TAB	return "	";
+		             this line
+		           and this line
+		      are not only quite terse
+		but also make up a pretty nice verse
+	  doc	using pre and post, as well as left and right
+	  TAB	return "another poem"		;
+	    + "								"
+		                  this line
+		                and this line
+		            have never been read
+		  So don't try to read them or you may drop dead
+      gives :
+
+	sub foo
+	{
+	  #****************************************
+	  # These are pseudo examples.
+	  #****************************************
+	  # they may not be runnable code but can give the idea
+	  # 
+	  # 
+	  #****************************************
+	  #****************************************
+	  # not using pre and post
+	  #****************************************
+	  print 'Here a poem:';
+	  print '';
+	  print '         this line';
+	  print '       and this line';
+	  print '   are here by intention';
+	  print 'and both are my own invention';
+	  #****************************************
+	  # using pre and post, but not left and right
+	  #****************************************
+	  return "
+	                 this line
+	               and this line
+	          are not only quite terse
+	    but also make up a pretty nice verse
+	  ";
+	  #****************************************
+	  # using pre and post, as well as left and right
+	  #****************************************
+	  return "another poem"
+	    + "                  this line"
+	    + "                and this line"
+	    + "            have never been read"
+	    + "  So don't try to read them or you may drop dead"
+	  ;
+	}
+left	right
+  file	../common.tru
+    treatment of a Tab Aligned Block
+      Parameters :
+        pre		mandatory	.+	text to be put to the left  of each line
+        post	optional	.+	text to be put to the right of each line
+      Example :
+        see	TAB
+TABline
+  file	../common.tru
+    a line in a Tab Aligned Block
+      Parameters :
+        TABline	mandatory	.+	the text
+      Example :
+        see	TAB
+ifout
+  file	../common.tru
+    internal setting mark_if
+P[<]![planname]
+  file	../common.tru
+    starting a plan block.
+      Parameters :
+        P[<]![planname]		indicator	.*	planname can be empty
+        *			mandatory	.+	the strategies as a sequence of perl-expressions
+
+      planname can be anything.  It doesn't matter at all.
+      It can be used to clarify your coding.
+      if the flag < is given, then the indent of the block is shifted two spaces to the left.
+      This can be used for applying plans at the very left.
+
+      The strategies are applied to the plan, which is formed by the block of lines.
+        The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.
+        repeating the plan is done by refeeding it to the truer
+        depending on the flag <
+          flag given		the block is shifted two spaces to the left.
+          flag not given	the block is refed without fussing with the indent of the lines
+        strategies are allowed to change the indent. But you must well understand what you are doing.
+
+      This is a potentially dangerous action, since the strategy can be any perl-statement.
+        Hence this must be explicitely enabled with the option -allowP
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos -allowP
+	doc	Note that the truer must be started with the option -allowP for this to work
+	foo1
+	  doc	produce 3 repetitions of the block, each with another op, the plan has no name
+	  P!	s/op/>/g	s/op/</g	s/op/==/g
+	    // running tests for op
+	    ?	test1() op test2()	handleTests("op")
+
+	foo2
+	  doc	produce 2 repetitions of the block, the first is unchanged
+	  P!example with untouched block	;	s/green/red/g
+	    // when the lights are green
+	    ?	light == "green"	greenseen++
+
+      gives :
+	#****************************************
+	# Note that the truer must be started with the option -allowP for this to work
+	#****************************************
+
+	sub foo1
+	{
+	  #****************************************
+	  # produce 3 repetitions of the block, each with another op, the plan has no name
+	  #****************************************
+	  # start of plan 
+	  # plan "", strategy "s/op/>/g"
+	    // running tests for >;
+	    if (test1() > test2()) {
+	      handleTests(">");
+	    }
+	  # plan "", strategy "s/op/</g"
+	    // running tests for <;
+	    if (test1() < test2()) {
+	      handleTests("<");
+	    }
+	  # plan "", strategy "s/op/==/g"
+	    // running tests for ==
+	    if (test1() == test2()) {
+	      handleTests("==");
+	    }
+	}
+
+	sub foo2
+	{
+	  #****************************************
+	  # produce 2 repetitions of the block, the first is unchanged
+	  #****************************************
+	  # start of plan example with untouched block
+	  # plan "example with untouched block", strategy ";"
+	    // when the lights are green;
+	    if (light == "green") {
+	      greenseen++;
+	    }
+	  # plan "example with untouched block", strategy "s/green/red/g"
+	    // when the lights are red;
+	    if (light == "red") {
+	      redseen++;
+	    }
+	}
+      You can happily use plans within plans, they nest.
+P!line
+  file	../common.tru
+    part of a plan
+      Parameters :
+        P!line	mandatory	.+	the text
+      Example :
+        see	P[<]![planname]
+DOC
+  file	../morecommon.tru
+    A tru-program
+      This is one of a family of proglang-truers.
+      Current members are:
+          c_tru	for c
+          java_tru	for java
+          js_tru	for java-script
+          perl_tru	for perl
+          sh_tru	for shell
+          vim_tru	for vim
+      They all share the same syntax-idea.
+      Some Options can be set to modify the output.
+  file	perl.tru
+    A perl-program
+      The created code can be a perl-script or a vim-plugin (depending on Option -vimPlug)
+      Example :	perl_tru
+	main
+	  "running"
+      gives :
+	#!/usr/bin/perl
+	#
+	# Autogenerated from perl_tru using infile
+	# do not edit this file, look for infile and change this
+	# or you may loose all your changes and probably choose the wrong method.
+	# goto http://www.strux.net to find more information.
+	#
+	#  protos
+	sub main;
+
+	sub main
+	{
+	  print "running";
+	}
+	main();
+      The automatic generation of prototypes can be supressed with -noProtos.
+      The automatic generation of the sharpBang-line can be supressed with -noSharpBang
+
+      Example for a vim-plugin :	perl_tru -vimPlug
+	foo
+	  "running"
+      gives :
+	if ! (has("perl"))
+	  finish
+	endif
+	perl <<EOT
+	#
+	# Autogenerated from perl_tru using infile
+	# do not edit this file, look for infile and change this
+	# or you may loose all your changes and probably choose the wrong method.
+	# goto http://www.strux.net to find more information.
+	#
+	#  protos
+	sub foo;
+
+	sub foo
+	{
+	  VIM::Msg("running");
+	}
+	EOT
+      You can put this in vim's plugin-dir and in vim you can then
+        :perl foo()
+
+      Limitations :
+        Do not use names beginning with perltru for your variables.
+main
+  file	perl.tru
+    the main function
+      Parameters :
+        main	indicator	.*
+      The main function differs from other functions in that a call to that function is created at the end of the script.
+      This call is not generated if -vimPlug is given.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	main
+	  "Hello World"
+	foo
+	  return "bar"
+      gives :
+
+	sub main
+	{
+	  print "Hello World";
+	}
+
+	sub foo
+	{
+	  return "bar";
+	}
+	main();
+sub	args
+  file	perl.tru
+    an anonymous sub
+      Parameters :
+        sub	indicator	.+
+        args	optional	.+	the parameters of the function
+      Introduces an anonymous sub and it's parameters.
+      It behaves basically identical to function except that no prototype is genenrated
+      The args can be
+        empty like in
+	    foo
+        a list of vars like in
+	    foo	$a,$b
+          In this case the parameters are treated as my-vars.
+        a perl PROTO like in
+	    mysyswrite	$$$;$
+          In this case you have to do the assignment yourself.
+
+      works only inside WantListOrObject
+      Example :
+        see	wantListOrObject
+function	args
+  file	perl.tru
+    function
+      Parameters :
+        function	mandatory	.+	the function name
+        args	optional	.+	the parameters of the function
+      Introduces a function (rsp. a sub) and it's parameters.
+      The args can be
+        empty like in
+	    foo
+        a list of vars like in
+	    foo	$a,$b
+          In this case the parameters are treated as my-vars.
+        a perl PROTO like in
+	    mysyswrite	$$$;$
+          In this case you have to do the assignment yourself.
+
+      For each sub a prototype is generated at the beginning of the program.
+      This can be supressed with -noProtos.
+      Example :	perl_tru -noIntro -noSharpBang
+	foo
+	  return 1
+	bar	$n,$j
+	  return $n+$j
+	mysplice	\@$$@
+	  whatever
+      gives :
+	#  protos
+	sub foo;
+	sub bar($$);
+	sub mysplice(\@$$@);
+
+	sub foo
+	{
+	  return 1;
+	}
+
+	sub bar($$)
+	{
+	  local ($n,$j) = @_;
+	  return $n+$j;
+	}
+
+	sub mysplice(\@$$@)
+	{
+	  whatever;
+	}
+label
+  file	perl.tru
+    label
+      Parameters :
+        label	indicator	.+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  here:
+	    bar()
+      gives :
+
+	sub foo
+	{
+	  here: {
+	    bar();
+	  } # here:
+	}
+LabeledLoop	cond	stmt
+  file	perl.tru
+    labelled loop
+      Parameters :
+        LabeledLoop	indicator	.+:[FWU]
+        condition	mandatory	.+	the condition
+        stmt	optional	.+	the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  here:F	$i=1;$i<10;$i++
+	    next here if $i==5
+	    bar()
+	  there:U	$i==100
+	    baz()
+	    next there if $i==50
+	    $i++
+	  anywhere:W	$i!=1000
+	    next anywhere if $i%40
+	    foobar()
+      gives :
+
+	sub foo
+	{
+	  here:
+	  for ($i=1;$i<10;$i++) {
+	    next here if $i==5;
+	    bar();
+	  }
+	  there:
+	  do {
+	    baz();
+	    next there if $i==50;
+	    $i++;
+	  } until	$i==100;
+	  anywhere:
+	  while ($i!=1000) {
+	    next anywhere if $i%40;
+	    foobar();
+	  }
+	}
+map	array	stmt
+  file	perl.tru
+    map
+      Parameters :
+        map		indicator	.*
+        array	optional	.+	the Array over what the map works
+        statement	optional	.+	the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  map	@A	s/a/b/
+	  map	@B
+	    s/x/y/
+	    s/ /\t/
+      gives :
+
+	sub foo
+	{
+	  map {
+	    s/a/b/;
+	  } @A;
+	  map {
+	    s/x/y/;
+	    s/ /\t/;
+	  } @B;
+	}
+package	pkg
+  file	perl.tru
+    naming the package
+      Parameters :
+        package	indicator	.*
+        pkg		mandatory	.+	the package name
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	package	myPackage
+      gives :
+	package myPackage;
+req_or_use	req
+  file	perl.tru
+    q require/use statement
+      Parameters :
+        req_or_use	indicator	.+
+        req		optional	.+	the name of the package
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	require	packagea
+	use
+	  packageb
+	  packagec
+      gives :
+	require packagea;
+	use packageb;
+	use packagec;
+req
+  file	perl.tru
+    inside a req_or_use
+      Parameters :
+        req		mandatory	.+	the package name
+      Example :
+        see	req_or_use
+p_BEGIN	stmt
+  file	perl.tru
+    BEGIN statement or block
+      Parameters :
+        p_BEGIN	indicator	.*
+        stmt	optional	.+	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	BEGIN
+	  $a=1
+      gives :
+	BEGIN {
+	  $a=1;
+	}
+END	stmt
+  file	perl.tru
+    an END statement or block
+      Parameters :
+        END		indicator	.*
+        stmt	optional	.+	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	END
+	  "sum = $sum"
+      gives :
+	END {
+	  print "sum = $sum";
+	}
+disp	bufname
+  file	perl.tru
+    disp-statement or block
+      Parameters :
+        disp	indicator	.+
+        bufname	optional	.+	desc
+      This is only valid if perl_tru is invoked with -vim.
+      It is intended for vim-scripts and requires the plugin disp.vim.
+      See the documentation for disp.vim for more details.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos -vim
+	foo
+	  disp	files
+	    dir		"/etc"
+      gives :
+
+	sub foo
+	{
+	  disp {
+	    bufname => "files",
+	    dir => "/etc",
+	  };
+	}
+key	value
+  file	perl.tru
+    inside a disp-block
+      Parameters :
+        key		mandatory	.+	the key
+        value	mandatory	.+	the value
+      Example :
+        see	disp
+illegal
+  file	perl.tru
+    inside a disp-block
+      Parameters :
+        illegal	indicator	.*
+      to catch invalid entries
+      Example :
+        see	disp
+negate	cond
+  file	perl.tru
+    internal
+simple_if	cond
+  file	perl.tru
+    internal
+simple_else
+  file	perl.tru
+    internal
+simple_elseif	cond
+  file	perl.tru
+    internal
+continue	stmt
+  file	perl.tru
+    a continue block
+      Parameters :
+        continue	indicator	.*
+        stmt	opional		.*	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  $i=5
+	  W	$i
+	    "i : $i\n"
+	  continue
+	    $i--
+
+	  doc	same as above
+	  $i=5
+	  W	$i	"i : $i\n"
+	  continue	$i--
+      gives :
+
+	sub foo
+	{
+	  $i=5;
+	  while ($i) {
+	    print "i : $i\n";
+	  }
+	  continue {
+	    $i--;
+	  }
+	  #****************************************
+	  # same as above
+	  #****************************************
+	  $i=5;
+	  while ($i) {
+	    print "i : $i\n";
+	  }
+	  continue {
+	    $i--;
+	  }
+	}
+wantListOrObject	c_or_i	comment2
+  file	perl.tru
+    an object, an Array or a argument-list follows
+
+      It comes in two forms
+        Form 1) for outside of an object
+      Parameters :
+        wantListOrObject		mandatory	.*[\{\[\(]\.\.[\)\]\}]	a line containing {..} or [..] or (..)
+        c_or_i				optional	.+			a comment
+        comment2			unused		unused			unused
+
+      2) for inside an object
+      Parameters :
+        wantListOrObject		mandatory	.*			a property-name
+        c_or_i				mandatory	[\{\[\(]\.\.[\)\]\}]	one of {..} or [..] or (..)
+        comment2			optional	.+			a comment
+
+      Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
+
+      Example :	perl_tru -noIntro
+	foo
+	  local $s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
+	  local $a = {..}		here comes an object
+	    answer	42		you know why
+	    p3		[..]		objects can contain arrays
+	      'joo'
+	      'nee'
+	      {..}		arrays can contain objects
+		k1	'Right'
+		k2	'Left'
+	      [..]		arrays can contain arrays
+		'green'
+		'blue'
+	    # objects, arglists and arrays can contain subs
+	    sub	$a,$b
+		just return the sum of the two args
+	      return $a+$b
+	  local $myDraw = Drawing([{..}])
+	    x	"red"
+	    y	"green"
+	  local $fox=bax("nice",..)
+	    "foxbax"
+	    sub	$r
+	      return $r*$r
+	bax	$a,$b,$code
+	  print $code()
+      gives :
+	#!/usr/bin/perl
+	#  protos
+	sub foo;
+	sub bax($$$);
+
+	sub foo
+	{
+	  local $s = "(..)";                               # this is not treated by wantListOrObject because of the ##PURE## in here
+	  local $a = {                                     # here comes an object
+	    answer => 42,                                  # you know why
+	    p3 => [                                        # objects can contain arrays
+	      'joo',
+	      'nee',
+	      {                                            # arrays can contain objects
+	        k1 => 'Right',
+	        k2 => 'Left'
+	      },
+	      [                                            # arrays can contain arrays
+	        'green',
+	        'blue'
+	      ]
+	    ],
+	    # objects, arglists and arrays can contain subs
+	    ### 
+	    #  just return the sum of the two args
+
+	    sub ($$)
+	    {
+	      local ($a,$b) = @_;
+	      return $a+$b;
+	    }
+	  };
+	  local $myDraw = Drawing([{
+	    x => "red",
+	    y => "green"
+	  }]);
+	  local $fox=bax("nice",
+	    "foxbax",
+
+	    sub ($)
+	    {
+	      local ($r) = @_;
+	      return $r*$r;
+	    }
+	  );
+	}
+
+	sub bax($$$)
+	{
+	  local ($a,$b,$code) = @_;
+	  print $code();
+	}
+arrayelem	comment
+  file	perl.tru
+    an element of a array variable
+      Parameters :
+        arrayelem	mandatory	.+	the element
+        comment		optional	.+	a comment for this element
+      Example :	js_tru -noIntro
+	local @a = [..]
+	  'one'
+	  'two'
+      gives :
+	local @a = [
+	  'one',
+	  'two'
+	];
+property	value	comment
+  file	perl.tru
+    a property and its value
+      Parameters :
+        property	mandatory	.+	the property
+        value		mandatory	.+	the value of the property
+        comment	optional		.+	a comment
+      Example :	js_tru -noIntro
+	local $a = {..}
+	  uno	'one'
+	  duo	'two'
+      gives :
+	local $a = {
+	  uno : 'one',
+	  duo : 'two'
+	};
+global code
+  file	../globalCode.tru
+    For code outside any function
+      Parameters :
+        global code		indicator	.*
+      some languages, such as perl, sh or vim allow
+      code outside any function.
+      This is handled here.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	global code
+	  "running"
+      gives :
+	#Code outside any function
+	print "running";

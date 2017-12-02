@@ -1,0 +1,41 @@
+style
+  Title	signature (How To Read)
+How to read the signature.
+  The signature defines the name and the parameters of an action.
+
+  The parameters:
+      are indicated by a color-change.
+      have not necessarily the same name as in the structure. Only their positions are relevant.
+  The details of the parameters are shown in a table with four columns:
+      name
+      type
+      regexp
+      description
+  name
+    This is the name of the parameter.
+    The first parameter is also the name of the action.
+    The name can contain any characters (other than tab).
+    Its value is accessible in the implementation of the action as:
+	$name			if the name is a valid perl-var
+	${"name"}		in all cases
+    A special case is the name '*' (a single star) representing any number of parameters.
+  type
+    the type can be either:
+	mandatory		this parameter must be provided.
+	optional		this parameter is optional.
+	indicator		this action introduces a special block.
+  regexp
+    a perl-regexp that matches the field.
+    The regexp is anchored in ^ and $, so the whole field must match.
+    This regexp does not define when this action is activated (this is controlled by the structure).
+    It merely is an indication, how a valid value looks like.
+    Some frequently used expressions
+      definitions
+	.*	any sequence of characters.
+	  This indicates, that the value is not used at all.
+	.+	any (non-empty) sequence of characters.
+	  This indicates, that the value is used as given
+	a|b	either a or b.
+	  This indicates, that the value is relevant
+  description
+    a short description for this parameter

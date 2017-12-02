@@ -1,0 +1,34 @@
+VERSION	3.0
+##	ATTICREAD
+##	  After a line is unshifted from ATTIC and $level is calculated.
+##	  not applied to
+##	      lines read from input
+##	      empty lines
+##	  $_ holds the line as read (including all indent and tabs)
+##	  You can
+##	      modify $_ at will.
+##	      adjust $level here.
+##	  Return
+##	      1 to skip this line
+##	      2 to end processing
+##	      0 for normal processing (supplied automatically)
+ATTICREAD
+  s/^/--/;
+  return 1 if /skipp/;
+  return 2 if /stop/;
+actions
+  line
+    >
+      if ($line eq 'line2') {
+        push @ATTIC,(
+          "via attic 1",
+          "",                   # ATTICREAD not applied here (because it is empty)
+          "via attic 2",
+          "skipp",              # skipped (ATTICREAD returns 1)
+          "via attic 3",
+        );
+      } else {
+	$. : $_
+      }
+structure
+	line

@@ -1,0 +1,41 @@
+Running
+you gave me arg b
+        thank you very much
+-a	1
+-b	/tmp/perltest.out
+-c	
+-d	0
+-t	0
+-s	
+a is one
+a is not two
+a is not null
+0 not matched
+10 smaller 30
+20 smaller 30
+30 not matched
+40 equal fourty
+  i is not zero
+50 greater fourty
+60 greater fourty
+. 0 : 0
+.. 1 : 1
+......... 4
+ 3
+ 2
+ 1
+ 0
+i : 5
+i : 4
+i : 3
+i : 2
+i : 1
+1
+2
+3
+4
+5
+ich:du:er
+wir ihr sie
+zwei
+1111222333777

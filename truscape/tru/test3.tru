@@ -1,0 +1,9 @@
+VERSION	3.0
+actions
+  a
+    >
+  b
+    >
+structure
+	a	=	a
+	    b	=	b

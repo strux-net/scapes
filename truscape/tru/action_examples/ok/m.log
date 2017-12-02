@@ -1,0 +1,481 @@
+building intro_tru
+perl ../tru intro.tru >intro_tru
+GOOD	intro_tru
+testing intro_tru
+perl intro_tru intro.in
+inaction	music
+depthaction	music
+inaction	u2
+depthaction	u2
+outaction	u2
+inaction	r.e.m
+depthaction	r.e.m
+outaction	r.e.m
+outaction	music
+inaction	film
+depthaction	film
+inaction	m.a.s.h
+depthaction	m.a.s.h
+outaction	m.a.s.h
+inaction	sin city
+depthaction	sin city
+outaction	sin city
+outaction	film
+inaction1	demo
+inaction2	demo
+depthaction1	demo
+depthaction2	demo
+outaction2	demo
+outaction1	demo
+seeing one uno 1
+first  definition of b1 sees 10/20/30
+second definition of b1 sees 10/20/30
+third  definition of b1 sees 10/20/30
+building OPTIONSandUSAGE_tru
+perl ../tru OPTIONSandUSAGE.tru >OPTIONSandUSAGE_tru
+GOOD	OPTIONSandUSAGE_tru
+testing OPTIONSandUSAGE_tru
+echo "sentinel" | perl OPTIONSandUSAGE_tru
+Options are :
+  a        : 
+  b        : 
+  c        : default
+  longName : 
+echo "sentinel" | perl OPTIONSandUSAGE_tru -a -b /tmp/x -c /tmp/y -longName
+Options are :
+  a        : 1
+  b        : /tmp/x
+  c        : /tmp/y
+  longName : 1
+echo "sentinel" | perl OPTIONSandUSAGE_tru -z
+Unknown option: z
+usage : scriptname [Options] files ....
+This text is written to stderr.
+
+Empty lines survive (like the one above)
+tabs	survive		also.
+ indent
+      at any level is possible
+No variable interpolation (like for $var) is done.
+
+The USAGE is called automatically if an invalid option is given.
+It can also be called as usage() (e.G in the DOC-action)
+
+OPTIONS:
+       -a		short-text for option a
+		description for this option.
+		 can continue on any indent.
+		 and	can contain	any number of		tabs
+		 as well as
+
+		 empty lines as above.
+       -b:type		short-text for option b
+		the type is any string, e.G "file", or "number" or "date".
+		it is intended as an indication of what kind of value is expected here.
+       -c:type[default]	short-text for option c
+		the default-value for $opt_c is set here
+       -longName	short-text for option longName
+
+       -vhelp shows more options
+makefile:97: recipe for target 'test_OPTIONSandUSAGE_tru' failed
+make[1]: [test_OPTIONSandUSAGE_tru] Error 1 (ignored)
+perl OPTIONSandUSAGE_tru -version
+  OPTIONSandUSAGE.tru	3.0
+building OPTIONSandUSAGE_part2_tru
+perl ../tru OPTIONSandUSAGE.tru OPTIONSandUSAGEpart2.tru >OPTIONSandUSAGEpart2_tru
+GOOD	OPTIONSandUSAGEpart2_tru
+testing OPTIONSandUSAGE_part2_tru
+echo "sentinel" | perl OPTIONSandUSAGEpart2_tru
+Options are :
+  a        : 
+  b        : 
+  c        : default
+  longName : 
+echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -a -b /tmp/x -c /tmp/y
+Options are :
+  a        : 1
+  b        : /tmp/x
+  c        : /tmp/y
+  longName : 
+echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -z
+Unknown option: z
+usage : scriptname [Options] files ....
+This text is written to stderr.
+
+Empty lines survive (like the one above)
+tabs	survive		also.
+ indent
+      at any level is possible
+No variable interpolation (like for $var) is done.
+
+The USAGE is called automatically if an invalid option is given.
+It can also be called as usage() (e.G in the DOC-action)
+additional usage text
+
+OPTIONS:
+       -a		short-text for option a
+		description for this option.
+		 can continue on any indent.
+		 and	can contain	any number of		tabs
+		 as well as
+
+		 empty lines as above.
+       -b:type		short-text for option b
+		the type is any string, e.G "file", or "number" or "date".
+		it is intended as an indication of what kind of value is expected here.
+       -c:type[default]	short-text for option c
+		the default-value for $opt_c is set here
+       -longName	short-text for option longName
+       -d		short-text for option d
+
+       -vhelp shows more options
+makefile:111: recipe for target 'test_OPTIONSandUSAGE_part2_tru' failed
+make[1]: [test_OPTIONSandUSAGE_part2_tru] Error 1 (ignored)
+perl OPTIONSandUSAGEpart2_tru -version
+  OPTIONSandUSAGE.tru	3.0
+  OPTIONSandUSAGEpart2.tru	3.0
+building CLEAR_tru
+perl ../tru CLEAR.tru >CLEAR_tru
+GOOD	CLEAR_tru
+testing CLEAR_tru
+echo "overwrittenAction" | perl CLEAR_tru
+text from the second action-definition (in-action)
+text from the first action-definition (depth-action)
+text from the second action-definition (depth-action) - added to the text from the first definition
+text from the second action-definition (out-action)
+building outstatements_tru
+perl ../tru outstatements.tru >outstatements_tru
+tru : warning : stray blanks in an empty line at outstatements.tru @ 18
+tru : warning : stray blanks in an empty line at outstatements.tru @ 33
+GOOD	outstatements_tru
+testing outstatements_tru
+echo "demoAction" | perl outstatements_tru
+Here come some output lines.
+They all start with a tab (NOT 8 spaces).
+They can contain tabs	like here or		here.
+	They can also be continued with a second tab.
+They are subject to backslash interpretation and variable interpolation like (# 1 or -).
+  Perl calls this "Interpolative context"
+If you want an empty line in the output you can represent it with a line that only consists "       |", like the following
+
+A deprecated way to the same is with a line that only consists of a tab, like the following
+
+tru will print the warning "tru : warning : stray blanks in an empty line at .... " in this case.
+All subsequent output-lines form an implicit code-block looking like
+  {
+    tru::parse( <a list of all subsequent output-lines> );
+  }
+An empty line inside such a block of output statements ends the current tru::parse() block.
+This line starts a second block (since the previous line is really empty)
+This has no consequences if you do not have any perl statements in your action.
+This forming of blocks has the consequence, that you can easily have 'dangling' conditions like:
+The previous line was really empty. Hence this line starts a new block and will be visible.
+building callingActions_tru
+perl ../tru callingActions.tru >callingActions_tru
+GOOD	callingActions_tru
+testing callingActions_tru
+perl callingActions_tru callingActions.in
+going to call calledAction
+>calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+-calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+<calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+after call calledAction
+depth of caller
+out of caller
+going to call calledAction
+>calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+-calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+more Text
+<calledAction:arg1:arg1:arg1	arg2:arg1 arg2
+after call calledAction
+depth of caller
+out of caller
+building redirectingActions_tru
+perl ../tru redirectingActions.tru >redirectingActions_tru
+GOOD	redirectingActions_tru
+testing redirectingActions_tru
+perl redirectingActions_tru redirectingActions.in
+>:this line is processed by action calledAction:redirectedAction:this line is processed by action calledAction:this line is processed by action calledAction
+-:this line is processed by action calledAction:redirectedAction:this line is processed by action calledAction:this line is processed by action calledAction
+<:this line is processed by action calledAction:redirectedAction:this line is processed by action calledAction:this line is processed by action calledAction
+>:style:style1:style	goodstyle:style goodstyle
+-:style:style1:style	goodstyle:style goodstyle
+three
+four
+<:style:style1:style	goodstyle:style goodstyle
+going to call calledAction
+>:trigger:trigger:trigger	:trigger
+-:trigger:trigger:trigger	:trigger
+after call calledAction
+depth of trigger
+one
+two
+<:trigger:trigger:trigger	:trigger
+out of trigger
+>:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+-:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+>:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+-:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+one
+two
+<:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+<:calledAction:calledAction:calledAction	one	eins:calledAction one eins
+>:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+-:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+>:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+-:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+three
+four
+<:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+<:calledAction:calledAction:calledAction	style	goodstyle:calledAction style goodstyle
+>:one:style1:one	eins:one eins
+-:one:style1:one	eins:one eins
+one
+two
+<:one:style1:one	eins:one eins
+building arguments_tru
+perl ../tru arguments.tru >arguments_tru
+tru : Warning 'arg-name problematic' in arguments.tru @ 92
+	Name '' is not a wise choice for arg (Perl gives $ a special meaning)
+GOOD	arguments_tru
+testing arguments_tru
+perl arguments_tru arguments.in
+country : Brunei
+city    : Bandar Seri Begawan
+  Brunei	Bandar Seri Begawan
+I want to have a stupid answer
+Ok, I answer pi
+I want to have a universial answer
+Ok, I answer 42
+$a1 will be set in the following block. Up to now it is undefined and evals to an empty string ('')
+in-action    of a1
+   $a1 has the value 'l1 f1'
+   $a2 has the value 'l1 f2'
+   the value $a1 can also be found in $F[0] : l1 f1
+   the value $F[0] is still 'l1 f1', whereas $a1 is now 'L1 F1'
+depth-action of a1.
+   $a1 has the value 'L1 F1'
+   $a2 has the value 'l1 f2'
+in-action    of a1
+   $a1 has the value 'l2 f1'
+   $a2 has the value 'l2 f2'
+   the value $a1 can also be found in $F[0] : l2 f1
+   the value $F[0] is still 'l2 f1', whereas $a1 is now 'L2 F1'
+depth-action of a1.
+   $a1 has the value 'L2 F1'
+   $a2 has the value 'l2 f2'
+out-action   of a1.
+   $a1 has the value 'L2 F1'
+   $a2 has the value 'l2 f2'
+out-action   of a1.
+   $a1 has the value 'L1 F1'
+   $a2 has the value 'l1 f2'
+$a1 has now still the value 'L1 F1'
+Nr of coefficients : 1
+  coefficient[0] = 1
+Nr of coefficients : 2
+  coefficient[0] = 1
+  coefficient[1] = 1
+Nr of coefficients : 3
+  coefficient[0] = 1
+  coefficient[1] = 2
+  coefficient[2] = 1
+Nr of coefficients : 4
+  coefficient[0] = 1
+  coefficient[1] = 3
+  coefficient[2] = 3
+  coefficient[3] = 1
+Nr of coefficients : 5
+  coefficient[0] = 1
+  coefficient[1] = 4
+  coefficient[2] = 6
+  coefficient[3] = 4
+  coefficient[4] = 1
+galaxy is in the chain of galaxy
+solar system is in the chain of galaxy solar system
+earth is in the chain of galaxy solar system earth
+europe is in the chain of galaxy solar system earth europe
+germany is in the chain of galaxy solar system earth europe germany
+PERL_VERSION : v5.22.1
+PERL_VERSION : a value for a problematic arg
+PERL_VERSION : a value for a problematic arg
+building perl_code_tru
+perl ../tru perl_code.tru >perl_code_tru
+GOOD	perl_code_tru
+testing perl_code_tru
+perl perl_code_tru perl_code.in
+This is a simple output line (it starts with a tab).
+The next is perl-code (it starts with 4 spaces)
+me has 2 characters
+These two lines are only output for one particular person.
+They are output twice (because the example is repeated)
+These two lines are only output for one particular person.
+They are output twice (because the example is repeated)
+you can also have a line-break like here
+....if you are so inclined to.
+Though there is probably no good point in putting a newline directly like above it may be worth to be used like shown in the silly example below.
+line1
+line2
+This is a simple output line (it starts with a tab).
+The next is perl-code (it starts with 4 spaces)
+you has 3 characters
+you can also have a line-break like here
+....if you are so inclined to.
+Though there is probably no good point in putting a newline directly like above it may be worth to be used like shown in the silly example below.
+line1
+line2
+> $var1 = ''
+> $var2 = 'visible'
+< $var1 = ''
+< $var2 = ''
+> l1 (l1,l1)
+> l2 (l2,l2)
+< l2 (l2,l2)
+< l1 (l1,l1)
+building marks_tru
+perl ../tru marks.tru >marks_tru
+GOOD	marks_tru
+testing marks_tru
+perl marks_tru marks.in
+marks_tru : some text was never output (due to unset marks) when processing marks.in
+  For mark mark_4b
+	three
+  For mark mark_neverset
+	This text will not be found in the output because the mark is never set.
+  For mark mark_neverset1
+	Also this text is never output for the same reasons.
+	This is here to demonstrate how the truer will tell this fact on STDERR
+"example1" started. Mark for meta set in in-action. The mark is defined when using it.
+meta : one
+meta : two
+"example1" finished
+any text here
+more text here
+"example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
+meta : one
+meta : two
+# again listing the metas
+# one
+# two
+"example2" finished
+any text here
+more text here
+This example demonstrates usemark() and unusemark()
+one
+two
+all metas are collected before this line
+this example demonstrates the relevance of the order of marks that are in direct succession
+small 1
+small 2
+big   1
+big   2
+three
+end of example4
+this expamle demonstrates how to unset a mark
+building DOC_tru
+perl ../tru DOC.tru >DOC_tru
+GOOD	DOC_tru
+testing DOC_tru
+perl DOC_tru DOC.in1 DOC.in2
+start of the Document
+$DOC is 'DOC.in1'
+@ARGV is 'DOC.in1 DOC.in2'
+$_ is 'DOC.in1 DOC.in2'
+a line from first file (DOC.in1)
+a line from second file (DOC.in2)
+end of the Document
+building UNMATCHED_default_tru
+perl ../tru UNMATCHED_default.tru >UNMATCHED_default_tru
+GOOD	UNMATCHED_default_tru
+testing UNMATCHED_default_tru
+perl UNMATCHED_default_tru UNMATCHED.in
+UNMATCHED_default_tru - No match for UNMATCHED.in @ 2 : not accepted line
+building UNMATCHED_tru
+perl ../tru UNMATCHED_default.tru UNMATCHED.tru >UNMATCHED_tru
+GOOD	UNMATCHED_tru
+testing UNMATCHED_tru
+perl UNMATCHED_tru UNMATCHED.in
+this line is not matched : not accepted line
+building READ_tru
+perl ../tru READ.tru >READ_tru
+GOOD	READ_tru
+testing READ_tru
+perl READ_tru READ.in
+1 : a line
+3 : another line
+building ATTICREAD_tru
+perl ../tru ATTICREAD.tru >ATTICREAD_tru
+GOOD	ATTICREAD_tru
+testing ATTICREAD_tru
+perl ATTICREAD_tru ATTICREAD.in
+1 : line1
+2 : --via attic 1
+2 : 
+2 : --via attic 2
+2 : --via attic 3
+3 : line3
+building READempty_tru
+perl ../tru READempty.tru >READempty_tru
+GOOD	READempty_tru
+testing READempty_tru
+perl READempty_tru READempty.in
+1 : 'one' one
+2 : '' two
+3 : '' two
+4 : 'two' two
+building WRITE_tru
+perl ../tru WRITE.tru >WRITE_tru
+GOOD	WRITE_tru
+testing WRITE_tru
+echo "anything" | perl WRITE_tru -stream
+WRITE_tru - No match for - @ 1 : anything
+twO
+three
+fOur
+five
+echo "anything" | perl WRITE_tru
+WRITE_tru - No match for - @ 1 : anything
+twO
+three
+fOur
+five
+building FLUSH_tru
+perl ../tru FLUSH.tru >FLUSH_tru
+GOOD	FLUSH_tru
+testing FLUSH_tru
+echo "anything" | perl FLUSH_tru
+FLUSH_tru - No match for - @ 1 : anything
+One
+Two
+Three
+Four
+Five
+building NEWFILE_tru
+perl ../tru NEWFILE.tru >NEWFILE_tru
+GOOD	NEWFILE_tru
+testing NEWFILE_tru
+perl NEWFILE_tru NEWFILE1.in NEWFILE2.in
+1 : one
+2 : two
+closing NEWFILE1.in
+switching to NEWFILE2.in
+3 : three
+4 : four
+closing NEWFILE2.in
+no more files to process
+building BEGIN_tru
+perl ../tru BEGIN.tru >BEGIN_tru
+GOOD	BEGIN_tru
+testing BEGIN_tru
+echo "anything" | perl BEGIN_tru
+BEGIN_tru - No match for - @ 1 : anything
+one
+building HereText_tru
+perl ../tru HereText.tru >HereText_tru
+GOOD	HereText_tru
+testing HereText_tru
+echo "anything" | perl HereText_tru
+HereText_tru - No match for - @ 1 : anything
+one
+France
+  Paris

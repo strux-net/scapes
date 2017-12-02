@@ -1,0 +1,23 @@
+VERSION	3.0
+OPTIONS
+	a		text for option a
+		Description for option a
+		 and	more with tab
+	b:file[~/.t.rc]	text for option b
+	n:count[3]	the surrounding count
+	size:scale[1.5]	the scaling factor
+	root:dir[]	switch root directory
+	root:dir	switch root directory
+USAGE	shorttext
+	nothing special
+	  just for testpurposes
+OPTIONS
+	c	text for option c
+USAGE
+	more shortinfo
+actions
+  DOC
+    >
+	opt_a = $opt_a
+	opt_b = $opt_b
+	opt_c = $opt_c

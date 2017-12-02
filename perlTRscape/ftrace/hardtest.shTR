@@ -1,0 +1,7 @@
+VERSION	3.0
+usage	./hardtest.sh
+	internal use
+main
+  F	f in `ls testfiles.in/`
+    ./ftrace -o testfiles.out/$f -s -v -Pp -f testfiles.in/$f
+  vim -c "DirDiff testfiles.out testfiles.out.ok"

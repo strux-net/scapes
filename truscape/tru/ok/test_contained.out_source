@@ -1,0 +1,54 @@
+USAGE	shorttext
+	this is one of the tru testsuite
+VERSION	test17.tru : 3.0
+OPTIONS
+	a		text for option a
+		description for this option
+		  can continue on any indent
+		  and	can contain tabs
+	b:type		text for option b
+	c:type[default]	text for option c
+FLUSH
+WRITE
+  s:^(?!(////|#)):" "x($level+$offset):e;
+BEGIN
+  $offset=-1;
+NEWFILE
+READ
+ATTICREAD
+SPLITAPPLY
+actions
+  ?-	cond
+    >
+      usemark("mark_if$level");
+	} else if ($cond) {
+    <
+      unusemark();
+  else
+    >
+      usemark("mark_if$level");
+	} else {
+    <
+      unusemark();
+  main
+    >
+	main() {
+    <
+	}
+  ?	cond
+    >
+	if ($cond) {
+    <
+      setmark("mark_if$level");
+	}
+  stmt
+    >
+	$stmt
+here text
+#file	test17.tru
+structure
+	main		=	main
+	  ?	cond	>	\?
+	  ?-	cond	>	\?-
+	  -		> else	\-
+	  stmt		>

@@ -1,0 +1,16 @@
+*ZoomFont.txt*   (un-)zoom fontsize
+
+COMMANDS FOR ZoomFont                                                             *ZoomFont-commands*
+
+                                                                                  *ZoomFont-<C-kPlus>*
+  <C-kPlus> : increase the font~
+
+    This command can also be found in the menu under :
+      Strux -> ZoomFont -> In
+                                                                                  *ZoomFont-<C-kMinus>*
+  <C-kMinus> : decrease the font~
+
+    This command can also be found in the menu under :
+      Strux -> ZoomFont -> Out
+==============================================================================
+vim:ft=help

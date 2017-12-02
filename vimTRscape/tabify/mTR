@@ -1,0 +1,6 @@
+title			tabalign a visual region
+tabify.vim	tabify.vimTR
+  install
+    m_copy tabify.vim ~/.vim/plugin
+  doc
+    vimdefault	txt html

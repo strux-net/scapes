@@ -1,0 +1,67 @@
+##	VERSION
+##	  This defines the version of this file
+##	  It can be any string.
+##
+##	  If you provide a VERSION, then the truer will have the additional option -version
+##
+##	  As shown in the example for OPTIONSandUSAGEpart2, which is build from two input-files,
+##	  there can be many VERSION-Entries for one truer
+##	OPTIONS
+##	  Here you can define the options a truer accepts.
+##	  Options
+##	      are case sensitive     (-a and -A are different Options)
+##	      cannot be concatenated (-a -b cannot be said as -ab)
+##	      can be toggle (on/off) or they can accept an argument.
+##
+##	  for an option with name 'Name' a perl-var with name $opt_Name is created.
+##
+##	  technical note:
+##	      Options are parsed using the perl-module Getopt::Long
+##	      this module is used in it's default configuration with the exception of "no_ignore_case"
+##	USAGE
+##	  Here you can define the usage text.
+##	  the text is defined by simply stripping one leading tab from each line.
+##	  this text is printed to stderr automatically whenever an invalid option is given.
+##	  you can also call usage() to print this text.
+##	  the truer is terminated, when the usage is output.
+##	  more than one USAGE can exist.
+##	  they all together make up the usage-text.
+##	  exactly the first USAGE should have a short text.
+VERSION	3.0
+OPTIONS
+	a		short-text for option a
+		description for this option.
+		 can continue on any indent.
+		 and	can contain	any number of		tabs
+		 as well as
+
+		 empty lines as above.
+	b:type		short-text for option b
+		the type is any string, e.G "file", or "number" or "date".
+		it is intended as an indication of what kind of value is expected here.
+	c:type[default]	short-text for option c
+		the default-value for $opt_c is set here
+	longName	short-text for option longName
+#
+# see OPTIONSandUSAGEpart2.tru for continuing OPTIONS and USAGE
+USAGE	scriptname [Options] files ....
+	This text is written to stderr.
+
+	Empty lines survive (like the one above)
+	tabs	survive		also.
+	 indent
+	      at any level is possible
+	No variable interpolation (like for $var) is done.
+
+	The USAGE is called automatically if an invalid option is given.
+	It can also be called as usage() (e.G in the DOC-action)
+actions
+  DOC
+    >
+	Options are :
+	  a        : $opt_a
+	  b        : $opt_b
+	  c        : $opt_c
+	  longName : $opt_longName
+structure
+	line	*	>>

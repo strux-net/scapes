@@ -1,0 +1,1375 @@
+VERSION	3.0
+USAGE	vim_tru [Options] [<file> ....]
+
+	produces a vim-script
+
+	find details in
+	    ~/strux/doc/vim_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/vim_tru.html
+
+	per convention the input files have the extension .vimTR
+OPTIONS
+	obeyBang		Obey ! in functions. Default is : all functions are !
+BEGIN
+  $cc = "\"";	# Comment Character specific to this language
+  $plang = "vim";
+  $true = "1";
+  sub menuSanityCheckInit
+  {
+    %MenuChecker = ();
+    $MenuCheckerHadWarning = 0;
+  }
+  sub menuSanityCheck($)
+  {
+    my ($menu) = @_;
+    (my $first,my $last) = $menu =~ /(.*)\.(.*)/;
+    if ((my $letter) = $last =~ /\&(.)/) {
+      (my $cleanMenu = $first) =~ s/\&//g;
+      if (defined $MenuChecker{$cleanMenu}{lc($letter)}) {
+        print STDERR "WARNING in line $. letter $letter already set at line $MenuChecker{$cleanMenu}{lc($letter)}{line} : $MenuChecker{$cleanMenu}{lc($letter)}{f}\n";
+        $MenuCheckerHadWarning = 1;
+      } else {
+        $MenuChecker{$cleanMenu}{lc($letter)}{line}   = $.;
+        $MenuChecker{$cleanMenu}{lc($letter)}{f}      = $_;
+      }
+    } else {
+      print STDERR "WARNING no & for $. : $_\n";
+    }
+  }
+  sub menuSanityCheckExit
+  {
+    if ($MenuCheckerHadWarning) {
+      print STDERR "HINT - free letters:\n";
+      for my $key (sort keys %MenuChecker) {
+        print STDERR "  $key :";
+        for my $letter ('a' .. 'x','0'.. '9') {
+          if (!defined($MenuChecker{$key}{$letter})) {
+            print STDERR " $letter";
+          }
+        }
+        print STDERR "\n";
+      }
+    }
+  }
+actions
+  VERSION	version
+    continued
+      the version is just put as a comment into the output-file and otherwise ignored.
+
+      Example :	vim_tru -noIntro
+	VERSION	2.0
+	Foo
+	  'hello world'
+    >
+	" based on $ARGV , version : $version
+  DOC
+    A vim-script
+      The created code is a vim-script
+      Example :	vim_tru
+	usage	just for demonstration
+	map
+	  <f10>	:call Foo()<cr>
+	Foo
+	  'Hello World'
+      Limitations :
+        Do not use names beginning with vimtru for your variables.
+    >
+      ->introcomment
+  main
+    the top-level code (outside of any function)
+      Parameters :
+        main	indicator	.*
+      There can be more than one main section.
+      Though it looks like a function it is'nt one.
+      Example :	vim_tru -noIntro
+	usage	just for demonstration
+	main
+	  s:cpo_save = &cpo
+	  set	cpo&vim		I want the defaults
+	map
+	  X	\<Esc>		as in the example for ":he cpo-B"
+	  Y	\<CR>		my own invention
+	main
+	  &cpo = s:cpo_save
+	  unlet s:cpo_save
+    >
+      setmark("mark_autodoc");
+      $offset-=2;
+    <
+      $offset+=2;
+  function	args	modifiers
+    function
+      Parameters :
+        function	mandatory	.+	the function name
+        args		optional	.+	the parameters of the function
+        modifiers	optional	.+	Bram call them also arguments. Things like range, abort or dict
+      Introduces a function and it's parameters.
+      The function is created with ! unless -obeyBang is given.
+      Example :	vim_tru -noIntro
+	Foo
+	  return "Foo"
+	Bar	i
+	  return a:i*a:i
+	RemoveTrailingWhites	 	range
+	  save_cursor = getpos(".")
+	  echo 'nothing changed'	can be overwritten by the next statement
+	  execute a:firstline . "," . a:lastline . 's/[ \t\r]\+$//e'
+	  call setpos('.', save_cursor)
+	!FooBar
+	  return 'this function will have the ! independent of -obeyBang'
+      Note :
+        in above example a <space> is used as args for RemoveTrailingWhites
+    >
+      setmark("mark_autodoc");
+      if ($function =~ /^!/) {
+	function$function($args) $modifiers
+      } else {
+        if ($opt_obeyBang) {
+	function $function($args) $modifiers
+        } else {
+	function!$function($args) $modifiers
+        }
+      }
+    <
+	endfunc
+  For	cond	stmt
+    l	e1	e2	e3
+    continued
+      vim has no for-loop of the form
+         for (i=0;i<10;i++)
+      vim_tru mimics this kind of loop with the same semantics as the corresponding loop in c or perl has.
+      Example :	vim_tru -noIntro
+	main
+	  F	i=1;i<4;i=i+1
+	    'i inside loop : ' i
+	  'i after loop : ' i
+      Note :
+        i++ and alike is not supported by vim.
+        Use i=i+1 instead.
+    >
+      ($e1,$e2,$e3) = $cond =~/(.*);(.*);(.*)/;
+	" for ($cond)
+      $offset-=2;
+      stmt($e1);
+      $offset+=2;
+	while 1
+      if ($e2) {
+	  if !($e2)
+	    break
+	  endif
+      }
+    <
+      stmt($stmt);
+      stmt($e3);
+	endwhile
+  U	cond	stmt
+    continued
+    >
+	while 1
+      stmt($stmt)
+    <
+	  if $cond
+	    break
+	  endif
+	endwhile
+  W	cond	stmt
+    continued
+    >
+	while $cond
+      stmt($stmt);
+    <
+	endwhile
+  negate	cond
+    internal
+    >
+      $cond = "!($cond)";
+  simple_if	cond
+    internal
+    >
+	if $cond
+    <
+	endif
+  simple_else
+    internal
+    >
+	else
+  simple_elseif	cond
+    internal
+    >
+	elseif $cond
+  usageline
+    continued
+    >
+      $level=0;
+	"$indent$_
+  usage	shortdesc
+    continued
+    >
+	"usage for $shortdesc
+    <
+      setmark("mark_com");
+      setmark("mark_mappings");
+      setmark("mark_confvars");
+	"
+	"---------------------------------------------
+      setmark("mark_helpitems");
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          echo statement
+      VIM allows quote(') and double-quote(") for string delimiter.
+      But " is also the comment character.
+      Hence the string must be delimited with single quotes(') to distinguish it from a comment.
+
+      If the statement has the form
+          var = value
+      then it is transformed to
+          let var = value
+      Put a : in front of the statement to disable this
+
+      Example :	vim_tru -noIntro
+	Foo
+	  b:count=1			the linecount
+	  ?	b:count != 1		'internal error'
+	  'count :' b:count		tell it to the user
+	  "count :' b:count		this is a comment
+	  :put='done'			see ":help :put" for what it means
+
+    -
+      if ($comment) {
+        $comment =~ s/\t//;		# this \t was added earlier, here, for vim it's no goog
+	$comment
+      }
+      if ($statement =~ /^'/) {
+        # I cannot use " here as for most other languages since " happens to be the comment character in vi and vim
+	echo $statement
+      } elsif ($statement =~ /^\s*([\$@&]|([tbwglsav]:))?\w+\s*=/  or
+               $statement =~ /^\s*\@[\@\/]\s*=/) {
+	let $statement
+      } elsif ($statement ne "") {
+	$statement
+      }
+  initialisation	comment
+    continued
+      The var is a List, the initialisation is a List-item.
+      Example :	vim_tru -noIntro
+	Foo
+	  vars
+	    mylist
+	      1
+	      two
+	      3
+	      "four"
+	    nestlist
+	      [11, 12]
+	      [21, 22]
+	      [31, 32]
+    >
+	\\ $initialisation
+  fancyFor	expr	statement
+    continued
+      Example :	vim_tru -noIntro
+	Foo
+	  F	i=10...20	'Nr : '.i
+  var	comment
+    continued
+    -
+      if ($comment)
+	"$comment
+      if ($NrOfLinesFollowing)
+	let $var = [
+      else
+	let $var
+    <
+      if ($NrOfLinesFollowing)
+	\]
+  au
+    defining autocommands
+      Parameters :
+        au	indicator	.+
+      Start defining autocommands.
+      Example :	vim_tru -noIntro
+	au!
+	au
+	  " only for testing
+	  BufEnter
+	    test.vim
+	      echo "got it"
+	      'this is not a print-statement'
+	      $
+	    another.file	echo "got this too"
+	    <buffer>
+	      perl BufEnter_event()
+	  BufLeave
+	    <buffer>
+	      perl BufLeave_event()
+	  OptionSet?
+	    tabstop	echo "tabstop changed"
+    <
+      if (!$NrOfChilds)
+	$_
+  event
+    an autocommand event
+      Parameters :
+        event	mandatory	.+	The event(s)
+
+      Possible values for event can be found in vim by typing
+          :help autocommand-events
+
+      The event can be followed by a "?"
+        In this case a check whether the event exists is also produced.
+
+      Example :
+        see	au
+    l	checked_au
+    >
+      $offset-=2;
+      if ($checked_au = ($event =~ s/\?$//)) {
+	if exists("#$event")
+        $checked_au = 1;
+        $offset+=2;
+      }
+
+    <
+      if (!$NrOfChilds) {
+	$au $_
+      }
+      if ($checked_au) {
+        $offset-=2;
+	endif
+      }
+      $offset+=2;
+  pattern	cmd
+    an autocommand pattern
+      Parameters :
+        pattern	mandatory	.+	The pattern
+        cmd		optional	.+	an ex-command
+
+      Possible values for pattern can be found in vim by typing
+          :help autocmd-patterns
+      Example :
+        see	au
+    >
+      $offset-=2;
+      if ($cmd) {
+        >>cmd	$cmd
+      }
+      $offset-=2;
+    <
+      $offset+=4;
+  cmd
+    an autocommand command
+      Parameters :
+        cmd		mandatory	.+	an ex-command
+
+      Unlike for a statement here no automatic echo-statement is made for a cmd beginning with '
+      Example :
+        see	au
+    >
+	au $event $pattern $cmd
+  HasMapTo
+    internal
+    >
+      local $mode;
+      if (($mode) = $mapping =~ /^([nvoict])/) {
+        $mode=",'$mode'";
+      }
+
+      (local $replacement=$replacement) =~ s/"/\\"/g;
+	if !hasmapto("$replacement"$mode)
+      $offset+=2;
+    <
+      $offset-=2;
+	endif
+  mapping	shortcut	replacement	comment
+    introducing mappings
+      Parameters :
+        mapping		mandatory	.+\??	type of mapping
+        shortcut		optional	.+	the keysequence to be mapped to
+        replacement		optional	.+	the replacement for the shortcut
+        comment		optional	.+	a comment for this mapping
+      If the mapping ends in a ? then the mapping will only be done if the replacement is not already mapped to something else.
+      Example :	vim_tru -noIntro
+	usage	just for demonstration
+	map <buffer>	K	<nop>	no keywordprg for this buffer 	
+	vnoremap?
+	  x	y	not really useful
+	  u	v	not really useful either
+    >
+      if ($shortcut) {
+        >>shortcut	$shortcut	$replacement	$comment
+      }
+      $offset-=2;
+    <
+      $offset+=2;
+      if (!$NrOfChilds and !$shortcut)
+	$_
+  shortcut	replacement	comment
+    defining vim mappings
+      Parameters :
+        shortcut		mandatory	.+	the keysequence to be mapped to
+        replacement		optional	.+	the replacement for the shortcut
+        comment		optional	.+	a comment for this mapping
+      If the mapping ends in a ? then the mapping will only be done if the replacement is not already mapped to something else.
+      Example :
+        see	mapping
+    >
+      if ((local $mapping=$mapping) =~ s/\?//) {
+        >>HasMapTo
+      }
+      if ($comment) {
+	" $shortcut       -> $comment
+      }
+	$mapping $shortcut $replacement
+      atmark("mark_mappings") {
+        local $offset=-1000;
+	"	$shortcut	$comment
+      }
+  ab	sequence	replacement	comment
+    introducing abbreviations
+      Parameters :
+        ab			mandatory	.+	the abbreviation command
+        sequence		optional	.+	the keysequence to be reassigned
+        replacement		optional	.+	the replacement for the sequence
+        comment		optional	.+	a comment for this abbreviation
+      Example :	vim_tru -noIntro
+	cabbrev	sp	sp<C-\>esubstitute(getcmdline(),'^sp', 'Sp', '')<cr>
+	iab
+	  ts		<C-R>=strftime("%H:%M")<CR>		Time Stamp
+	  dts		<C-R>=strftime("%d.%m.%Y %H:%M")<CR>	Date Time Stamp
+	  ds		<C-R>=strftime("%d.%m.%Y")<CR>		Date Stamp
+      The comment is silently ignored.
+    >
+      if ($sequence) {
+        >>sequence	$sequence	$replacement	$comment
+      }
+      $offset-=2;
+    <
+      $offset+=2;
+      if (!$NrOfChilds and !$sequence)
+	$_
+  sequence	replacement	comment
+    defining an abbreviations
+      Parameters :
+        sequence		mandatory	.+	the keysequence to be reassigned
+        replacement		mandatory	.+	the replacement for the sequence
+        comment		optional	.+	a comment for this abbreviation
+      The comment is silently ignored.
+      Example :
+        see	ab
+    >
+	$ab $sequence $replacement
+  set	setting	comment
+    introducing settings
+      Parameters :
+        set			mandatory	.+	the set command
+        setting		optional	.+	the vim-option
+        comment		optional	.+	a comment for this setting
+      Example :	vim_tru -noIntro
+	set
+	  guifont=DejaVu\ Sans\ Mono\ 9		list of font names to be used in the GUI
+	  splitbelow				a new window is put below the current one
+	  undofile				automatically save and restore undo history
+	  clipboard=
+    >
+      if ($setting) {
+        >>setting	$setting	$comment
+      }
+      $offset-=2;
+    <
+      $offset+=2;
+      if (!$NrOfChilds and !$setting)
+	$_
+  setting	comment
+    defining a setting
+      Parameters :
+        setting		mandatory	.+	the vim-option
+        comment		optional	.+	a comment for this setting
+      Example :
+        see	set
+    >
+      if ($comment) {
+	" $comment
+      }
+	$set $setting
+  S	expr	comment
+    l	switchcount	casecount
+    continued
+      vim natively has no switch/break.
+      vim_tru mimics it with if-statements.
+      The comparison between expression and case is done via ==# (thus matching case).
+      The case does not need to be a constant. It can be any expression.
+      The expression is evaluated only once and can be any type.
+      Example :	vim_tru -noIntro
+	main
+	  S	i
+	    'a'		'One'
+	    'b'		'two'
+	      S	j
+		'A'	'eins'
+		'B'	'zwei'
+		default	'sau viel'
+	    'c'		'three'
+	    default	'something else'
+    >
+      $switchcount = ++$gswitchcount;
+	let vimtruS$switchcount=$expr
+	while 1
+    <
+	  break
+	endwhile
+      $no_break = 0;
+  nobreak
+    continued
+    >
+      $no_break = $noBreak=1;
+  default	statement	comment
+    l	noBreak
+    continued
+    >
+      $offset-=2;
+      stmt($statement);
+    <
+      $offset+=2;
+  case	statement	comment
+    l	noBreak
+    continued
+    >
+      if ($S ne "S*" and !$no_break or $rnr == 1)
+	if vimtruS$switchcount ==# $case
+      else
+	if (vimtruS$switchcount ==# $case) || vimtruS${switchcount}_c == $casecount
+      $no_break=0;
+      stmt($statement);
+      $casecount++;
+    <
+      if ($S ne "S*" and !$noBreak)  {
+	  break
+      } else {
+	  let vimtruS${switchcount}_c = $casecount
+      }
+	endif
+  exampleDesc
+    part of an Example for in Interface mapping
+      Parameters :
+        exampleDesc	mandatory	.+	the Help-Text
+      vim_tru treats this as an ordinary Help-line (same as longhelp).
+      vimInterface2Help_tru treats it specially.
+      Example :
+        see	Interface
+    >
+      >>longhelp	$_
+  exampleLine
+    part of an Example for in Interface mapping
+      Parameters :
+        exampleLine	mandatory	.+	the Help-Text
+      vim_tru treats this as an ordinary Help-line (same as longhelp).
+      vimInterface2Help_tru treats it specially.
+      Example :
+        see	Interface
+    >
+      >>longhelp	$_
+  Example :
+    Introducing an Example
+      Parameters :
+        Example :	indicator	.+
+      vim_tru treats this as an ordinary Help-line (same as longhelp).
+      vimInterface2Help_tru treats it specially.
+      Example :
+        see	Interface
+    >
+      >>longhelp	$_
+  See also :
+    part of an Example for in Interface mapping
+      Parameters :
+        See also :	mandatory	.+	the Help-Text
+      vim_tru treats this as an ordinary Help-line (same as longhelp).
+      vimInterface2Help_tru treats it specially.
+      Example :
+        see	Interface
+    >
+      >>longhelp	$_
+  also
+    part of an Example for in Interface mapping
+      Parameters :
+        also	mandatory	.+	the Help-Text
+      vim_tru treats this as an ordinary Help-line (same as longhelp).
+      vimInterface2Help_tru treats it specially.
+      Example :
+        see	Interface
+    >
+      >>longhelp	$_
+  Interface	buffer
+    l	cmdnr	buffer_indicator
+    The (global or buffer-specific) user interface
+      Parameters :
+        Interface	indicator	v?Interface
+        buffer	optional	.+			the buffer name(s) ( as applicable to :au BufEnter )
+      If parameter buffer is empty then the Interface applies to all buffers.
+      If parameter buffer is <buffer> then the current buffer is affected.
+        This is useful in an ftplugin.
+      If the indicator is vInterface then scope is set to visual mode. Else scope is empty.
+      Example :	vim_tru -noIntro
+	usage	my_plugin
+	Interface	<my_buffer>
+	  cw			&Special.&change a word		Change a word				:call Foo(1)<cr>
+	  cW			&Special.c&hange a WORD		Change a WORD				:call Foo(2)<cr>
+	  cL			&Special.ch&ange a line		Change a line				:call Foo(3)<cr>
+	  help	interactive changes
+	    here comes help for all interactive changes
+	    more at	small changes
+	  help	small changes
+	    small changes are ....
+	  icw			&Interactive.change a &word	Change a word				:call Bar(1)<cr>
+	    Interactive	interactive changes
+	      this changes one word
+	  icW			&Interactive.change a W&ORD	Change a WORD				:call Bar(2)<cr>
+	    Interactive	interactive changes
+	      this changes one WORD
+	  icL			&Interactive.change a &line	Change a line				:call Bar(3)<cr>
+	    Interactive	interactive changes
+	      this changes one line
+    >
+      $buffer_indicator = ($buffer ? "<buffer> " : "");
+      $Interface =~ s/([vn])Interface/VInterface/;
+      $scope = $1||'n';
+      atmark("mark_mappings") {
+        if ($buffer)
+	"	${scope}-mappings for buffer $buffer
+        else
+	"	global ${scope}-mappings
+      }
+      $vimfriendlyBufferName=unpack "H*",$buffer;
+	" the interface
+      if ($buffer) {
+	" ${Interface}OFF for $buffer
+	function!${Interface}OFF_$vimfriendlyBufferName()
+	  if exists("b:${Interface}_${vimfriendlyBufferName}_MapsDone")
+        setmark("mark_unmenu");
+	    unlet b:${Interface}_${vimfriendlyBufferName}_MapsDone
+	  endif
+	endf
+	function!<sid>Help_${scope}$vimfriendlyBufferName()
+        setmark("mark_help");
+	  if exists('<SID>Help()')
+	    call <SID>Help()
+	  endif
+	  while 1 == 1
+	    echo '' | " due to a bug in vim. Else the prompt will get partly overwritten
+	    call inputsave()
+	    let ans=input("Type Nr of Item for more help on this item, or just press ENTER : ")
+	    call inputrestore()
+	    let ans='<sid>Help_${scope}${vimfriendlyBufferName}_'.ans
+	    if exists('*'.ans)
+	      echo "\\r"
+	      exe 'call '.ans.'()'
+	    else
+	      break
+	    endif
+	  endwhile
+	endf
+	" ${Interface}ON for $buffer
+	function!${Interface}ON_$vimfriendlyBufferName()
+	  if !exists("b:${Interface}_${vimfriendlyBufferName}_MapsDone")
+	    ${scope}noremap <buffer> <F1> :<C-U>call <sid>Help_${scope}$vimfriendlyBufferName()<CR>@{[ do { "gv" if $scope eq 'v' } ]}
+      }
+      $offset+=2;
+      menuSanityCheckInit();
+      setmark("mark_menu");
+    <
+      menuSanityCheckExit();
+      $offset-=2;
+      if ($buffer) {
+	    augroup g$vimfriendlyBufferName
+        unless ($BufLeaveDone{$vimfriendlyBufferName}) {
+          $BufLeaveDone{$vimfriendlyBufferName} = 1;
+	      au! BufLeave <buffer>
+        }
+	      au BufLeave <buffer> call ${Interface}OFF_$vimfriendlyBufferName()
+	    augroup END
+	    let b:${Interface}_${vimfriendlyBufferName}_MapsDone=1
+	    if !exists("b:_${vimfriendlyBufferName}_HintGiven")
+	      unsilent echo 'special mappings from $ARGV available. Press <F1> for a list'
+	    endif
+	    let b:_${vimfriendlyBufferName}_HintGiven=1
+	  endif
+	endf
+	" Hooking the ${Interface}s for $buffer
+	au BufEnter $buffer call ${Interface}ON_$vimfriendlyBufferName()
+        if ($buffer eq "<buffer>") {
+          #
+          # in case the result is a ftplugin we call the InterfaceOn for this Interface
+          # Motivation:
+          #   say file has the modeline
+          #      vim:ft=foo:
+          #   if vim is invoked with
+          #      vim file
+          #    the autocommand BufEnter is triggered
+          #   whereas the sequence
+          #      vim
+          #      :e file
+          #   does not trigger the autocommand
+          # 
+	call ${Interface}ON_$vimfriendlyBufferName()
+        }
+      }
+  help	item
+    Providing additional help for an interactive smap and/or mmap.
+      Parameters :
+        Interactive	indicator	.*
+        item		optional	.+	a name for the item
+      The item identifies the help.
+      The item can be any string and relates to the item used in "Interface item"
+      Use this if you have different mapping with a common help-entry.
+      This help will be added after the mapping-specific help.
+      Example :
+        see	Interface
+    >
+      $vimfriendlyItem=unpack "H*",$item;
+      atmark("mark_mappings") {
+        local $offset=-1000;
+	"	notes for $item
+      }
+      usemark("mark_helpitems");
+      $offset-=4;
+	function <sid>Help_${scope}${vimfriendlyBufferName}_$vimfriendlyItem()
+    <
+	endfunction
+      $offset+=4;
+      unusemark();
+  more at	item
+    Referring to another help-item.
+      Parameters :
+        more at		indicator	.*
+        item		mandatory	.+	a name for the item
+      it provides a way to chain the help-items.
+      The help-lines of the item referred to are also echoed to the user.
+      Example :
+        see	Interface
+    >
+      local $vimfriendlyItem=unpack "H*",$item;
+	:call <sid>Help_${scope}${vimfriendlyBufferName}_$vimfriendlyItem()
+  Interactive	item
+    Flagging an Interface-mapping as interactive.
+      Parameters :
+        Interactive	indicator	.*
+        item		optional	.+	a name for the item
+
+      The help for the mapping is printed before the prompt.
+      If an item is given, then this help-item is also printed.
+      The item can be any string and relates to the item used in "help item"
+
+      Interface-mappings are <silent> by default.
+      If the mapping is tagged as Interactive then the <silent> part is left off.
+      Example :
+        see	Interface
+    >
+      $vimfriendlyItem=unpack "H*",$item;
+  smap	short	cmd
+    l	maplevel
+    The (global or buffer-specific) user interface
+      Parameters :
+        smap	mandatory	.+	the key sequence to be mapped to (lhs)
+        short	mandatory	.+	a short description for this mapping
+        cmd		mandatory	.+	the key sequence (rhs)
+      It basically results in
+        noremap   <buffer> <silent> smap cmd
+      or the vnoremap equivalent, depending on the scope set in initiating Interface.
+
+      If the mapping is tagged as Interactive then the <silent> part is left off.
+
+      Also a help-entry for this mapping is generated.
+      Example :
+        see	Interface
+    >
+      atmark("mark_mappings") {
+        local $offset=-1000;
+	"	$smap	$short
+      }
+      $maplevel = $level;
+      $short =~ s/'/''/g;
+      $cmdnr++;
+      usemark("mark_helpitems");
+      $offset-=($level+1);
+	function <sid>Help_${scope}${vimfriendlyBufferName}_$cmdnr()
+	  echohl WarningMsg
+	  echo '$short (bound to $smap)'
+	  echohl None
+      # due to a bug in vim this is needed. Else Nothing is output if only one echo-statement is in the function.
+	  echo ''
+    <
+	endfunction
+      $offset+=($level+1);
+      unusemark();
+      if ($Interactive) {
+        local $help = ":call <sid>Help_${scope}${vimfriendlyBufferName}_$cmdnr()<cr>";
+        $help.=":call <sid>Help_${scope}${vimfriendlyBufferName}_$vimfriendlyItem()<cr>" if $vimfriendlyItem;
+        # don't use <silent> here.
+        # it will break mapings of the form ":!cmd - <c-r><c-w><home><right><right><right><right><right><right><right>
+        # (a real example is pstree's mapping for K)
+	${scope}noremap $buffer_indicator$smap $help$cmd
+        $Interactive = "";
+      } else {
+	${scope}noremap $buffer_indicator<silent> $smap $cmd
+      }
+      if ($buffer) {
+        atmark("mark_help") {
+        local $offset = -100;
+	  echo '$cmdnr\t$smap\t$short'
+        }
+      }
+  mmap	menu	short	cmd
+    The (global or buffer-specific) user interface with menu entry
+      Parameters :
+        mmap	mandatory	.+	the key sequence to be mapped to (lhs)
+        menu	mandatory	.+	the menu name
+        short	mandatory	.+	a short description for this mapping
+        cmd		mandatory	.+	the key sequence (rhs)
+      It basically results in
+        noremap <buffer> <silent> mmap cmd
+        noremu  menu cmd
+      or the vnoremap/vnoremu equivalent, depending on the scope set in initiating Interface.
+
+      If the mapping is tagged as Interactive then the <silent> part is left off.
+
+      Also a help-entry for this mapping is generated.
+
+      The menu name is checked for Sanity and a warning is emitted if the check fails.
+        Sane means:
+          One letter of menu is preceded by an & (for the hotkey).
+          The same letter is not used twice within this submenu.
+      Example :
+        see	Interface
+    >
+      menuSanityCheck($menu);
+      $menu =~ s/ /\\ /g;
+      >>smap	$mmap	$short	$cmd
+      $mmap =~ s/([.<])/\\$1/g;
+      atmark("mark_menu")
+	    ${scope}noremenu $menu<tab>$mmap $cmd
+      if ($buffer) {
+        local $offset = -100;
+        atmark("mark_unmenu")
+	    ${scope}unmenu $menu<tab>$mmap
+      }
+  longhelp
+    A Help-line for the mapping.
+      Parameters :
+        longhelp	mandatory	.+	the Help-Text
+      It is used for
+          the intro in the usage section near the top of the .vim - file.
+          the generated help-entry for this mapping.
+      Example :
+        see	Interface
+    >
+      local $indent = " "x($level - $maplevel - 2 - ($Interactive?2:0));
+      local $level = $maplevel + 2;
+      atmark("mark_mappings") {
+        local $offset=-1000;
+        if ($_ ne "") {
+	"	$indent  $_
+        } else {
+	"
+        }
+      }
+      s/'/''/g;
+	echo '$indent$_'
+  perl
+    starting perl-code
+      Parameters :
+        perl	indicator	.*
+      this starts a block of perl-code (in perl_tru syntax).
+      Example :	vim_tru -noIntro
+	Foo
+	  perl
+	    foo
+	      $bar=1
+    >
+      $tmpname="/tmp/ptmp$$";
+      unlink $tmpname;
+      open OF,">$tmpname" or die "cannot open $tmpname";
+      $perllevel = $level+2
+    <
+      close OF;
+      open OF,"perl_tru -vim -noIntro -noSharpBang $tmpname|" or die "cannot open perl_tru $tmpname";
+	perl <<EOT
+      local $dot=$.;
+      while ($pl=<OF>) {
+        local $.=$dot;	# need this correction (for debReverse)
+        chop $pl;
+	$pl
+      }
+      local $offset=-10000; # the EOT must be at the very left
+	EOT
+      close OF;
+      unlink $tmpname;
+  viminput	prompt	default_answer	completion
+    reading and processing user input.
+      Parameters :
+        viminput		indicator	.*
+        prompt		mandatory	.+	the prompt to be issued
+        default_answer	optional	.+	the default answer
+        completion		optional	.+	the completion type, as described under :help :command-completion
+
+      This introduces a block similar to an if-block
+      The false-part is entered if the user presses control-c.
+      The input can be found in the variable $answer.
+      Example :	vim_tru -noIntro
+	Foo
+	  perl
+	    foo
+	      viminput	"File : "	"foo.rc"	"file"
+		!	$answer	return
+		local *TF
+		?	-r $answer
+		  ?	open(TF,$answer)
+		    W	<TF>
+		      bar($_)
+		    close TF
+	      -	return
+    >
+      print OF " "x($level-$perllevel).qq(VIM::DoCommand("cnoremap <c-c> <C-e><C-u>{cancelreturn}<esc>")\n);
+      if ($completion) {
+        print OF " "x($level-$perllevel).qq(VIM::DoCommand(qq(let cmd=input($prompt,$default_answer,$completion)))\n);
+      } elsif ($default_answer) {
+        print OF " "x($level-$perllevel).qq(VIM::DoCommand(qq(let cmd=input($prompt,$default_answer)))\n);
+      } else {
+        print OF " "x($level-$perllevel).qq(VIM::DoCommand(qq(let cmd=input($prompt)))\n);
+      }
+      print OF " "x($level-$perllevel).qq(VIM::DoCommand("cunmap <c-c>")\n);
+      print OF " "x($level-$perllevel).qq(VIM::DoCommand("redraw")\n);
+      print OF " "x($level-$perllevel).qq((\$success,\$answer)=VIM::Eval('cmd')\n);
+      print OF " "x($level-$perllevel).qq(!	\$success and \$answer ne "{cancelreturn}"	VIM::Msg("cancelled")\n);
+      print OF " "x($level-$perllevel).qq(VIM::DoCommand("call histdel('input','^{cancelreturn}\\\$')")\n);
+      print OF " "x($level-$perllevel).qq(?	\$success and \$answer ne "{cancelreturn}"\n);
+  perll
+    a line of perl-code
+      Parameters :
+        perll		mandatory	.+	a perl_tru-line
+      These lines are processed by perl_tru.
+      The syntax of perl_tru is very similar to the syntax of vim_tru.
+      Example :
+        see	perl
+    >
+      if ($_ ne "") {
+        print OF " "x($level-$perllevel)."$_\n";
+      } else {
+        print OF "";
+      }
+  MultiLineMapping
+    a multi-line mapping
+      Parameters :
+        MultiLineMapping	indicator	ml\s+[nvoict]?(?:nore)?map!?\??( *(<buffer>|<silent>|<script>|<unique>))*
+      Native vim-mappings are a sequence of typed characters.
+      Long mappings tend to be unreadable and are very hard to comment.
+
+      MultiLineMapping solves this issue.
+      The mapping is formed by concatenating the mlreplacement of the enclosed lines.
+
+      Similar to this is |normal|
+
+      Example :	vim_tru -noIntro
+	ml vmap
+	  *						Search for visual selected string
+	    :<C-U>					enter commandline and clear the range
+	    let old_reg=@"<cr>				save the unnamed register
+	    gv						reselect the range
+	    y						yank the visual selected text
+	    :call histadd("/",				add to the /-history
+	    substitute(					If selection includes \r remove it
+	    escape(					Need to escape some metacharacters...
+	    @"						...in the selection
+	    ,
+	    '\/.*$^~[]'					the meta-characters
+	    )						The result of escape is now the haystack for substitute ...
+	    ,"\n$"					... and the needle is the newline
+	    ,""						... which is simply deleted
+	    ,""						... whithout any flags
+	    )						The result of substitute
+	    )						The histadd
+	    <CR>					For the histadd
+	    :let @/=histget("/",-1)<cr>			Make this the current search
+	    :se hlsearch<cr>				turn on search-highlighting
+	    :let @"=old_reg<cr>				Restore the unnamed register
+	    :<bs>					clear the command-line
+    >
+      $MultiLineMapping =~ s/ml\s+//;
+  mlshortcut	comment
+    the shortcut for a multi-line mapping
+      Parameters :
+        mlshortcut	mandatory	.+	the shortcut
+        comment	optional	.+	a comment
+      Example :
+        see	MultiLineMapping
+    >
+      $oneLine="";
+      $offset-=4;
+      $ii="   ";
+	" $mlshortcut -> $comment
+	" mapping for $mlshortcut unfolded
+    <
+      if ((local $MultiLineMapping=$MultiLineMapping) =~ s/\?$//) {
+        (local $soneLine=$oneLine) =~ s/"/\\"/g;
+	if !hasmapto("$soneLine")
+	  $MultiLineMapping $mlshortcut $oneLine
+	endif
+      } else {
+	$MultiLineMapping $mlshortcut $oneLine
+      }
+      $offset+=4;
+  normal	comment
+    starting a multi-line normal
+      Parameters :
+        normal	indicator	.+
+        comment	optional	.+	a comment
+      The native normal of vim is a sequence of typed characters.
+      Long such statements tend to be unreadable and are very hard to comment.
+
+      normal solves this issue.
+      The sequence is formed by concatenating the mlreplacement of the enclosed lines.
+      Caveat : There is no way to include a tab in the sequence
+
+      Similar to this is |MultiLineMapping|
+      Example :	vim_tru -noIntro
+	normal!
+	  0		start of line
+	  ww		start of 2nd word (pid)
+	  "xyf		yank the pid to register x
+	  <TAB>		the pid is terminated by a tab
+	  j		one line down
+    >
+      $oneLine="";
+      if ($comment)
+	" $comment
+	" unfolded first
+      else
+	" following normal-line unfolded
+      $offset-=2;
+      $ii=" ";
+    <
+      $offset+=2;
+	$normal $oneLine
+  mlreplacement	comment
+    the rhs for a multi-line mapping or multi-line normal
+      Parameters :
+        mlreplacement	mandatory	.+	part of the mapping (or normal)
+        comment		optional	.+	a comment
+
+      mlreplacement is used as given with one exception
+        if it is "<TAB>" (w/o the quotes) (not "<Tab>" or "<tab>") it is replaced with \t
+        this is usefule in normal, where no <xxx> substitution is done
+      Example :
+        see	MultiLineMapping
+        see	normal
+    >
+      $mlreplacement="\t" if $mlreplacement eq "<TAB>";
+      $oneLine.=$mlreplacement;
+	"$ii$_
+  com	Cmd	txt	comment
+    defining vim-commands
+      Parameters :
+        com		indicator	.+
+        Cmd		optional	.+	the name and the flags of the command
+        txt		optional	.+	the command
+        comment	optional	.+	a comment
+      A help entry is produced in the usage automatically
+      Example :	vim_tru -noIntro
+	usage	myPlugin
+		This plugin does ....
+	com! -nargs=*	Con	call GetConnectString("<args>")	initiate a connection
+	com!
+	  "usefull for cscope
+	  -nargs=1 CS	cs f s <args>	Find this C symbol
+	  -nargs=1 CG	cs f g <args>	Find this definition
+	  -nargs=1 CD	cs f d <args>	Find functions called by this fu
+	  -nargs=1 CC	cs f c <args>	Find functions calling this func
+	  -nargs=1 CT	cs f t <args>	Find this text string
+	  -nargs=1 CE	cs f e <args>	Find this egrep pattern
+	  -nargs=1 CF	cs f f <args>	Find this file
+	  -nargs=1 CI	cs f i <args>	Find files #including this file
+	  DiffOrig	diffoff! | vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+    >
+      if ($Cmd) {
+        >>Cmd	$Cmd	$txt	$comment
+      }
+      $offset-=2;
+    <
+      $offset+=2;
+  Cmd	txt	comment
+    a vim-command
+      Parameters :
+        Cmd		mandatory	.+	the name and the flags of the command
+        txt		mandatory	.+	the command
+        comment	optional	.+	a comment
+      Example :
+        see	com
+    >
+      if ($comment) {
+	"$comment
+      }
+	$com $Cmd $txt
+      atmark("mark_com") {
+        local $offset=-1000;
+        $Cmd =~ s/^.* //;	# don't display the -nargs - stuff in the help
+	"		$Cmd	$comment
+      }
+  highlight	hlitem	colors
+    starting highlight statements
+      Parameters :
+        highlight	indicator	.+
+        hlitem	optional	.+	the item for the highlight
+        colors	optional	.+	the colore for the highlight
+      Example :	vim_tru -noIntro
+	highlight
+	  Normal		guibg=White guifg=Black ctermbg=White ctermfg=Black
+	  Cursor		guibg=red guifg=green
+	  Visual		guibg=black guifg=white cterm=reverse
+    >
+      if ($hlitem) {
+        >>hlitem	$hlitem	$colors
+      }
+      $offset-=2;
+    <
+      $offset+=2;
+  hlitem	colors
+    a highlight statement
+      Parameters :
+        hlitem	mandatory	.+	the item for the highlight
+        colors	mandatory	.+	the colore for the highlight
+      Example :
+        see	highlight
+    >
+	$highlight $hlitem $colors
+  jdocu
+    continued
+    >
+	"@{[" "x$relindent]}$_
+  jdoc
+    continued
+    >
+	"-- $jdocu
+  enum	name
+    continued
+    >
+	" enum for $name
+      $enum=1;
+  enumline	comment
+    continued
+    >
+      $level-=2;
+	let ${name}_$enumline = $enum
+      $enum++
+  Option
+    continued
+      Option passing in vim does work by setting a global vim-var (g:var).
+      Usually this is done in the .vimrc like this:
+        let g:option='value'
+      You can also set an environment var in your shell (before invoking vim) like this:
+        export option='value' # in a bourne-shell (bash, sh, zsh, ...)
+        setenv option 'value' # in a c-shell      (csh, tcsh, ....)
+      g:option is guaranteed to be defined so that it can be easily used in conditions and statements.
+      Example :	vim_tru -noIntro
+	usage	myPlugin
+		This plugin does ....
+	main
+	  Option
+	    myPlugin_colored			use colored output
+	      color='blue'	this is a statement
+	    myPlugin_shell:string['bash -i']	the shell to be used
+		This can be used to tell the shell to do additional initializations.
+	    myPlugin_dirsettings:string[$HOME."/.myplugin/dirsettings"]	location for dirsettings
+
+	  doc	code starts here
+	  ?	g:myPlugin_colored
+	    doc	code for colored ouput
+	  -
+	    doc	code for b/w output
+    >
+      atmark("mark_confvars") {
+        $level = 0;
+	"
+	"	Configuration variables
+	"	  The following vars can be set in your .vimrc or in your environment.
+	"	  Settings in the environment have the highest precedence.
+	"
+      }
+      $offset+=2;
+    <
+      $offset-=2;
+  Optiondescription
+    continued
+    >
+      atmark("mark_confvars") {
+        $level=1;
+	"	$indent  $_
+      }
+  opt:type[default]	shortdesc	statement
+    continued
+      If the default is empty then "" is used as assginment to g:opt_opt
+      Else the default is assigned unchanged.
+      So put strings in apropriate quotes.
+    >
+      $offset-=4;
+      atmark("mark_confvars")
+	"	g:$opt : $shortdesc	(defaults to $default)
+	"	  (can be superseded with the environment-var \$$opt)
+      $default = '""' unless ($default);
+	" $shortdesc
+	if exists("\$$opt")
+	  let g:$opt=\$$opt
+	endif
+	if !exists("g:$opt")
+	  let g:$opt=$default
+    -
+      if ($NrOfLinesFollowing or $statement)
+	else
+      stmt($statement);
+    <
+	endif
+      $offset+=4;
+  opt	shortdesc	statement
+    continued
+    >
+      $offset-=4;
+      atmark("mark_confvars") {
+	"	g:$opt : $shortdesc
+	"	  (can be superseded with the environment-var \$$opt)
+      }
+	" $shortdesc
+	if exists("\$$opt")
+	  let g:$opt=\$$opt
+	endif
+	if !exists("g:$opt")
+	  let g:$opt=0
+    -
+      if ($NrOfLinesFollowing or $statement)
+	else
+      stmt($statement);
+    <
+	endif
+      $offset+=4;
+  nativeFor	var in list	stmt
+    looping over a list
+      Parameters :
+        nativeFor	indicator	.*
+        var in list	mandatory	.+	just like the native vim-for
+        stmt	optional	.+	a statemnt
+      Example :	vim_tru -noIntro
+	main
+	  F	item in copy(mylist)
+	    doc	an inefficient way to make a list empty
+	    F	item in mylist
+	      call remove(mylist, 0)
+	    F	item in ["foo", ["bar"]]
+	      echo item
+	      unlet item  " E706 without this
+	    F	[lnum, col] in [[1, 3], [2, 5], [3, 8]]	echo getline(lnum)[col]
+      see also |For| and |fancyFor|
+    >
+	for ${"var in list"}
+      stmt($stmt);
+    <
+	endfor
+  vars
+    continued
+      Example :	vim_tru -noIntro
+	vars
+	  count = 1		count the items
+	  sizes			in different units
+	    1			inch
+	    2.54		cm
+	  i = 0
+    >
+      if ($vars eq "vars") {
+        $vars = "";
+      } else {
+        $vars .= " ";
+      }
+      if ($opt_languageType eq "c") {
+	/* ${vars}vars */
+      } else {
+	$cc ${vars}vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  try	statement
+    continued
+      Example :	vim_tru -noIntro
+	Foo
+	  try
+	      sleep 2
+	    /^Vim:Interrupt$/
+	      'interrupted'
+	    finally
+	      'continuing'
+    >
+	try
+      $level+=2;
+      stmt($statement);
+    <
+	endtry
+  catch	statement
+    continued
+    >
+	catch $catch
+      stmt($statement);
+  finally	statement
+    continued
+    >
+	finally
+      stmt($statement);
+hooks
+  mark_com
+    [
+      local $offset=-1000;
+	"	commands
+group
+  vim
+	comment	*								=2	".*
+	native code								=2	vim code<?
+	  nativeCodeLine	*						>>t*
+	vars									=2		vars
+	  enum		name							>0		enum
+	    enumline		[comment]					>0
+	  var			[comment]					>0
+	    initialisation	[comment]					>0
+	F	var in list	[stmt]						>2 nativeFor	F		\S.+ in .+
+	perl									=2	perl
+	  viminput	prompt	[default_answer]	completion		>>*	viminput	".*"	".*"	".*"
+	  perll		*							>>*
+	normal		[comment]						=2	normal!?
+	  mlreplacement	[comment]						>>
+	MultiLineMapping							=2	ml\s+[nvoict]?(?:nore)?map!?\??( *(<buffer>|<silent>|<script>|<unique>))*
+	  mlshortcut	[comment]						>0
+	    mlreplacement	[comment]					>0
+	highlight	[hlitem]	colors					=2	highlight
+	  hlitem	colors							>0
+	com	[Cmd]	txt	comment						=2	com!?( .*)?
+	  Cmd	txt	[comment]						>0
+	set	[setting]	comment						=2	set(local)?
+	  setting	[comment]						>0
+	mapping	[shortcut]	replacement	comment				=2	[nvoict]?(?:nore)?map!?\??( *(<buffer>|<silent>|<script>|<unique>))*
+	  shortcut	replacement	[comment]
+	Interface	[buffer]						=	v?Interface
+	  help	item								=	help
+	    more at	item							=	more at
+	    longhelp	*							>*
+	  smap		short	cmd
+	    Interactive	[item]							=	Interactive
+	    longhelp	*							>*
+	  mmap	menu	short	cmd
+	    Interactive	[item]							=	Interactive
+	    Example :								>*	Example :
+	      exampleLine	*
+	       exampleDesc	*						>*
+	    See also :								>*	See also :
+	      also	*							>*
+	    longhelp	*							>*
+	ab	[sequence]	replacement	comment				=2	([ic]?ab(brev)?|inorea[bbrev])
+	  sequence	replacement	[comment]
+	au									=2	au!?
+	  event									>0
+	    pattern	[cmd]
+	      cmd								=	.+

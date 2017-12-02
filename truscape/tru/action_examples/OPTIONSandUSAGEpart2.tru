@@ -1,0 +1,6 @@
+VERSION	3.0
+OPTIONS
+	d		short-text for option d
+# here the usage must not have a shortdesc, because the USAGE is continued
+USAGE
+	additional usage text

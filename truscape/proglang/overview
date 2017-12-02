@@ -1,0 +1,16 @@
+../common_pre.tru	../plainvar.tru	java.tru	java_sql.tru	 			../common.tru	../c_like_vars.tru	~/truscape/lib/basicUSAGE.tru	>java_tru
+../common_pre.tru	../plainvar.tru	c.tru		 		 			../common.tru	../c_like_vars.tru	~/truscape/lib/basicUSAGE.tru	>c_tru
+../common_pre.tru	../plainvar.tru	vim.tru		 		../NotInAFunction.tru	../common.tru	 			~/truscape/lib/basicUSAGE.tru	>vim_tru
+../common_pre.tru	 		perl.tru	 		../NotInAFunction.tru	../common.tru	 			~/truscape/lib/basicUSAGE.tru	>perl_tru
+../common_pre.tru	 		sh.tru		 		../NotInAFunction.tru	../common.tru	 			~/truscape/lib/basicUSAGE.tru	>sh_tru
+
+common_pre		(plainvar)	java		java_sql	 			common		(c_like_vars)		(basicUSAGE)
+common_pre		(plainvar)	c		 		 			common		(c_like_vars)		(basicUSAGE)
+common_pre		(plainvar)	vim		 		NotInAFunction		common		 			(basicUSAGE)
+common_pre		 		perl		 		NotInAFunction		common		 			(basicUSAGE)
+common_pre		 		sh		 		NotInAFunction		common		 			(basicUSAGE)
+
+Legend
+  common_pre	actiondescriptions  (DOC, vars, var, ... F , W .... )
+  (plainvar)	not structure relevant, Examples for W and U
+  (basicUSAGE)	from library

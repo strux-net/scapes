@@ -1,0 +1,26 @@
+VERSION	3.0
+##	READ
+##	  After a line is read and $level is calculated.
+##	    not applied to
+##	        lines in @ATTIC
+##	          you can call tru::read() before unshifting if you wish to apply READ
+##	        empty lines
+##	          this has consequences illustrated in READempty.tru
+##	  $_ holds the line as read (including all indent and tabs)
+##	  You can
+##	      modify $_ at will.
+##	      adjust $level here.
+##	  Return
+##	      1 to skip this line
+##	      2 to end processing
+##	      0 for normal processing (supplied automatically)
+READ
+  s/A/a/;
+  return 1 if /skipp/;
+  return 2 if /stop/;
+actions
+  accepted line
+    >
+	$. : $_
+structure
+	accepted line		=	a.*

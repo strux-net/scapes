@@ -1,0 +1,230 @@
+VERSION	3.0
+doc	expect the following output (after run of createDemoDb.sql)
+  Fields of T1
+    id               : 1
+      Character fields:
+        VARCHAR2_field1  : 'a'
+        VARCHAR2_field2  : 'abc????'
+        VARCHAR2_field3  : 'ABC????'
+        NVARCHAR2_field1 : 'b'
+        NVARCHAR2_field2 : 'cde???'
+        NVARCHAR2_field3 : 'CDE???'
+        CHAR_field1      : 'c'
+        CHAR_field2      : 'efg???    '
+        CHAR_field3      : 'EFG???    '
+        NCHAR_field1     : 'd'
+        NCHAR_field2     : 'e'
+        NCHAR_field3     : 'HIJ???    '
+      Number fields:
+        NUMBER_field1    : 1
+        NUMBER_field2    : 2
+        NUMBER_field3    : 3
+        NUMBER_field4    : 5
+      Date fields:
+        TIMESTAMP_field1 : 2098-12-25.17.30. 0. 0
+        TIMESTAMP_field2 : null
+    accessing table T2
+    status        : true
+    f2            : 'eins'
+
+  Fields of T1
+    id               : 2
+      Character fields:
+        VARCHAR2_field1  : ' '
+        VARCHAR2_field2  : 'null'
+        VARCHAR2_field3  : 'null'
+        NVARCHAR2_field1 : 'null'
+        NVARCHAR2_field2 : 'null'
+        NVARCHAR2_field3 : 'null'
+        CHAR_field1      : ' '
+        CHAR_field2      : 'null'
+        CHAR_field3      : 'null'
+        NCHAR_field1     : ' '
+        NCHAR_field2     : 'null'
+        NCHAR_field3     : 'null'
+      Number fields:
+        NUMBER_field1    : 0
+        NUMBER_field2    : null
+        NUMBER_field3    : 0
+        NUMBER_field4    : 0
+      Date fields:
+        TIMESTAMP_field1 : null
+        TIMESTAMP_field2 : null
+    accessing table T2
+    status        : true
+    f2            : 'one'
+
+  Fields of T1
+    id               : 3
+      Character fields:
+        VARCHAR2_field1  : 'a'
+        VARCHAR2_field2  : 'abcdefghij'
+        VARCHAR2_field3  : 'abcdefghij'
+        NVARCHAR2_field1 : 'a'
+        NVARCHAR2_field2 : 'abcdefghij'
+        NVARCHAR2_field3 : 'abcdefghij'
+        CHAR_field1      : 'a'
+        CHAR_field2      : 'abcdefghij'
+        CHAR_field3      : 'abcdefghij'
+        NCHAR_field1     : 'a'
+        NCHAR_field2     : 'a'
+        NCHAR_field3     : 'abcdefghij'
+      Number fields:
+        NUMBER_field1    : 99999999999999
+        NUMBER_field2    : 9999999999
+        NUMBER_field3    : 999999
+        NUMBER_field4    : -8446744073709551617
+      Date fields:
+        TIMESTAMP_field1 : null
+        TIMESTAMP_field2 : null
+    accessing table T2
+    status        : false
+    f2            : ''
+imports
+  java.sql.*
+  java.io.*
+  java.util.*
+  java.math.*
+public class Queries
+  main
+    "running"
+
+    try
+      block
+        test()
+      SQLException ex
+	""+ex
+      IOException ex
+	""+ex
+
+  doc
+    Holt eine Verbindung aus den Eigenschaften, die in
+    der Datei database.properties spezifiziert sind.
+    @return Die Datenbankverbindung
+  public static Connection getConnection	 	throws SQLException, IOException
+    Properties props = new Properties()
+    FileInputStream in = new FileInputStream("database.properties")
+    props.load(in)
+    in.close()
+
+    String drivers = props.getProperty("jdbc.drivers")
+    ?	drivers != null	System.setProperty("jdbc.drivers", drivers)
+    String url = props.getProperty("jdbc.url")
+    String username = props.getProperty("jdbc.username")
+    String password = props.getProperty("jdbc.password")
+
+    return DriverManager.getConnection(url, username, password)
+
+  static void test	 	throws SQLException, IOException
+    boolean status
+
+    long id = 0
+    char VARCHAR2_field1=' '		VARCHAR2_field1        VARCHAR2(1)           
+    String VARCHAR2_field2=""		VARCHAR2_field2        VARCHAR2(10 BYTE)     
+    String VARCHAR2_field3=""		VARCHAR2_field3        VARCHAR2(10 CHAR)     
+    String NVARCHAR2_field1=""		NVARCHAR2_field1       NVARCHAR2(1)  
+    String NVARCHAR2_field2=""		NVARCHAR2_field2       NVARCHAR2(10) 
+    String NVARCHAR2_field3=""		NVARCHAR2_field3       NVARCHAR2(10) 
+    long NUMBER_field1=0		NUMBER_field1          NUMBER                
+    BigDecimal NUMBER_field2=null	NUMBER_field2          NUMBER(10)            
+    long NUMBER_field3=0		NUMBER_field3          NUMBER(10,4)          
+    long NUMBER_field4=0		NUMBER_field4          NUMBER(19)
+    doc					LONG_field             LONG          
+    doc					DATE_field             DATE          
+    doc					BINARY_FLOAT_field     BINARY_FLOAT  
+    doc					BINARY_DOUBLE_field    BINARY_DOUBLE 
+    String TIMESTAMP_field1=""		TIMESTAMP_field1       TIMESTAMP     
+    String TIMESTAMP_field2=""		TIMESTAMP_field2       TIMESTAMP(9)  
+    char CHAR_field1=' '       		CHAR_field1            CHAR(1)       
+    String CHAR_field2=""		CHAR_field2            CHAR(10 BYTE) 
+    String CHAR_field3=""		CHAR_field3            CHAR(10 CHAR) 
+    char NCHAR_field1=' '      		NCHAR_field1           NCHAR         
+    String NCHAR_field2=""		NCHAR_field2           NCHAR(1)      
+    String NCHAR_field3=""		NCHAR_field3           NCHAR(10)     
+
+
+    cursor using	getConnection()
+      SELECT
+	id
+	,VARCHAR2_field1
+	,VARCHAR2_field2
+	,VARCHAR2_field3
+	,NVARCHAR2_field1
+	,NVARCHAR2_field2
+	,NVARCHAR2_field3
+	,NUMBER_field1
+	,NUMBER_field2
+	,NUMBER_field3
+	,NUMBER_field4
+	,TIMESTAMP_field1
+	,TIMESTAMP_field2
+	,CHAR_field1
+	,CHAR_field2
+	,CHAR_field3
+	,NCHAR_field1
+	,NCHAR_field2
+	,NCHAR_field3
+        from t1
+        where
+          id < 4
+      into
+        id			Long
+	VARCHAR2_field1		Char
+	VARCHAR2_field2		String
+	VARCHAR2_field3		String
+	NVARCHAR2_field1	String
+	NVARCHAR2_field2	String
+	NVARCHAR2_field3	String
+	NUMBER_field1		Long
+	NUMBER_field2		BigDecimal
+	NUMBER_field3		Long
+	NUMBER_field4		NarrowedLong
+	TIMESTAMP_field1	String
+	TIMESTAMP_field2	String
+	CHAR_field1		Char
+	CHAR_field2		String
+	CHAR_field3		String
+	NCHAR_field1		Char
+	NCHAR_field2		String
+	NCHAR_field3		String
+      loop
+	"Fields of T1"
+	"  id               : "+id
+	"    Character fields:"
+	"      VARCHAR2_field1  : '" + VARCHAR2_field1  + "'"
+	"      VARCHAR2_field2  : '" + VARCHAR2_field2  + "'"
+	"      VARCHAR2_field3  : '" + VARCHAR2_field3  + "'"
+	"      NVARCHAR2_field1 : '" + NVARCHAR2_field1 + "'"
+	"      NVARCHAR2_field2 : '" + NVARCHAR2_field2 + "'"
+	"      NVARCHAR2_field3 : '" + NVARCHAR2_field3 + "'"
+	"      CHAR_field1      : '" + CHAR_field1      + "'"
+	"      CHAR_field2      : '" + CHAR_field2      + "'"
+	"      CHAR_field3      : '" + CHAR_field3      + "'"
+	"      NCHAR_field1     : '" + NCHAR_field1     + "'"
+	"      NCHAR_field2     : '" + NCHAR_field2     + "'"
+	"      NCHAR_field3     : '" + NCHAR_field3     + "'"
+
+	"    Number fields:"
+	"      NUMBER_field1    : " + NUMBER_field1    
+	"      NUMBER_field2    : " + NUMBER_field2    
+	"      NUMBER_field3    : " + NUMBER_field3    
+	"      NUMBER_field4    : " + NUMBER_field4    
+
+	"    Date fields:"
+	"      TIMESTAMP_field1 : " + TIMESTAMP_field1 
+	"      TIMESTAMP_field2 : " + TIMESTAMP_field2 
+
+	"  accessing table T2"
+	String f2=""		VARCHAR2_field2        VARCHAR2(10 BYTE)     
+	using	getConnection()
+	  SELECT
+	    VARCHAR2_field2
+	    FROM t2
+	    where
+	      id = $Long:id
+	  into	status
+	    f2		String
+
+	"  status        : "+status
+	"  f2            : '" + f2  + "'"
+	""

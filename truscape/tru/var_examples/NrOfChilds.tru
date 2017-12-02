@@ -1,0 +1,22 @@
+VERSION	3.0
+##	$NrOfChilds
+##	  Number of (non-empty) items between inaction and outaction.
+##	  independent of produced output.
+##	  meaningless in stream-mode.
+##	  valid in depthaction and outaction.
+actions
+  chapter	name
+    -
+	$NrOfChilds : $_
+  section	name
+    -
+	$NrOfChilds : $_
+  any line
+    -
+	$NrOfChilds : $_
+  table
+    -
+	$NrOfChilds : $_
+  tabaligned line
+    -
+	$NrOfChilds : $_

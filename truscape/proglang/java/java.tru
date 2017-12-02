@@ -1,0 +1,1057 @@
+VERSION	3.0
+USAGE	java_tru [Options] [<file> ....]
+
+	produces a java-file
+
+	find details in
+	    ~/strux/doc/java_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/java_tru.html
+
+	per convention the input files have the extension .javaTR
+OPTIONS
+	GenerateDebugInfo	produce code for debugging the program
+		This produces code at the start of each method which tells the methodname and the args to stderr
+
+		You must enable this when running the program with -Dtru_deb=1
+		In addition to tru_deb, enable the output of the arguments with -Dtru_deb_args=1
+		Also, tru_deb_fullstack=1 can be given to show the fullstack for each method-call
+		  these lines are prefixed with * for a normal method and ! for a native method
+BEGIN
+  $cc = "//";	# Comment Character specific to this language
+  $plang = "java";
+  $true = "true";
+  sub errout($) {
+    local ($txt) = @_;
+    $txt =~ s/"/\\"/g;
+	System.err.println("$txt");
+  }
+actions
+  VERSION	version
+    continued
+      the version is put as a comment into the output-file.
+
+      If the class has a main method
+        option -version is introduced into your class.
+
+        If the class is invoked like
+          java class -version
+        then all version information is printed to stdout and the class exits with code 0.
+
+      Example :	java_tru -noIntro
+	VERSION	0.1
+	class foo
+	  main
+	    "hello world"
+
+      If the class has no main method
+        the version is ignored.
+
+        java_tru will issue a message like
+	  java_tru : some text was never output (due to unset marks) when processing filename
+	    For mark $mark_version
+		      System.out.println("  filename	0.9");
+	you can easily ignore this message.
+    >
+	// based on $ARGV , version : $version
+      atmark("mark_version")
+	      System.out.println("  $ARGV\t$version");
+  GenerateDebugInfo
+    internal
+    >
+      if ($opt_GenerateDebugInfo && !$infoGenerated) {
+        local $fn=$function;
+        local @ARGS=split(/,/,$args);
+        map { s/.* // } @ARGS;
+        $fn=~s/.* //;
+        local $str;
+        local $j=1;
+	  { // generated for flow-trace-debugging
+	    boolean fullstack;
+	    if (System.getProperty("tru_deb","0").equals("1")) {
+	      StackTraceElement[] stea=(new Throwable()).getStackTrace();
+	      int l=stea.length;
+	    if (fullstack=(System.getProperty("tru_deb_fullstack","0").equals("1"))) {
+	      for (int j=0;j<l;j++) {
+	        for (int i=0;i<l;i++) System.err.print(" ");
+	        if (stea[j].isNativeMethod()) {
+	          System.err.print("!");
+	        } else {
+	          System.err.print("*");
+	        }
+	        System.err.println(stea[j]);
+	      }
+	    } else {
+	      for (int i=0;i<l;i++) System.err.print(" ");
+	      System.err.println("$classname.$fn");
+	    }
+        if (@ARGS) {
+	      if (System.getProperty("tru_deb_args","0").equals("1")) {
+          for (@ARGS) {
+	        for (int i=0;i<=l;i++) System.err.print(" ");
+	        System.err.println("$j:$_="+$_);
+          $j++;
+          }
+	      }
+        }
+	      if (fullstack) {
+	        for (int i=0;i<l;i++) System.err.print(" ");
+	        System.err.println("-------");
+	      }
+	    }
+	  }
+      }
+  function	args	throws
+    l	infoGenerated
+    a method
+      Parameters :
+        function	mandatory	.+	the function name
+        args	optional	.+	the args
+        optional	optional	.+	a throws clause
+      Example :	java_tru -noIntro
+	class foo
+	  public int bar	int x
+	    return x+1
+	  public void read	InputStream in, Object desc	throws IOException
+	    whatever(in,desc)
+
+	  public int foobar
+	    return bar(2)
+      If java_tru is called with -GenerateDebugInfo then additional code is generated.
+      Example :	java_tru -noIntro -GenerateDebugInfo
+	class foo
+	  public int bar	int x
+	    return x+1
+    >
+      setmark("mark_autodoc");
+      $infoGenerated=0;
+      $args="" if $args =~ /^ +$/;
+	$function($args) $throws\{
+    -
+      >>GenerateDebugInfo
+    <
+	}
+  annotation
+    an annotation
+      Parameters :
+        annotation	mandatory	.+	the annotation
+      Example :	java_tru -noIntro
+	@ClassPreamble
+	  author		"John Doe"
+	  date			"3/17/2002"
+	  currentRevision	6
+	  lastModified		"4/12/2004"
+	  lastModifiedBy	"Jane Doe"
+	  reviewers		{"Alice", "Bob", "Cindy"}	Note array notation
+	public class Generation3List extends Generation2List
+	  @Deprecated
+	  static void deprecatedMethod
+	  @Override
+	  private void jbInit	 	throws Exception
+	    contentPane = (JPanel) this.getContentPane()
+    -
+      if ($NrOfLinesFollowing) {
+	$annotation (
+      } else {
+	$annotation
+      }
+    <
+      if ($NrOfLinesFollowing) {
+	)
+      }
+  annotationElement	value	comment
+    an annotation element
+      Parameters :
+        annotationElement	mandatory	.+	the element
+        value		mandatory	.+	the value
+        comment		optional	.+	a comment
+      Example :
+        see	annotation
+    >
+	$annotationElement = $value,@{[do{"\t$cc " if "$comment"}]}$comment
+  menuBar	name
+    a menu bar
+      Parameters :
+        menuBar		indicator	.+
+        name		mandatory	.+	the name of the menu-bar
+      Example :	java_tru -noIntro
+	public class Tru extends SingleFrameApplication
+	  protected void startup
+	    menuBar	menuBar
+	      fileMenu
+		runMenuItem			runButtonActionPerformed(evt)
+		closeMenuItem			closeMenuItemActionPerformed(evt)
+		rereadInfileMenuItem		readInFile();markBad()
+		closeAndSaveLayoutMenuItem
+	      editMenu
+		unHighlightMenuItem		unHighlightButtonActionPerformed(evt)
+		saveLayoutMenuItem
+	      helpMenu
+		helpMenuItem
+		aboutMenuItem
+    >
+	JMenuBar $name = new JMenuBar();
+    <
+	getMainFrame().setJMenuBar(menuBar);
+  menu
+    a menu
+      Parameters :
+        menu		indicator	.*
+      Example :
+        see	menuBar
+    >
+      local $offset=$offset-2;
+	{
+	  JMenu $menu = new JMenu();
+	  menuBar.add($menu);
+	  $menu.setName("$menu");
+    <
+      local $offset=$offset-2;
+	}
+  menuItem	Action
+    a menu-item
+      Parameters :
+        menuItem		mandatory	.+	the item
+        Action		optional	.+	an action for this menu-item
+      Example :
+        see	menuBar
+    >
+      local $offset=$offset-2;
+	{
+	  JMenuItem $menuItem = new JMenuItem();
+	  $menu.add($menuItem);
+	  $menuItem.setAction(Application.getInstance().getContext().getActionMap(this).get($Action));
+	}
+  menuItemWithActionListener	Action
+    a menu-item with an ActionListener
+      Parameters :
+        menuItemWithActionListener	mandatory	.+	the item
+        Action			optional	.+	an action for this menu-item
+      Example :
+        see	menuBar
+    >
+      local $offset=$offset-2;
+	{
+	  JMenuItem $menuItemWithActionListener = new JMenuItem();
+	  $menuItemWithActionListener.setName("$menuItemWithActionListener");
+	  $menu.add($menuItemWithActionListener);
+	  $menuItemWithActionListener.addActionListener(new ActionListener() {
+	                                    public void actionPerformed(ActionEvent evt) {
+      if ($Action) {
+	                                      $Action;
+      } else {
+	                                      ${menuItemWithActionListener}ActionPerformed(evt);
+      }
+	                                    }
+	                                  }
+	                                 );
+	}
+  Gui	panel	Layout
+    l	containerName	componentType
+    the Gui-structure
+      Parameters :
+        Gui		indicator	.*
+        panel	mandatory	.+	the panel (can also be this)
+        Layout	mandatory	.+	the layout (e.G Border for BorderLayout)
+
+      Start defining the gui.
+
+      Unless <panel> is 'this' a new JPanel with the name <panel> is created.
+      The Gui can contain named and/or unnamed components.
+      java_tru calculates a name for unnamed components; you should consider them anonymous.
+
+      The sections below also hold for all contained components (if applicable).
+
+      The Layout :
+        example Values for <Layout> and their translations:
+            Border		BorderLayout
+            Flow		FlowLayout
+            Box:X_AXIS	BoxLayout:X_AXIS
+            Box:Y_AXIS	BoxLayout:Y_AXIS
+        The Layout of <panel> is set to <Layout>Layout.
+        If Layout has the form Box:X_AXIS or Box:Y_AXIS it is translated to BoxLayout.X_AXIS rsp. BoxLayout.Y_AXIS
+
+      The constraint :
+        The constraint of a component must be applicable to the enclosing compoments Layout.
+        So for example inside a BorderLayout possible values for constraint would be
+	    NORTH
+	    SOUTH
+	    EAST
+	    WEST
+	    CENTER
+	    BEFORE_FIRST_LINE
+	    AFTER_LAST_LINE
+	    BEFORE_LINE_BEGINS
+	    AFTER_LINE_ENDS
+	    PAGE_START
+	    PAGE_END
+	    LINE_START
+	    LINE_END
+      Example using this as panel :	java_tru -noIntro
+	public class Foo extends JPanel implements ActionListener
+	  public Foo
+	    Gui	this	Border
+	      JLabel:truerNameLabel
+	      JTextField:truerNameTextField
+      A more complete Example :	java_tru -noIntro
+	public class Tru extends SingleFrameApplication
+	  protected void startup
+	    Gui	topPanel	Border
+	      JTabbedPane							CENTER
+		"Run"		JPanel			Border
+		  JPanel:jPanel_2			Flow			NORTH
+		    JLabel:truerNameLabel
+		    JTextField:truerNameTextField
+		    JLabel:inFileLabel
+		    JTextField:inFileTextField
+		    JCheckBox:autoFollowCheckBox
+		  JSplitPane				HORIZONTAL		CENTER
+		    JSplitPane				VERTICAL
+		      EnrichedTextPane:truerInTextPane
+		      JSplitPane			HORIZONTAL
+			EnrichedTextPane:truerStructureTextPane
+			EnrichedTextPane:truerActionsTextPane
+		    JSplitPane				VERTICAL		RIGHT
+		      EnrichedTextPane:truerOutTextPane
+		      EnrichedTextPane:truerErrTextPane
+		  JPanel				Border			SOUTH
+		    JTextField:rulesTextField		-			NORTH
+		    JTextField:additionalInfoTextField	-			SOUTH
+		"truer"		JPanel:truerPanel	Border
+		  JPanel:jPanel_1			Flow			NORTH
+		    JButton:autoScanjButton
+		    JComboBox:truerComboBox		-			-	343,24
+		  JPanel				Border			SOUTH
+		    JTextField:statusTextField		-			CENTER
+	      JPanel					Border			NORTH
+		JToolBar				-			CENTER
+		  JButton:runButton
+		  JButton:closeButton
+		  JButton:unHighlightButton
+		JSeparator				-			SOUTH
+    >
+	{
+      if ($panel ne "this") {
+	  $panel = new JPanel();
+      }
+	  $panel.setLayout(new ${Layout}Layout());
+	}
+      $containerName = $panel;
+      $componentType = "JPanel";
+  tabName	Component[:name]
+    a tab
+      Parameters :
+        tabName		mandatory	.+		the name of the tab
+        Component[:name]	mandatory	.+(:.+)?	the Component and it's name
+        *			optional	.+		additional params
+      If :name is not specified a default is calculated
+
+      "File"	JPanel:p1		Border
+        is basically the same as
+      JPanel:p1	Border
+        jTabbedPane2.addTab("File", null, p1, null)
+
+      "Run"		JPanel			Border
+        is basically the same as
+      JPanel:jPanel1	Border
+        jTabbedPane1.addTab("Run", null, jPanel1, null)
+
+      Example :
+        see	Gui
+    >
+      s/.*?\t+//;
+      s/[^\t]+\t*//;
+      (my $thisComponentType,my $thisContainerName) = $F[1] =~ /(.*):(.*)/;
+      if (!$thisComponentType) {
+        $thisComponentType = $F[1];
+        $thisContainerName = lcfirst($thisComponentType).++$Autocomponents{$thisComponentType};
+      }
+      unshift @ATTIC, (
+        "$indent$thisComponentType:$thisContainerName\t$_",
+        "$indent  $containerName.addTab($tabName, null, $thisContainerName, null)"
+      );
+      # the following (instead of the 'unshift @ATTIC' above) does not work:
+      # local $thiscontainerName = $containerName;
+      # >>anyComponent[:name]	$thisComponentType:$thisContainerName	$_
+      # >>statement		  $thiscontainerName.addTab($tabName, null, $thisContainerName, null)
+  setThem	size	constraint	Layout
+    internal
+    >
+      $produceDefinition = 1;
+      ($Layout,$LayoutKind) = $Layout =~ m/([^:]+)(?::(.+))?/;
+      ($componentType,$containerName,$args) = $setThem =~ /([^:()]+)(?::([^()]+))?(?:\((.+)\))?/;
+      $produceDefinition = 0 if ($containerName =~ s/^://);
+      if (!$containerName) {
+        $containerName = lcfirst($componentType).++$Autocomponents{$componentType};
+      }
+      $outerContainerName = $containerName[-2];
+
+      $outerComponentType = $componentType[-2];
+      if ($outerComponentType eq "JScrollPane") {
+        $addingMethod = "setViewportView";
+      } else {
+        $addingMethod = "add";
+      }
+      if ($produceDefinition) {
+        atmark("guivars_mark") {
+          local $level = $varslevel;
+	private $componentType $containerName;
+        }
+	$containerName = new $componentType($args);
+      }
+	{
+      if ($size and $size ne "-") {
+	  $containerName.setPreferredSize(new java.awt.Dimension($size));
+      }
+      if ($outerComponentType eq "JTabbedPane") {
+      } elsif ($outerComponentType eq "JSplitPane"){
+        if ($componentType eq "JSplitPane") {
+          $outerOrientation = $orientation[-2];
+        } else {
+          $outerOrientation = $orientation;
+        }
+        if ($outerOrientation eq "HORIZONTAL" ) {
+          if ($rnr == 1) {
+            $position = "LEFT";
+          } else {
+            $position = "RIGHT";
+          }
+        } else {
+          if ($rnr == 1) {
+            $position = "TOP";
+          } else {
+            $position = "BOTTOM";
+          }
+        }
+	  $outerContainerName.$addingMethod($containerName, JSplitPane.$position);
+      } else {
+        if ($constraint and $constraint ne "-") {
+	  $outerContainerName.$addingMethod($containerName, ${Layout[-2]}Layout.$constraint);
+        } else {
+	  $outerContainerName.$addingMethod($containerName);
+        }
+      }
+      if ($Layout and $Layout ne "-") {
+        atmark("guivars_mark") {
+          local $level = $varslevel;
+	private ${Layout}Layout ${containerName}Layout;
+        }
+        if ($Layout eq "Box") {
+	  ${containerName}Layout = new ${Layout}Layout($containerName,BoxLayout.$LayoutKind);
+        } else {
+	  ${containerName}Layout = new ${Layout}Layout();
+        }
+	  $containerName.setLayout(${containerName}Layout);
+      }
+	  $containerName.setName("$containerName");
+    <
+	}
+  JTabbedPane[:name]	constraint
+    l	containerName	componentType
+    a JTabbedpane
+      Parameters :
+        JTabbedPane[:name]	indicator	JTabbedPane(:.+)?
+        constraint		mandatory	.+			the constraint
+      Introduces a JTabbedPane
+      Example :
+        see	Gui
+    >
+      >>setThem	$F[0]	-	$constraint
+  anyComponent[:name]	layout	constraint	size
+    l	containerName	componentType
+    a random Component
+      Parameters :
+        anyComponent[:name]	mandatory	.+	the component
+        layout		mandatory	.+	the layout
+        constraint		mandatory	.+	the constraint
+        size		mandatory	.+	the size
+      Introduces a new component.
+      The component may have the form
+          Class:name(constructor-args)
+      Example :	java_tru -noIntro
+	public class Foo
+	  protected void startup
+	    Gui	topPanel	Border
+	      JTable:table(model)
+      size results in
+          $containerName.setPreferredSize(new java.awt.Dimension($size))
+      For layout and constraint see |Gui|
+      Example :
+        see	Gui
+    >
+      $size = "-" unless $size;
+      $constraint = "-" unless $constraint;
+      >>setThem	$F[0]	$size	$constraint	$layout
+  JSplitPane[:name]	orientation	constraint
+    l	containerName	componentType
+    a JSplitPane
+      Parameters :
+        JSplitPane[:name]	indicator	.+
+        orientation		mandatory	VERTICAL|HORIZONTAL	the orientation
+        constraint		mandatory	.+			the constraint
+      Introduces a new Split-Pane.
+      For layout, constraint and size see |Gui|
+      Example :
+        see	Gui
+    >
+      >>setThem	$F[0]	-	$constraint
+	  $containerName.setOrientation(JSplitPane.${orientation}_SPLIT);
+  listeners
+    introducing the listeners
+      Parameters :
+        listeners		indicator	.*
+      Example :	java_tru -noIntro
+	public class Foo
+	  public Foo
+	    listeners
+	      table.getTableHeader().addMouseListener	MouseAdapter
+		public void mouseReleased		MouseEvent evt
+		  ?	columnMoving
+		    columnMoving = false
+		    details.structureChanged()
+		    details.refresh()
+	      table.getModel().addTableModelListener	TableModelListener
+		public void tableChanged		TableModelEvent e
+    >
+      $offset-=2;
+    <
+      $offset+=2;
+  adder	class
+    a listener class
+      Parameters :
+        adder		indicator	.+
+        class		mandatory	.+	the class
+      Example :
+        see	listeners
+    >
+	$adder(new $class() {
+    <
+	});
+  jdoc
+    continued
+      The created comments are suitable for javadoc and doxygen.
+      The usual step would be:
+          javadoc Foo.java
+      rsp.
+          doxygen -g
+          vi Doxyfile
+          doxygen
+      Things said here about doxygen hold for version 1.7.3 .
+      Example with inline descriptions :	java_tru -noIntro
+	jdoc
+	  This comment is ignored by javadoc since the autodoc below creates a new class-comment.
+	  doxygen does not ignore it.
+	public class Strull
+	    Short summary for class Foo (should end in an dot). More
+	    text can come here at
+	      any indent.
+
+	    This is a new paragraph since there was an empty line.
+
+	    Links like {@link #foo(int,int)} survive.
+	  public
+	    int count	the robot-count
+	  int foo	int a, int b
+	      Short summary for foo (should end in an dot).
+
+	      put the param-block at the end.
+	      param	a the lower bound.
+			Text put here belongs to the param a. It can have any indent.
+	      param	b the upper bound.
+	      return	the median.
+	      freelink	defined by your company-style
+			ignored by javadoc with a warning.
+			doxygen will treat it as belonging to the previous param
+	      author	james dean (ignored by javadoc, obeyed by doxygen)
+	      see	#bar(int) for another aproach.
+			Text put here belongs to see.
+
+	      There should be no text after the param-block or both doxygen and javadoc will treat them as belonging to the last param ('see' in this case)
+	    return a*b/2
+	  int bar	int a
+	    autodoc
+	      Short summary for bar (should end in an dot).
+	      This demonstrates an explicit autodoc.
+	      It is completely equivalent to the the implicit version used for foo.
+	      Hence all the things said there also hold here.
+
+	      param	a the lower bound
+	      return	the half
+	    return a/2	easy calculation
+  Option	comment
+    continued
+      java_tru makes use of gnu.getopt.Getopt() with the limitation that it only supports 1-letter options.
+      On a debian-system you have to install package "libgetopt-java".
+      Compile and run your program eventually with
+          -cp /usr/share/java/gnu-getopt.jar
+
+      The usual -- can still be used to stop option-processing.
+      The form -f=file is not supported.
+      If a not defined option is given then usage is called.
+
+      Additionally to the options themselves two vars are declared.
+        Getopt option
+        int optchar
+
+      option.getOptind() has the index in argv[] of the first non-option argument.
+
+      -x results in the var opt_x
+        If -x takes no argument then the value of opt_x is
+	    0		if the option is not given
+	    1		if the option is given once
+	    n		the number 
+        If -x takes an argument then the value of opt_x is
+	    default		if option is not given. default can be empty.
+	    argument	the one given to the option.
+
+          The type of the opt_x is determined by the type of the default (as described in |opt:type[default]|)
+      Example :	java_tru -noIntro
+	class Foo
+	  usage	Foo [options] files ...
+		a very special program
+	  main
+	    Option
+	      a			all
+			calculate all numbers (including the not so pretty)
+	      f:file[/tmp/x]	in-file
+		"file is " + opt_f
+	      t:number[8]		size of a tab
+	      e:epsilon[42.24]	the epsilon
+	    "-a : " + opt_a	opt_a is of type int
+	    "-f : " + opt_f	opt_f is of type String
+	    "-t : " + opt_t	opt_t is of type int
+	    "-e : " + opt_e	opt_e is of type float
+
+	    doc	remaining args
+	    F	int i=option.getOptind() ... argv.length
+	      "argv["+i+"] : " + argv[i]
+
+    -
+      atmark("mark_imports") {
+        local $level=0;
+	import gnu.getopt.Getopt;
+      }
+      atmark("mark_usage") {
+        errout("OPTIONS:");
+      }
+	Getopt option = new Getopt("$DOC", argv,"@{[$GetOpt = join "",@GetOpt]}");
+	int optchar;
+	option.setOpterr(false); // We'll do our own error handling
+	while ((optchar = option.getopt()) != -1) {
+    <
+	  if (optchar == '?') {
+	    System.err.println("Unknown option " + (char)option.getOptopt());
+	    usage();
+	  }
+	}
+  opt:type[default]	shortdesc	statement
+    continued
+      For the default the following holds:
+        If it looks like an int (it matches /^\d+$/) it is a int
+        If it looks like a float (it matches /^\d*\.\d+$/) is is a float
+        Else it is a string (surrounding quotes are optional)
+    >
+      my $intopt    ;
+      my $floatopt  ;
+      my $stringopt ;
+      unless ($intopt    = ($default =~ /^\d+$/)) {
+        unless ($floatopt  = ($default =~ /^\d*\.\d+$/)) {
+          $stringopt = 1;
+          $default =~ s/^"(.+)"$/$1/;
+        }
+      }
+
+      $NrOfLinesFollowing = 1; # for c we always have something in the body
+      >>	optcommon	$opt:	optchar == '$opt'	$type
+
+      $level = 5;
+      atmark("mark_optiontext") {
+        errout("\t-$opt=$type\t$shortdesc");
+        if ($default) {
+          errout("\t\tdefault for $type is $default");
+        }
+      }
+      if ($stringopt) {
+        atmark("mark_options") {
+	String opt_$opt = "$default";
+        }
+	    opt_$opt = option.getOptarg();
+      } elsif ($floatopt) {
+        $default=0 unless $default;
+        atmark("mark_options") {
+	float opt_$opt = ${default}f;
+        }
+	    opt_$opt = Float.valueOf(option.getOptarg());
+      } else {
+        $default=0 unless $default;
+        atmark("mark_options") {
+	int opt_$opt = $default;
+        }
+	    opt_$opt = Integer.parseInt(option.getOptarg());
+      }
+      stmt($statement);
+  opt	shortdesc	statement
+    continued
+    >
+      >>	optcommon	$opt	optchar == '$opt'	_	opt_$opt++
+      stmt($statement);
+      $level = 5;
+      atmark("mark_optiontext") {
+        errout("\t-$opt\t$shortdesc");
+      }
+      atmark("mark_options")
+	int opt_$opt = 0;
+  Optiondescription
+    continued
+    >
+      $indent = " "x($level-9);
+      $level=5;
+      atmark("mark_optiontext") {
+        errout("\t$indent$_");
+      }
+  usageline
+    continued
+    >
+      $level=5;
+      errout("$rindent$_");
+  usage	shortdesc
+    continued
+    >
+      atmark("mark_usagecall") {
+	  if (argv.length == 1 && argv[0].equals("-?")) {
+	    usage();
+	  }
+      }
+	static void usage()
+	{
+      $level=5;
+      errout("usage : $shortdesc");
+    <
+      setmark("mark_usage");
+      setmark("mark_optiontext");
+	  System.exit(1);
+	}
+  try	statement
+    continued
+      Example :	java_tru -noIntro
+	public class Foo
+	  main
+	    try
+		t.run()
+	      IOException ioe
+		System.err.println("Error : "+ioe)
+	      finally
+	        whatever()
+  var	comment
+    continued
+      The comment is suitable for javadoc and doxygen. See |jdoc| for more info about this issue.
+    -
+      if ($comment)
+	/** $comment */
+      if ($NrOfLinesFollowing)
+	$vars$var = {
+      else
+	$vars$var;
+    <
+      if ($NrOfLinesFollowing)
+	};
+  DOC
+    A class
+      The created code is a java program.
+      Example :	java_tru
+	public class Foo
+	  main
+	    "Hello World"
+    >
+      ->introcomment
+      setmark("mark_imports");
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          System.out.println(statement);
+
+      Example :	java_tru -noIntro
+	class Foo
+	  void bar
+	    int count=1		the linecount
+	    ?	count != 1	"internal error"
+	    "count :"+count
+
+      If java_tru is called with -GenerateDebugInfo and statement is a super()-call then the additional code is generated behind this statement.
+      This is because super() must be the first statement of a constructor.
+
+      Example :	java_tru -noIntro -GenerateDebugInfo
+	public class TableException extends Exception
+	  public TableException	SQLException ex
+	    super(ex)
+    -
+      if ($statement =~ /^"/) {
+	System.out.println($statement);$comment
+      } else {
+	$statement$statementdel$comment
+        if ($statement =~ /^\s*super\s*\(/) {
+          $offset-=2;
+          >>GenerateDebugInfo
+          $offset+=2;
+          $infoGenerated=1;
+        }
+      }
+  package	name
+    declare a package
+      Parameters :
+        package	indicator	.*
+        name	mandatory	.+	the package-name
+      Example :	java_tru -noIntro
+	package	Foo
+    >
+	package $name;
+  imports
+    import packages
+      Parameters :
+        imports	indicator	.*
+      Example :	java_tru -noIntro
+	imports
+	  java.io.*		for basic io-stuff
+	  javax.swing.*
+	  java.util.*
+  import	comment
+    a package to be imported
+      Parameters :
+        import	mandatory	.+	the package name
+        comment	optional	.+	a comment
+      Example :
+        see	imports
+    >
+      $comment = "  //  $comment" if $comment;
+      $level-=2;
+	import $import;$comment
+  class
+    l	classname	varslevel
+    a class (also inner-class) or an interface
+      Parameters :
+        class	mandatory	[^"(]*\bclass\b[^.].+|[^"(]*\binterface\b[^.].+	the class
+      Example :	java_tru -noIntro
+	public interface Command
+	  public abstract void execute
+	class FancyToy extends Toy implements HasBatteries, Waterproof, Shoots
+	  class Rev
+	    vars
+	      String file		the name of the in-file
+    >
+      setmark("mark_autodoc");
+      ($classname=$class)=~s/.*\bclass +//;
+      $classname=~s/ .*//;
+	$class {
+      setmark("guivars_mark");
+      $varslevel = $level+2;
+    <
+	}
+  static
+    A static block
+      Parameters :
+        static	indicator	.*
+      Example :	java_tru -noIntro
+	class Foo
+	  static
+	    f1 = new Foo(1)
+	    f2 = new Foo(2)
+    >
+	static {
+    <
+	}
+  vars
+    continued
+      Example :	java_tru -noIntro
+	class MyClass
+	  public
+	    int count = 1	count the items
+	    double[] sizes	in different units
+	      1			inch
+	      2.54		cm
+	    int j		uninitialized
+	    int i = 0
+	  vars
+	    String msg = "Hello"
+	  main
+	    "running"
+    >
+      if ($vars eq "vars") {
+        $vars = "";
+      } else {
+        $vars .= " ";
+      }
+      if ($opt_languageType eq "c") {
+	/* ${vars}vars */
+      } else {
+	$cc ${vars}vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  functionSignature	args	throws
+    a function signature
+      Parameters :
+        functionSignature	mandatory	.+	the function name
+        args		optional	.+	the arguments
+        throws		optional	.+	a throws clause	
+      Example :	java_tru -noIntro
+	abstract class Inning
+	  public Inning	int round			throws BaseballException
+    >
+      $throws=" ".$throws if $throws;
+      $args="" if $args =~ /^ +$/;
+	$functionSignature($args)$throws;
+  abstractfunction	args	throws
+    an abstract function
+      Parameters :
+        abstractfunction	mandatory	.+	the function name
+        args		optional	.+	the arguments
+        throws		optional	.+	a throws clause	
+      Example :	java_tru -noIntro
+	abstract class Shape implements Serializable
+	  public abstract void setColor	int newColor
+	  public abstract int getColor
+    >
+      setmark("mark_autodoc");
+      $throws=" ".$throws if $throws;
+      $args="" if $args =~ /^ +$/;
+	$abstractfunction($args)$throws;
+  main
+    the main function
+      Parameters :
+        main	indicator	.*
+      Example :	java_tru -noIntro
+	public class Foo
+	  main
+	    "Hello World"
+    >
+      setmark("mark_autodoc");
+	public static void main(String argv[]) {
+       if ($VERSION) {
+	  if (argv.length == 1 && argv[0].equals("-version")) {
+	    System.out.println("version:");
+        setmark("mark_version");
+	    return;
+	  }
+       }
+      setmark("mark_usagecall");
+      setmark("mark_options");
+    <
+	}
+  object
+    l	objectLevel
+    with object do
+      Parameters :
+        object	mandatory	.+	the object
+      Apply methods of an object or class.
+      Nesting is possible.
+      Example :	java_tru -noIntro
+	public class Foo
+	  bar
+	    stream.
+	      open()
+	      read()
+	    System.
+	      out.println(t.getOutString())
+	      err.
+		println(t.getErrString1())		the file and line-nr
+		println(t.getErrString2())		the code
+    >
+      # although the levels are stacked in @objectLevel only the first entry will ever be used.
+      # this allows for nesting things like in the example
+      $objectLevel = $level;
+  element	comment
+    a method call for a given object
+      Parameters :
+        element	mandatory	.+	the element to be appended to the object(s)
+        comment	optional	.+	a comment for this element
+      Example :
+        see	object
+    >
+      $level=$objectLevel[0];	# use the outermost object level
+      my $objects=join('',@object);
+      ->statement	$objects$element	$comment
+  LabeledLoop	cond	stmt
+    a labeled loop
+      Parameters :
+        LabeledLoop	indicator	\w+\s*:\s*[FWU]
+        cond	mandatory	.+	the condition
+        stmt	optional	.+	a statement
+      Example :	java_tru -noIntro
+	public class LabeledFor
+	  main
+	    outer: F	; true ;
+	      inner: F	; i < 10; i++
+    >
+      local ($label,$what) = $LabeledLoop =~ /(.*:)\s*(.)/;
+	$label
+      $what = "For" if $what eq "F";
+      >>$what	$what	$cond	$stmt
+  synchronized	obj	stmt
+    a synchronized block
+      Parameters :
+        synchronized	indicator	.*
+        obj			mandatory	.+	the object to synchronize on
+        stmt		optional	.+	a statement
+      Example :	java_tru -noIntro
+	public class Foo
+	  public void run
+	    try
+	      block
+		synchronized	this
+		  wait()	Blocks
+		synchronized	this	wait()
+	      InterruptedException e
+		"Interrupted"
+	    "Exiting run()"
+    >
+	synchronized($obj) {
+      stmt($stmt);
+    <
+	}
+group
+  java
+	comment	*								=2	\/\/.*
+	native code								=2	java code<?
+	  nativeCodeLine	*						>>t*
+	vars									=2		private|protected|public|vars
+	  enum		name							>0		enum
+	    enumline		[comment]					>0
+	  var			[comment]					>0	.+
+	    initialisation	[comment]					>0
+	object									>2	.+\.
+	  object								=*	.+\.
+	  element		[comment]					=*	.+
+	Gui	panel	layout							>2	Gui
+	  JTabbedPane[:name]	constraint					>o	JTabbedPane(:.+)?
+	    tabName	Component[:name]	*				=	".*"
+	  JSplitPane[:name]	orientation	[constraint]			>	JSplitPane(:.+)?	VERTICAL|HORIZONTAL
+	  anyComponent[:name]	[layout]	constraint	size		>	[A-Z][^.]+(:.+)?
+	menuBar	name								>2	menuBar
+	  menu
+	    menuItem	Action							=	.*			".*"
+	    menuItemWithActionListener	[Action]
+	listeners								>2	listeners
+	  adder	class
+	    function		args						=o
+	      autodoc								=g
+	LabeledLoop		expr	[stmt]					>2		\w+\s*:\s*[FWU]
+	synchronized		obj	[stmt]					>2		synchronized
+	F			expr	[stmt]					>2 For	F		.+:.+
+	package	name								=	package
+	imports									=	imports
+	  import		[comment]					=	.+
+	annotation								=2		@.*
+	  annotationElement	value	[comment]
+	class									=o2		[^"(]*\bclass\b[^.].+
+	  autodoc								=g
+	  usage	shortdesc							=	usage
+		usageline	*						>>t*
+	  main									=g
+	  static								=	static
+	  abstractfunction	[args]		throws				>o0		[^{}]*\babstract\b.+	.+	throws .+
+	    autodoc								=g
+	  function		[args]		throws				>o0		[^{}]+			.+	throws .+
+	    autodoc								=g
+	interface								=2 class	[^"(]*\binterface\b.+
+	  functionSignature	[args]	throws					>0		.+			.+	throws.+

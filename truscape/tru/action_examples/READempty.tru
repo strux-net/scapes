@@ -1,0 +1,23 @@
+VERSION	3.0
+##	READ and empty lines:
+##	  READ is not applied to empty lines.
+##	  Empty lines are not processed until the next non-empty line is read or the end of input is reached.
+##	  This is so that the level for empty lines can be calculated.
+##	  For the same reason READ has to be applied for this (non-empty) line.
+#	  The consequence can be seen in the example
+#	    READ is processed for the first line
+#	    the first line is output
+#	    the second (empty) line is read but not processed
+#	    the third (empty) line is read but not processed
+#	    READ is processed for the fourth line
+#	    the second line is output
+#	    the third line is output
+#	    the fourth line is output
+READ
+  $fsaved = $_;
+actions
+  accepted line
+    >
+	$. : '$_' $fsaved
+structure
+	accepted line

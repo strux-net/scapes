@@ -1,0 +1,178 @@
+VERSION	3.0
+doc	Copyright
+  This file is in the public domain.
+  Use it at your won risk.
+  There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+  Author : Michael Naumann
+
+doc	README
+  How to use prompt.sh
+    source this file from your .bashrc (rsp .zshrc) with
+      . ~/strux/prompt.sh
+    or copy it anywhere and source it like in
+      . /anywhere/prompt.sh
+  What prompt.sh requires
+    prompt.sh works best with bash (version 2 or later).
+    Furthermore a decent terminal-program knowing the xterm color-codes is supposed to be running underneath the bash.
+
+    Good candidates are
+	xterm
+	Eterm
+	linux console
+	putty
+	cygwin
+  What prompt.sh does
+    sets bash's and zsh's prompting capability to prompt as follows
+	user@host 3 /tmp 2/502 20:21:18 1 OK
+    where
+        user		username
+        host		hostname
+        3		the tty
+        /tmp		the current directory (PWD)
+        2		the number of this command
+        502		the number of commands in the history (not for zsh)
+        20:21:18	the current time
+        1		the number of background jobs
+        OK		the last command exited without error (else shows errorcode)
+
+    The input-cursor starts on a line of it's own.
+
+    The fields are colored according to some situations
+	user
+	    red if user is root
+	    green otherwise
+	host
+	    blue normally
+	    brown if $HOSTDISPLAY is set
+		This is good to distinguish local from other sessions.
+		  For local sessions HOSTDISPLAY is set to something like host:0.0, for
+		  ssh sessions or after a "su - username" HOSTDISPLAY is unset.
+	directory (PWD)
+	    green normally
+	    underlined green, if more directories are on the dir-stack
+	    red, if PWD does not exist.
+	number of background jobs
+	    white, if no background-jobs are present
+	    blue, otherwise
+	error code
+	    same color as before if no error
+	    inverted red, if an error occurred
+
+    Furthermore, it prevents you from exiting the shell with ^D if either
+	some background-jobs are still present, or
+	the directory-stack is not empty
+
+global code
+  doc	get some suitable values for userstandout and normal
+	userstandout	color for the username
+	normal		switch back to white on black
+    these values are overwritten later if you're lucky
+  ?	[ "$LOGNAME" = "root" -o "$USER" = "root" ]	userstandout=`tput rev 2>/dev/null`	userstandout=`tput bold 2>/dev/null`
+  normal=`tput rmso 2>/dev/null`
+  doc	Best prompt with bash 2 or better or zsh
+  ?	[ "$BASH_VERSINFO" -ge 2 -o "$ZSH_NAME" = "zsh" ]
+    doc	xterm and it's clones know how to use colors
+    ?	[[ "$TERM" == xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]]
+
+      M	 	=$'\e[		m'
+        normal		0
+        Inverse		7
+        White		1;37
+        Light_Gray	0;37
+        Gray		1;30
+        Black		0;30
+        Red		0;31
+        Light_Red	1;31
+        Green		0;32
+        Light_Green	1;32
+        Brown		0;33
+        Yellow		1;33
+        Blue		0;34
+        Light_Blue	1;34
+        Purple		0;35
+        Pink		1;35
+        Cyan		0;36
+        Light_Cyan	1;36
+
+        UL_White	1;37
+        UL_Light_Gray	0;37
+        UL_Gray		1;30
+        UL_Black	4;30
+        UL_Red		4;31
+        UL_Light_Red	1;31
+        UL_Green	4;32
+        UL_Light_Green	1;32
+        UL_Brown	4;33
+        UL_Yellow	1;33
+        UL_Blue		4;34
+        UL_Light_Blue	1;34
+        UL_Purple	4;35
+        UL_Pink		1;35
+        UL_Cyan		4;36
+        UL_Light_Cyan	1;36
+
+      I_Red=$Red$Inverse
+      doc	the color for the host depends on whether we're on localhost ore remote
+        This fact is detected by the presence of $HOSTDISPLAY which is set on localhost and unset if we are here via ssh
+      ?	[ -z "$HOSTDISPLAY" ]	hoststandout=$Blue	hoststandout=$Brown
+
+      doc	the color for the user depends on whether it's root or not
+      ?	[ $UID = 0 ]	userstandout=$Red	userstandout=$Green
+      doc	now comes the prompt
+      ?	[ "$ZSH_NAME" = "zsh" ]
+	setopt promptsubst PROMPT_PERCENT
+	PS1=$'%{$userstandout%}%n$Light_Gray@$hoststandout%m$Light_Gray %l \$(coldir_zsh)\%~$Light_Gray %! $Brown%*$Light_Gray %{$jobcount%}%j \$(errcode)%{$normal%}\n'
+      -
+	PS1="\[$userstandout\]\u$Light_Gray@$hoststandout\h$Light_Gray \l \$(coldir_bash)\w$Light_Gray \#/\! $Brown\t$Light_Gray \$(jobcount_bash)\j \$(errcode)\[$normal\]\n"
+	doc	set the checking for disabling ^D
+	PROMPT_COMMAND=job_test_bash
+    -
+      doc	we have no xterm, so we must use conservative settings
+      PS1="\[$userstandout\]\u@\h(\l)[\w] - \#/\! \t \j \$(errcode)\[$normal\]\n"
+  -
+    doc	we have a too old or unsupported shell, we are conservative
+    USER=`id -un`
+    TTY=$(basename `tty`)
+    PS1='$userstandout$USER@\h($TTY)[\w] - \#/\! $?$normal\n'
+
+coldir_zsh
+  local olderrcode=$?
+  ?	[ ! -e "$PWD" ]			echo -e $I_Red
+  ?-	[ -w "$PWD" ]
+    ?	[ $#dirstack -eq 0 ]	echo -e $Green	echo -e $UL_Green
+  -
+    ?	[ $#dirstack -eq 0 ]	echo -e $Red	echo -e $UL_Red
+  return $olderrcode
+coldir_bash
+  local olderrcode=$?
+  ?	[ ! -e "$PWD" ]			echo -e $I_Red
+  ?-	[ -w "$PWD" ]
+    ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Green	echo -e $UL_Green
+  -
+    ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Red	echo -e $UL_Red
+  return $olderrcode
+jobcount_zsh
+  ?	[ -n "$jobstates" ]	echo -e "$Blue"
+jobcount_bash
+  local olderrcode=$?
+  ?	[ ! -z "`jobs -p`" ]	echo -e "$Blue"
+  return $olderrcode
+errcode
+  local olderrcode=$?
+  ?	[ $olderrcode = "0" ]	echo -n "OK"	echo -ne "$I_Red $olderrcode "
+job_test_bash
+  ?	[ -z "$(jobs -p)" -a ${#DIRSTACK[*]} -eq 1 ]	IGNOREEOF=0	IGNOREEOF=999999
+
+
+doc	only for zsh  (bash will happily just do nothing with it)
+#precmd() { [ $#jobtexts != 0 ] && jobcount=$Blue || jobcount="" ; }
+precmd
+  ?	[ $#jobtexts != 0 ]
+    jobcount=$Blue
+  -
+    jobcount=""
+  ?	[ $#jobtexts != 0 -o $#dirstack -ne 0 ]
+    setopt ignore_eof
+  -
+    setopt no_ignore_eof

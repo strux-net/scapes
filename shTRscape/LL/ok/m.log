@@ -1,0 +1,15 @@
+building L
+sh_tru L.shTR >L
+GOOD	L
+chmod +x L
+testing L
+building LLfs
+sh_tru LLfs.shTR >LLfs
+GOOD	LLfs
+chmod +x LLfs
+testing LLfs
+building LL
+sh_tru LL.shTR >LL
+GOOD	LL
+chmod +x LL
+testing LL

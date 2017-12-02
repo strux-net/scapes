@@ -1,0 +1,78 @@
+marks
+  vars
+    @tru::ActiveMarks	stack for the return points for the active marks
+    %tru::Marks
+      Hash of refs (to marks)
+    $tru::unsetMarkActive	indicates wheter a unset Mark is currently active
+    %tru::Saved{$mark}		here the output for unset Marks is stored
+    @tru::ActiveMarksUndef	stack for the "mark-set"-state
+internal vars
+  compile-time (only inside tru)
+    $LS			1010001	a one for each level in structure)
+    $implicitIndent	4	the implicit indent (the length of the 0001 above)
+    $inOptional		2	index (into Branchxxx) of the rightmost optional (derived from BranchIsOptional)
+				-1 if not in an optional
+    %Args{action}
+    %Locals{action}
+    %Seen{action}
+    %HereSeen{Arrayname}
+  run-time (inside x_tru)
+    $tru::action	current action-name
+    @tru::O		holds the collected output
+    $tru::Oi		points to the next insert-position in @O
+    @tru::Oi		holds the positions for the next depthaction
+    @tru::Or		the $Oi before a macro_out_depth(), will be popped after the depth-action
+    @tru::states	the states (DOC/function/?/statement) - one per macroin()
+      the current state is
+        at $tru::states[-1] in the in-action
+        no longer on this stack in the out-action
+      hence the parent state is
+        at $tru::states[-2] in the in-action
+        at $tru::states[-1] in the out-action
+
+    @tru::statesi	-1,-1,-1,-2,-1,-1
+    good example in test7 and test15 
+    see them using
+      md run_test7
+      rm run_test7/*;c=$(perl test7s1_tru -unroll 0 --noHeader test7s.in 2>/dev/null|wc -l) ;for i in $(seq $c); do echo -en "\r$i ";perl test7s1_tru -unroll $i test7s.in | tabify.pl >| run_test7/$i.out ;done 2>|err
+      LL run_test7
+	so ~/tru/tru/unroll.vim
+    or also
+      md run_test15
+      rm run_test15/* && perl tru test15.tru tracemarks.tru >|test15_tru && for i in {1..117}; do echo $i; perl test15_tru -limit=$i -depth test15 >| run_test15/$i.out ;done
+      cd /test15.tru +LL +'wincmd k' +'wincmd L' +'sp ../test15' +LL +'wincmd -'
+    produce diffable output with
+      test15=0 perl test15_tru test15
+    $tru::emax	= max
+    $tru::gmax	> max
+    $tru::isTriggered	in optional items. 1 if the item is automatically triggered
+
+    %tru::actioncode
+      $tru::actioncode{pit}{action}	sub
+      $tru::actioncode{locals}{action}	array of names
+      $tru::actioncode{args}{action}	array of names
+    @tru::actions
+	    0		1	2	3	4	5	6		7		8
+	    level	action	@F	$_	$.	indent	active_rule_nr	active_state	tabaligned_base
+    %groups
+      @{$groups{$group}{'content'}}	array of structure items for group $group
+      $groups{$group}{'refcount'}	how often was this group expanded
+      $groups{$group}{'rule_nr'}	first $active_rule_nr for the first item
+CheckStatesPath, csp and debout
+  CheckStatesPath (indicator, star, M, I, $implicitIndent)
+    indicator		= or > or >> or d (for dangling)
+    star
+      0	: no *
+      1 : *n    (fixed)
+      2 : *     (dangling)
+    M and I together form the matchstring
+      M : states       (DOC main F stat   )
+      I : indicators   (1   1    0 0      )
+      I : standing for (=   =    > >      )
+    implicitIndent			implicit indent
+ 
+    if indicator is = (rsp. 1) then eating up all states is required
+ 
+  reactivate debugging of the hairy routine CheckStatesPath
+    uncomment the debout-Lines in CheckStatesPath and csp
+    modify sub debout at will, e.g. printing only on certain conditions

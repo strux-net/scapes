@@ -1,0 +1,39 @@
+VERSION	3.0
+usage	i [<Option>] [<file>]
+	indents or outdents a file by a given amount.
+	tabs are assumed to count for 8 spaces.
+
+	care is taken not to simply prepend spaces to lines that start with a tab.
+
+	reads stdin if no file is given.
+
+	only one option can be given.
+	without any option it defaults to -i 2
+
+main
+  Option
+    i:number[0]		indent in  (by space)
+      $optcount++
+    o:number[0]		indent out (by space)
+      $optcount++
+    it:number[0]	indent in  (by tab)
+      $optcount++
+  ?	$optcount == 0	$opt_i=2
+  ?	$optcount >  1	usage
+  W	<>
+    !	$_ eq "\n"
+      ??	$opt_
+        i	s/^(\t*)/$1.(" "x$opt_i)/eo
+        it	s/^/"\t"x$opt_it/eo
+        o
+	  !	s/^(\t*) {$opt_o}/$1/o
+	    $remaining = $opt_o
+	    s/^(\t*)( *)/$1/o		as many spaces as possible
+	    $remaining-=length($2)
+
+	    doc	here we have only leading tabs, no more spaces
+	    $tc = int($remaining/8)		nr of tabs to remove
+	    $sc = $remaining%8			nr of spaces left to remove
+	    s/^\t{$tc}//			remove the tabs
+	    s/^(\t*)\t/$1.(" "x(8-$sc))/e	handle the remaining spaces, take them from a left-over tab
+    print

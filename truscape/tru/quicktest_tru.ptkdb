@@ -1,0 +1,29 @@
+$files = {
+           '_<trusupp.pl' => [
+                               {
+                                 'fname' => 'trusupp.pl',
+                                 'line' => '197',
+                                 'value' => '1',
+                                 'expr' => undef,
+                                 'type' => 'user',
+                                 'text' => '          $tru::emptyLineIsLast = $tru::empty+1;
+'
+                               }
+                             ]
+         };
+$expr_list = [
+               {
+                 'expr' => '"$.    $level   $_"',
+                 'depth' => -1
+               },
+               {
+                 'expr' => '$tru::emptyLineIsLast',
+                 'depth' => -1
+               },
+               {
+                 'depth' => -1,
+                 'expr' => '$tru::empty'
+               }
+             ];
+$eval_saved_text = undef;
+$main_win_geometry = '1654x1115+0+1';

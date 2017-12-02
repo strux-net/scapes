@@ -1,0 +1,33 @@
+VERSION	3.0
+actions
+  DOC
+    >
+	DOC  in    : $NrOfChilds : $_
+    -
+	DOC  depth : $NrOfChilds : $_
+    <
+	DOC  out   : $NrOfChilds : $_
+  line
+    >
+	line in    : $NrOfChilds : $_
+      >>foo	$line
+    -
+	line depth : $NrOfChilds : $_
+    <
+	line out   : $NrOfChilds : $_
+  foo
+    >
+	foo in     : $NrOfChilds : $_
+      >>bar	$line
+    -
+	foo depth  : $NrOfChilds : $_
+    <
+	foo out    : $NrOfChilds : $_
+  bar
+    >
+    -
+	bar depth  : $NrOfChilds : $_
+    <
+	bar out    : $NrOfChilds : $_
+structure
+	line	*	>*

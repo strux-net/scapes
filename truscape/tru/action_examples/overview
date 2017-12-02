@@ -1,0 +1,40 @@
+OPTIONS USAGE
+  OPTIONSandUSAGE.tru
+  OPTIONSandUSAGEpart2.tru
+in-action, depth-action and out-action pit, short description and comments
+  intro.tru
+here text
+  HereText.tru
+CLEAR
+  CLEAR.tru
+calling action
+  callingActions.tru
+redirecting actions
+  redirectingActions.tru
+outstatements
+  outstatements.tru
+marks
+  marks.tru
+perl code
+  perl_code.tru
+arguments
+  arguments.tru
+DOC
+  DOC.tru
+UNMATCHED
+  UNMATCHED_default.tru
+  UNMATCHED.tru
+READ
+  READ.tru
+ATTICREAD
+  ATTICREAD.tru
+SPLITAPPLY
+  SPLITAPPLY.tru
+WRITE
+  WRITE.tru
+FLUSH
+  FLUSH.tru
+BEGIN
+  BEGIN.tru
+NEWFILE
+  NEWFILE.tru

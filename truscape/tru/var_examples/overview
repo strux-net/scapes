@@ -1,0 +1,78 @@
+$state
+  contains the name of the currently processing action
+  for a called Action it has the value of the first arg
+$depth
+  can be set in BEGIN
+  is set if truer is called with -depth
+  switches the truer to depth-mode
+$delim
+  tbd : make example
+  The default is to split the line on tabs. You can specify your own split-string
+  by assigning it to $delim in the BEGIN section.
+  Example	->	test6.tru
+$indent
+  holds the indent of this line as found (i.E tabs survive)
+  use tru::indentval($indent) to geht it's value as if it were all space.
+$level
+  the indent level of this line as a number, i.e 1 plus number of leading spaces.
+  Remember that leading tabs count as 8 spaces each.
+  action DOC is at level 0.
+$rindent and $rlevel
+  only valid for tabaligned structure items
+  $rindent : the relative indent (as string) to the required tab-position, derived from the found indent.
+  $rlevel  : the relative indent (as number) to the required tab-position, basically the length of $rindent if it contained only spaces.
+  Example (say required level is 9)
+    found indent		$rindent	$rlevel
+    -------------------------------------------------
+    '<......><......>  '	'<......>  '	10
+    '<......>          '	'          '	10
+  They are only valid in the in-action.
+  Use something like the following to make them visible (as $ri and $rl) in the depth- and out-action
+      actions
+	tabaligned line
+	  l	ri	rl
+	  >
+	    $ri = $rindent;
+	    $rl = $rlevel;
+$rnr
+  holds the relative linenumber, starting at 1.
+@rnr
+  holds the relative linenumbers so far
+  There is one entry for each level, even for skipped levels, in which case the corresponding value is empty.
+  $rnr[0] is always 1 (for DOC)
+$arg
+  substitute by the argument arg
+@arg
+  all args stacked
+$NrOfChilds
+  Number of (non-empty) items between inaction and outaction.
+  independent of produced output
+  but only in depth-mode
+  valid in depthaction and outaction
+  Example	->	test13.tru
+$NrOfLinesFollowing
+  Number of lines generated between inaction and outaction
+  but only in depth-mode
+  valid in depthaction and outaction
+  value the same in depthaction and outaction.
+  Example	->	test7.tru
+@F
+  all args in an array
+$_
+  full line
+    after READ
+    leading whites removed
+    inter-field tabs survived
+@ATTIC
+  read first looks at this array (using shift)
+  Use unshift to put something in there.
+    This can be useful for mimicking (e.G java.tru)
+  Note : READ is not applied to lines in @ATTIC
+    use tru::read() if you want it.
+  Example from semantics_check.tru
+    include
+      ($include) = $include =~ /<include\s+(.+)>/;
+      open INCFILE,$include or die "cannot include $include : $!";
+      unshift @ATTIC,map { chomp;tru::read();$_ } <INCFILE>;	# a whole array is unshifted with READ applied to each line.
+      close INCFILE;
+

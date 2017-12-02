@@ -1,0 +1,19 @@
+VERSION	3.0
+##	SPLITAPPLY
+##	  After having read a line and split into fields. Applied to each field.
+##	  for each line the local var $i is guaranteed to be initialized to 0
+##	  you can use it to count the fields and do specific things for specific fields
+##	  the code given here is called for each field in sequence with $_ set to the field
+##	  it does not affect $_ seen in the action
+SPLITAPPLY
+  s/^/$i /;
+  $i++;
+actions
+  zero	one	two	three
+    >
+      #	$_ is not affected by SPLITAPPLY
+	$_
+      #	the single fields are subject to SPLITAPPLY
+	$zero	$one	$two	$three
+structure
+	zero	one	two	three

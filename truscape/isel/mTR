@@ -1,0 +1,20 @@
+title				select lines of structured text
+isel	isel.tru
+  doc
+    trudefault	txt html
+  test
+    ./isel /ba/i   -h                  test.in test1.in
+    ./isel ^a$     -n 1                test.in
+    ./isel ^ba$    -n 1                test.in
+    ./isel b -l 3  -n 1                test.in
+    ./isel b -l 3                      test.in
+    ./isel b -l 3       -nh            test.in
+    ./isel b -l 3       -ni            test.in
+    ./isel b -l 3           -indicate  test.in
+    ./isel ba      -n 1 -w             test.in
+    ./isel /ba/i                       test.in
+    ./isel baa              -tree      test.in
+    ./isel -f 1 cd          -tree      test.in
+    -./isel -invalid
+  install
+    2struxbin

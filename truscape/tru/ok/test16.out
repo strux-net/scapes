@@ -1,0 +1,112 @@
+introcomment
+ >lust
+ -lust
+       lustline lustline
+ <lust
+ >class another
+ -class another
+   // private Attributes
+     private x;
+     private y;
+ >doc : doc1
+ -doc : doc1
+   >more
+   -more	0 lines following
+   <more
+ <doc : doc1
+ <class another
+ >class anyclass
+   class has a main method
+ -class anyclass
+    vars
+   a;
+ >doc : doc1
+ -doc : doc1
+   >one
+   -one	3 lines following
+     >one,one
+     -one,one	0 lines following
+     <one,one
+   <one
+   >two
+   -two	0 lines following
+   <two
+ <doc : doc1
+   >foo
+   -foo	12 lines following
+     >innerdoc
+     -innerdoc	9 lines following
+       >jdtag	p	p1
+       -jdtag	p	p1
+       <jdtag	p	p1
+       >jdocu	free text
+       -jdocu	free text
+        >jdocu	more free text
+        -jdocu	more free text
+        <jdocu	more free text
+       <jdocu	free text
+     <innerdoc
+   <foo
+   >main
+   -main	59 lines following
+     >table
+     -table
+       tableline one	two	three
+       tableline four	five	six
+     <table
+     >table
+     -table
+       tableline eins	zwei	drei
+       tableline vier	fünf	sechs
+     <table
+     >line	now comes a autolist
+     -line	now comes a autolist	5 lines following
+       >list
+       -list
+         listline rom
+         listline berlin
+       <list
+     <line	now comes a autolist
+     >try
+     -try	12 lines following
+       >block
+       -block	9 lines following
+         >line	anything
+         -line	anything	0 lines following
+         <line	anything
+         >line	something
+         -line	something	0 lines following
+         <line	something
+         >For
+         -For
+         <For
+       <block
+     <try
+     >line	code
+     -line	code	23 lines following
+       >lust
+       -lust
+             lustline a lustline
+       <lust
+       >line	more code
+       -line	more code	4 lines following
+         >lust
+         -lust
+               lustline also a lustline
+         <lust
+       <line	more code
+       >For
+       -For
+       <For
+       >fancy
+       >For
+       -For
+       -fancy
+         >line	do this and that
+         -line	do this and that	0 lines following
+         <line	do this and that
+       <For
+       <fancy
+     <line	code
+   <main
+ <class anyclass

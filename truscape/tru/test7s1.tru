@@ -1,0 +1,68 @@
+VERSION	3.0
+USAGE
+	Testprogram for actioncall in in-action.
+
+	In the in-action of item call first and second
+
+	Basically:
+	  item
+	    >>first
+	    >>second
+
+	take a closer look at -item
+	  Suppose it is run for this in-file
+		1
+		  1.1
+		    1.1.1
+	  $NrOfLinesFollowing for -item is 3. Hence you find 3 occurences of item in the second column .
+	  since second and first are already closed (out-action is performed) when -item is performed their outactions count for $NrOfLinesFollowing.
+	  subitem is seen in -second -first -item -line
+
+	Details:
+	  the depthactions are in the following order
+	    < item
+	    < first
+	    < second
+	  the outactions are in the following order
+	    < second
+	    < first
+	    < item
+	  $NrOfLinesFollowing in item contains the lines produced by first, second (as well as what item produces)
+	  $NrOfLinesFollowing in first contains the lines produced by second (as well as what item produces)
+	  $NrOfLinesFollowing in first contains the lines item produces
+actions
+  line
+    >
+	>line		_
+    -
+	-line		_
+    <
+	<line		_
+  item
+    >
+	>item		line
+      >>first
+	moreText1	first line
+      >>second
+	moreText2	second first line
+    -
+	-item		line
+    <
+	<item		line
+  first
+    >
+	>first		line
+    -
+	-first		line
+    <
+	<first		item line
+  second
+    >
+	>second		first line
+    -
+	-second		first line
+    <
+	<second		first item line
+  subitem
+    >
+	subitem		second first item line

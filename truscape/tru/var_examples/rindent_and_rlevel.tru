@@ -1,0 +1,47 @@
+VERSION	3.0
+##	$rlevel and $rindent
+##	  only valid for tabaligned structure items.
+##	      $rindent	the relative indent (as string) to the required tab-position, derived from the found indent.
+##	      $rlevel	the relative indent (as number) to the required tab-position, basically the length of $rindent if it contained only spaces.
+##	  They are only valid in the in-action.
+#
+#	  Example (say required level is 9)
+#	    found indent		$rindent	$rlevel
+#	    -------------------------------------------------
+#	    '<......><......>  '	'<......>  '	10
+#	    '<......>          '	'          '	10
+#
+#	  Use something like this to make them visible (as $ri and $rl) in the depth- and out-action:
+#		actions
+#		  tabaligned line
+#		    l	ri	rl
+#		    >
+#		      $ri = $rindent;
+#		      $rl = $rlevel;
+actions
+  chapter	name
+    >
+      # here $rlevel and $rindent have no meaning
+	$rlevel,'$rindent' : $_
+  section	name
+    >
+      # here $rlevel and $rindent have no meaning
+	$rlevel,'$rindent' : $_
+  any line
+    >
+      # here $rlevel and $rindent have no meaning
+	$rlevel,'$rindent' : $_
+  table
+    >
+      # here $rlevel and $rindent have no meaning
+	$rlevel,'$rindent' : $_
+  tabaligned line
+    >
+	> $rlevel,'$rindent' : $_
+      $ri = $rindent;
+      $rl = $rlevel;
+    -
+      # in stream-mode $rlevel and $rindent would have the correct values since in this case the depth-action is called directly after the in-action
+	- $rlevel,'$rindent' : $rl,'$ri' : $_
+    <
+	< $rlevel,'$rindent' : $rl,'$ri' : $_

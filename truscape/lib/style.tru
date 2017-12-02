@@ -1,0 +1,115 @@
+VERSION	3.0
+OPTIONS
+	show_vars		show style-vars
+READ
+  ($funescaped = $_) =~ s/^\t* *//;
+  @Funescaped = split /$delim/o,$funescaped;
+BEGIN
+  if ($opt_show_vars) {
+    print join("\n",@STYLE)."\n";
+    exit 0;
+  }
+  push @ATTIC,@STYLE;
+actions
+  style
+    introduces the style section
+      Parameters :
+        style	indicator	.*
+      In this section some style-vars can be set.
+      Two types of vars are supported
+          string vars ( can consist of multiple lines )
+          array vars  ( they look like name[] )
+      Example :
+	style
+	  # this is a comment
+	  #
+
+	  # variable border with value 2
+	  border	2
+
+	  # variable intro (contains three lines, the second is empty)
+	  intro
+		The rainbow
+
+		and it's colors
+
+	  # variable colors (array with 4 elements, the second is empty)
+	  colors[]
+		red
+
+		green
+		blue
+    >
+#---------------------------------
+  stylevar	value
+    a style var
+      Parameters :
+        stylevar		mandatory	.+	the name of the var
+        value	optional	.+	the value for this var
+      if the var ends in [] it is considered an array var.
+      Example :
+        see	style
+    >
+      if ($. > 0) {
+        $stylevar   = $Funescaped[0];
+        $value = $Funescaped[1];
+        unless (defined $rc_vars{$stylevar}) {
+          print STDERR "$0 - warning : setting unsupported var $stylevar in style-section of $ARGV @ $.\n";
+        }
+      } else {
+        $rc_vars{$stylevar} = 1;
+      }
+
+      $isArrayVar = ($stylevar =~ s/\[\]$//);
+      if ($isArrayVar) {
+        if ($value) {
+          @$stylevar = ( $value );
+        } else {
+          undef @$stylevar;
+        }
+      } else {
+        if ($value) {
+          $$stylevar = $value;
+        } else {
+          undef $$stylevar;
+        }
+      }
+  value
+    part of the value for a style-var
+      Parameters :
+        value	mandatory	.+	the value
+      if the var is of type string then the value is appended as a new line to the string.
+      if the var is of type array then the value is pushed onto the array.
+      In both cases value can be empty (meaning an empty line or an empty array element respectively).
+      Example :
+        see	style
+    >
+      if ($. > 0 and $_ ne "") { $_ = $funescaped; }
+      if ($isArrayVar) {
+        push @$stylevar,$rindent.$_;
+      } else {
+        $$stylevar.="\n" if ($$stylevar ne "");
+        $$stylevar.=$rindent.$_;
+      }
+  ignore
+    ignored empty line
+      Parameters :
+        ignore	mandatory	.*	an ignored line
+      This line is silently ignored
+      Example :
+        see	style
+    >
+  stylecomment
+    a comment in the style-section
+      Parameters :
+        stylecomment	mandatory	.*	the comment
+      The comment is silently ignored
+      Example :
+        see	style
+    >
+structure
+	style				=	style
+	  stylecomment	*		=	#.*
+	  stylevar	[value]
+	    value	*		>>t*
+	  ignore			>	.{0}

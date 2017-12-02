@@ -1,0 +1,29 @@
+VERSION	3.0
+usage	ApplyMarks.vim
+	Invoke it by typing
+	  :ApplyMarks
+
+	This will search the current buffer for all occurences of the string vimmark
+	and use the next character as a mark for the line where the string appears.
+
+	e.G
+	  // this line contains the string vimmarku and ApplyMarks sets mark u for this line
+
+	to install this plugin put this file into ~/.vim/plugin/
+com	ApplyMarks	call ApplyMarks()	Apply all found strings of the form vimmarkx as mark x
+ApplyMarks
+  hitcount=0
+  save_cursor = getcurpos()
+  marks={}
+  1
+  echohl WarningMsg
+  W	search("vimmark","eW") > 0
+    c = getline(".")[col(".")]
+    exe "ma "c
+    ?	has_key(marks,c)	echom "mark" c "set mulitple times"
+    let marks[c]=1
+    hitcount=hitcount+1
+  echohl None
+  call setpos('.', save_cursor)
+  echo "found" hitcount "marks"
+

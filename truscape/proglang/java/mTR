@@ -1,0 +1,27 @@
+title		convert .javaTR to .java
+java_tru
+  build
+    tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru java.tru java_sql.tru ../c_like_vars.tru javacoll.tru ../../lib/basicUSAGE.tru >java_tru
+    chmod +x java_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+    PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s java java_tru >java_tru.tmp
+    mv java_tru.tmp java_tru
+    chmod +x java_tru
+    m_diff statistics.out
+    m_diff java_tru
+  test
+    perl java_tru                    TestGui.javaTR		TestGui.java
+    perl java_tru                    Queries.javaTR		Queries.java
+    perl java_tru                    test.javaTR		test.java
+    perl java_tru -GenerateDebugInfo test.javaTR		test_with_debug.java
+    perl java_tru -GenerateDebugInfo fulltest.javaTR		fulltest.java
+    -perl java_tru --help
+  doc
+    trudefault			txt html
+    trudoc_tru ./java_tru	docs/java_tru.html
+  helpers
+    : Tru       ; tru.jar ./java_tru fulltest.javaTR
+    : Tru       ; tru.jar ./java_tru test.javaTR
+    : Tru       ; tru.jar ./java_tru TestGui.javaTR
+    : ptkdb     ; perl -d:ptkdb java_tru test.javaTR &
+  install
+    2struxbin

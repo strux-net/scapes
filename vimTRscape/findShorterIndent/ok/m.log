@@ -1,0 +1,8 @@
+building findShorterIndent.vim
+vim_tru findShorterIndent.vimTR >findShorterIndent.vim
+GOOD	findShorterIndent.vim
+{ echo "findShorterIndent.vim\n  find the next/prev line with a shorter indent\n    usage"; < findShorterIndent.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tfind the next/prev line with a shorter indent" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing findShorterIndent.vim

@@ -1,0 +1,30 @@
+title		convert .plTR to .pl
+perl_tru
+  build
+    tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru perl.tru ../globalCode.tru perlcoll.tru ../../lib/basicUSAGE.tru >perl_tru
+    chmod +x perl_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+    PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s perl ./perl_tru >perl_tru.tmp
+    mv perl_tru.tmp perl_tru
+    chmod +x perl_tru
+    m_diff statistics.out
+    m_diff perl_tru
+  test
+    perl ./perl_tru          perltest.plTR	perltest.pl
+    #exit
+    #perl -d:ptkdb ./perl_tru -noIntro -noProtos -noSharpBang perltest.plTR&
+    perl ./perl_tru -vimPlug perltest.plTR	perltest.vim
+    perl perltest.pl -a foo			perltest.out1
+    -perl perltest.pl -a -t -b 			perltest.out2
+    perl perltest.pl -version
+    perl ./perl_tru      disptest.plTR		disptest.out1
+    perl ./perl_tru -vim disptest.plTR		disptest.out2
+    -perl ./perl_tru -invalid
+
+  doc
+    trudefault			txt html
+    trudoc_tru ./perl_tru	docs/perl_tru.html
+  install
+    2struxbin
+  helpers
+    tru.jar ./perl_tru perltest.plTR
+    cp perl_tru ~/bin

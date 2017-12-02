@@ -1,0 +1,7 @@
+title			tests
+style_test_tru
+  build	../style.tru style_test.tru
+  test
+    : expect 2 warnings
+    style_test_tru in	in.out
+    style_test_tru -show_vars

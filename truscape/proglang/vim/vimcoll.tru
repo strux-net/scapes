@@ -1,0 +1,10 @@
+VERSION	3.0
+structure
+	common			=g
+	vim			=g
+	try catch clause	=g
+	global code		=	global code
+	main			=g
+	function	[args]	modifiers		=o	!?[A-Z].*
+	  autodoc					=g
+	statement		=g

@@ -1,0 +1,11 @@
+VERSION	3.0
+READ
+  s/A/AA/;
+SPLITAPPLY
+  s/B/BB/;
+actions
+  line
+    >
+	$. : $line
+structure
+	line

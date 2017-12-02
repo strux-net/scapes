@@ -1,0 +1,6 @@
+title		inspect the process-tree (needs vim)
+pst	pst.shTR
+  doc
+    shdefault	txt html
+  install
+    2struxbin

@@ -1,0 +1,10 @@
+title				produces a makefile based on the content of mTR
+# comments are possible.
+# they start with a # as this line does
+m_tru	m.tru
+  test
+    perl ./m_tru test_mTR	test.makefile
+  doc
+    trudefault			txt html
+  install
+    2struxbin

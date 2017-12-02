@@ -1,0 +1,23 @@
+title			convert .jsTR to .js
+js_tru
+  build
+    tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru js.tru ../c_like_vars.tru jscoll.tru ../../lib/basicUSAGE.tru >js_tru
+    chmod +x js_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+    PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s js js_tru >js_tru.tmp
+    mv js_tru.tmp js_tru
+    chmod +x js_tru
+    m_diff statistics.out
+    m_diff js_tru
+  install
+    2struxbin
+  test	
+    ./js_tru -allowP jstest.jsTR				jstest.js
+    m_diff statistics.out
+    m_diff js_tru
+  doc
+    trudefault			txt html
+    trudoc_tru ./js_tru		docs/js_tru.html
+  helpers
+    tru.jar ./js_tru jstest.jsTR
+    perl -d:ptkdb ./js_tru jstest.jsTR
+    perl          ./js_tru jstest.jsTR >/dev/null

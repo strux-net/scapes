@@ -1,0 +1,70 @@
+building vim_tru
+tru -s statistics.out ../common.tru ../morecommon.tru ../plainvar.tru vim.tru ../globalCode.tru vimcoll.tru  ../../lib/basicUSAGE.tru >vim_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'function' was defined but never used
+chmod +x vim_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s vim vim_tru >vim_tru.tmp
+mv vim_tru.tmp vim_tru
+chmod +x vim_tru
+GOOD	statistics.out
+GOOD	vim_tru
+{ echo "vim_tru\n  convert .vimTR to .vim\n    usage"; ./vim_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .vimTR to .vim" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru ./vim_tru >docs/vim_tru.html
+GOOD	docs/vim_tru.html
+testing vim_tru
+./vim_tru test.vimTR >test.vim
+WARNING no & for 36 : r	Plugin.File.rerun		rerun everything	:ls<CR>
+WARNING in line 37 letter i already set at line 35 : i	Plugin.File.&install		installs this version	:ls
+HINT - free letters:
+  Plugin.File : a b c d e f g h j k l m n o p q r s t u v w x 0 1 2 3 4 5 6 7 8 9
+  Plugin.View : b c d e f g h i j k l m n o p q r s t u v w x 0 1 2 3 4 5 6 7 8 9
+GOOD	test.vim
+./vim_tru -obeyBang test.vimTR >test1.vim
+WARNING no & for 36 : r	Plugin.File.rerun		rerun everything	:ls<CR>
+WARNING in line 37 letter i already set at line 35 : i	Plugin.File.&install		installs this version	:ls
+HINT - free letters:
+  Plugin.File : a b c d e f g h j k l m n o p q r s t u v w x 0 1 2 3 4 5 6 7 8 9
+  Plugin.View : b c d e f g h i j k l m n o p q r s t u v w x 0 1 2 3 4 5 6 7 8 9
+GOOD	test1.vim
+./vim_tru -invalid
+Unknown option: invalid
+usage : vim_tru [Options] [<file> ....]
+
+produces a vim-script
+
+find details in
+    ~/strux/doc/vim_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/vim_tru.html
+
+per convention the input files have the extension .vimTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -obeyBang		Obey ! in functions. Default is : all functions are !
+
+       -vhelp shows more options
+makefile:34: recipe for target 'test_vim_tru' failed
+make[1]: [test_vim_tru] Error 1 (ignored)

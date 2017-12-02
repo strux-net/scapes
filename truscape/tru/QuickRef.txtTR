@@ -1,0 +1,671 @@
+Comments			in a .tru-file
+  1)	Lines beginning with '#' are comments.
+    These lines are ignored by tru.
+  2)	Lines inside perl-sections beginning with one or more spaces followed by '#' are also comments.
+    But these comments find their way through to the generated perl script where they are comments as well.
+    This difference usually is of no concern.
+    These lines are ignored by the truer.
+  3)	Lines beginning with any number of tabs are NOT comments. They are subject to the
+    usual parsing.
+
+  tru only has special treatment for lines of type 1 in that tru simply ignores these lines.
+  lines of type two are in fact perl-code.
+Strategies			sequential vs. depth
+  depth-mode
+    is default strategy
+    more powerful than sequential, but a bit slower and more memory consumptive.
+    In this mode the whole output is completely generated in memory before being output in one go.
+    Remember this when writing filters.
+    They won't output anything until the writer ends.
+  sequential
+    the truer writes it's output for each line of input.
+Helpers				tru trudoc_tru truerItem desc2xml xtractStructure.pl tru.jar
+  tru		produce parser from s.tru
+    tru s.tru > s_tru
+  trudoc_tru	produce html-documentation from s_tru
+    trudoc_tru s_tru > s.html
+  truerItem	Echo all lines of the files for which <truer> would execute <action>.
+    truerItem s_tru fancyFor *.sTR
+  xtractStructure.pl
+    required by
+      truscape/trudoc/trudoc.tru
+sections			actions structure
+  actions
+    Introduced by
+	actions
+
+    Actions are pieces of code, that are executed if a corresponding structure-item matches or when they are called directly (see >> => ->)
+    Actions have args.
+    Separate the args from each other with one or more tabs.
+    example:
+	actions
+	  country	city	street
+    The above example defines an action (country) with 3 args (country, city and street)
+    args can contain any letter except
+      \t (tab)	for obvious reasons
+      $sdel	per default : \x00 (a null byte)
+    Actions have three different entry points, called pit (for Point In Time).
+	>	in-action
+	-	depth-action
+	<	out-action
+    example:
+	actions
+	  country	city	street
+	    >
+	      The country is $country
+	      The city is $city
+	      The street is $street
+    the args are accessible in the code in the natural way (by prepending a $).
+    But:
+	Do not use vars that look like special perl-vars, like $.
+	If uncertain always start with an alphabetical.
+
+    If an action occurs more than one times, all subactions are performed in
+    the specified order except for the outactions which are performed in the reverse order.
+    Example	->	test8.tru
+
+    In the following the leading : indicates the start of line.
+    Any line beginning with a blank is perl-code or a special statement.
+      special statement
+	calling actions
+	  common to "stacked" and "not stacked"
+	    : >>action	@X
+	      an implicit join is done, hence @F will contain only one field
+	  stacked
+	    : >>action	arg1	arg2	arg3
+	      call action, $action is arg1 (rsp. empty)
+	    : >>	action	arg1
+	      call action, $action is action
+
+	      >>	a1	a2
+	      is equivalent to
+	      >>a1	a1	a2
+	      Example	->	test7.tru
+
+	      test7s1, test7s2 and test7s3 hold examples for >> in an inaction, a depthaction and an outaction rsp.
+	      Also more descriptions can be found there (as well test7scommon.tru).
+	      The called action may itself contain other calls.
+	  not stacked
+	    : ->action	arg1	arg2	arg3
+	    : ->	action	arg1
+	      just like
+		>>action	arg1	arg2	arg3
+		>>	action	arg1
+	      but do an immediate macro_out_forced
+	    : --action	arg1	arg2	arg3	{
+	    : }
+	      macro_out_forced (as often as needed) at }
+	using marks
+	  : setmark
+	  : usemark
+	  : atmark(\$mark_opt_help) { .... }
+	  : unusemark
+	  : unuseandsetmark
+	  : undef $mark_desc
+      :  perl-code
+	Do not use my to localize variables used in output. Use local instead.
+    Any line beginning with a tab is output.
+	Variables are interpolated as they are in perl.
+	You can access the arguments by prefixing a $ to their name.
+	Subsequent such lines form a block.
+	A if (condition) without introducing its own block would catch the whole block by itself and would
+	even extend to the next occurrence of this subaction (even if in another file).
+	If you do not want this, use your own block.
+  hooks
+    [	outer in    (only for the first usemark)
+    {	inner in    (for each usemark)
+    -	inner depth (for each usemark)
+    }	inner out   (for each usemark)
+    ]	outer out    (only for the first usemark), processed directly after [
+    n	for not used marks (processed in alphabetical order)
+
+    they share the namespace of actions
+  structure
+    Introduced by
+	structure
+    here the general structure of the texts to be parsed is specified together with their corresponding actions.
+    path
+      a		=
+      b		=
+        c	=
+        d	>
+	  e	=
+    valid
+      b
+      a
+      a
+      b
+	d
+	  e
+	c
+	c
+	  d
+	  d
+	    d
+	      d
+		e
+	  d
+	    e
+	    e
+	c
+
+    Each line in the structure has the general form
+      [indent]action_and_args[indicator[regexes]]
+
+    indent
+      This is the leading whitespace (and can be empty).
+      It starts with any number of tabs and ends with any number of spaces.
+      From this indent a value is calculated.
+	The tabs count 8, the spaces count 1 each.
+	This summed up gives the indentvalue.
+	The relative indent is calculated by subtracting from this indentvalue the indentvalue of the last line before this one that has a smaller indent.
+      indent is '' for empty lines.
+    action_and_args
+      This is everything between the indent and the indicator.
+      It is split into fields on \t+.
+      The first field is used as actionname (unless overridden by the indicator)
+      The remaining fields tell the number of fields that must match.
+        Their names are not relevant.
+        Parameters are transferred to the action via position.
+      A field enclosed in [] indicates, that this field and all fields right to it are optional.
+      * stands for any number of fields
+    indicator
+      starts with one or more tabs followed by either = or > and expands up the next tab (exclusively) (or the end of the line).
+      General form:
+	prio[o][t][star][explicit][ state][(condition)]
+	Examples
+	  =*5 foo($. < 100)
+	  =t*
+	  =ot
+	o
+	  open the block for creeping
+	prio,t and star
+          =		exactly in the path
+          =*		dangling, anywhere after the path
+          >		creeping in the path
+          >>		creeping in the path, matches immediately
+          >*		dangling, creeping in the path
+          >>*		dangling, creeping in the path, matches immediately
+          =t		at next tab-position, exactly in the path
+          >t		at next tab-position, creeping in the path
+          >>t		at next tab-position, creeping in the path, matches immediately
+          =*<explicit>	just like =  but after initial match next match is accepted at (multiple of) indent <explicit>
+          >*<explicit>	just like >  but after initial match next match is accepted at (multiple of) indent <explicit>
+          >>*<explicit>	just like >> but after initial match next match is accepted at (multiple of) indent <explicit>
+          >0		exactly in the path (lowest prio)
+          >>0		exactly in the path (highetst prio)
+
+	    Example for >0 in ~/truscape/proglang/java_as_common.tru
+
+	  anywhere includes inside UNMATCHED
+	  dangling : the first of a sequence of dangling lines must be at the exact position
+
+	  Priority (high to low)
+	      >>	matches immediately
+	      =		longest match (first if ambiguous)
+	      >		longest match (first if ambiguous)
+	      <else>	UNMATCHED
+	explicit
+	  Example :
+		structure
+			M	*			>	M[;_]*
+			magic	*		=*	.+
+			R	[list]	*		>	R(/.+/)?	.+
+			  repeatedLine	*	=*1	.*
+	  in above Example look at
+	    magic
+	      matches anywhere (inside an M)
+	      The following two lines are equivalent
+		magic	*		=*1	.+
+		magic	*		=*	.+
+	      It allows thing to be written like:
+		M	foo(	) + bar(	);
+		      1		2
+		      1.1	2.2
+		      one	two
+	    repeatedLine
+	      first repeatedLine at 
+		R	1..3	a	b	
+		  d
+		  d	
+	state
+	  Here the name of the action for this structure-item can be given.
+	  This field starts with one (or more) blanks. These blanks are not part of the name.
+	  This name is taken instead of the default calculated from the first item in the line.
+	condition
+	  Must be enclosed in ( and ).
+	  It is a native perl expression (as can be used in an if-statement) that evaluates to true or false.
+	  The item only matches if this expression is true.
+	  Example:
+	    ($rnr==1)
+    regexes
+      specifies regular expressions that match the structure.
+      The n-th expression corresponds to the n-th element in the list of action_and_args.
+      The regexes may be missing, default values calculated from the action_and_args will be used in this case.
+      They are as in perl and are automatically anchored between ^ and $ so the whole field must match.
+      If an expression starts with a / then this expression is not treated specially:
+	You must supply the terminating /
+	you may also supply the modifiers (like /i or /o)
+	These expressions are not anchored.
+      An error is issued if an expression is invalid.
+
+      Although the regular expression may contain variables as in
+	structure
+		comment		=	$cc.*
+      this is not advisable since then (via 'truer -structure') reconstructed truers will not parse correctly out of the box.
+      An Example for such a reconstructed truer can be seen in the shell-script truerItem.
+
+    Equivalent structure-lines
+      The following
+	  \		left side			regexes
+	  1	structure
+	  3		action
+	  4		action	arg1	arg2
+	  5		action	arg1	[arg2]	arg3
+	  6		action	arg1	arg2 *
+	  7		any of the four above		=
+	  8		any of the four above		=		re1	re2	re3
+	  9		any of the four above		= newrulename	re1	re2	re3
+	  10		any of the three above		>
+	  11		[action]
+	  12		  []
+      are equivalent to
+	  \		left side			regexes
+	  1	structure
+	  3		action				= action		.*
+	  4		action	arg1	arg2		= action		.*	.*	.*
+	  5		action	arg1	[arg2]	arg3	= action		.*	.*	.*	.*
+	  6		action	arg1	arg2	*	= action		.*	.*	.*
+	  7		any of the four above		= whatever is on the corresponding action_and_args here
+	  8		any of the four above		= action		re1	re2	re3
+	  9		any of the four above		= newrulename	re1	re2	re3
+	  10		any of the three above		> any of the three above
+	  11		[action]
+	  12		  []
+      Details
+	1 starts the structure-section
+	3 through 12
+	  may occur in any order and may be indented.
+	3 through 9
+	  the = means that the relative indent of the matched line must be equal to the relative indent of the structure item.
+	6
+	  the * means : this action has 3 or more args.
+	    Remember the action itself counts as an arg. So there are at least action, arg1 and arg2
+	10
+	  the > means that the relative indent of the matched line must be equal to the relative indent of the structure item.
+	  But other lines may be between the structure so far and this line.
+	  Indenting is relative to the preceding item.
+	11 is an optional tag
+	  the first line inside the block triggers action (additionally and prior to triggering the specified action).
+	  but this first line must be at the implicit indent.
+	  Example
+		structure
+			class					=	[^"(]*\bclass\b[^.].+
+			  [autodoc]				>
+			    jdocu	*			=*1	.*
+	    the input
+		    class a
+			line 1
+			line 2
+	    triggers
+              class	class a
+              autodoc	line 1
+              jdocu	line 1
+              jdocu	line 2
+	11 and 12
+	  can be used to skip a level of indent, as in
+		structure
+			try			[statement]	>>		try			.+
+			  [block]
+			    []
+			  finally
+			  catch				=		.+
+	  see ~/truscape/proglang/java/java_post.tru
+	  the []
+	    is needed
+	    must be immediately following the optional action
+	    indicates the new level
+	9 decomposed as reference
+	  say it looks like
+	    action	arg1	[arg2]	arg3	= otheraction	re1	re2
+	  it is split on '= otheraction' giving the three items
+	      1	action	arg1	[arg2]	arg3
+	      2	= otheraction
+	      3	re1	re2
+	  saying
+	    item 1
+		match a line with two, three or four fields
+		assigning field 1 to the variable otheraction
+		assigning field 2 to the variable arg1
+		assigning field 3 to the variable arg2
+		assigning field 4 to the variable arg3
+	    item 2
+		the space between '=' and 'otheraction' is important (you can have more than one)
+		assign field 1 to the variable otheraction
+		call otheraction if a line is matched by this structure-element
+	    item 3
+		field 1 must match re1
+		field 2 must match re2
+		no regexps are specified for fields 3 and 4 so they default to .*
+		arg2 and arg3 are optional
+		no more than four fields are allowed
+Predefined actions		OPTIONS USAGE BEGIN READ SPLITAPPLY WRITE FLUSH DOC UNMATCHED
+  as all actions these actions may occur zero, one or more times
+    not receiving args
+      OPTIONS
+      USAGE
+      BEGIN
+      READ
+      SPLITAPPLY
+      WRITE
+      FLUSH
+    receiving args
+      DOC
+      UNMATCHED
+  a detailed description follows
+    OPTIONS
+      Looks like
+	OPTIONS
+		a		text for option a
+			description for this option
+			 can continue on any indent
+			 and	can contain tabs
+		b:type		text for option b
+		c:type[default]	text for option c
+      Separate option from its description with tabs
+      The description will be used for the generated part of USAGE
+      Example	->	test4.tru
+    USAGE
+      text printed to stderr
+      NOT subject to $-Expansion
+      A header and a section for Options will be generated
+      The final sub usage() will consist of four parts
+	a small header (generated)
+	an introduction section (from USAGE)
+	a section describing the options
+      usage() is called automatically if wrong options are supplied.
+      you may perform your own validity checks (preferably in the BEGIN-action) and call usage() at will.
+      Example	->	test4.tru
+    BEGIN
+      executed at the beginning, but after
+	Options are parsed according to action OPTIONS
+	$_ and @F are set according to @ARGV
+      
+      Here you can
+	preset some vars
+	define perl subs
+	and you can even set $depth to 1 here instead of giving -depth to the generated truer
+	set the encoding
+	  use encoding 'utf8';
+    READ
+      just after a line is read and $level is calculated.
+	not applied to lines in @READ
+	  you can call tru::read() before unshifting if you wish to apply READ
+      $_ holds the line as read (including all indent and tabs)
+      You can modify $_ at will.
+      You can adjust $level here.
+      Return 1 to skip this line
+      Return 2 to end processing
+      Return 0 for normal processing (supplied automatically)
+    SPLITAPPLY
+      applied after split to each field
+    WRITE
+      performed in order of production.
+      In no-depth-mode it is executed just before a line is written.
+      In depth-mode it does not yet do the write. It rather inserts the line in @tru::O for later use by FLUSH.
+      use return 1 if you want to suppress a line.
+      a return 0 is supplied automatically.
+    FLUSH
+      It is only processed in depth-mode.
+      @_ contains the whole output so far. It is now in sequence. You can modify or otherwise use this output.
+      A print @_ is supplied automatically. If this is not what you want use return to bypass this.
+      The following two codes are equivalent (in output) to the default code
+	for (@_) {
+	  print;
+	}
+	return;
+      and
+	print @_;
+	return;
+
+      to tabify the output use
+	FLUSH
+	  open(STDOUT,"|tabify.pl -l");
+	  print @_;
+	  close STDOUT;
+	  return;
+      in non-depth mode the following will suffice
+	BEGIN
+	  open(STDOUT,"|tabify.pl -l");
+
+    The above mentioned actions receive no args
+    The next two receive args
+
+    DOC
+      wraps around the whole document
+      receives ARGV as args
+      $_ is also set to ARGV
+      READ is not applied to this
+      you do not see it in the structure
+      at level 0
+      $DOC has no useful meaning.
+      Use $ARGV to access the currently processed file
+    UNMATCHED
+      used if a line is not otherwise matched
+      If you do not supply one, tru will provide one for you which prints to STDERR
+	a string indicating the line-number and the contents of the line which does not match.
+      It is not necessarily a fault to have unmatched lines.
+	There is no switch for suppressing the default behaviour.
+	If you are sure that UNMATCHED lines are tolerable do:
+	actions
+	  UNMATCHED
+	    >
+Variables			$depth, $indent ....
+  $state
+    tbd
+  $depth
+    can be set in BEGIN
+    is set if truer is called with -depth
+    switches the truer to depth-mode
+  $delim
+    The default is to split the line on tabs. You can specify your own split-string
+    by assigning it to $delim in the BEGIN section.
+    Example	->	test6.tru
+  $indent
+    holds the indent of this line as found.
+  $level
+    the indent level of this line as a number, i.e 1 plus number of leading spaces.
+    Remember that leading tabs count as 8 spaces each.
+    action DOC is at level 0.
+  $rindent and $rlevel
+    only valid for tabaligned structure items
+    $rindent : the relative indent (as string) to the required tab-position, derived from the found indent.
+    $rlevel  : the relative indent (as number) to the required tab-position, basically the length of $rindent if it contained only spaces.
+    Example (say required level is 9)
+      found indent		$rindent	$rlevel
+      -------------------------------------------------
+      '<......><......>  '	'<......>  '	10
+      '<......>          '	'          '	10
+    They are only valid in the in-action.
+    Use something like the following to make them visible (as $ri and $rl) in the depth- and out-action
+	actions
+	  tabaligned line
+	    l	ri	rl
+	    >
+	      $ri = $rindent;
+	      $rl = $rlevel;
+  $rnr
+    holds the relative linenumber, starting at 1.
+  @rnr
+    holds the relative linenumbers so far
+    There is one entry for each level, even for skipped levels, in which case the corresponding value is empty.
+    $rnr[0] is alwas 1 (for DOC)
+  $arg
+    substitute by the argument arg
+  @arg
+    all args stacked
+  $NrOfChilds
+    Number of (non-empty) items between inaction and outaction.
+    independent of produced output
+    but only in depth-mode
+    valid in depthaction and outaction
+    Example	->	test13.tru
+  $NrOfLinesFollowing
+    Number of lines generated between inaction and outaction
+    but only in depth-mode
+    valid in depthaction and outaction
+    value the same in depthaction and outaction.
+    Example	->	test7.tru
+  @F
+    all args in an array
+  $_
+    full line
+      after READ
+      leading whites removed
+      inter-field tabs survived
+  @ATTIC
+    read first looks at this array (using shift)
+    Use unshift to put something in there.
+      This can be useful for mimicking (e.G java.tru)
+    The reason for unshift (instead of push) is that the order of unshifted arrays remains intact
+    Note : READ is not applied to lines in @ATTIC
+      use tru::read() if you want it.
+    Example from semantics_check.tru
+      include
+	($include) = $include =~ /<include\s+(.+)>/;
+	open INCFILE,$include or die "cannot include $include : $!";
+	unshift @ATTIC,map { chomp;tru::read();$_ } <INCFILE>;	# a whole array is unshifted with READ applied to each line.
+	close INCFILE;
+localizing Variables		action	arg	|	localvar
+  using
+    local $var
+  or
+    my $var
+  will create a local var just for the subaction where the statement is in.
+  Vars created with local can be used in the output-part,
+  Vars created with my    can NOT be used in the output-part.
+  If you need a local var visible to everything underneath this action simply put the vars to be localized after the parameters of the action.
+    line	comment	
+      l	localvar
+      >
+	$localvar visible here
+      -
+	$localvar visible here
+      <
+	$localvar visible here
+  Example	->	test16.tru	/line
+Empty Lines			.{0} vs. /.{0}/	
+  Lines matching /^$/
+  The level is calculated by
+    looking back for the last non-empty line
+    looking forward for the next non-empty line
+    the one with the higher level is chosen
+  $indent is set to ''
+  Empty Lines in optional items (like list or table)
+    depending on used regexp
+      .{0}	can not trigger an optional structure item
+      /.{0}/	can     trigger an optional structure item
+    Of course they can be traversed in an (already triggered) optional structure item
+marks				setmark() usemark() atmark() unusemark()
+  setmark(\$mark_foo)
+  usemark(\$mark_foo)
+  atmark(\$mark_foo) { .... }
+  unusemark()
+  undef $mark_desc;
+  
+  usemark must pair with unusemark
+  usemark and unusemark can spread across in,depth,out actions
+  atmark(arg) { ... }
+    cannot spread across in,depth,out actions
+    must be the first statement in a line , as in
+      atmark(\$mark_help) {
+        smth to print
+      }
+    also valid is
+      atmark(\$mark_help)
+      {
+        smth to print
+      }
+    or even
+      atmark(\$mark_help)
+        smth to print
+
+    atmark(arg) is equvialent to
+      usemark(arg)
+        smth to print
+      unusemark()
+
+  order of setmark is relevant.
+    If you have two (or more) setmark in direct succession, then the order is preserved.
+
+  see test15 for this.
+  if you use setmark in the depth-action be alert that no action inside the block sees the mark.
+    Only following blocks can use the mark
+
+  may fail, if you have
+    more then 1000 marks in direct succession
+
+  stacking marks
+    \${"mark_if$level"}
+    Example: (test17)
+Caveats				perl5 only
+  perl5 (patchlevel 1) does not correctly handle
+    for (my $i....
+  @F = split /$delim/o;	# this does not work with perl5 (patchlevel 1)
+Glossary
+  structure item
+    a line in the structure section of the tru input file
+  subaction
+    any of inaction depthaction outaction
+  inaction
+    one of the four subactions
+  depthaction
+    one of the four subactions
+  outaction
+    one of the four subactions
+  indent
+    a value calculated from the number of leading whites.
+    Each line in the input to the truer and
+    each line in the structure section of the parser description file
+    has an indent.
+  parser description file
+    input to tru. One ore more parser description files specify how the
+    input to the parser looks like and what to do.
+  relative indent
+    Lines that have an indent also have a relative indent.
+    The difference between the indent of such a line and the indent
+    of the last line, that had a smaller or equal indent.
+  range
+    an argument to debRange
+    a range can be any of
+      0			select all lines
+      n			select line n
+      -n		select lines 1 .. n
+      n-		select lines n .. last line
+      n-m		select lines n .. m
+      range,range	select all lines given in either range
+    Example
+      -debRange 1,10-12,50-	will select lines 1,10,11,12,50,51,....
+statistics
+  can be generated with
+    tru -s statistics
+  this file contains a table with 7 columns
+    H	>	-	<	d	s	name
+    H    : number of Actions-definitions
+    >    : number of in-actions
+    -    : number of depth-actions
+    <    : number of out-actions
+    d    : number of shortdescriptions
+    s    : number of occurences in the structure
+    name : the name of item
+Misc
+  @{[ perlexp ]}
+    substitute by the result of executing perlexp
+  @{[ do { some perl statements } ]}
+    substitute by the result of executing some perl statements
+
+  @A = (1,2)
+  scalar @A     -> 2
+  $#A           -> 1
+
+  .{0}		matches an empty field

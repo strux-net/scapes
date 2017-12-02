@@ -1,0 +1,31 @@
+// comment
+defines
+  A
+  B	definition for B
+  C	definition for C	comment for C
+  D	definition1 for D
+    definition2 for D
+    definition3 for D		with tab
+    definition4 for D (and an empty line follows-which should survive)
+
+enum	enum1
+  eins
+  zwei	comment for zwei
+  drei
+
+includes
+  "include1"
+  "include2"	comment for include2
+  include3
+  include4	comment for include4
+void function2	int a, char b
+  // comment
+int base::function1
+  #compiler directive
+int base::function2	int a, int b
+int base::function2	int a, int b	basecall(a)
+  S	expr	comment for switch
+    default	statement for default	comment for default
+    a
+    b		statement for b
+    c		statement for c		comment for c

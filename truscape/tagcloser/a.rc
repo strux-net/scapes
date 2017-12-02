@@ -1,0 +1,6 @@
+tagcloser.tru	tru ~/truscape/proglang/common.tru ~/truscape/proglang/statementDelimiter.tru ~/truscape/proglang/plainvar.tru ~/truscape/proglang/js/js.tru ~/truscape/proglang/c_like_vars.tru tagcloser.tru ~/truscape/lib/basicUSAGE.tru > tagcloser_tru && a test.in
+test.in		./tagcloser_tru test.in > test.out
+tru		tru.jar ./tagcloser_tru test.in&
+ptkdb		perl -d:ptkdb tagcloser_tru test.in&
+browser		firefox test.out
+chrome		chromium-browser test.out&

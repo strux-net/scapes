@@ -1,0 +1,61 @@
+VERSION	3.0
+USAGE
+	helps debugging
+	This does not work in stream-mode.
+	Put it at the end of the chain (tru whatever.tru more.tru tracemarks.tru).
+	Does not work, if complicated WRITE-actions are used.
+	Output will be tabified.
+	Traces mark1, mark2, mark3, mark4 and mark5
+OPTIONS
+	limit:number[0]	enable tracemarks, stop after n lines of output
+		use 0 for all lines
+BEGIN
+  $offset=0;
+  #$tru::Marks{"mark1"}[2]="u";
+  #$tru::Marks{"mark2"}[2]="u";
+  #$tru::Marks{"mark3"}[2]="u";
+  #$tru::Marks{"mark4"}[2]="u";
+  #$tru::Marks{"mark5"}[2]="u";
+  sub Unusemark
+  {
+	before unusemark : $_
+    unusemark();
+	after unusemark : $_
+  }
+  sub Usemark
+  {
+    local ($mark) = @_;
+	before usemark $mark : $_
+    usemark($mark);
+	after usemark $mark : $_
+  }
+WRITE
+  if (defined($opt_limit)) {
+    my $xx = @tru::O;
+    $seq++;
+    local $line = "";
+    if (defined $tru::Marks{"mark1"}) { $line.= $tru::Marks{"mark1"}[2] } else { $line.="u" } ; $line.="," ;
+    if (defined $tru::Marks{"mark2"}) { $line.= $tru::Marks{"mark2"}[2] } else { $line.="u" } ; $line.="," ;
+    if (defined $tru::Marks{"mark3"}) { $line.= $tru::Marks{"mark3"}[2] } else { $line.="u" } ; $line.="," ;
+    if (defined $tru::Marks{"mark4"}) { $line.= $tru::Marks{"mark4"}[2] } else { $line.="u" } ; $line.="," ;
+    if (defined $tru::Marks{"mark5"}) { $line.= $tru::Marks{"mark5"}[2] } else { $line.="u" }
+    $_="  $seq\t\t @tru::Oi\t$line\t$tru::Oi/$xx\t$.\t$_";
+    if ($opt_limit and @tru::O >= $opt_limit-1) {
+      return if $corrected++;
+      s/./>/;
+    }
+  }
+FLUSH
+  if (defined($opt_limit)) {
+    open(STDOUT,"|tabify -l");
+    print " offs	seq	 \@Oi         	marks 1,2,3,4,5	\$Oi/\@O\t\$.\ttext\n";
+    $of=0;
+    map {
+      s/(.)/\1 $of\t/;$of++;
+      print;
+    } @_;
+    close STDOUT;
+    return;
+  }
+
+actions

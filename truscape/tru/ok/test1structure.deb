@@ -1,0 +1,32 @@
+structure
+	TAG	number				= tn				TAG			[0-9]+
+	TAG	any	many			= tmany				TAG			ANY|STRULL
+	TAG	[any]				= tany				TAG			ANY|STRULL
+	TAG	ONE				= t1				TAG			ONE
+	TAG	TWO				= t2				TAG			TWO
+	TAG	THREE				= t1				TAG			THREE
+	RCS					=				^\$ID:.+
+	BACKSLASH				=				BACKSLASH
+	CODE					>				CODE
+	  emptycodeline				>				.{0}
+	  codeline	*			>
+	DESC	structure			=				DESC
+	EINS					=o				EINS
+	  a01					=o				a01
+	    OCTUS				=	OCTUS
+	EINS	*				=o a0	EINS
+	  a01					>*				.*
+	IGNORE	flag				=				IGNORE	ON|OFF
+	 anyline				=*
+	FIELD WITH SPACES	txt		= field with spaces		FIELD WITH SPACES
+	b0					=				/test copy/i
+	c0	arg1	arg2	*		=				AA.+
+	D0	*				=				D0
+	comment					=				#.*
+	=	*				>o*				[=!]
+	  "	arg				=				"
+	nosuchrule				=				NO SUCH RULE
+	**	*				=				\*
+	EMPTY					>*				.{0}
+structure
+	E0	=	E0

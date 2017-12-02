@@ -1,0 +1,144 @@
+building tex_tru
+tru -s statistics.out ../../lib/style.tru ../common.tru tex.tru ../../lib/texREAD.tru ../../lib/basicUSAGE.tru >tex_tru
+GOOD	tex_tru
+GOOD	statistics.out
+chmod +x tex_tru
+{ echo "tex_tru\n  convert .txtTR to tex or pdf\n    usage"; ./tex_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .txtTR to tex or pdf" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru -noGives ./tex_tru >docs/tex_tru.html
+GOOD	docs/tex_tru.html
+testing tex_tru
+./tex_tru style ../test.txtTR >test1.tex
+./tex_tru - warning : dublicate internal link 'This is the label of the picture' in ../test.txtTR @ 148
+GOOD	test1.tex
+./tex_tru       ../test.txtTR >test1nostyle.tex
+./tex_tru - warning : dublicate internal link 'This is the label of the picture' in ../test.txtTR @ 148
+GOOD	test1nostyle.tex
+./tex_tru -show_vars
+style
+  #
+  # the following vars are common to html_tru and tex_tru
+  #
+  # Pre				the document is prestructured
+  # Title			the title of the document
+  # Toc				generate a table of contents
+  #
+  # documentStart		put at the very beginning
+  # documentEnd			put at the very end
+  # bodyStart			starts the body
+  # bodyEnd			ends the body
+  # sectionStart		put before each section
+  # sectionEnd			put after each section
+  # pictureStart		put before a picture
+  # pictureEnd			put after a picture
+  # tableStart			starts a table
+  # tableEnd			ends a table
+  # codeStart			put before a code-block
+  # codeEnd			put after a code-block
+  # listStart			start a list
+  # listEnd			end a list
+  # definitionsStart		start a definition
+  # definitionsEnd		end a definition
+  # enumStart			start an enum
+  # enumEnd			end an enum
+  # verbatimStart		start a verbatim
+  # verbatimEnd			end a verbatim
+  # emptylistlineSimple		used for an empty list-line
+  # emptytabrowSimple		used for an empty table-line
+  # emptyenumitemSimple		used for an empty enum-item
+  # enumitemStart		start an enum-item
+  # enumitemEnd			end an enum-item
+  # tabRowStart			start a tab-line
+  # tabRowEnd			end a tab-line
+  # tabRowSep			used for a ---- separator
+  # urlStart			start a url (for a picture)
+  # urlEnd			end a url
+  # Precaption			start a caption
+  # Postcaption			end a caption
+  # raw				treat input as valid in the target language (e.g don't convert < to &lt; rsp. $<$)
+
+  Pre
+  Title
+  Toc
+  raw
+  documentStart			\documentclass[12pt,a4paper]{book}
+  documentEnd			%
+  bodyStart			\begin{document}
+  bodyEnd			\end{document}
+  sectionStart			%
+  sectionEnd			%
+  pictureStart			\begin{figure}[H]
+  pictureEnd			\end{figure}
+  tableStart			\mbox{}\\\rule{0pt}{0pt}\\\begin{supertabular}{llllllllllllll}
+  tableEnd			\end{supertabular}\\\\
+  codeStart			\mbox{}\\\rule{0pt}{0pt}\\\begin{supertabular}{l|ll}
+  codeEnd			\end{supertabular}\rule{0pt}{0pt}\\\\
+  listStart			\begin{itemize}
+  listEnd			\end{itemize}
+  definitionsStart		\begin{description}
+  definitionsEnd		\end{description}
+  enumStart			\begin{enumerate}
+  enumEnd			\end{enumerate}
+  verbatimStart			\begin{verbatim}
+  verbatimEnd			\end{verbatim}
+  emptylistlineSimple		\\
+  emptytabrowSimple		%
+  emptyenumitemSimple		\\
+  enumitemStart			\item{
+  enumitemEnd			}
+  listlineStart			\item{
+  listlineEnd			}
+  tabRowStart
+  tabRowEnd			\\
+  tabRowSep			\hline
+  urlStart			\pdfximage{
+  urlEnd			}\pdfrefximage\pdflastximage
+  Precaption			\caption{
+  Postcaption			}
+
+  #
+  # These vars are unique to tex_tru
+  #
+  # emptyfreetextlineSimple		used for an empty line
+  # Sections[]				these values are used depending on level
+  #
+
+  emptyfreetextlineSimple
+  Sections[]
+	\part*
+	\chapter*
+	\section*
+	\subsection*
+	\subsubsection*
+	\paragraph*
+	\subparagraph*
+./tex_tru -invalid
+Unknown option: invalid
+usage : tex_tru [Options] [<file> ....]
+
+produces a tex-file
+
+find details in
+    ~/strux/doc/tex_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/tex_tru.html
+
+per convention the input files have the extension .txtTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -show_vars		show style-vars
+
+       -vhelp shows more options
+makefile:34: recipe for target 'test_tex_tru' failed
+make[1]: [test_tex_tru] Error 1 (ignored)

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demo for tagcloser</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <tarea 51></tarea>
+    <area 51>
+    <base 2>
+    <span>closed span 1</span><br>
+    <div>
+      <span>
+        closed span 2
+      </span>
+    </div>
+    <br>
+    <wbr>
+    <bra></bra>
+    <style type="text/css">
+      @charset "UTF-8";
+      @media print {
+        #navigation {
+          display : none;
+        }
+        @media (max-width: 12cm) {
+          .note {
+            float : none;
+          }
+        }
+      }
+      @keyframes pulse {
+        0% {
+          background-color : green;
+        }
+        100% {
+          background-color : blue;
+        }
+      }
+    </style>
+    </closedWithouOpener>
+    <h1>closed lines</h1>
+      The above h1-line is already closed.
+      do not close it again
+    <h1>comments</h1>
+      <!--
+        Comments are recognized and closed
+      -->
+      <!-- Comment on the same line -->
+      <!-- Comment on the same line, already closed -->
+    <h1>some other elements</h1>
+      <canvas id="leftCanvas" width="150" height="150">
+        Alt Text
+        <b>bold text</b>
+      </canvas>
+    <h1>style sections</h1>
+      parentheses are not subject to autoclose
+      <style type="text/css">
+        * {
+          border : dotted;
+          border-color : green;
+        }
+        h1 {
+          color : blue;
+        }
+        h2 {
+          color : red;
+        }
+      </style>
+      old style
+      <style type="text/css">
+        * {
+          border : solid;
+          border-color : red;
+        } /* must be explicitely closed */
+      </style>
+      <script>
+        // a 1st comment
+
+        function foo(a,b) {
+          return a+b;
+          // a 2nd comment
+
+            function foo(a,b) {
+            }
+        }
+        class planet {
+          constructor(color,x,y,z,r,vx,vy,vz) {
+            // object vars
+              this.color          = color;
+          }
+        }
+      </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+VERSION	3.0
+USAGE	vimInterface2Help_terse_tru <file>
+	produces a section of a vim help-file for the interfaces of <file>.
+	The result is a terse list of the mappings and is intendet to be included in a bigger help-file.
+	Use it together with vimInterface2Help_tru.
+
+	per convention the input files have the extension .vimTR
+actions
+  Interface	buffer
+    >
+      local $scopeText;
+      $omenu = '';
+      if ($Interface =~ /^v/) {
+        $scopeText="VISUAL MODE ";
+        $scope="v_";
+      } else {
+        $scope="";
+      }
+      $buffer =~ s:^/strux/::;		# /strux/LL -> LL
+      local $ucbuffer = uc($buffer);
+      local $s="  ${scopeText}COMMANDS FOR VIEW $ucbuffer\t*";
+       |
+	$s
+  smap	short	cmd
+    >
+      >>mmap	$smap	<no Menu Entry>	$short	$cmd
+  xsmap	short	cmd
+    >
+      my $mapping=vimFriendlyName($xsmap);
+      $s=sprintf("      %-16s%-60s|$scope$buffer-$mapping|",$xsmap,$short);
+	$s
+  mmap	menu	short	cmd
+    >
+      $menu =~ s/\.[^.]*$//;
+      $menu =~ s/&//g;
+      $menu = uc($menu);
+      if ($omenu ne $menu)
+       |
+	    $menu~
+      $omenu = $menu;
+      >>xsmap	$mmap	$short	$cmd

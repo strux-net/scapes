@@ -1,0 +1,6 @@
+title		(un-)zoom fontsize
+ZoomFont.vim	ZoomFont.vimTR
+  install
+    m_copy ZoomFont.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html commands

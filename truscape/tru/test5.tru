@@ -1,0 +1,29 @@
+VERSION	3.0
+actions
+  bold
+    >
+	<bold>
+    <
+	</bold>
+  markup
+    >
+	<markup>
+      >>bold
+    <
+	</markup>
+  special
+    >
+	<special>
+      -->markup	{
+	  this is special
+      }
+    <
+	</special>
+  text
+    >
+	$tru::action : $indent$_
+structure
+	  text	>
+	markup	=	markup
+	bold	=	bold
+	special	=	special

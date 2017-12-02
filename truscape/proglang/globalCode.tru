@@ -1,0 +1,17 @@
+VERSION	3.0
+actions
+  global code
+    For code outside any function
+      Parameters :
+        global code		indicator	.*
+      some languages, such as perl, sh or vim allow
+      code outside any function.
+      This is handled here.
+      Example :	truer -noIntro -noSharpBang -noProtos
+	global code
+	  "running"
+    >
+	${cc}Code outside any function
+      $offset-=2;
+    <
+      $offset+=2;

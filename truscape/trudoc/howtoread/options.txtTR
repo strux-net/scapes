@@ -1,0 +1,29 @@
+style
+  Title	options (How To Read)
+How to read the options.
+  An option has one of the forms:
+      -option				boolean option.
+      -option:type			option that takes an argument.
+      -option:type[default]		option that takes an argument. A default is used if option is not specified.
+  A boolean option enables a feature.
+  The type is any string, eg. file or string or number. It is only an indication of what is valid.
+
+  Every truer understands the following options:
+      -help			show help
+      -o:file			Write output to this file (instead of STDOUT)
+      -vhelp			show detailed help
+      -ohelp			only show the options
+      -ovhelp			only show the tru-general options
+      -stream			use stream mode
+      -debug			don't parse, just print debug output
+      -deball			for -debug : also output for actions without code
+      -debStructure		for -debug : just trace the structure
+      -debActionMap:action	for -debug : map all actions to this <action>
+      -debRange:range		for -debug only print lines from <range>
+      -debReverse:nr		reverse debug for outputline <nr>
+      -structure		show structure and exit
+      -vstructure		show structure including file-info and exit (can also be applied to -source)
+      -groupExpand		only together with -structure or -vstructure : expand groups
+      -source			show source and exit
+      -macros			show macros (no structure) and exit
+      -doc			show the docs and exit

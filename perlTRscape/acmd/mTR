@@ -1,0 +1,17 @@
+title			execute commands depending on filename
+acmd	acmd.plTR
+  test
+    echo  "0" | ./acmd            -V /MostLikelyNotADir/a ; echo
+    echo  "0" | ./acmd -a LL.acmd -V /MostLikelyNotADir/a ; echo
+    echo  "1" | ./acmd -l LL.acmd -V /MostLikelyNotADir/a ; echo
+    echo  "2" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+    echo "-2" | ./acmd -a LL.acmd    /MostLikelyNotADir/a ; echo
+    echo  "3" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+    echo  "4" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+    echo  "9" | ./acmd -a LL.acmd    /MostLikelyNotADir/a ; echo
+    ./acmd /MostLikelyNotAFile
+    -./acmd -invalid
+  doc
+    html_tru docs/README.txtTR	docs/README.html
+  install
+    2struxbin

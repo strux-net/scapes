@@ -1,0 +1,7 @@
+VERSION	3.0
+WRITE
+  s/^/" "x($level-1)/e;
+actions
+structure
+	line
+	  item

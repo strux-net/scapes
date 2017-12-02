@@ -1,0 +1,15 @@
+title	find lines that are matched by a specific item of a specific truer
+truerItem	truerItem.shTR
+  doc
+    shdefault	txt html
+  test
+    -./truerItem -invalidOption
+    ./truerItem -f invalid sh_tru truerItem.shTR
+    ./truerItem -f actionlist sh_tru truerItem.shTR
+    ./truerItem sh_tru opt truerItem.shTR
+    ./truerItem -h sh_tru opt truerItem.shTR
+    ./truerItem -a '$.\t$_' sh_tru opt truerItem.shTR
+    ./truerItem -e -a '$goal\t$Title' m_tru goal mTR
+    # xterm -e bash -c './truerItem -v sh_tru opt truerItem.shTR ; read'
+  install
+    2struxbin

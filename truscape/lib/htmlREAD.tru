@@ -1,0 +1,53 @@
+VERSION	3.0
+BEGIN
+  sub MakeValidURI($$) {
+    local ($internal,$_) = @_;
+    if ($internal or /^#/) {
+      # a local link
+      s/([^a-zA-Z0-9_#])/sprintf "%2x",ord($1)/ge;
+    } else {
+      # an external link
+      # s/ /%20/g;
+    }
+    return $_;
+  }
+READ
+  unless ($raw) {
+    my $s="";
+    #            a   [    c     ](      e     )       g
+    #          aaaaa [  ccccc   ](    eeeee   )  gggggggggggg
+    while (/(?:(.*?)\[ *(.+?) *\]\(\s*(.+?) *\))?(.*?(?=\[|$))/g) {
+      #****************************************
+      # markdown like links
+      # any text [ name ]( link ) more text
+      # .........__....____....__..........
+      #     a       c        e       g
+      #****************************************
+      my ($a,$c,$e,$g) = ($1,$2,$3,$4);
+      for ($a,$c,$g) {
+        if (defined) {
+          #****************************************
+          # here happens the conversion to the target language (html)
+          #****************************************
+          s/\r$//;
+          s/\&/&amp;/g;	#  &
+          s/</&lt;/g;	#  <
+          s/>/&gt;/g;	#  >
+        }
+      }
+      if ($c) {
+        #****************************************
+        # here happens the treatment of links
+        #****************************************
+        # $c : (name) converted
+        # $e : (link) unconverted
+        #****************************************
+        $e=MakeValidURI(0,$e);	# 0 : external or internal link
+        $s.=qq($a<a href="$e" >$c</a>$g);
+      } else {
+        $s.=$g;
+      }
+    }
+    $_=$s;
+  }
+actions

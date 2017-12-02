@@ -1,0 +1,7 @@
+VERSION	3.0
+BEGIN
+  $stream=1;
+actions
+  line
+structure
+	line	*	>*

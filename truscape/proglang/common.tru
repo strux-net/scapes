@@ -1,0 +1,1254 @@
+VERSION	3.0
+OPTIONS
+	allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+actions
+  VERSION	version
+    the version of this file
+      Parameters :
+        VERSION	indicator	.*
+        version	mandatory	.+	the version (any string)
+      The input can consist of many input files, hence there may be more than 1 occurence of VERSION
+  vars
+    introduces a block of declarations
+      Parameters :
+        vars	indicator	.*
+  var
+    inside vars
+      Parameters :
+        var		mandatory	.+	the variable (and its initializiation)
+        comment	optional	.+	a comment
+      Example :
+        see	vars
+  enum	name
+    an enum
+      Parameters :
+        enum	indicator	.+
+        name	mandatory	.+	the name of the enum
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	vars
+	  enum	colors
+	    red		bad
+	    yellow	warning
+	    green	good
+  enumline	comment
+    an element of an enum
+      Parameters :
+        enumline	mandatory	.+	the name of the element
+        comment	optional	.+	a comment
+      Example :
+        see	enum
+      the comment is silently ignored
+  usageline
+    inside a usage
+      Parameters :
+        usageline	mandatory	.+	copied unchanged
+      Example :
+        see	Option
+  usage	shortdesc
+    the usage
+      Parameters :
+        usage	indicator	.+
+        shortdesc	mandatory	.+	a short description
+      Example :
+        see	Option
+  Option	comment
+    defining Options for your program
+      Parameters :
+        Option	indicator	.*
+        comment	optional	.+	a comment
+      Allows you to pass options to your program
+    >
+      unless ($usage) {
+        print STDERR "You need to have a usage if you use Options";
+      }
+  opt:type[default]	shortdesc	statement
+    l	opt	type	default
+    an Option with an argument
+      Parameters :
+        opt:type[default]	mandatory	/[^:]+:[^[]+(\[(.*)\])?/		the option name, its type and (optionally) its default value
+        shortdesc		mandatory	.+				a short description for this option
+        stmt		optional	.+				a statement to be executed if this option is seen
+      opt:type[default] consists of the 3 parts:
+          opt	: option name
+          type	: the type of this option (can be any string, eg. file or string or number)
+          default	: the default value for this option
+      Example :
+        see	Option
+    >
+      ($opt,$type,$default) = $F[0] =~ /([^:]+):([^[]+)(?:\[(.*)\])?/;
+  opt	shortdesc	statement
+    an Option with no argument
+      Parameters :
+        opt			mandatory	.+	the option name, its type and its default value
+        shortdesc		mandatory	.+	a short description for this option
+        stmt		optional	.+	a statement to be executed if this option is seen
+      Example :
+        see	Option
+  Optiondescription
+    a description for an option
+      Parameters :
+        Optiondescription	mandatory	.+	the description
+      the description is used for the produced help-entries
+      Example :
+        see	Option
+  statement	comment
+    a statement
+      Parameters :
+        statement	mandatory	.+	a statement
+        comment	optional	.+	a comment for this statement
+      This can be any statement, as shown here
+
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	doc	Note : This is pseudocode
+	foo
+	  an = 42					statement fits in one line, append a ; for c, js, java, perl
+	  pi =						statement starts here
+	    "technically seen ..."			... what follows are continuation statements
+	    + "\n" +
+	    "neither this"				neither this
+	    + "\n" +					... nor ...
+	    'nor this'					nor this are subject for an autoprint
+	    + "\n" +
+	    'are subject for autoprint'
+	    + "\n" +					and no strict rules for indenting are forced.
+	     '' +					any indent is legal
+	    'a final ; is NOT given automatically' ;	do NOT forget the ; for c, js, java, perl
+
+	  doc	depending on the language statements starting with a string are treated as autoprint
+	  "a double quoted string"			sh, c, perl , java, js
+	  'a single quoted string'			vim
+
+      a codeblock inside a statement starts a new piece of code:
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	foo
+	  a = pseudocode
+	    FOREVER	this is a simple statement continuation
+	    // but now a block is opened 
+	    {		and this opens a block and tru happily parses what's inside
+	      FOREVER	// here starts new code
+		?	expr	code
+	    }
+
+      The same holds for comment lines.
+      They open a block and tru happily parses what's inside
+    >
+      # from now on, $comment is suitable for direct usage
+      $comment = "\t$cc $comment" if $comment ne "";
+  U	cond	stmt
+    An Until Loop
+      Parameters :
+        U		indicator	.*
+        cond	mandatory	.+	the stop-condition
+        stmt	optional	.+	a statement
+      Execute a loop at least once.
+      Stop when cond ist true.
+  W	cond	stmt
+    A While Loop
+      Parameters :
+        W		indicator	.*
+        cond	mandatory	.+	the condition
+        stmt	optional	.+	a statement
+      Execute a loop as long as cond is true.
+      Can be zero times.
+  fancyFor	expr	statement
+    fancy for statement
+      Parameters :
+        fancyFor	indicator	.*
+        expr	mandatory	.+	the expression
+        stmt	optional	.+	the statement
+      In many programs you find coding for looping from a given start-value to (excluding) a given end value.
+      They have the (simplified) form
+          for (i=0;i<10;i++)
+      This can be written as
+          F	i=0...10
+  initialisation	comment
+    an initializiation (inside vars)
+      Parameters :
+        initialisation	mandatory	.+	the initialisation
+        comment		optional	.+	a comment
+      Example :
+        see	vars
+  For	cond	stmt
+    A For Loop
+      Parameters :
+        For		indicator	.*
+        cond	mandatory	.+	the condition
+        stmt	optional	.+	a statement
+      see also |fancyFor|
+  S	expr	comment
+    A switch/case block
+      Parameters :
+        S		indicator	S|S\*
+        expr	mandatory	.+	the condition
+        comment	optional	.+	a comment
+
+      Picks the first case that is equal to expr.
+      If no case is picked the default is used.
+      The default is optional but must come after the last case.
+      If indicator is  S* then the semantics change to the logic used in the switch/case in c.
+        Here a fallthrough is the default and break must be used to prevent it.
+      Pseudo Example :
+	    S	expression
+	      a		code for a
+	      b		code for b
+	        nobreak
+	      default	code for the remaining cases
+      code for b will only be executed if expression == b.
+      Due to the nobreak it will also execute code for the remaining cases
+
+      Pseudo Example :
+	    S*	expression
+	      a		code for a
+	      b		code for b
+	      default	code for the remaining cases
+      If expression == a it executes
+          code for a
+          code for b
+          code for the remaining cases
+      If expression == b it executes
+          code for b
+          code for the remaining cases
+  default	statement	comment
+    a default statement inside a switch/case
+      Parameters :
+        default	indicator	.*
+        statement	optional	.+	a statement
+        comment	optional	.+	a comment
+      It must come after the last case.
+      Example :
+        see	S
+  case	statement	comment
+    a case inside in switch/case
+      Parameters :
+        case	mandatory	.+	the value to be checked
+        statement	optional	.+	a statement
+        comment	optional	.+	a comment
+      It must be the last statement in the case.
+      Example :
+        see	S
+  nobreak
+    supressing a break in a switch/case
+      Parameters :
+        nobreak	indicator	.*
+      It must be the last statement in the case.
+      Example :
+        see	S
+  try	statement
+    a try block
+      Parameters :
+        try		indicator	.*
+        statement	optional	.+	a statement
+  block
+    block
+      Parameters :
+        block	optional	.*	Introduces the block of code to be tried.
+      Example :
+        see	try
+  finally	statement
+    finally
+      Parameters :
+        finally	indicator	.*
+        statement	optional	.+	a statement
+      Example :
+        see	try
+  catch	statement
+    a catch
+      Parameters :
+        catch	mandatory	.+	the object to catch
+        statement	optional	.+	a statement
+      Example :
+        see	try
+  jdoc	jdocu
+    l	olevel
+    documenting the code
+      Parameters :
+        jdoc	indicator	.*
+        jdocu	optional	.*	the documentation header-line
+      Documenting the code.
+        tagless documentation can be given by starting at an indent of 4.
+
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	jdoc	a very special program
+	  author	buggs bunny
+	  this program does funny things
+	foo
+	  jdoc
+	    author	flash gordon
+	    the jdoc tag can be given, but there is no real need to (except at level 1).
+	  baz
+    >
+      $olevel=$level;
+  jdocu
+    a line inside jdocu
+      Parameters :
+        jdocu	mandatory	.+	the line
+      Example :
+        see	jdoc
+    >
+      $relindent=$level-$olevel;
+      $level = $olevel;
+  jdtag	descr
+    a tag inside jdocu
+      Parameters :
+        jdtag	mandatory	.+	the name of the tag
+        descr	mandatory	.+	the value of the tag
+      Example :
+        see	jdoc
+    >
+      >>jdocu	\@$jdtag $descr
+  autodoc
+    jdoc compatible documentation
+      Parameters :
+        autodoc	indicator	.*
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	foo
+	    author	mikey mouse
+	    this function does even more funny things
+	  bar
+      Example :
+        see	jdoc
+    >
+      usemark("mark_autodoc");
+      $offset-=2;
+      >>jdoc
+    <
+      $offset+=2;
+      unusemark();
+OPTIONS
+	noIntro			Do not generate an intro
+	noMark			Do not generate marks for Hand written stuff
+	intro:file		use specified file for intro
+		This file will be copied unchanged.
+	obeyD:string		define what D produces
+READ
+  s/\r$//; # In case the input has dos-like line-endings
+  checkplan();
+ATTICREAD
+  checkplan();
+NEWFILE
+  # also see the related checkplan
+  # but things are different here
+  #   the truer found eof and now comes here for instructions.
+  #   afterwards it will do one more check to see if eof still holds.
+  #   
+  #   Note : eof here means neither the input nor the ATTIC have content.
+  if ($inplan) {
+    unshift @ATTIC, (' 'x($inplan-1))."$cc start of plan $planname";
+    $inplan=0;
+    return; # avoid resetting line-numbers
+  }
+WRITE
+  return 1 if ($noWrite);
+BEGIN
+  $offset=-1 unless $offset;
+  @originalARGV = @F;
+  sub checkplan() {
+    if ($inplan and ($level <=$inplan)) {
+      unshift @ATTIC,$_;
+      $_="$cc start of plan $planname";
+      $level=$inplan;
+      $inplan=0;
+    }
+  }
+  sub stmt($) {
+    my ($stmt) = @_;
+    if ($stmt) {
+      $offset+=2;
+      ->statement	$stmt
+      $offset-=2;
+    }
+  }
+actions
+  native code
+    l	s_level
+    introduces a block of native language code
+      Parameters :
+        native code	indicator	.*
+      'native' must be replaced by the actual proglang used.
+      Currently supported are c, js, java, perl, sh and vim.
+      The block is reindented to the level of the indicator.
+      In the form "native code<" the block is indented to the far left.
+      Otherwise the whole block remains untouched.
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  native code
+		print "
+		  one		tabs survive
+		  two
+		  ";
+	  ?	doprint
+	    native code<
+		print "
+		  three
+		  four
+		  ";
+      The numbers (3 and 5) after the comment indicate the level in the source
+      The comments can be supressed with -noMark
+    >
+      $s_level = $level;
+      $s_level = 0 if $F[0] =~ /<$/;
+      if (!$opt_noMark) {
+        if ($opt_languageType eq "c") {
+	/* Hand written stuff	$level */
+        } else {
+	$cc$cc Hand written stuff	$level
+        }
+      }
+    <
+      if (!$opt_noMark) {
+        if ($opt_languageType eq "c") {
+	/* Resuming generated code */
+        } else {
+	$cc$cc Resuming generated code
+        }
+      }
+  nativeCodeLine
+    line inside a "native code"
+      Parameters :
+        nativeCodeLine	mandatory	.+	represents the line
+      Actually the complete line (including all tabs) is taken (starting from the first tabposition in the block)
+      Example :
+        see	native code
+    >
+      $level = $s_level;
+	$rindent$_
+  2copy	comment
+    a block formed by { and }
+      Parameters :
+        2copy	mandatory	.+	represents the line
+        comment	optional	.+	a comment for this fragment
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	# comment with		tabs
+	foo
+	  {
+	    stmt
+	  }
+    >
+	$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
+  introcomment
+    internal Handles the intro-comment
+    >
+      unless ($opt_noIntro or $opt_intro) {
+        ($p)=($0 =~ m(.*/(.+)));
+        $p=$0 unless $p;
+        if ($opt_languageType eq "c") {
+	/*
+	* Autogenerated from $p using @originalARGV
+	* do not edit this file, look for $DOC and change this
+	* or you may loose all your changes and probably choose the wrong method.
+	* goto http://www.strux.net to find more information.
+	*/
+        } else {
+	$cc
+	$cc Autogenerated from $p using @originalARGV
+	$cc do not edit this file, look for $DOC and change this
+	$cc or you may loose all your changes and probably choose the wrong method.
+	$cc goto http://www.strux.net to find more information.
+	$cc
+        }
+      }
+      if ($opt_intro) {
+        if (open opt_intro) {
+          while (<opt_intro>) {
+            chop;
+	$_
+          }
+          close opt_intro;
+        } else {
+          print STDERR "cannot open intro $opt_intro : $!\n";
+        }
+      }
+  comment
+    a comment
+      Parameters :
+        comment	mandatory	.+	represents the line
+      the whole line is copied as is, tabs are preserved
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	# comment with		tabs
+	foo
+	  # an indented comment
+    >
+	$_
+  ??	leftpart	rightpart	LeftOfStmt	RightOfStmt
+    fancy if-cascade, catching one hit
+      Parameters :
+        ??		indicator	.*
+        leftpart	optional	.+	the leftpart
+        rightpart	optional	.+	the rightpart
+        LeftOfStmt	optional	.+	for left of the statement
+        RightOfStmt	optional	.+	for right of the statement
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  ??	a	0	print "		"
+	    <			smaller		negative numbers
+	    ==			equal		a zero
+	    >			greater		positive numbers
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  ??
+	    a == 1	bar()
+	    b >= c	baz()
+	    -		foobar()
+      for catching many hits see |??*|
+    >
+      $offset-=2;
+    <
+      $offset+=2;
+  ??*	leftpart	rightpart	LeftOfStmt	RightOfStmt
+    fancy if-cascade, catching many hits
+      Parameters :
+        ??*		indicator	.*
+        leftpart	optional	.+	the leftpart
+        rightpart	optional	.+	the rightpart
+        LeftOfStmt	optional	.+	for left of the statement
+        RightOfStmt	optional	.+	for right of the statement
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  ??*	flag & GC_	 != 0	print "file is 		"
+	    read	readable
+	    write	writeable
+	    exec	executable
+      for catching one hit see |??|
+    >
+      $offset-=2;
+    <
+      $offset+=2;
+  middlepart	stmt
+    part of a fancy if-cascade (catching one hit)
+      Parameters :
+        middlepart	mandatory	.+	the middle part
+        stmt	mandatory	.+	the statement
+      Example :
+        see	??
+    >
+      if ($rnr == 1) {
+        >>	?	$leftpart$middlepart$rightpart	$LeftOfStmt$stmt$RightOfStmt
+      } else {
+        >>	?-	$leftpart$middlepart$rightpart	$LeftOfStmt$stmt$RightOfStmt
+      }
+  middlepart_any	stmt
+    part of a fancy if-cascade (catching many hits)
+      Parameters :
+        middlepart	mandatory	.+	the middle part
+        stmt	mandatory	.+	the statement
+      Example :
+        see	??*
+    >
+        >>	?	$leftpart$middlepart_any$rightpart	$LeftOfStmt$stmt$RightOfStmt
+  FOREVER	stmt
+    an endless loop
+      Parameters :
+        FOREVER	indicator	.*
+        stmt	optional	.+	the statement
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  FOREVER	bar()
+    >
+      >>	W	$true	$stmt
+  optcommon	getoptstr	expr	type	statmnt
+    internal an option
+      to be called from
+        opt:type[default]	shortdesc	statement
+        opt	shortdesc	statement
+      if the language has always something in the body (sh,c and java) the call must be from the in-action
+      for languages that do not always have something in the body (perl) the call must be from the depth-action
+      vim_tru does not use optcommon
+    >
+      unshift @GetOpt,$getoptstr;
+      if ($opt_languageType eq "c") {
+	/* -$opt : $shortdesc */
+      } else {
+
+	$cc -$opt : $shortdesc
+      }
+      if ($NrOfLinesFollowing or $statmnt) {
+        >>?	?	$expr
+        stmt($statmnt);
+      }
+  M
+    l	Mlevel
+    magic statement
+      Parameters :
+        M		indicator	M[;_*]*
+        *		optional	.+	delimiters
+      Produces a line of output for each non-empty line in the child-block.
+      The lines are the result of intermixing the delimiters given here with the fields of the lines.
+
+      The indicator specifies the order of the fields and the termination.
+      If indicator contains *
+        If there are more delimiters than Fields then the remaining delimiters will be a concatenated at the end.
+        In the following table D1 means delimiter1 (the first), F1 means field1 (the first). There are D1 ... D5 and F1 and F2.
+	    M	order D1F1D2F2D3D4D5, no semicolon at end
+	    M;	order D1F1D2F2D3D4D5,    semicolon at end
+	    M_	order F1D1F2D2D3D4D5, no semicolon at end
+	    M_;	order F1D1F2D2D3D4D5,    semicolon at end
+      else (indicator does not contain *)
+        If there are more delimiters than Fields then the remaining delimiters are silently skipped.
+        In the following table D1 means delimiter1 (the first), F1 means field1 (the first) There are D1 ... D3 and F1 and F2.
+	    M	order D1F1D2F2D3, no semicolon at end
+	    M;	order D1F1D2F2D3,    semicolon at end
+	    M_	order F1D1F2D2,   no semicolon at end
+	    M_;	order F1D1F2D2,      semicolon at end
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  M	bar("		");
+		      one
+		      two
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	doc	semicolon at end
+	foo
+	  M;	print 
+	    "one"
+	    1
+
+	  doc	same as above
+	  M	print 	;
+	    "one"
+	    1
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	doc	first field from the lines
+	foo
+	  M_		(bar(		)+baz(		));
+		      a		10		20
+		      b		100		200
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	doc	more params than fields
+	  remaining fields will simply be concatenated
+	foo
+	  M	print 
+	    0.	1
+	    0.	2	3
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	doc	more fields then params
+	  these fields are not used at all.
+	  they can be used as a comment.
+	foo
+	  M	print(		)	a comment
+			1
+			2
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	doc	a more realistic example (in perl)
+	foo
+	  M	if ($size > (			 )) { return int($size/(		))."		";}
+				1024*1024*1024				1024*1024*1024		TB
+				1024*1024				1024*1024		GB
+				1024					1024			MB
+				0					1			kB
+    >
+      shift @F;
+      unshift @F,'' if ($M =~ /_/);
+      push @Magic,[@F];
+      $Mlevel=$level;
+  doc	docu
+    documenting or commenting parts of code
+      Parameters :
+        doc		indicator	.*
+        docu	optional	.+	free text
+      Tabs survive in the child-block.
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	doc	this program calculates the prettiest number in the world
+	  some numbers are skipped:
+		  1.01		too ugly
+		  11.11		well known pretty number
+		  42		for obvious reasons
+	foo
+	  doc	helper function
+	  bar()
+    >
+      $doclevel=$level;
+    -
+      if ($opt_languageType eq "c") {
+	/*****************************************
+        if ($docu) {
+	* $docu
+          if ($NrOfLinesFollowing) {
+	***************************************
+          }
+        }
+      } else {
+	$cc****************************************
+        if ($docu) {
+	$cc $docu
+          if ($NrOfLinesFollowing) {
+	$cc****************************************
+          }
+        }
+
+      }
+    <
+      if ($opt_languageType eq "c") {
+	*****************************************/
+      } else {
+	$cc****************************************
+      }
+  docu
+    part of doc
+      Parameters :
+        docu	optional	.+	free text
+      Example :
+        see	doc
+    >
+      $indent = " "x($level-$doclevel-1);
+      $level=$doclevel;
+      if ($opt_languageType eq "c") {
+	*$indent$_
+      } else {
+	$cc$indent$_
+      }
+  magic
+    part of M
+      Parameters :
+        magic	mandatory	.+	list of fields
+      Example :
+        see	M
+    >
+      local $i;
+      local *D=@Magic[$#Magic];
+      local $strng="";
+
+      for ($i=0;$i<@F;$i++) {
+        $strng.="$D[$i]$F[$i]";
+      }
+      $strng.="$D[$i]";
+      if ($M =~ /\*/) {
+        for (local $j=$i+1;$j<@D;$j++) {
+          $strng.="$D[$j]";
+        }
+      }
+
+      $level=$Mlevel;
+      if ($M =~ /;/) {
+	$strng;
+      } else {
+	$strng
+      }
+  D	stmt
+    l	writeDisabled
+    conditional blocks (compile-time)
+      Parameters :
+        D		indicator	D.*
+        stmt	optional	.+	a statement
+
+      The statement and the child-block are produced or skipped depending on option obeyD.
+      If option obeyD is not given, the child-node is skipped.
+      If obeyD is 1, the child-node is produced.
+      Else if obeyD contains the flags-string, the child-node is produced.
+
+      Example (-obeyD not given) :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+      Example (-obeyD xy) :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck -obeyD xy
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+      Example (-obeyD 1) :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck -obeyD 1
+	foo
+	  Dx	bar(1)
+	  Dy
+	    bar(2)
+	  Dz	bar(3)
+	  bar(4)
+    >
+      (my $flags) = ($D =~ /^.(.*)/);
+      unless ($opt_obeyD == 1 or $opt_obeyD =~ /$flags/) {
+        $noWrite++;
+        $writeDisabled=1;
+      }
+      $offset=$offset-2;
+      stmt($stmt);
+    <
+      $offset=$offset+2;
+      $noWrite-- if $writeDisabled;
+  R	list
+    repeated statements
+      Parameters :
+        R	indicator	R|R/.+/
+        list	mandatory	.+	list of replacements
+        *	optional	.+	a line to be repeated
+
+      The indicator R can be (immediately) followed by /string/.
+      The child-block is repeated as often as there are elements in the list.
+      Each occurrence of "string" is replaced with the elements of the list.
+      If no /string/ is given after R, the tab-sequences in the child-block are replaced.
+      Note :
+        This default of tab-sequences is chosen to be consistent with the rest of the coding-style (where one tab is as good as two) and thus allowing nicer alignment of code.
+        If an explicit /string/ is given, then really each occurence is replaced.
+
+      If there are more fields after 'list', then these are considered to form a line to be repeated.
+
+      Note : list is a perl-list, so something like 1..3,10..20 is a valid list.
+        A drawback is, that a list like pins,passwords,keys gives an error (see foo5 in the example below).
+        This will be reported to STDERR like 
+	  problem with list for R in filename @ 17 : Not enough arguments for keys at (eval 68) line 1, at EOF
+	If in doubt use notation like in foo3 or quote the words like in foo6
+
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck 2>/dev/null
+	foo1
+	  R	1..3
+	    foo	();
+	foo2
+	  R	1,5,7
+	    bar	();
+	foo3
+	  R	qw(north east west south)	print "	";
+	foo4
+	  R/object/	north,east,west,south
+	    object.add(); // add object to the pane
+	    print("added a object");
+	    // this line is copied unchanged
+	foo5
+	  doc	the list below will not be produced.
+	    Instead an error will be reported
+	  R	pins,passwords,keys
+	    process(	);
+	foo6
+	  doc	quoted words cause no trouble
+	  R	'pins','passwords','keys'
+	    process(	);
+    >
+      @RepeatThis = ();
+      $Rlevel = 0;
+      unless (($Rpattern) = $R =~ m:R/(.+)/:) {
+        $Rpattern = "\t+";
+      }
+      if (defined $F[2]) {
+        /.*?\t+.*?\t+(.*)/;
+        push @RepeatThis,$1;
+      }
+    <
+      local $i;
+      for $i (eval($list)) {
+        map {
+          (local $l=$_)=~s/$Rpattern/$i/g;
+	$l
+        } @RepeatThis;
+      }
+      if ($@) {
+        print STDERR "problem with list for R in $ARGV @ $. : $@\n";
+      }
+
+  repeatedLine
+    part of R
+      Parameters :
+        repeatedLine	mandatory	.+	the line to be processed
+      Example :
+        see	R
+    >
+      if ($rnr == 1 and !$Rlevel) {
+        $Rlevel=$level;
+      }
+      push @RepeatThis," "x($level-$Rlevel).$_;
+  hide	comment
+    hide parts of code
+      Parameters :
+        hide	indicator	.*
+        comment	optional	.*	any comment
+      The child-block is not processed.
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  a=1
+	  hide	this code does not work
+	    // some experimental code
+	    a=2
+    >
+      $noWrite++;
+    <
+      $noWrite--;
+  ignored
+    ignored line
+      This line is silently ignored
+      Parameters :
+        ignored	indicator	.*
+      Example :
+        see	hide
+  EMPTY
+    ignored line
+      Empty lines are silently ignored
+      Parameters :
+        EMPTY	indicator	.*
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	main
+	  stmt1
+
+	  stmt2
+  fancyFor	expr	statement
+    continued
+    >
+      local ($start,$end) = $expr =~ /(.*)\.\.\.(.*)/;
+      local ($var) = $start =~ /([^ ]+) *=/;
+      >>For	F	$start;$var<$end;$var=$var+1	$statement
+  T
+    fancy table
+      Parameters :
+        T		indicator	T(?:\d*)(?:\\)?
+        *		mandatory	.+		the lines
+
+      Frequently in code you find repeated lines with different parts
+      T gives a means to pretty code them
+
+      if T is followed by a number then so many lines are skipped (useful for commenting the table).
+      if T is followed by \ then the resulting codeblocks are separated by a blank line.
+
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  T1\	bar("#1#");	baz(#2#);
+	    string	int
+	    one		1
+	    two		2
+	    three	3
+      Another Example (for java) :	java_tru -noIntro
+	    class Foo
+	      void foo
+	        T1\	#1#Button.setText("#2#");	#1#.setMnemonic(KeyEvent.VK_#3#);
+	          button		Text		Hot-Key
+	          editOrView	View -> Edit	E
+	          saveChanges	Save changes	S
+	          refresh		Refresh		R
+	          details		Details		D
+	          newEntry		New Entry	N
+    >
+      @T=@F[1..$#F];
+      $tskip = ($T =~ /(\d+)/);
+      $offset-=2;
+    <
+      $offset+=2;
+  Titem
+    part of a fancy table
+      Parameters :
+        *	mandatory	.+	the items for T
+      Example :
+        see	T
+    >
+      return if ($rnr <= $tskip);
+      for (@T) {
+        $titem = $_;
+        while ($titem =~ s/#(\d+)#/$F[$1-1]/me) {}
+	$titem
+      }
+      if ($T =~ /\\/) {
+       |
+      }
+  !	cond	truestmt	falsestmt
+    negated if
+      Parameters :
+        !		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :	classtruer -noIntro -noConfigCheck -noProtos
+	foo
+	  !	i<=10
+	    bar()
+	  -
+	    baz()
+	  doc	same as above
+	  !	i<=10	bar()	baz()
+    >
+      >>	negate	$cond
+      >>	?	$cond	$truestmt	$falsestmt
+  !-	cond	truestmt	falsestmt
+    negated else-if
+      Parameters :
+        !-		indicator	.*
+        expr	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :
+        see	?
+    >
+      >>	negate	$cond
+      >>	?-	$cond	$truestmt	$falsestmt
+  ?	cond	truestmt	falsestmt
+    an if-statement
+      Parameters :
+        ?		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :	classtruer -noIntro -noConfigCheck -noProtos
+	foo
+	  ?	i<=10
+	    bar()
+	  -
+	    baz()
+	  doc	same as above
+	  ?	i<=10	bar()	baz()
+      Example :	classtruer -noIntro -noConfigCheck -noProtos
+	foo
+	  ?	i == 0		"zero"
+	  ?-	i == 1		"one"
+	  !-	i > 10		"small"
+	  -			"large"
+    >
+      >>	simple_if	$cond
+      # the following ifout assures that setmark() gets called as the first outaction
+      >>ifout
+      stmt($truestmt);
+      if ($falsestmt) {
+        >>simple_else
+        stmt($falsestmt);
+      }
+  ?-	cond	truestmt	falsestmt
+    an ifelse statement
+      Parameters :
+        ?-		indicator	.*
+        condition	mandatory	.+	the condition
+        truestmt	optional	.+	the true-statement
+        falsestmt	optional	.+	the false-statement
+      Example :
+        see	?
+    >
+      usemark("mark_if$level");
+      >>	simple_elseif	$cond
+      stmt($truestmt);
+      if ($falsestmt) {
+        >>simple_else
+        stmt($falsestmt);
+      }
+    <
+      unusemark();
+  else	stmt
+    an else
+      Parameters :
+        else		indicator	.*
+        falsestmt	optional	.+	a statement
+      Example :
+        see	?
+    >
+      usemark("mark_if$level");
+        >>simple_else
+      stmt($stmt);
+    <
+      unusemark();
+  TAB	pre	post
+    l	tablevel
+    a Tab Aligned Block
+      Parameters :
+        TAB		indicator	.*
+        pre		optional	.+	text to be put before the block
+        post	optional	.+	text to be put after the block
+      The lines in a TAB block are taken as a whole (including all interfield tabs).
+      These lines have to start at or after the next tab-position, that is at least 2 characters right of the left/right indicator.
+      Of the indent only the part after this position survives.
+
+      For the use of pre and post see the example (second and third poem)
+
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	foo
+	  doc	These are pseudo examples.
+	    they may not be runnable code but can give the idea
+
+
+	  doc	not using pre and post
+	  TAB
+	    print '				';
+		Here a poem:
+
+		         this line
+		       and this line
+		   are here by intention
+		and both are my own invention
+	  doc	using pre and post, but not left and right
+	  TAB	return "	";
+		             this line
+		           and this line
+		      are not only quite terse
+		but also make up a pretty nice verse
+	  doc	using pre and post, as well as left and right
+	  TAB	return "another poem"		;
+	    + "								"
+		                  this line
+		                and this line
+		            have never been read
+		  So don't try to read them or you may drop dead
+    >
+      $tablevel=$level;
+      if ($pre ne "") {
+        $tablevel += 2;
+	$pre
+      }
+    <
+      if ($post ne "")
+	$post
+      $left = $right = "";	# they shall not survive, we are done with them
+  left	right
+    treatment of a Tab Aligned Block
+      Parameters :
+        pre		mandatory	.+	text to be put to the left  of each line
+        post	optional	.+	text to be put to the right of each line
+      Example :
+        see	TAB
+  TABline
+    a line in a Tab Aligned Block
+      Parameters :
+        TABline	mandatory	.+	the text
+      Example :
+        see	TAB
+    >
+      $level=$tablevel;
+	$left$rindent$_$right
+  ifout
+    internal setting mark_if
+    <
+      setmark("mark_if$level");
+  P[<]![planname]
+    starting a plan block.
+      Parameters :
+        P[<]![planname]		indicator	.*	planname can be empty
+        *			mandatory	.+	the strategies as a sequence of perl-expressions
+
+      planname can be anything.  It doesn't matter at all.
+      It can be used to clarify your coding.
+      if the flag < is given, then the indent of the block is shifted two spaces to the left.
+      This can be used for applying plans at the very left.
+
+      The strategies are applied to the plan, which is formed by the block of lines.
+        The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.
+        repeating the plan is done by refeeding it to the truer
+        depending on the flag <
+          flag given		the block is shifted two spaces to the left.
+          flag not given	the block is refed without fussing with the indent of the lines
+        strategies are allowed to change the indent. But you must well understand what you are doing.
+
+      This is a potentially dangerous action, since the strategy can be any perl-statement.
+        Hence this must be explicitely enabled with the option -allowP
+
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck -allowP
+	doc	Note that the truer must be started with the option -allowP for this to work
+	foo1
+	  doc	produce 3 repetitions of the block, each with another op, the plan has no name
+	  P!	s/op/>/g	s/op/</g	s/op/==/g
+	    // running tests for op
+	    ?	test1() op test2()	handleTests("op")
+
+	foo2
+	  doc	produce 2 repetitions of the block, the first is unchanged
+	  P!example with untouched block	;	s/green/red/g
+	    // when the lights are green
+	    ?	light == "green"	greenseen++
+
+      You can happily use plans within plans, they nest.
+    >
+      $inplan = $level;
+      ( $isShiftedPlan,$planname ) = ($F[0] =~ /(<?)!(.*)/);
+      @Rlines=();
+    <
+      for ($i=$#F;$i;$i--) {
+        @Rlinescopy = @Rlines;
+        map { eval $F[$i]; } @Rlinescopy;
+        unshift @ATTIC,@Rlinescopy;
+        unshift @ATTIC,qq($indent$cc plan "$planname", strategy "$F[$i]")
+      }
+  P!line
+    part of a plan
+      Parameters :
+        P!line	mandatory	.+	the text
+      Example :
+        see	P[<]![planname]
+    >
+      if ($isShiftedPlan) {
+        push @Rlines,((" " x (tru::indentval($indent) - 2)).$_);
+      } else {
+        push @Rlines,("$indent$_");
+      }
+  o	comment
+    structure your code
+      Parameters :
+        o		indicator	.*
+        comment		optional	.+	a commant
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	doc	Note : This is pseudocode
+	foo
+	  o	init
+	    init()
+	  o	exit
+	    exit()
+    >
+	$cc $comment
+group
+  autodoc
+	[autodoc]								=	autodoc
+	  jdtag	descr
+	    jdocu	*							=*
+	  jdocu	*								=*
+  common
+	VERSION	version								=	VERSION	.+
+	hide	[comment]							>>*	hide
+	 ignored	*							>>*
+	usage	shortdesc							=	usage
+		usageline	*						>>t*
+	jdoc	[jdocu]								=2	jdoc
+	  jdtag	descr								>>
+	  jdocu	*								>>*
+	EMPTY									>*		.{0}
+	doc	[docu]								=2		doc
+	  docu	*								>>*
+	FOREVER		[stmt]							>2		FOREVER
+	F	expr;cond;expr	[stmt]						>2 For		F		.*;.*;.*
+	F	var=start...end	[stmt]						>2 fancyFor	F		.+=.+\.\.\..*
+	W	expr		[stmt]						>2		W
+	U	expr		[stmt]						>2		U
+	?	expr		[truestmt]	falsestmt			>2		\?
+	?-	expr		[truestmt]	falsestmt			>2		\?-
+	!-	expr		[truestmt]	falsestmt			>2		\!-
+	!	expr		[truestmt]	falsestmt			>2		!
+	-					[falsestmt]			>2 else		\-
+	D	[stmt]								>2		D\w*
+	??	[leftpart]	rightpart	LeftOfStmt	RightOfStmt	>o2		\?\?
+	  -	[falsestmt]							= else		\-
+	  middlepart		[statement]	comment				=		.+
+	??*	[leftpart]	rightpart	LeftOfStmt	RightOfStmt	>o2		\?\?\*
+	  middlepart_any	[statement]	comment				=		.+
+	M	*								>2		M[;_*]*
+	 magic	*								>>*		.+
+	R	list	*							>2		R(/.+/)?
+	  repeatedLine	*							>>*
+	P[<]![planname]	*							>2($opt_allowP)	P<?!.*
+	  P!line		*						>>*
+	T		*							>2		T(?:\d*)(?:\\)?
+	  Titem	*
+	S	expr		[comment]					>2		S(\*)?
+	  default		[statement]	comment				=o		default
+	    nobreak								=	nobreak
+# make the case a bit weeker, still fix the pos
+# this allows comments on the same level
+# open 'case' for creeping
+	  case		[statement]	comment					>o0		.+
+	    nobreak								=	nobreak
+	o	[comment]							>2		o
+	TAB			[pre]		post				>2		TAB
+	    TABline		*						=t*
+	  left	[right]
+	    TABline		*						=t*
+  try catch clause
+	try			[statement]					>2		try
+	  [block]								=o		block
+	    []
+	  finally	[statement]						=		finally
+# make the catch a bit weeker, still fix the pos
+# this allows comments on the same level
+	  catch	[statement]							>0		.+
+  statement
+	ending in {			[comment]				>2 2copy	.*\{
+	}				[comment]				>2 2copy	\}.*
+	statement			[comment]				>2
+	 statementContinuation		[comment]				>>* 2copy
+  main
+	main									=o	main
+	  autodoc								=g
+	  Option	[comment]						=	Option
+	    opt:type[default]	shortdesc	[stmt]				=o	.+:.+(?:\[.*\])?
+	        Optiondescription	*					=t*
+	    opt			shortdesc	[stmt]				=o
+	        Optiondescription	*					=t*
+  function
+	function	[args]	additions					=o	.+
+	  autodoc								=g

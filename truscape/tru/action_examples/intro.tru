@@ -1,0 +1,105 @@
+VERSION	3.0
+##	actions
+##	  Here the actions are defined.
+##	  Actions are named pieces of code, that are executed if a corresponding structure-item matches or when they are called directly (see >> => ->)
+#
+##	  Actions have arguments.
+##	  The arguments are separated from each other with one or more tabs.
+#
+#	  Actions are introduced by a line that consists of the word actions only.
+actions
+  country	city	street
+#	  The above example defines an action (country) with 3 arguments (country, city and street)
+##	  arguments (and action-names) can contain any letter except
+##	      \t (tab)		for obvious reasons
+##	      $sdel		per default : \x00 (a null byte)
+#	  Above example does not do anything useful yet.
+#	  It just defines an action and its parameters.
+#	  No output is generated for a matched line
+#
+#	  The complete general form of an action is shown in the next example
+actions
+  item
+    l	StackedLocalVar1	StackedLocalVar2
+    shortdescription for this action
+      comment for this action
+    >
+	inaction	$item
+    -
+	depthaction	$item
+    <
+	outaction	$item
+#
+##	  Many actions can be defined in the actions-section and many action sections can exist.
+#	  The action ("item" in this case) must start with exactly two spaces.
+##
+#	  The declaration of the StackedLocalVars is explained in more detail in perl_code.tru
+#	  The shortdescription must not contain a tab.
+#	  The comment can contain tabs.
+#
+##	  Actions have three different entry points, called pit (for Point In Time).
+##	      >	inaction
+##	      -	depthaction
+##	      <	outaction
+#
+#	  The "l StackedLocalVars ...", the shortdescription, >, - and <	must start with 4 spaces.
+##
+##	  The lines after >, - and < are perl-code. The arguments are accessible in the code in the natural (perl-)way (by prepending a $).
+##	  If such a line starts with a tab, then it is an output-statement.
+##	  See perl_code.tru and outstatements.tru for more details about these issues.
+##
+##	  The inaction is executed when a line is matched.
+##	  The depthaction is executed when the next line with the same or a smaller indent is matched.
+##	      The output for the depthaction is put after the output of the inaction.
+##	  The outaction is executed directly after the depthaction.
+##	      The output for the outaction is put after the output of all actions for the lines with a larger indent after the matched line.
+##
+##	  any of above described elements may be missing or may occur one or more times in any order.
+##	  If the definition of an action occurs more than once, all subactions are performed in
+##	  the given order except for the outactions which are performed in the reverse order
+#	  as demonstrated in the next example.
+actions
+  note
+    >
+	inaction1	$note
+    -
+	depthaction1	$note
+    <
+	outaction1	$note
+#	  the following definition for note could well be in another file
+  note
+    >
+	inaction2	$note
+    -
+	depthaction2	$note
+    <
+	outaction2	$note
+#	  the names of the arguments don't need to be the same as given in the structure.
+actions
+  a1	arg1	anotherName
+    >
+	seeing $a1 $arg1 $anotherName
+#	  but if you repeat an action, then the names must be the same (or may be missing).
+#	  Also additional arguments can be specified. These will be seen even in the parts, where they are not specified.
+#	  The next example demonstrates this
+actions
+  b1	b2
+    >
+	first  definition of b1 sees $b1/$b2/$b3
+  b1
+    >
+	second definition of b1 sees $b1/$b2/$b3
+  b1	b2	b3
+    >
+	third  definition of b1 sees $b1/$b2/$b3
+structure
+	example1	=	example1
+	  country	city	street
+	example2	=	example2
+	  item					>
+	example3	=	example3
+	  note
+	example4	=	example4
+	  a1	a2	a3
+	example5	=	example5
+	  b1	b2	b3

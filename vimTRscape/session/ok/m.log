@@ -1,0 +1,10 @@
+building session.vim
+vim_tru session.vimTR >session.vim
+GOOD	session.vim
+{ echo "session.vim\n  maintain vim-sessions\n    usage"; < session.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tmaintain vim-sessions" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+Title="*session.txt*   maintain vim-sessions" vimInterface2Help_tru session.vimTR >docs/session-commands.txt
+GOOD	docs/session-commands.txt
+testing session.vim

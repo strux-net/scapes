@@ -1,0 +1,61 @@
+state_tru
+  build
+    perl ../tru state.tru structure.tru						state_tru
+  test
+    perl state_tru in
+  helpers
+    tru.jar ./state_tru in
+indent_tru
+  build
+    perl ../tru indent.tru structure.tru					indent_tru
+  test
+    perl indent_tru in
+  helpers
+    tru.jar ./indent_tru in
+level_tru
+  build
+    perl ../tru level.tru structure.tru						level_tru
+  test
+    perl level_tru in
+  helpers
+    tru.jar ./level_tru in
+rindent_and_rlevel_tru
+  build
+    perl ../tru rindent_and_rlevel.tru structure.tru				rindent_and_rlevel_tru
+  test
+    perl rindent_and_rlevel_tru in
+  helpers
+    tru.jar ./rindent_and_rlevel_tru in
+rnr_tru
+  build
+    perl ../tru rnr.tru structure.tru						rnr_tru
+  test
+    perl rnr_tru in
+  helpers
+    tru.jar ./rnr_tru in
+NrOfChilds_tru
+  build
+    perl ../tru NrOfChilds.tru structure.tru					NrOfChilds_tru
+  test
+    perl NrOfChilds_tru in
+  helpers
+    tru.jar ./NrOfChilds_tru in
+NrOfLinesFollowing_tru
+  build
+    perl ../tru NrOfLinesFollowing.tru structure.tru				NrOfLinesFollowing_tru
+  test
+    perl NrOfLinesFollowing_tru in
+  helpers
+    tru.jar ./NrOfLinesFollowing_tru in
+isLast_tru
+  build
+    perl ../tru isLast.tru structure.tru					isLast_tru
+  test
+    perl isLast_tru in
+ATTIC_tru
+  build
+    perl ../tru ATTIC.tru structure.tru						ATTIC_tru
+  test
+    perl ATTIC_tru in
+  helpers
+    tru.jar ./ATTIC_tru in

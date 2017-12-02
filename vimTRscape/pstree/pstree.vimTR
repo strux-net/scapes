@@ -1,0 +1,200 @@
+VERSION	3.0
+usage	pstree.vim
+	investigate the pstree.
+	some of the commands only work on debian-based systems.
+
+	start it by editing /strux/pstree
+
+	Note that this file (/strux/pstree) is not supposed to really exist.
+
+	You can also (in your shell) try
+	  pst
+	or
+	  pst vim
+
+	to install this plugin put this file into ~/.vim/plugin/
+au
+  BufEnter
+    /strux/pstree
+      call PsInit()
+
+PsInfo_pid
+  :put =s:currpid
+  silent 1d
+
+PsInfo_exe
+  silent exe "r!ls -l /proc/".s:currpid."/exe 2>/dev/null"
+  :-
+  :j
+  s/ /\t/
+
+PsInfo_environ
+  $
+  mark a
+  l:lnr=line(".")
+  silent! exe "r /proc/".s:currpid."/environ"
+  ?	l:lnr != line("$")
+    s/.$//
+    s/\%x00/\t/g
+    s/^/environ\t/
+    silent 'a+1,$>
+  -
+    d
+
+PsInfo_cmdline
+  $
+  exe "r /proc/".s:currpid."/cmdline"
+  s/.$//
+  s/\%x00/\t/g
+  s/^/cmdline\t/
+
+PsInfo_cwd
+  silent exe "r!ls -l /proc/".s:currpid."/cwd 2>/dev/null"
+  ?	stridx(getline("."),">") != -1
+    exe "normal df>xI  cwd\t\t\<ESC>"
+  -
+    silent d
+
+PsInfo_root
+  silent exe "r!ls -l /proc/".s:currpid."/root 2>/dev/null"
+  ?	stridx(getline("."),">") != -1
+    exe "normal! df>xI  root\t\t\<ESC>"
+  -
+    silent d
+
+PsInfo_statm
+  $
+  silent exe "r /proc/".s:currpid."/statm"
+  exe "normal! I  statm\t\t\<ESC>"
+
+PsInfo_stat
+  $
+  silent exe "r /proc/".s:currpid."/stat"
+  exe "normal! I  stat\t\t\<ESC>"
+
+PsInfo_fd
+  $
+  mark a
+  l:lnr=line(".")
+  silent exe "r!ls -l /proc/".s:currpid."/fd 2>/dev/null"
+  ?	l:lnr != line("$")
+    :'a+1 d
+    silent 'a+1,$>
+    silent 'a+1,$>
+    :'a put ='  fd'
+
+PsInfo_status
+  $
+  mark a
+  l:lnr=line(".")
+  silent exe "r /proc/".s:currpid."/status"
+  ?	l:lnr != line("$")
+    silent 'a+1,$>
+    silent 'a+1,$>
+    :'a put ='  status'
+PsInfo_maps
+  $
+  mark a
+  l:lnr=line(".")
+  silent exe "r /proc/".s:currpid."/maps"
+  ?	l:lnr != line("$")
+    silent 'a+1,$>
+    silent 'a+1,$>
+    :'a put ='  maps'
+PsInfo_lsof
+  $
+  mark a
+  l:lnr=line(".")
+  silent exe "r !lsof -p ".s:currpid
+  ?	l:lnr != line("$")
+    silent 'a+1,$>
+    silent 'a+1,$>
+    :'a put ='  lsof'
+Pstree
+  setlocal modifiable
+  currline = line(".")
+  silent %d
+  silent r!TERM= pstree -upl		TERM= to force Ascii-output (independent of version of pstree)
+  silent 1d
+  se nomodified
+  exe "normal!".currline."G"
+  setlocal nomodifiable
+  redraw				to get rid of the : "/strux/pstree" [New File]
+
+NextPid
+  exe "normal! /\\<\\d\\+/\<cr>"
+
+PsLL
+  normal! f)%l
+  ?	match(expand("<cword>"),"[^0-9]") != -1
+    'Not a valid pid '.expand("<cword>")
+    return
+  s:currpid=expand("<cword>")
+  exe "LL /proc/".s:currpid
+PsInfo
+  switchbuf=&switchbuf
+  set switchbuf=useopen
+  ?	b:hfname == ''
+    b:hfname=tempname()
+    exe "sp ".b:hfname
+    exe "resize ". g:strux_pstree_InitialInfoWinHeight
+    wincmd p
+  normal! f)%l
+  ?	match(expand("<cword>"),"[^0-9]") != -1
+    normal! F(l
+    ?	match(expand("<cword>"),"[^0-9]") != -1
+      'Not a valid pid '.expand("<cword>")
+      return
+  s:currpid=expand("<cword>")
+
+  exe "sb ".b:hfname
+  currline = line(".")
+  %d
+
+  M	silent! call 
+    PsInfo_pid()
+    PsInfo_exe()
+    PsInfo_cmdline()
+    PsInfo_environ()
+    PsInfo_cwd()
+    PsInfo_root()
+    PsInfo_statm()
+    PsInfo_stat()
+    PsInfo_fd()
+    PsInfo_status()
+    PsInfo_maps()
+    PsInfo_lsof()
+
+  se nomodified
+  exe "normal!".currline."G"
+  wincmd p
+  &switchbuf=switchbuf
+
+Interface	/strux/pstree
+  r	&Strux.&pstree.&refresh	Refresh view			:call Pstree()<CR>
+    refreshes the view reflecting the changes in the pstree
+  P	&Strux.&pstree.&next		Goto next pid			:call NextPid()<CR>
+    move cursor to the next Pid
+  p	&Strux.&pstree.next &and info	Search next Pid and show info	:call NextPid()<CR>:call PsInfo()<CR>
+    move cursor to the next Pid and show info for this pid
+  K	&Strux.&pstree.&kill		Kill this process		f)%l:!kill -9 <C-R><C-W><Home><Right><Right><Right><Right><Right><Right><Right><Right>
+    Interactive
+      prompts for a kill-command,
+      the PID under or right of the cursor is inserted.
+      the cursor is right of the signal
+      You may wish to adjust the signal before pressing <ENTER>
+  i	&Strux.&pstree.&info		Info about this pid		:call PsInfo()<CR>
+    shows info for the pid under the cursor.
+    If there is no pid under the cursor, the next pid in this line right of the cursor is tryed
+    If there is no pid right of the cursor, the pid left of the cursor is used
+  a	&Strux.&pstree.&LL		LL of /proc/<pid>		:call PsLL()<CR>
+    for the pid under the cursor start LL in /proc/<pid>
+
+PsInit
+  ?	exists("b:Inited")	return	b:Inited=1
+
+  set ft=pstree
+  b:hfname=''
+  !	exists("g:strux_pstree_InitialInfoWinHeight")	g:strux_pstree_InitialInfoWinHeight=10
+
+  call Pstree()

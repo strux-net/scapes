@@ -1,0 +1,19 @@
+state.tru		perl ../tru state.tru structure.tru > state_tru  && a state_tru
+state_tru		perl state_tru in
+indent.tru		perl ../tru indent.tru structure.tru > indent_tru  && a indent_tru
+indent_tru		perl indent_tru in
+level.tru		perl ../tru level.tru structure.tru > level_tru  && a level_tru
+level_tru		perl level_tru in
+rindent_and_rlevel.tru	perl ../tru rindent_and_rlevel.tru structure.tru > rindent_and_rlevel_tru  && a rindent_and_rlevel_tru
+rindent_and_rlevel_tru	perl rindent_and_rlevel_tru in
+rnr.tru			perl ../tru rnr.tru structure.tru > rnr_tru  && a rnr_tru
+rnr_tru			perl rnr_tru in in1
+NrOfChilds.tru		perl ../tru NrOfChilds.tru structure.tru > NrOfChilds_tru  && a NrOfChilds_tru
+NrOfChilds_tru		perl NrOfChilds_tru in
+NrOfLinesFollowing.tru	perl ../tru NrOfLinesFollowing.tru structure.tru > NrOfLinesFollowing_tru  && a NrOfLinesFollowing_tru
+NrOfLinesFollowing_tru	perl NrOfLinesFollowing_tru in
+isLast.tru		perl ../tru isLast.tru structure.tru > isLast_tru  && a isLast_tru
+isLast_tru		perl isLast_tru in
+ATTIC.tru		perl ../tru ATTIC.tru structure.tru > ATTIC_tru  && a ATTIC_tru
+ATTIC_tru		perl ATTIC_tru in
+structure.tru		# do nothing

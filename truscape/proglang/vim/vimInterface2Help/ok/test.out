@@ -1,0 +1,1059 @@
+*test.vim*       A text for test.vim
+
+COMMANDS FOR test                                                                 *test-commands*
+
+                                                                                  *test-<C-kPlus>*
+  <C-kPlus> : increase the font~
+
+    This command can also be found in the menu under :
+      Strux -> ZoomFont -> In
+                                                                                  *test-<C-kMinus>*
+  <C-kMinus> : increase the font~
+
+    This command can also be found in the menu under :
+      Strux -> ZoomFont -> Out
+
+COMMANDS FOR VIEW LL                                                              *LL-commands*
+
+                                                                                  *LL-<2-leftmouse>*
+  <2-leftmouse> : Edit the file~
+    Double-click is the same as <CR>
+                                                                                  *LL-<CR>*
+  <CR> : Edit the file~
+    Edit the file under the cursor in the same vim.
+    Come back to the directory-view with :LL
+    If the cursor is on the header-line toggle it between normal/descriptive
+    Also see |g:strux_LL_editcmd|.
+
+    This command can also be found in the menu under :
+      Entry -> Edit
+                                                                                  *LL-fr*
+  fr : Rename the file under the cursor~
+    Renaming is tried in two steps.
+      First it is tried with the build-in rename().
+      If this fails (e.G if the rename is cross-device), a call to mv is issued.
+    see also |LL-new_filename|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      File -> rename
+                                                                                  *LL-fc*
+  fc : Copy the file under the cursor~
+    A check is performed whether the source is a directory
+      In this case you are asked for confirmation to recurse.
+      Reply with y or Y if you really want a recursive copy
+    see also |LL-new_filename|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      File -> copy
+                                                                                  *LL-fd*
+  fd : Delete the file under the cursor~
+    prompts for confirmation
+      Reply with y or Y if you really want the action.
+    Checks whether the file is a directory and whether it is not empty
+      In this case you are again asked for confirmation.
+      Reply with y or Y if you really want a recursive delete
+    Cancel the action with Escape or Ctrl-C
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      File -> delete
+                                                                                  *LL-fe*
+  fe : Edit the file under the cursor in gvim~
+    Edit the file under the cursor in a new tab of a running gvim-instance.
+    This gvim instance must have been started with "--servername main"
+
+    This command can also be found in the menu under :
+      File -> edit in main vim
+                                                                                  *LL-f+*
+  f+ : Put the filename into the clipboard~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name to clipboard
+                                                                                  *LL-f_star*
+  f* : Put the filename into primary~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name to primary
+                                                                                  *LL-f_quote*
+  f" : Put the filename into vim's unnamed register (")~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name to unnamed register
+                                                                                  *LL-fp+*
+  fp+ : Put the filename with path into the clipboard~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name with path to clipboard
+                                                                                  *LL-fp_star*
+  fp* : Put the filename with path into primary~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name with path to primary
+                                                                                  *LL-fp_quote*
+  fp" : Put the filename with path into vim's unnamed register (")~
+
+    This command can also be found in the menu under :
+      File -> Clipboard -> name with path to unnamed register
+                                                                                  *LL-d<F4>*
+  d<F4> : Execute a command~
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Do -> Execute a command
+                                                                                  *LL-d1<F4>*
+  d1<F4> : Execute a command in an xterm~
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Do -> Execute a command in xterm
+                                                                                  *LL-d2<F4>*
+  d2<F4> : Execute a command in an background xterm~
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Do -> Execute a command in background xterm
+                                                                                  *LL-d<S-F4>*
+  d<S-F4> : Execute a command and read output into a new buffer~
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Do -> Execute a command And Read Output into a new buffer
+                                                                                  *LL-d.*
+  d. : Repeat last command~
+    Repeats the last command, this time with the file that is now selected.
+    Whether the output is displayed or ignored is remembered from the last command.
+    An error-message is issued if there is no last command.
+
+    This command can also be found in the menu under :
+      Do -> Repeat Last command
+                                                                                  *LL-cc*
+  cc : Open the command window~
+    Opens the command-vindow (holds the file ~/frequentCommands)
+    The current working directory for the commands executed in this window is what LL just shows.
+
+    You can invoke it with <count>cc (as in 3cc) to make the window <count> lines high.
+
+    Special mappings are available in this window.
+      press <F1> in this window to get help on these mappings
+
+    This command can also be found in the menu under :
+      Do -> According to cmd-view -> open cmd
+                                                                                  *LL-<F4>*
+  <F4> : Execute this command~
+    This command is basically the same as
+      ,cc	open the command window
+      <F4>	execute the command where the cursor is on
+      LL	reenter the LL-window
+
+    This command can also be found in the menu under :
+      Do -> According to cmd-view -> Execute
+                                                                                  *LL-1<F4>*
+  1<F4> : Execute this command in an xterm~
+    This command is basically the same as
+      ,cc	open the command window
+      1<F4>	execute the command where the cursor is on in an xterm
+      LL	reenter the LL-window
+
+    This command can also be found in the menu under :
+      Do -> According to cmd-view -> Execute in xterm
+                                                                                  *LL-2<F4>*
+  2<F4> : Execute this command in an background xterm~
+    This command is basically the same as
+      ,cc	open the command window
+      2<F4>	execute the command where the cursor is on in an background xterm
+      LL	reenter the LL-window
+
+    This command can also be found in the menu under :
+      Do -> According to cmd-view -> Execute in background xterm
+                                                                                  *LL-<S-F4>*
+  <S-F4> : Execute this command.Read Output into a &new buffer~
+    This command is basically the same as
+      ,cc	open the command window
+      <S-F4>	execute the command where the cursor is and read output into a new buffer
+      LL	reenter the LL-window
+
+    This command can also be found in the menu under :
+      Do -> According to cmd-view -> Read Output into a new buffer
+                                                                                  *LL-dd*
+  dd : Execute acmd for current file~
+    execute acmd for current file
+
+    This command can also be found in the menu under :
+      Do -> acmd -> Execute default command
+                                                                                  *LL-d?*
+  d? : Open acmd-menu for current file~
+    show all possible acmd commands for current file
+    Special mappings are available in this window.
+      press <F1> in this window to get help on these mappings
+
+    This command can also be found in the menu under :
+      Do -> acmd -> menu
+                                                                                  *LL-dr*
+  dr : Reread the acmd-database~
+    reread the acmd database
+
+    This command can also be found in the menu under :
+      Do -> acmd -> Reread acmd-database
+                                                                                  *LL-sn*
+  sn : Sort by Name~
+    Sort the entries alphabetically by name, obeying case
+    Example : >
+
+      A.c < a.c
+<
+
+    This command can also be found in the menu under :
+      Sort -> Name
+                                                                                  *LL-sI*
+  sI : Sort by Name (case ignored)~
+    Sort the entries alphabetically by name, ignoring case
+    Example : >
+
+      a.c < B.c
+<
+
+    This command can also be found in the menu under :
+      Sort -> Name (case ignored)
+                                                                                  *LL-sN*
+  sN : Sort by Name (numerically)~
+    Sort the entries numerically by name
+    Example : >
+
+      2.c  < 10.c
+      a2.c < a10.c
+<
+
+    This command can also be found in the menu under :
+      Sort -> Name (numerically)
+                                                                                  *LL-se*
+  se : Sort by Extension~
+    Sort the entries alphabetically by extension
+    Example : >
+
+      a.c < a.y
+<
+
+    This command can also be found in the menu under :
+      Sort -> Extension
+                                                                                  *LL-sL*
+  sL : Sort by Length of Basename~
+    Sort by the length of the name
+    Example : >
+
+      ab < aaa
+<
+
+    This command can also be found in the menu under :
+      Sort -> Length
+                                                                                  *LL-sd*
+  sd : Sort by Dev~
+    Sort by device number
+
+    This command can also be found in the menu under :
+      Sort -> Dev
+                                                                                  *LL-si*
+  si : Sort by Ino~
+    Sort by inode number
+
+    This command can also be found in the menu under :
+      Sort -> Ino
+                                                                                  *LL-sM*
+  sM : Sort by Mode~
+    Sort by mode, numerically
+
+    This command can also be found in the menu under :
+      Sort -> Mode
+                                                                                  *LL-sl*
+  sl : Sort by Nlink~
+    Sort by number of links
+
+    This command can also be found in the menu under :
+      Sort -> Nlink
+                                                                                  *LL-su*
+  su : Sort by Uid~
+    Sort by UID (User id), numerically
+
+    This command can also be found in the menu under :
+      Sort -> Uid
+                                                                                  *LL-sg*
+  sg : Sort by Gid~
+    Sort by GID (Group id), numerically
+
+    This command can also be found in the menu under :
+      Sort -> Gid
+                                                                                  *LL-sr*
+  sr : Sort by Rdev~
+    Sort by Rdev, numerically
+
+    This command can also be found in the menu under :
+      Sort -> Rdev
+                                                                                  *LL-ss*
+  ss : Sort by Size~
+    Sort by Filesize
+
+    This command can also be found in the menu under :
+      Sort -> Size
+                                                                                  *LL-sa*
+  sa : Sort by Atime~
+    Sort by Atime
+
+    This command can also be found in the menu under :
+      Sort -> Atime
+                                                                                  *LL-sm*
+  sm : Sort by Mtime~
+    Sort by Mtime
+
+    This command can also be found in the menu under :
+      Sort -> Mtime
+                                                                                  *LL-sc*
+  sc : Sort by Ctime~
+    Sort by Ctime
+
+    This command can also be found in the menu under :
+      Sort -> Ctime
+                                                                                  *LL-sB*
+  sB : Sort by Blksize~
+    Sort by Blocksize
+
+    This command can also be found in the menu under :
+      Sort -> Blksize
+                                                                                  *LL-sb*
+  sb : Sort by Blocks~
+    Sort by nr. of blocks
+
+    This command can also be found in the menu under :
+      Sort -> Blocks
+                                                                                  *LL-sx*
+  sx : Sort by X-Info~
+    Sort by result of xPerFileCommand
+
+    This command can also be found in the menu under :
+      Sort -> X-info
+                                                                                  *LL-S>*
+  S> : Sort order is descending~
+    Sort in descending order.
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> Descend (down)
+                                                                                  *LL-S<*
+  S< : Sort order is ascending~
+    Sort in ascending order.
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> Ascend (up)
+                                                                                  *LL-S/*
+  S/ : Separate dirs~
+    Directories are put at the beginning of the list, regardless of sorting
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> separate Dirs
+                                                                                  *LL-S#*
+  S# : Don't Separate dirs~
+    Directories and normal files are intermixed, due to sorting
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> don't separate Dirs
+                                                                                  *LL-Sx*
+  Sx : Separate tagged~
+    Tagged files are put at the beginning of the list, regardless of sorting
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> separate tagged
+                                                                                  *LL-SX*
+  SX : Don't Separate tagged~
+    Tagged files and untagged files are intermixed, due to sorting
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> don't separate tagged
+                                                                                  *LL-Sf*
+  Sf : Fix the settings for this dir~
+    The current sort-settings are fixed for this directory.
+    The fix can be released by applying a new sort-order in this directory.
+
+    This command can also be found in the menu under :
+      Sort -> Direction and grouping -> fix the settings for this dir
+                                                                                  *LL-i*
+  i : Inspect the file~
+    Open the inspect window and show a lot of useful information about the file under the cursor.
+    The inspect window has the name /strux/INSPECT and additional commands are available there.
+
+    This command can also be found in the menu under :
+      Entry -> Inspect
+                                                                                  *LL-p*
+  p : Preview the file~
+    Edit the file under the cursor in a new window
+
+    This command can also be found in the menu under :
+      Entry -> Preview
+                                                                                  *LL-xx*
+  xx : Tag the file~
+    Tag (mark) the file under the cursor.
+
+    This command can also be found in the menu under :
+      Tags -> Tag
+                                                                                  *LL-xX*
+  xX : Untag the file~
+    Untag (unmark) the file under the cursor.
+
+    This command can also be found in the menu under :
+      Tags -> Untag
+                                                                                  *LL-xa*
+  xa : Tag all~
+    Tag (mark) all files
+
+    This command can also be found in the menu under :
+      Tags -> Tag all
+                                                                                  *LL-xA*
+  xA : Untag all~
+    Untag (unmark) all files
+
+    This command can also be found in the menu under :
+      Tags -> Untag all
+                                                                                  *LL-xT*
+  xT : Toggle tags~
+    Toggle all tags.
+        Untagged files become tagged, and
+        Tagged files become untagged
+
+    This command can also be found in the menu under :
+      Tags -> toggle tags
+                                                                                  *LL-xt*
+  xt : Toggle this~
+    Toggle the tag for this file
+
+    This command can also be found in the menu under :
+      Tags -> toggle this
+                                                                                  *LL-xp*
+  xp : Tag by Pattern~
+    Prompt for a regexp and tags all files matching this regexp.
+    The regexp has to be a perl-like regexp, not one you know from ls.
+
+    E.g to tag all c-files that start with the letter a, use:
+    ^a.*\.c$
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Tag by Pattern
+                                                                                  *LL-xP*
+  xP : Untag by Pattern~
+    Prompt for a regexp and untags all files matching this regexp.
+    The same rules as for xp apply here
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Untag by Pattern
+                                                                                  *LL-xf*
+  xf : Tag by file~
+    Prompts for the filename of a namesfile. This file should contain the names of files, each in its own line.
+    Other than xp and xP, these names are not regexpes but literal names.
+    It may be the result of:
+    grep -l something *
+    All files, that occur in the namesfile are tagged.
+
+    See also :
+        xF	|LL-xF|
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Tag by file
+                                                                                  *LL-xF*
+  xF : Untag by file~
+    Prompts for the filename of a namesfile. This file should contain the names of files, each in its own line.
+    Other than xp and xP, these names are not regexpes but literal names.
+    It may be the result of:
+    grep -l something *
+    All files, that occur in the namesfile are untagged.
+
+    See also :
+        xf	|LL-xf|
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Untag by file-content
+                                                                                  *LL-xg*
+  xg : Tag by grep~
+    Prompts for grep-cmd and tags all files matched.
+
+    Example : >
+
+      key *.c *.h
+<       tags all your c and h-files that contain the string key >
+      -i key *.c *.h
+<       make above search case-insensitive >
+<        >
+<
+    Don't be confused by messages like
+    grep: xyz: is a directory.
+    Just press <C-L> to get rid of them.
+    Also see |g:strux_LL_grep|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Tag by grep
+                                                                                  *LL-xG*
+  xG : Untag by grep~
+    Prompts for grep-cmd and untags all files matched.
+    For details see xg above
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Untag by grep
+                                                                                  *LL-x<F4>*
+  x<F4> : Execute a command to tagged files~
+    Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Execute a command
+                                                                                  *LL-x1<F4>*
+  x1<F4> : Execute a command to tagged files in an xterm~
+    Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Execute a command in xterm
+                                                                                  *LL-x2<F4>*
+  x2<F4> : Execute a command to tagged files in an background xterm~
+    Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Execute a command in background xterm
+                                                                                  *LL-x<S-F4>*
+  x<S-F4> : Execute a command to tagged files and read output into a new buffer~
+    Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+    see also |LL-shell_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Tags -> Execute a command And Read Output into a new buffer
+                                                                                  *LL-<BS>*
+  <BS> : Go to the previously visited dir~
+
+    This command can also be found in the menu under :
+      Navigate -> Back (Previous visited dir)
+                                                                                  *LL-<tab>*
+  <tab> : Go to the next visited dir~
+
+    This command can also be found in the menu under :
+      Navigate -> Forward
+                                                                                  *LL-..*
+  .. : Go to parent dir~
+    Enter parent directory of the currently viewed directory
+
+    This command can also be found in the menu under :
+      Navigate -> Parent Directory
+                                                                                  *LL-./*
+  ./ : Go to root dir~
+    Enter the root-directory /
+
+    This command can also be found in the menu under :
+      Navigate -> Root Directory
+                                                                                  *LL-.~*
+  .~ : Go to home dir~
+    Enter the home-directory ($HOME)
+
+    This command can also be found in the menu under :
+      Navigate -> Home Directory
+                                                                                  *LL-.:*
+  .: : Go to any dir~
+    Prompts for a directory and enters this directory
+    filename-completen works here
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Navigate -> specified Directory
+                                                                                  *LL-ff*
+  ff : Follow the link under the cursor~
+    Example : you have the view at dir /usr/bin
+      the file rcp is in fact a link to /etc/alternatives/rcp
+      LL show this as "rcp -> /etc/alternatives/rcp"
+      if you press ff with the cursor on this line the view is changed to /etc/alternatives
+      and the cursor is positioned on rcp
+      here you may see "rcp -> /usr/bin/scp"
+      pressing ff here brings you to /usr/bin with the cursor on the line for scp
+    Same for a file that has a / in its name
+      e.G. if you do "find . whatever | L"
+
+    This command can also be found in the menu under :
+      Navigate -> follow the link
+                                                                                  *LL-<C-R>*
+  <C-R> : Refresh the current view~
+    Refresh the current view.
+    stat - information are updated and the !-flags are reset
+    The sorting of the listing is repeated.
+    The timestamp in the header-line is adjusted.
+    See also :
+        k	|LL-k|
+        U	|LL-U|
+
+    This command can also be found in the menu under :
+      View -> Refresh
+                                                                                  *LL-u*
+  u : Update the current view~
+    Update the current view.
+    stat - information of files allready in the listing are not updated.
+    Such changes are flagged in the ! - column (see cpg rsp. cpl below)
+    The timestamp of the header-line as well as 
+    the sorting of the listing remains unchanged.
+    Possible flags are:
+        n	file is new since last refresh
+        c	file has changed since last refresh
+        d	file is deleted since last refresh
+        <blank>	file is unmodified since last refresh
+    See also :
+        U	|LL-U|
+        <C-R>	|LL-<C-R>|
+
+    This command can also be found in the menu under :
+      View -> Update
+                                                                                  *LL-U*
+  U : Update the current view (keep deleted)~
+    Refresh the current view.
+    stat - information are updated and the !-flags are reset
+    THis command works much like <C-R> except that
+    deleted files stay in the listing (marked with d)
+    The sorting of the listing is repeated.
+    The timestamp in the header-line is adjusted.
+    See also :
+        u	|LL-u|
+        <C-R>	|LL-<C-R>|
+
+    This command can also be found in the menu under :
+      View -> Update clean
+                                                                                  *LL-.?*
+  .? : View the list of visited dirs~
+    Display a list of all visited directories in a separate window.
+    This window has the name /strux/VISITED and additional commands are available there.
+      press <F1> in this window to get help on these mappings
+
+    This command can also be found in the menu under :
+      View -> Visited
+                                                                                  *LL-.!*
+  .! : View the back/forward stack~
+    Display the stack used for <BS> and <TAB>
+    This window has the name /strux/DIRSTACK and additional commands are available there.
+      press <F1> in this window to get help on these mappings
+
+    This command can also be found in the menu under :
+      View -> DirStack
+                                                                                  *LL-cxfg*
+  cxfg : Configure the Global Per File Command~
+    It is not applied to directories. See cxdg for this.
+    The local Per File command (as set with cxfl) can override the global Per File command.
+    Example : >
+
+      file -b
+      grep -s something
+      head -q -n 1
+      wc
+
+      cvs log  -N -rHEAD $F|perl -ne '/date://.../^==/ and print'|perl -ne '$.==2 and print' #
+      cvs status $F 2>/dev/null|perl -ne 'if ($.==2) {s//.*Status: //;print;}' #
+<       In the above examples $F is used in the command. LL still appends the full pathname to the command. >
+<       Therefore the final # is present to turn this into a comment. >
+      P open F,$F and do { chomp(my $s=<F>);close F;return $s}
+<       the above example is equivalent to "head -q -n 1" but much faster, since no external program needs to be startet. >
+<        >
+<
+    If you set it to empty then the default entry (file -b) will be used.
+    You can set the default entry in your .vimrc with
+      let g:strux_LL_perFileCommand='new command' (see |g:strux_LL_perFileCommand|)
+    See also :
+      cxdg	|LL-cxdg|
+      cxfl	|LL-cxfl|
+      cxdl	|LL-cxdl|
+    see also |LL-per_file_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> global Per File Command
+                                                                                  *LL-cxfl*
+  cxfl : Configure the Local Per File Command~
+    It is not applied to directories. See cxdl for this.
+    It overrides a global Per File command (as set with cxfg).
+    Example : >
+
+      cat 2>/dev/null
+<       the above exapmple is usefull e.G in /proc/sys or /proc/ide >
+      whatis -s1 "$F" | sed -e 's/.*- //' #
+<       the above exapmple is usefull e.G in /bin or /usr/bin >
+      P open F,$F and do { chomp(my $s=<F>);close F;return $s}
+<       the above command is equivalent to "cat 2>/dev/null". >
+<        >
+<
+    If you set it to empty then the gloal entry will be used.
+    See also :
+      cxdg	|LL-cxdg|
+      cxfg	|LL-cxfg|
+      cxdl	|LL-cxdl|
+      dirsettings	|LL-dirsettings|
+    see also |LL-per_file_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> local Per File Command
+                                                                                  *LL-cxdg*
+  cxdg : Configure the Global Per Dir Command~
+    The local Per Dir command (as set with cxdl) can override the global Per Dir command.
+    Example : >
+
+      du -sh "$F" | awk '{ print $1 }' # 
+      ls -1 "$F"| wc -l #
+<       In the above examples $F is used in the command. LL still appends the full pathname to the command. >
+<       Therefore the final # is present to turn this into a comment. >
+<        >
+      P my $s;opendir DH,$F and do { $s=@{[readdir DH]} ; close DH }; return $s
+<       the above example is equivalent to "ls -1 "$F"| wc -l #"  but much faster, since no external program needs to be startet. >
+<        >
+<
+    If you set it to empty then the default entry (# for no command) will be used.
+    You can set the default entry in your .vimrc with
+      let g:strux_LL_perDirCommand='new command' (see |g:strux_LL_perDirCommand|)
+    See also :
+      cxfg	|LL-cxfg|
+      cxfl	|LL-cxfl|
+      cxdl	|LL-cxdl|
+    see also |LL-per_dir_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> global Per Dir Command
+                                                                                  *LL-cxdl*
+  cxdl : Configure the Local Per Dir Command~
+    It overrides a global Per Dir command (as set with cxfg).
+    Example : >
+
+      [ -e $F/status  ] && { read pid name status rest < $F/stat;echo -en "$status\t" ; perl -ne 's//.*\t//;chop;print "$_\t";exit' $F/status ; tr '\0' ' ' <$F/cmdline ; } #
+<       the above exapmple is usefull e.G in /proc/sys or /proc/ide >
+      P return if $F !~ /\d+/  ;my $s;open F,"$F/stat" and do { $s .= (split(/\s+/,<F>))[2]." ";close F };open F,"$F/status" and do { $s .= (split(/\t+|\n/,<F>))[1]."\t";close F };open F,"$F/cmdline" and do { my $x = <F>;$x =~ s/\0/ /g;$s.=$x;close F };$s
+<       the above command is equivalent to the shell-command above. >
+<        >
+<
+    If you set it to empty then the gloal entry will be used.
+    See also :
+      cxdg	|LL-cxdg|
+      cxfg	|LL-cxfg|
+      cxdl	|LL-cxdl|
+      dirsettings	|LL-dirsettings|
+    see also |LL-per_dir_command|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> local Per Dir Command
+                                                                                  *LL-cpg*
+  cpg : Configure the global Parse String~
+    Set the parsestring
+    If you enter an empty format-string, it is reset to the default.
+    The format-string defaults to : %t%f %!^I%l^I%U^I%G^I%m^I%s^I%/
+    This can be overwritten by setting |g:strux_LL_parsestring|
+    See also :
+        cpl	|LL-cpl|
+    see also |LL-Parse_String|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> global Parse String
+                                                                                  *LL-cpl*
+  cpl : Configure the local Parse String~
+    Set the parse-string for this directory
+    If you enter an empty format-string, it is reset to the global parse string (as set with cpg).
+    See also :
+        cpg	|LL-cpg|
+        dirsettings	|LL-dirsettings|
+    see also |LL-Parse_String|.
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Configure -> local Parse String
+                                                                                  *LL-cpr*
+  cpr : Reread the LL-autocommands~
+    Rereads the file ~/LL.dirsettings which holds the NewView Autocommands
+
+    This command can also be found in the menu under :
+      Configure -> reread dirsettings
+  RELATED HELP                                                                    *LL-related_help*
+                                                                                  *LL-new_filename*
+    new filename~
+      Prompts for a new name for the file or dir under the cursor.
+      The usual filename-completion works on the input-line.
+      The new file name is preset with the current-name for easy editing.
+      Type ctrl-u to clear the line and type a completely new path/name
+
+      A check is performed whether the new file already exists.
+        In this case you are asked for confirmation.
+        Reply with y or Y if you really want the action.
+      Cancel the action with Escape or Ctrl-C
+                                                                                  *LL-shell_command*
+    shell command~
+      At the prompt enter a shell-command.
+      This command is executed with the full filename appended.
+      Use # as last character to turn this into a comment.
+      The command is executed as typed.
+      It is NOT subject to vim's treating of some chars as % and #
+
+      See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.
+
+      The following vars are set for the command:
+          $f	filename with path		/path/to/file/name.ext
+          $p	path				/path/to/file
+          $F	filename as given		name.ext
+          $r	filename without extension	name
+          $e	extension			ext
+      If you want to clear it use # as command (making it a comment)
+      Cancel the action with Escape or Ctrl-C
+                                                                                  *LL-per_entry_command*
+    per entry command~
+      If the first two characters are "P " then the rest is passed to (build-in) perl.
+        The filename is not automatically appended in this case.
+        The perl-code is executed in the namespace XPE (for x-per-entry).
+      Else the command is executed as a shell command.
+        The complete path to the file is appended (properly quoted) to the command.
+        both stderr and stdout are displayed.
+      The following vars are set for the command:
+          $F	filename (as shown by LL)			file.ext
+          $d	base-directory (as shown in the header-line)	/path/to/
+          $f	filename with path				/path/to/file.ext
+                                                                                  *LL-per_file_command*
+    per file command~
+      The command is applied to each file if the "Parse String" (see cpg rsp. cpl) contains %x.
+      The command output is put at the position indicated by %x.
+      It is not applied to directories. See cxdl rsp. cxdg for this.
+      find more at |LL-per_entry_command|.
+                                                                                  *LL-per_dir_command*
+    per dir command~
+      The command is applied to each directory if the "Parse String" (see cpg rsp. cpl) contains %x.
+      Its output is put at the position indicated by %x.
+      It is not applied to normal files. See cxfl rsp. cxfg for this.
+      find more at |LL-per_entry_command|.
+                                                                                  *LL-Parse_String*
+    Parse String~
+      The format-string defines how to display the dir-entries.
+      It consists of printf style '%' items interspersed with normal text.
+      The formats:
+          %	A single "%" - Character
+          T	A single tab
+          t	denotes tagged lines
+          n	filename
+          /	filename, with "/" appended, if file is a directory, symlinks are indicated by ->
+          i	inode number
+          F	mode flags as octal number
+          f	mode flags in drwxrwxrwx - notation
+          u	user id (numerically)
+          U	user id (text)
+          g	group id (numerically)
+          G	group id (text)
+          s	file size
+          a	atime (in readable form)
+          c	ctime (in readable form)
+          m	mtime (in readable form)
+          d	device number
+          l	number of links
+          r	rdev
+          b	blocksize
+          S	number of blocks
+          A	atime (numerically)
+          C	ctime (numerically)
+          M	mtime (numerically)
+          !	modification flags
+          x	result of per file command, as defined by cxfl or cxfg
+      Any sequence of tabs will be shortened/prolonged to make all tab-seperated columns aligned.
+
+VISUAL MODE COMMANDS FOR VIEW LL                                                  *v_LL-commands*
+
+                                                                                  *v_LL-xx*
+  xx : Tag selected files~
+    Tag (mark) the selected files
+
+    This command can also be found in the menu under :
+      Tags -> Tag
+                                                                                  *v_LL-xX*
+  xX : Untag selected files~
+    Untag (unmark) the selected files
+
+    This command can also be found in the menu under :
+      Tags -> Untag
+                                                                                  *v_LL-xt*
+  xt : Toggle selected files~
+    Toggle the tag for the selected files
+
+    This command can also be found in the menu under :
+      Tags -> toggle this
+
+COMMANDS FOR VIEW FREQUENTCOMMANDS                                                *frequentCommands-commands*
+
+                                                                                  *frequentCommands-<F4>*
+  <F4> : Execute this command~
+    Execute the line under the cursor in your shell
+    The command is executed as typed
+    It is NOT subject to vim's treating of some chars as % and #
+    The following vars are set for the command:
+        $f	filename with path		/path/to/file/name.ext
+        $p	path				/path/to/file
+        $F	filename as given		name.ext
+        $r	filename without extension	name
+        $e	extension			ext
+    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+
+    This command can also be found in the menu under :
+      Cmd -> Execute
+                                                                                  *frequentCommands-1<F4>*
+  1<F4> : Execute this command in an xterm~
+    same as <F4>, but the command is executed in an xterm.
+    This is usefull if you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
+    See |g:strux_LL_xterm| for configuring the xterm.
+
+    This command can also be found in the menu under :
+      Cmd -> Execute in xterm
+                                                                                  *frequentCommands-2<F4>*
+  2<F4> : Execute this command in an background xterm~
+    same as <F4>, but the command is executed in an xterm, which again is put into background.
+    You can continune using vim, even if the command is not yet finished.
+    This is usefull if
+        you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
+        you want to execute a longrunning program in the background (even in (term-)vim)
+    See |g:strux_LL_xterm| for configuring the xterm.
+
+    This command can also be found in the menu under :
+      Cmd -> Execute in background xterm
+                                                                                  *frequentCommands-<S-F4>*
+  <S-F4> : Execute this command and read output into a new buffer~
+    same as <S-F4>, but the output is read into a new buffer
+
+    This command can also be found in the menu under :
+      Cmd -> Execute And Read Output into a new buffer
+                                                                                  *frequentCommands-1<S-F4>*
+  1<S-F4> : Execute this command and read output~
+    same as <F4>, but the output is read into the frequentCommands buffer.
+    The read output is also visually selected.
+      This is useful to have things like > (shift in) work out of the box
+      Press <ESC> to get rid of the visual selection
+
+    This command can also be found in the menu under :
+      Cmd -> Execute And Read Output
+                                                                                  *frequentCommands-<F3>*
+  <F3> : LL file under cursor, remain in command-window~
+    This command may fail, if the name under the cursor contains spaces
+
+    This command can also be found in the menu under :
+      Cmd -> Show file or Dir
+                                                                                  *frequentCommands-1<F3>*
+  1<F3> : LL file under cursor~
+    This command may fail, if the name under the cursor contains spaces
+
+    This command can also be found in the menu under :
+      Cmd -> Go To file or Dir
+                                                                                  *frequentCommands-2<F3>*
+  2<F3> : LL file under cursor (whole line), remain in command-window~
+    Take the whole line as filename, but skip leading whitespaces
+    This is especially useful if the path/filename contains spaces
+    or other strange characters.
+
+    This command can also be found in the menu under :
+      Cmd -> Show file or Dir (whole line)
+                                                                                  *frequentCommands-3<F3>*
+  3<F3> : LL file under cursor (whole line)~
+    Take the whole line as filename, but skip leading whitespaces
+    This is especially useful if the path/filename contains spaces
+    or other strange characters.
+
+    This command can also be found in the menu under :
+      Cmd -> Go To file or Dir (whole line)
+
+COMMANDS FOR VIEW INSPECT                                                         *INSPECT-commands*
+
+                                                                                  *INSPECT-<2-leftmouse>*
+  <2-leftmouse> : Inspect harder~
+                                                                                  *INSPECT-<CR>*
+  <CR> : Inspect harder~
+    On some lines in the inspect-window, you can get more information with this command
+    Notably on the following fields:
+        name		If the file is a symbolic link show the complete link-chain
+        dev		show the disk-free info for the filesystem this file belongs to
+        magic		show more hits of "file", if available
+        process-line	start pst and position the cursor on the appropriate entry
+          see |pstree| for details of this view
+
+    This command can also be found in the menu under :
+      Inspect -> this
+
+COMMANDS FOR VIEW ACMD                                                            *ACMD-commands*
+
+                                                                                  *ACMD-i*
+  i : Show the command~
+    show the associated command
+
+    This command can also be found in the menu under :
+      Acmd -> Show
+                                                                                  *ACMD-<CR>*
+  <CR> : Do the command~
+    execute the selected command
+
+    This command can also be found in the menu under :
+      Acmd -> do
+
+COMMANDS FOR VIEW DIRSTACK                                                        *DIRSTACK-commands*
+
+                                                                                  *DIRSTACK-<2-leftmouse>*
+  <2-leftmouse> : Select the dir~
+    Jump to selected dir
+                                                                                  *DIRSTACK-<CR>*
+  <CR> : Select the dir~
+    Jump to selected dir
+
+    This command can also be found in the menu under :
+      View -> Select
+                                                                                  *DIRSTACK-s*
+  s : Show the dir~
+    Show to selected dir, but stay in the Dirstack-View
+
+    This command can also be found in the menu under :
+      View -> Show
+
+COMMANDS FOR VIEW VISITED                                                         *VISITED-commands*
+
+                                                                                  *VISITED-<2-leftmouse>*
+  <2-leftmouse> : Select the dir~
+    Jump to selected dir
+                                                                                  *VISITED-<CR>*
+  <CR> : Select the dir~
+    Jump to selected dir
+
+    This command can also be found in the menu under :
+      View -> Select
+                                                                                  *VISITED-s*
+  s : Show the dir~
+    Show to selected dir, but stay in the Visited-View
+
+    This command can also be found in the menu under :
+      View -> Show
+                                                                                  *VISITED-dd*
+  dd : Forget this dir~
+    The view under the cursor is put into oblivion.
+    It may still be present in the DIRSTACK (for Back (Backspace) and Forward (Tab).
+    If the corresponding view is open right now, it will be remembered until the dir is left.
+
+    This command can also be found in the menu under :
+      View -> forget this view
+
+VISUAL MODE COMMANDS FOR VIEW VISITED                                             *v_VISITED-commands*
+
+                                                                                  *v_VISITED-dd*
+  dd : Forget selected views~
+    The selected views are put into oblivion.
+    Some of them may still be present in the DIRSTACK (for Back (Backspace) and Forward (Tab)).
+    If one of the corresponding view is open right now, it will be remembered until the dir is left.
+
+    This command can also be found in the menu under :
+      View -> forget selected views
+==============================================================================
+vim:ft=help

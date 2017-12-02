@@ -1,0 +1,167 @@
+VERSION	3.0
+imports
+  java.io.*
+  javax.swing.*
+  java.util.*
+  java.awt.Color
+  java.awt.FlowLayout
+  java.awt.BorderLayout
+  java.awt.event.ActionEvent
+  java.awt.event.ActionListener
+  java.awt.event.FocusAdapter
+  java.awt.event.FocusEvent
+  java.awt.event.MouseAdapter
+  java.awt.event.MouseEvent
+
+  javax.swing.GroupLayout
+  javax.swing.JButton
+  javax.swing.JComponent
+  javax.swing.JLabel
+  javax.swing.JMenu
+  javax.swing.JMenuBar
+  javax.swing.JMenuItem
+  javax.swing.JPanel
+  javax.swing.JSeparator
+  javax.swing.JTextField
+  javax.swing.JToolBar
+  javax.swing.border.LineBorder
+  javax.swing.event.CaretEvent
+  javax.swing.event.CaretListener
+
+  org.jdesktop.application.SingleFrameApplication
+
+public class TestGui extends SingleFrameApplication
+  private
+    JPanel topPanel
+
+  public
+    enum	name
+      badColor
+      goodColor
+
+  @Override
+  protected void startup
+    Gui	topPanel	Border
+      MyTable(3)
+      MyTable:anotherTable(4)
+      JTabbedPane				CENTER
+        "Run"		JPanel			Border
+          JSplitPane				HORIZONTAL		CENTER
+            JSplitPane				VERTICAL
+              JPanel
+              JSplitPane			HORIZONTAL
+                JPanel:truerStructureTextPane
+                JPanel::truerActionsTextPane
+		JScrollPane
+		  JPanel:insideJScrollPane
+            JSplitPane				VERTICAL		RIGHT
+              JPanel:truerOutTextPane
+              JPanel:truerErrTextPane
+          JPanel:truerStatusPanel		Flow			SOUTH
+            JTextField:statusTextField
+	    {
+	      truerStatusPanelLayout.setAlignment(FlowLayout.LEFT)
+	    }
+          JPanel:myJPanel			Flow			NORTH
+            JLabel:truerNameLabel
+            JTextField:truerNameTextField
+            JLabel:inFileLabel
+            JTextField:inFileTextField
+            JCheckBox:autoFollowCheckBox
+	    {
+	      myJPanelLayout.setAlignment(FlowLayout.LEFT)
+	    }
+          JPanel				Border			SOUTH
+            JTextField:rulesTextField
+        "truer"		JPanel			Border
+          JPanel:myTruerPanel			Flow			NORTH
+            JButton:autoScanjButton
+            JComboBox:truerComboBox		-			-	343,24
+	    {
+	      myTruerPanelLayout.setAlignment(FlowLayout.RIGHT)
+	    }
+        "test"		JPanel			Border
+          JTabbedPane				CENTER
+            "Inner1"	JPanel:truer1		Border
+	      JComboBox:inner1ComboBox
+            "Inner2"	JTabbedPane
+	      "InnerInner1"	JPanel		Border
+	      "InnerInner2"	JPanel		Border
+            "Inner3"	JSplitPane:truer3
+      JPanel					Border			NORTH
+        JToolBar				-			CENTER
+          JButton:runButton
+          JButton:closeButton
+          JButton:unHighlightButton
+        JSeparator				-			SOUTH
+    menuBar	menuBar
+      fileMenu
+        runMenuItem		runButtonActionPerformed(evt)
+        closeMenuItem
+      editMenu
+        unHighlightMenuItem	unHighlightButtonActionPerformed(evt)
+    show(topPanel)
+    T1\	#1#.setText("#2#");	#1#.setMnemonic(KeyEvent.VK_#3#);
+      button		Text		Hot-Key
+      editOrViewButton	View -> Edit	E
+      saveChangesButton	Save changes	S
+      refreshButton	Refresh		R
+      detailsButton	Details		D
+      newEntryButton	New Entry	N
+    listeners
+      table.getTableHeader().addMouseListener		MouseAdapter
+	public void mouseClicked			MouseEvent evt
+	    The MouseListeners
+	  mouseActionPerformed(evt)
+	public void mouseExited				MouseEvent evt
+	public void mousePressed			MouseEvent evt
+	public void mouseReleased			MouseEvent evt
+	  ?	columnMoving
+	    output.append("column moved\n")
+	    columnMoving = false
+	    details.structureChanged()
+	    details.refresh()
+	public void mouseEntered			MouseEvent evt
+      table.getModel().addTableModelListener		TableModelListener
+	public void tableChanged			TableModelEvent e
+      table.getColumnModel().addColumnModelListener	TableColumnModelListener
+	public void columnAdded				TableColumnModelEvent e
+	public void columnRemoved			TableColumnModelEvent e
+	public void columnMoved				TableColumnModelEvent e
+	  columnMoving = true
+	public void columnMarginChanged			ChangeEvent e
+	public void columnSelectionChanged		ListSelectionEvent e
+
+  usage	ctest
+	this program only serves as a test-suite
+
+	It does nothing useful
+  main
+      a documentation for this method
+        with umlauts äöüÄÖÜ& and < as well as >
+    Option								Test Option
+      a				Option a	a=1
+		description for option a
+		  more description for option a
+      b				Option b	b=1
+		description for option b
+	a=0
+      f:file[/tmp/schrott]	file name
+      n:nr[3]			a int
+      f:nr[1.2]			a float
+      t				Option t	test(3,4)
+		This method ...
+		blah, blah
+    launch(TestGui.class, argv)
+    b.
+      c=1
+      d=2	comment
+      e.
+	f=3
+	g=4
+      h.
+        i=5
+	j=6
+  private void runButtonActionPerformed	ActionEvent evt
+  private void closeMenuItemActionPerformed	ActionEvent evt
+  private void unHighlightButtonActionPerformed	ActionEvent evt

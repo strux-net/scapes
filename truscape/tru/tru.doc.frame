@@ -1,0 +1,143 @@
+style
+  Pre		1
+  Title		tru Reference Card
+  head
+	<head>
+	<link rel="stylesheet" href="trudoc.css"/>
+  bodyEnd
+	<div class="tellgenerator">
+	  <hr/>
+	  This Page was generated using <a href="html_tru.html">html_tru</a> <a href="tru.txtTR">tru.txtTR</a>.
+	  Find more on <a href="http://www.strux.net">www.strux.net</a>
+	</div>
+	</body>
+tru - parsing structured text
+  tru generates truers (or parsers) for a special kind of texts that are
+      properly indented and have
+      tab separated fields
+
+  Using a truer
+    Two simples steps for a truer
+	1)	create a parser from one or more .tru-files (parser description files for a truer).
+	2)	call this parser for adequate input and produce corresponding output.
+
+    The procedure may be as simple as:
+	Create parser
+	  code
+		tru s.tru > s_tru 
+	  The parser s_tru is generated from the .tru-file s.tru.
+
+	Run parser
+	  code
+		s_tru input > output
+	  Runs parser s_tru for one input-file.
+	  The parser reads it's input and produces it's output.
+	  this assumes that you did.
+	  code
+		chmod +x s_tru
+    or as complex as:
+	Create parser
+	  code
+		tru s1.tru s2.tru s3.tru > s_tru
+	  The parser s_tru is generated from several .tru-files s1.tru .. s3.tru
+	  The order of the description files is very important.
+
+	Run parser
+	  code
+		s_tru file1 file2 file3 > output
+	  The parser reads the three files in sequence and produces it's output.
+
+    or even more complex
+	extend an existing truer
+	  code
+		 html_tru -source | tru -- - special_html.tru >special_html_tru
+	  The .tru-equivalent for html_tru is used together with special_html.tru
+  By default the parser reads from STDIN and writes to STDOUT
+
+  Options of tru
+	-q		Do not print any warnings
+	-s:file		Print some statistics to the file
+	-l:limit[100]	limit for recursions when expanding a group
+
+    The statistics (option -s) consists of one line per action.
+    Each line consists of 7 fields, where the first 6 are counters.
+    The fields are:
+        H	hits in the action-section(s)
+        >	definitions for >
+        -	definitions for -
+        <	definitions for <
+        d	short descriptions
+        s	used in structure
+	name	the name of the action
+
+General form of a .tru-file
+  Comments
+    Lines that start with a # are comments and are otherwise ignored.
+    The comment-character #  must be the very first character in a line, no leading white-space is allowed.
+  sections
+    a .tru file consists of severals sections, each introduced by a word on the very far left, followed by some indented lines defining the section.
+    The sections are described here and an example is given for each section in a separate file
+    structure
+      Here the structure of the text to be parsed is defined.
+      This section is described in detail in the fully commented truer [ structure_demo.tru ]( examples/truscape/tru/structure_demo.tru ) and the inputfile [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+      The file [ structure_demo.out ]( examples/truscape/tru/structure_demo.out ) contains the results of running:
+      code
+	tru -q structure_demo.tru > structure_demo_tru && chmod +x structure_demo_tru
+	structure_demo_tru -debug -debStructure [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+      Additionally the graphical-debugger can help to understand the structure definition.
+      code
+	[ tru.jar ]( tru_jar.html ) structure_demo_tru [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+    see	action_examples/intro.tru
+      as well as in [ perl_code.tru ]( examples/truscape/tru/action_examples/perl_code.tru ) and in [ outstatements.tru ]( examples/truscape/tru/action_examples/outstatements.tru )
+
+      some actions are special:
+	  see	action_examples/DOC.tru
+	  see	action_examples/UNMATCHED.tru
+	  see	action_examples/UNMATCHED_default.tru
+    see	action_examples/OPTIONSandUSAGE.tru
+    see	action_examples/OPTIONSandUSAGEpart2.tru
+    see	action_examples/HereText.tru
+    hooks
+      There is a class of sections, that act as hooks.
+      The code in these sections is executed if a certain event occurs.
+	  see	action_examples/BEGIN.tru
+	  see	action_examples/READ.tru
+	    see	action_examples/READempty.tru
+	  see	action_examples/WRITE.tru
+	  see	action_examples/ATTICREAD.tru
+	  see	action_examples/NEWFILE.tru
+	  see	action_examples/SPLITAPPLY.tru
+	  see	action_examples/FLUSH.tru
+flow control
+  see	action_examples/perl_code.tru
+  see	action_examples/outstatements.tru
+  predefined variables in perl-statements and output-statements.
+    These variables are automatically filled:
+	see	var_examples/indent.tru
+	see	var_examples/level.tru
+	see	var_examples/rnr.tru
+	see	var_examples/rindent_and_rlevel.tru
+	see	var_examples/NrOfChilds.tru
+	see	var_examples/NrOfLinesFollowing.tru
+	see	var_examples/state.tru
+    This variable is not automatically filled, it can be filled by a perl-statement:
+	see	var_examples/ATTIC.tru
+  see	action_examples/arguments.tru
+  see	action_examples/callingActions.tru
+  see	action_examples/redirectingActions.tru
+  see	action_examples/marks.tru
+  see	action_examples/CLEAR.tru
+Limitations
+  Besides the few limitations perl imposes there is :
+    The namespace tru:: is reserved for tru.
+Caveats
+  in the tru-file in the output (i.e tru::parse) part use two backslashes to get one in the output.
+Warnings
+  do *NOT* think that just because an action is mentioned as unused on option -s you can delete it.
+  The action may still be called via
+  code
+	  >>action
+  Since it is allowed to call an action via a variable, as in
+  code
+	  >>$action
+  these calls can not be foreseen by the statisticer (-s).

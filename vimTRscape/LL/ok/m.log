@@ -1,0 +1,14 @@
+building LL.vim
+vim_tru LL.vimTR >LL.vim
+GOOD	LL.vim
+Title="*LL.txt*   A vim/perl based filebrowser with nice features" vimInterface2Help_tru LL.vimTR >docs/LL-commands.txt
+GOOD	docs/LL-commands.txt
+perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="==============================================================================" } if (/^$s/../$e/ ) { unless ($d++) { print "$s\n" ; print `vimInterface2Help_terse_tru LL.vimTR`; print "\n$e\n" }} else { print }' docs/LL.txt
+GOOD	docs/LL.txt
+html_tru docs/README.txtTR >docs/README.html
+GOOD	docs/README.html
+testing LL.vim
+building disp.vim
+vim_tru disp.vimTR >disp.vim
+GOOD	disp.vim
+testing disp.vim

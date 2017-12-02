@@ -1,0 +1,6 @@
+m.tru	tru m.tru > m_tru && a m_tru
+test_mTR
+m_tru	perl m_tru test_mTR > test.out
+more
+  ./m_tru mTR >|m;read
+  cp m_functions.sh ~/bin

@@ -1,0 +1,89 @@
+VERSION	3.0
+package	listVimSwapFiles
+doc	can be compiled into a standalone perl-script or into a vim-plugin (using perl_tru --vimPlug)
+
+usage	listVimSwapFiles
+
+	parses output of `vim -r` and presents it compacted 
+
+	the output could look like
+	  %home%naumann%scapes%perlTRscape%listVimSwapFiles%listVimSwapFiles.swp           YES     10484   runnning        ~naumann/scapes/perlTRscape/listVimSwapFiles/listVimSwapFiles
+	  %home%naumann%signature.swp                                                      YES     17423   dead            ~naumann/signature
+	  %home%naumann%scapes%perlTRscape%listVimSwapFiles%listVimSwapFiles.plTR.swp      NO      10484   runnning        ~naumann/scapes/perlTRscape/listVimSwapFiles/listVimSwapFiles.plTR
+	The fields meaning
+	  swapfilename
+	  modification status
+	  pid of vim
+	  status of vim
+	  filename in vim
+	Note:
+	  status "running" is also printed if vim is in the background
+
+doc	README for compiling as vim-plugin
+  this is only useful together with LL.
+  copy this file to ~/vim/plugin.
+
+  usage:
+    Assuming you have
+      :set directory=/vimswp//
+    then an entry in ~/LL.dirsettings could look like:
+      /vimswp$
+	P	%:%T%x
+	Xi	P fillSWP()
+	Xf	P return getSWPinfo($d,$F)
+
+    start LL and see the result
+      LL /vimswp
+
+doc	technical info
+  global Data-Structure
+    %SWP{dir}{swapfile}[ modified , pid , runstatus , file ]
+      dir	the directory holding the swapfiles ( e.G /vimswp )
+      swapfiles	the name of vim's .swp-file
+
+      modified	the modified-state of the buffer, either no or YES
+      pid	the pid of the vim having this file open
+      runstatus	either "running" or "dead"
+      file	the name of the file for which this swapfile is responsible
+main
+    print a tabified output of `vim -r`
+  open(STDOUT,"|tabify.pl")		no harm if this fails, output will just not be tabified
+  fillSWP()				fill the Data-Structure %SWP
+  printSWP()				print %SWP
+fillSWP
+    refreshes %SWP according to `vim -r`
+  my @RES = `vim -r 2>&1`
+  my ($found, $file,$modified,$pid,$runstatus )
+  chop @RES	\n
+  chop @RES	\r
+  F	(@RES)
+    doc	skip all lines that are not relevant
+      they might be produced by some plugins (such as CSApprox)
+    ?	$_ eq "Swap files found:"
+      $found = 1
+      next
+    !	$found	next
+
+    ?	/^   In directory (.+):/
+      ($dir = $1) =~ s(/*$)()
+      ?	-l $dir	($dir = readlink($dir)) =~ s(/*$)()
+    ?-	/^\s*\d+\.\s+(.*)/		$swpfile = $1
+    ?-	/^\s*owned by: /		next # irrelevant, it's mtime and uid of the swp-file
+    ?-	/^\s*file name: (.*)/		$file = $1
+    ?-	/^\s*modified: (.*)/		$modified = $1
+    ?-	/^\s*user name: (.*)/		next # irrelevant, it's username and hostname
+    ?-	/^\s*process ID: (\d+)(.*)/
+      $pid       = $1
+      ?	$2
+	?	$2 eq ' (still running)'	$runstatus = "runnning"
+	-					$runstatus = $2
+      -						$runstatus = "dead"
+      $SWP{$dir}{$swpfile} = [ $modified,$pid,$runstatus,$file ]
+printSWP
+    print the entries in %SWP
+  F	$dir (keys %SWP)
+    F	$sf (keys %{$SWP{$dir}})
+      "$sf\t".getSWPinfo($dir,$sf)."\n"
+getSWPinfo	$dir,$swapfile
+    return string for entry(dir,swapfile) from %SWP
+  return join("\t",@{$SWP{$dir}{$swapfile}})

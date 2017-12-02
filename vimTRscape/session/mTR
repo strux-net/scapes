@@ -1,0 +1,6 @@
+title			maintain vim-sessions
+session.vim	session.vimTR
+  install
+    m_copy session.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html commands

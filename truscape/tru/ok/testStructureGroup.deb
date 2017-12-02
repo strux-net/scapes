@@ -1,0 +1,25 @@
+demo for structure groups	demo for structure groups
+class	  mainclass
+method	    foo
+method	    bar
+W	      W	a<b	"yes"
+stmt	        jubel
+my language code	      my language code
+autodoc		  this line is documentation for what is going to happen
+object		a funny object
+autodoc		    this line is documentation for this funny object
+F		  F	cond
+autodoc		      this line is documentation for this codeblock
+print		    print	x
+his language code	      his language code
+autodoc		  this line is documentation for what is going to happen
+object		a funny object
+autodoc		    this line is documentation for this funny object
+F		  F	cond
+autodoc		      this line is documentation for this codeblock
+print		    print	x
+print	      print	works too
+UNMATCHED	        should be unmatched
+Forever	      Forever
+stmt	        call home
+F	      F	cond

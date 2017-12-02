@@ -1,0 +1,70 @@
+VERSION	3.0
+USAGE	isel [Options] <regexp> [<file>]
+	search for a subtree beginning with a line where the n-th (default first) field matches a given regexp.
+	The regexp may be explicitly delimited with / like /regexp/,
+	  in this case it may be followed by the usual switches.
+	  E.G. useful for /i
+	You can not use -w together with anchored strings.
+OPTIONS
+	l:number	level where to look, default : any
+	n:number	stop after n matches, default : show all
+	f:number[0]	field to match. Counting starts at 0.
+	nh		no header, i.e the found line itself doesn't output
+	ni		remove all indent relative to header
+	w		whole field must match.  Equivalent to ^regexp$
+	h		print a header for each match
+		The form of this header is
+		  >>> Line n File f
+	indicate	show the /-separated tree
+	tree		show the tree
+BEGIN
+  $stream = 1;
+  $regexp = shift @ARGV;
+  $regexp = "^$regexp\$" if $opt_w;
+  $regexp = "/$regexp/" unless $regexp =~ m:/:;
+  $opt_ResetLineNr=1;
+  eval "
+    sub expcheck
+    {
+      local \$_ = shift;
+      $regexp;
+    }
+  ";
+
+WRITE
+  s|^|" "x($level-$vl)|e if $_ ne "";
+actions
+  line
+    >
+      $line[-1] = "$indent$_" if $opt_tree;
+      if ($valid)
+	$_
+      elsif ( expcheck($F[$opt_f]) and
+              (!$opt_l or $level == $opt_l)
+            ) {
+        >>match	$_
+      }
+  match
+    >
+      $valid=1;
+      $vl=$level;
+      if ($opt_h)
+	>>> Line $. File $ARGV
+      if ($opt_indicate) {
+        $s=join '/',@line[0..$#line-1];
+	$s
+      }
+      if ($opt_tree) {
+        for $_ (@line[0..$#line-1]) {
+	$_
+        }
+      }
+      $vl=$opt_ni?$level:1;
+      do
+	$_
+      unless $opt_nh;
+    <
+      $valid=0;
+      exit unless --$opt_n;
+structure
+	line	*	>*

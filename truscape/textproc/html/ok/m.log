@@ -1,0 +1,165 @@
+building html_tru
+tru -s statistics.out ../../proglang/common.tru ../../proglang/statementDelimiter.tru ../../proglang/plainvar.tru ../../proglang/js/js.tru ../../proglang/c_like_vars.tru ../../lib/style.tru ../common.tru html.tru ../../lib/htmlREAD.tru ../../lib/basicUSAGE.tru >html_tru
+tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'function' was defined but never used
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'main' was defined but never used
+GOOD	html_tru
+GOOD	statistics.out
+chmod +x html_tru
+{ echo "html_tru\n  convert .txtTR to html\n    usage"; ./html_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .txtTR to html" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru -noGives ./html_tru >docs/html_tru.html
+'short' missing for action 'javascript' in file 0
+warning see for link 'Option' does not resolve
+warning see for link 'enum' does not resolve
+GOOD	docs/html_tru.html
+testing html_tru
+: expect 1 warning
+./html_tru -allowP testwithjs.txtTR >testwithjs.html
+GOOD	testwithjs.html
+./html_tru style ../test.txtTR >test1.html
+./html_tru - warning : setting unsupported var NotSupportedVar in style-section of style @ 6
+./html_tru - warning : dublicate internal link 'This is the label of the picture' in ../test.txtTR @ 148
+GOOD	test1.html
+./html_tru       ../test.txtTR >test1nostyle.html
+./html_tru - warning : dublicate internal link 'This is the label of the picture' in ../test.txtTR @ 148
+GOOD	test1nostyle.html
+./html_tru -show_vars
+style
+  #
+  # the following vars are common to html_tru and tex_tru
+  #
+  # Pre				the document is prestructured
+  # Title			the title of the document
+  # Toc				generate a table of contents
+  #
+  # documentStart		put at the very beginning
+  # documentEnd			put at the very end
+  # bodyStart			starts the body
+  # bodyEnd			ends the body
+  # sectionStart		put before each section
+  # sectionEnd			put after each section
+  # pictureStart		put before a picture
+  # pictureEnd			put after a picture
+  # tableStart			starts a table
+  # tableEnd			ends a table
+  # codeStart			put before a code-block
+  # codeEnd			put after a code-block
+  # listStart			start a list
+  # listEnd			end a list
+  # definitionsStart		start a definition
+  # definitionsEnd		end a definition
+  # enumStart			start an enum
+  # enumEnd			end an enum
+  # verbatimStart		start a verbatim
+  # verbatimEnd			end a verbatim
+  # emptylistlineSimple		used for an empty list-line
+  # emptytabrowSimple		used for an empty table-line
+  # emptyenumitemSimple		used for an empty enum-item
+  # enumitemStart		start an enum-item
+  # enumitemEnd			end an enum-item
+  # tabRowStart			start a tab-line
+  # tabRowEnd			end a tab-line
+  # tabRowSep			used for a ---- separator
+  # urlStart			start a url (for a picture)
+  # urlEnd			end a url
+  # Precaption			start a caption
+  # Postcaption			end a caption
+  # raw				treat input as valid in the target language (e.g don't convert < to &lt; rsp. $<$)
+
+  Pre
+  Title
+  Toc
+  raw
+  documentStart			<!DOCTYPE html><html>
+  documentEnd			</html>
+  bodyStart			<body>
+  bodyEnd			</body>
+  sectionStart			<div>
+  sectionEnd			</div>
+  pictureStart			<br/>
+  pictureEnd			<br/>
+  tableStart			<table>
+  tableEnd			</table><br/>
+  codeStart			<br/><table summary="" class="statements">
+  codeEnd			</table><br/>
+  listStart			<ul>
+  listEnd			</ul>
+  definitionsStart		<dl>
+  definitionsEnd		</dl>
+  enumStart			<ol>
+  enumEnd			</ol>
+  verbatimStart			<pre>
+  verbatimEnd			</pre>
+  emptylistlineSimple		<br/>
+  emptytabrowSimple		<tr><td></td></tr>
+  emptyenumitemSimple		<br/>
+  enumitemStart			<li>
+  enumitemEnd			</li>
+  listlineStart			<li>
+  listlineEnd			</li>
+  tabRowStart			<tr>
+  tabRowEnd			</tr>
+  tabRowSep
+  urlStart			<img src="
+  urlEnd			"/><br/>
+  Precaption
+  Postcaption			<br/>
+
+  #
+  # These vars are unique to html_tru
+  #
+  # Hierarchy			generate hierarchy numbers
+  # TocHeader			put before the table of contents
+  # emptyfreetextlineSimple	starting from the 2nd empty line
+  # lineNumbersForCode		prefex codelines with linenumbers
+  # head			use for the head
+
+  Hierarchy
+  TocHeader			<h2><font color="maroon">Overview</font></h2>
+  emptyfreetextlineSimple	<br/>
+  lineNumbersForCode
+  head				<head>
+./html_tru -invalid
+Unknown option: invalid
+usage : html_tru [Options] [<file> ....]
+
+produces a html-file
+
+find details in
+    ~/strux/doc/html_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/html_tru.html
+
+per convention the input files have the extension .txtTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noAutoSemicolon		Do not autmatically append ; to one-line-statements
+       -show_vars		show style-vars
+
+       -vhelp shows more options
+makefile:35: recipe for target 'test_html_tru' failed
+make[1]: [test_html_tru] Error 1 (ignored)

@@ -1,0 +1,25 @@
+VERSION	3.0
+READ
+  s/a/e/g;
+WRITE
+  s/e/a/g;
+actions
+  DOC
+    programming language
+      applies to all supported proglangs
+      more desc
+
+      Parameters : none
+        name	indicator
+        name	mandatory	desc
+        name	optional	desc
+      Example :
+	foo
+	  xxxx
+      gives :
+    >
+      "running testdoc1";
+  statement
+    a generic statent
+      no semicolon at end needed
+      one line, one statement

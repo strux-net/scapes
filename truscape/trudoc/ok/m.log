@@ -1,0 +1,46 @@
+building xtractStructure.pl
+perl_tru xtractStructure.plTR >xtractStructure.pl
+~/strux/bin/perl_tru : some text was never output (due to unset marks) when processing xtractStructure.plTR
+  For mark mark_usage
+	  -version	show version information
+GOOD	xtractStructure.pl
+chmod +x xtractStructure.pl
+testing xtractStructure.pl
+building trudoc_tru
+tru -s statistics.out trudoc.tru ../lib/html.tru >trudoc_tru
+GOOD	trudoc_tru
+GOOD	statistics.out
+chmod +x trudoc_tru
+{ echo "trudoc_tru\n  $Title\n    usage"; ./trudoc_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+sed "s/^    usage$/    code/" docs/README.txt | html_tru >docs/README.html
+GOOD	docs/README.html
+testing trudoc_tru
+./trudoc_tru -doc  >doc.out
+GOOD	doc.out
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s c ./trudoc_tru >trudoc_tru.tmp
+mv trudoc_tru.tmp trudoc_tru
+chmod +x trudoc_tru
+GOOD	trudoc_tru
+./trudoc_tru ./trudoc_tru >docs/trudoc_tru.html
+'gives' missing for action 'Action' in file trudoc.tru
+'gives' missing for action 'Parameters :' in file trudoc.tru
+'gives' missing for action 'Example :' in file trudoc.tru
+'gives' missing for action 'see' in file trudoc.tru
+'gives' missing for action 'gives :' in file trudoc.tru
+'gives' missing for action 'short' in file trudoc.tru
+'gives' missing for action 'Annotation :' in file trudoc.tru
+'gives' missing for action 'file' in file trudoc.tru
+'gives' missing for action 'Signature :' in file trudoc.tru
+'Parameters' missing for action 'Testaction' in file trudoc.tru
+warning link '<looks_like_html>' does not resolve
+warning link 'EMPTY' does not resolve
+warning link 'Testaction3' does not resolve
+warning link 'anotheraction' does not resolve
+warning link 'block' does not resolve
+warning link 'inside' does not resolve
+warning link 'links' does not resolve
+warning link 'test action' does not resolve
+warning link 'try' does not resolve
+warning see for link '42' does not resolve
+GOOD	docs/trudoc_tru.html

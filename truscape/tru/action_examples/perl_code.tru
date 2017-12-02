@@ -1,0 +1,75 @@
+VERSION	3.0
+##	perl statements
+##	  lines in any action pit that start with at least 3 spaces    and
+##	  lines in the hooks ATTICREAD,READ,NEWFILE,SPLITAPPLY,WRITE,BEGIN and FLUSH that start with at least 1 space
+##	  are perl-code
+##	  An exception are lines starting with either
+##	      >>
+##	      ->
+##	      -->
+##	      atmark(
+##	  These are described in
+#           these files : redirectingActions.tru callingActions.tru marks.tru
+
+##	      >>		redirecting actions
+##	      ->		calling actions
+##	      -->		calling actions
+##	      atmark(		marks
+
+##
+##	  The above mentioned exceptions do not hold for FLUSH.
+
+actions
+  person
+    >
+	This is a simple output line (it starts with a tab).
+	The next is perl-code (it starts with 4 spaces)
+      $l=length($person); # this line is perl-code
+	$person has $l characters
+      if ($person eq 'me') {
+	These two lines are only output for one particular person.
+	They are output twice (because the example is repeated)
+      }
+      # like described in outstatements.tru the above 4 lines could as well have been written as
+      if ($person eq 'me')
+	These two lines are only output for one particular person.
+	They are output twice (because the example is repeated)
+
+	you can also have a line-break like here\n....if you are so inclined to.
+	Though there is probably no good point in putting a newline directly like above it may be worth to be used like shown in the silly example below.
+      $s="line1\nline2"; # which may as well be the result of a much more complex statement
+	$s
+
+  city
+    inaction, depthaction and outaction are seperate subroutines.
+    they do not share local vars.
+    Do not use my to localize variables used in output. Use local instead.
+    >
+      my    $var1 = 'invisible';
+      local $var2 = 'visible';
+	> \$var1 = '$var1'
+	> \$var2 = '$var2'
+    <
+      # this pit does not share locals with the inaction.
+      # hence here both vars are empty
+	< \$var1 = '$var1'
+	< \$var2 = '$var2'
+  note
+    another way to localize a variable is using the technique shown here.
+    l	var1	var2
+    the "l\t" above introduces the declaration of (stacked-) local variables.
+    here the two vars var1 and var2 are declared.
+    they are visible in all 3 pits.
+    >
+      $var1 = "$note";
+      $var2 = "$note";
+	> $note ($var1,$var2)
+    <
+	< $note ($var1,$var2)
+structure
+	example1	=	example1
+	  person
+	example2	=	example2
+	  city
+	example3	=	example3
+	  note		>

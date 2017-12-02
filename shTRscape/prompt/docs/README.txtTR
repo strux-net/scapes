@@ -1,0 +1,68 @@
+Prompt
+  How to use prompt.sh
+    source this file from your .bashrc (rsp .zshrc) with
+    code
+	. ~/strux/prompt.sh
+    or copy it anywhere and source it like in
+    code
+	. /anywhere/prompt.sh
+  What prompt.sh requires
+    prompt.sh works best with bash (version 2 or later).
+    Furthermore a decent terminal-program knowing the xterm color-codes is supposed to be running underneath the bash.
+
+    Good candidates are
+	xterm
+	Eterm
+	linux console
+	putty
+	cygwin
+  What prompt.sh does
+    sets bash's and zsh's prompting capability to prompt as follows
+    code
+	  user@host 3 /tmp 2/502 20:21:18 1 OK
+    where
+        user		username
+        host		hostname
+        3		the tty
+        /tmp		the current directory (PWD)
+        2		the number of this command
+        502		the number of commands in the history (not for zsh)
+        20:21:18	the current time
+        1		the number of background jobs
+        OK		the last command exited without error (else shows errorcode)
+
+    The input-cursor starts on a line of it's own.
+
+    The fields are colored according to some situations
+	user
+	    red if user is root
+	    green otherwise
+	host
+	    blue normally
+	    brown if $HOSTDISPLAY is set
+		This is good to distinguish local from other sessions.
+		  For local sessions HOSTDISPLAY is set to something like host:0.0, for
+		  ssh sessions or after a "su - username" HOSTDISPLAY is unset.
+	directory (PWD)
+	    green normally
+	    underlined green, if more directories are on the dir-stack
+	    red, if PWD does not exist.
+	number of background jobs
+	    white, if no background-jobs are present
+	    blue, otherwise
+	error code
+	    same color as before if no error
+	    inverted red, if an error occurred
+
+    Furthermore, it prevents you from exiting the shell with ^D if either
+	some background-jobs are still present, or
+	the directory-stack is not empty
+
+    A sample session:
+    picture	prompt
+      url	prompt.png
+  Downloading prompt.sh
+    Get [ prompt.sh ]( ../prompt.sh ) (1kB) here
+  The tru source of prompt.sh
+    Here's how prompt.sh is produced:
+	[ sh_tru ]( sh_tru.html ) [ prompt.shTR ]( examples/shTRscape/prompt/prompt.shTR ) > [ prompt.sh ]( ../prompt.sh )

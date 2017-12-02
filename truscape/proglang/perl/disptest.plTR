@@ -1,0 +1,13 @@
+VERSION	3.0
+main
+  doc
+    generic interface to disp
+      only for testpurposes
+    disp	/should not trigger/
+  disp	/LL/
+    Array		\@POSSIBILITIES
+    in_function		sub {$curbuf->Append(0,$_)}
+    item_function	\&poss
+    linenr		3
+    illegal => entry
+    ill	legal	entry

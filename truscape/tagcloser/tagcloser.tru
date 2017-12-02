@@ -1,0 +1,119 @@
+VERSION	3.0
+USAGE	tagcloser_tru [options] [<file> ....]
+	reads xml-input and produces xml-output, where
+	the unclosed tags are automatically closed, except for
+	  tags starting with <!
+	  all void html tags
+	    <area> <base> <br> <col> <embed> <hr> <img> <input> <link> <menuitem> <meta> <param> <source> <track> <wbr>
+	Example:
+	  <H1> This tag will be automatically closed
+	  <H1> This tag will not be closed, because it already is </H1>
+	  <span>
+	    This span will be automatically closed
+	  <span>
+	    This span will not be closed
+	  </span>
+	  <span>
+	    Attention : This is wrongly indented. This tag will be automatically closed and end up closed twice.
+	    </span>
+
+	two special tags are introduced
+	  <jsTR>
+	    for jsTR code
+	    Example:
+	    <jsTR>
+	      function square	a
+		return a*a
+	  <css>
+	    for style sheets
+	    Example
+	      <css>
+		h1
+		  color	blue
+		h2	color	red
+	    at-rules are supported (also nested)
+	    Example:
+	      <css>
+		@charset "UTF-8"
+		@media print
+		  #navigation
+		    display	none
+		  @media (max-width: 12cm)
+		    .note
+		      float	none
+
+	the input-file must be properly indented.
+
+	All Options are purely <jsTR>-related.
+	For pure html you won't need any of them.
+WRITE
+  s:^:" "x($level-1):e if $_ ne "";
+actions
+  any line
+    -
+      $_ = "" if ($_ eq $close);
+      $close = "";
+      if ((/^<[^!\/]/ or /^<!--/) and !/^<(area|base|col|embed|hr|img|input|link|menuitem|meta|param|source|track|w?br)[\s>]/i) {
+        $close = $_;
+        if ($_ =~ /^<!--/) {
+          $close = "-->"
+        } else {
+          $close =~ s/>.*/>/;
+          $close =~ s/ .*/>/;
+          $close =~ s:^<:</:;
+        }
+      }
+      if ($_ ne "") {
+        if (!$NrOfChilds and !/\/>$/ and !/$close/) {
+          $close = " -->" if ($close eq "-->"); # in case of a comment I want a space before the closer
+	$_$close
+        $close = "";
+        } else {
+	$_
+        }
+      }
+    <
+      if ($NrOfChilds and $close ne "" and $_ !~ /$close$/)
+	$close
+  <jsTR>
+    >
+	<script>
+    <
+	</script>
+  <css>
+    >
+	<style type="text/css">
+    <
+	</style>
+  selector	cssproperty	value
+    >
+	$selector {
+      if ($cssproperty ne "") {
+        #               vv the spaces are here to get correct indent
+        ->cssproperty	  $cssproperty	$value
+      }
+    <
+	}
+  cssproperty	value
+    >
+	$cssproperty : $value;
+  nested at-rule
+    >
+	$_ {
+    <
+	}
+  at-rule
+    >
+	$_;
+structure
+	<css>					>*	<css>
+	  nested at-rule			>o*	@(media|supports|document|page|font-face|keyframes|viewport|counter-style|font-feature-values|swash|ornaments|annotation|stylistic|styleset|character-variant).*
+	    selector	[cssproperty]	value	=	[^@].*	.+	.+
+	      cssproperty	value		=
+	  at-rule				>0	@.+
+	  selector	[cssproperty]	value	=	[^@].*	.+	.+
+	    cssproperty	value
+	<jsTR>					>*	<jsTR>
+	  common				=g
+	  js					=g
+	any line	*			>*

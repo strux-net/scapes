@@ -1,0 +1,10 @@
+building QuickView.vim
+vim_tru QuickView.vimTR >QuickView.vim
+GOOD	QuickView.vim
+{ echo "QuickView.vim\n  quick-view local settings\n    usage"; < QuickView.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tquick-view local settings" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+Title="*QuickView.txt*   quick-view local settings" vimInterface2Help_tru QuickView.vimTR >docs/QuickView-commands.txt
+GOOD	docs/QuickView-commands.txt
+testing QuickView.vim

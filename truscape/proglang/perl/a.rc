@@ -1,0 +1,2 @@
+perltest.plTR	./perl_tru perltest.plTR >perltest.pl
+tru		tru.jar ./perl_tru perltest.plTR&

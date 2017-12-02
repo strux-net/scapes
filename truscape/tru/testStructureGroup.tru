@@ -1,0 +1,72 @@
+VERSION	3.0
+# ===============================================================================================
+##	grouping structure items
+# ===============================================================================================
+# 
+# the group-section:
+#   starts with a line that has only 'group' in it.
+#   extends to the first (non-comment or non-empty) line that does not start with a whitespace or the end of file.
+#   empty lines in the group-section are ignored.
+#
+#   a string starting with 2 spaces makes a group-name
+#     a group-name can contain any character except tab and nul
+#     group-names and action-names are in different namespaces
+#
+#   lines in the group-section that start with a tab define structure-items
+#
+#   if you want to see the equivalent structure w/o group use
+#     structure_demo_tru -structure -groupExpand
+group
+  loopStatement
+	W	cond	[stmt]	>	W	.*	.*
+	  stmt	[cmd]		=	.*	.*
+	F	cond	[stmt]	>	F	.*	.*
+  unusedGroup
+	whatever		=	.*
+#   you can recursively reference groups in groups
+#   the referenced group can be defined later
+#     in the expample : printStatement
+  anyStatement			can be anything
+	loopStatement	=g
+	printStatement	=g
+	undefinedGroup	=g
+#   you can give a comment to the group-name
+#     a comment-name can contain any character except tab and nul
+#     separate the comment from the groupname with one or more tabs
+  printStatement		all statements that print something to somewhere
+	print	what		>	print	.*
+	str			>	".*"
+
+# '    untie' can be found many times in a group
+# this unties a part of the represented structure (much like described above under "resetting the structure")
+# items after '    untie' begin again in the containing structure element
+#
+# this example demonstrates it.
+# without the '    untie' the 'autodoc' would be part of 'object'
+# but the '    untie' frees it from 'object'.
+# It now matches anywhere underneath the referencing structure item (with indent 4)
+# In the example in the structure below this is "my language code"
+#
+# Also look at "his language code", which has a substructure identical to the result of expanding "my language code"
+# Note :
+#   the =o after "his language code" is needed (in this example)
+#   else the first occurance of it would creeplock this structure-subtree.
+#   and the second occurance cannot reopen it.
+# 
+  mylang
+	object			>
+    untie
+	    autodoc		>
+structure
+	demo for structure groups	=	demo for structure groups
+	  class
+	    method
+	      anyStatement	=g
+	      my language code	=o	my language code
+		mylang		=g
+	      his language code	=o	his language code
+		object		>
+	      his language code	=o	his language code
+		  autodoc	>
+	      Forever		=	Forever
+	        stmt

@@ -1,0 +1,40 @@
+VERSION	testdoc1.tru : 3.0
+VERSION	testdoc2.tru : 3.0
+FLUSH
+WRITE
+  s/e/a/g;
+BEGIN
+NEWFILE
+READ
+  s/a/e/g;
+ATTICREAD
+SPLITAPPLY
+actions
+  DOC
+    programming language
+      applies to all supported proglangs
+      more desc
+
+      Parameters : none
+        name	indicator
+        name	mandatory	desc
+        name	optional	desc
+      Example :
+	foo
+	  xxxx
+      gives :
+    any special programming language
+      applies to my special proglang
+    >
+      "running testdoc1";
+      "running testdoc2";
+  statement
+    a generic statent
+      no semicolon at end needed
+      one line, one statement
+  block	comment
+    l	localVar
+    a generic block
+      only valid in my special proglang
+  switch
+here text

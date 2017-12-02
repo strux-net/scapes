@@ -1,0 +1,471 @@
+style
+  Pre		1
+  Title		tru Reference Card
+  head
+	<head>
+	<link rel="stylesheet" href="trudoc.css"/>
+  bodyEnd
+	<div class="tellgenerator">
+	  <hr/>
+	  This Page was generated using <a href="html_tru.html">html_tru</a> <a href="tru.txtTR">tru.txtTR</a>.
+	  Find more on <a href="http://www.strux.net">www.strux.net</a>
+	</div>
+	</body>
+tru - parsing structured text
+  tru generates truers (or parsers) for a special kind of texts that are
+      properly indented and have
+      tab separated fields
+
+  Using a truer
+    Two simples steps for a truer
+	1)	create a parser from one or more .tru-files (parser description files for a truer).
+	2)	call this parser for adequate input and produce corresponding output.
+
+    The procedure may be as simple as:
+	Create parser
+	  code
+		tru s.tru > s_tru 
+	  The parser s_tru is generated from the .tru-file s.tru.
+
+	Run parser
+	  code
+		s_tru input > output
+	  Runs parser s_tru for one input-file.
+	  The parser reads it's input and produces it's output.
+	  this assumes that you did.
+	  code
+		chmod +x s_tru
+    or as complex as:
+	Create parser
+	  code
+		tru s1.tru s2.tru s3.tru > s_tru
+	  The parser s_tru is generated from several .tru-files s1.tru .. s3.tru
+	  The order of the description files is very important.
+
+	Run parser
+	  code
+		s_tru file1 file2 file3 > output
+	  The parser reads the three files in sequence and produces it's output.
+
+    or even more complex
+	extend an existing truer
+	  code
+		 html_tru -source | tru -- - special_html.tru >special_html_tru
+	  The .tru-equivalent for html_tru is used together with special_html.tru
+  By default the parser reads from STDIN and writes to STDOUT
+
+  Options of tru
+	-q		Do not print any warnings
+	-s:file		Print some statistics to the file
+	-l:limit[100]	limit for recursions when expanding a group
+    The statistics consists of one line per action.
+    Each line consists of 7 fields, where the first 6 are counters.
+    The fields are:
+        H	hits in the action-section(s)
+        >	definitions for >
+        -	definitions for -
+        <	definitions for <
+        d	short descriptions
+        s	used in structure
+	name	the name of the action
+
+General form of a .tru-file
+  Comments
+    Lines that start with a # are comments and are otherwise ignored.
+    The comment-character #  must be the very first character in a line, no leading white-space is allowed.
+  sections
+    a .tru file consists of severals sections, each introduced by a word on the very far left, followed by some indented lines defining the section.
+    The sections are described here and an example is given for each section in a separate file
+    structure
+      Here the structure of the text to be parsed is defined.
+      This section is described in detail in the fully commented truer [ structure_demo.tru ]( examples/truscape/tru/structure_demo.tru ) and the inputfile [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+      The file [ structure_demo.out ]( examples/truscape/tru/structure_demo.out ) contains the results of running:
+      code
+	tru -q structure_demo.tru > structure_demo_tru && chmod +x structure_demo_tru
+	structure_demo_tru -debug -debStructure [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+      Additionally the graphical-debugger can help to understand the structure definition.
+      code
+	[ tru.jar ]( tru_jar.html ) structure_demo_tru [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+    actions
+      Here the actions are defined.
+      Actions are named pieces of code, that are executed if a corresponding structure-item matches or when they are called directly (see >> => ->)
+      Actions have arguments.
+      The arguments are separated from each other with one or more tabs.
+      arguments (and action-names) can contain any letter except
+          \t (tab)		for obvious reasons
+          $sdel		per default : \x00 (a null byte)
+      Many actions can be defined in the actions-section and many action sections can exist.
+
+      Actions have three different entry points, called pit (for Point In Time).
+          >	inaction
+          -	depthaction
+          <	outaction
+
+      The lines after >, - and < are perl-code. The arguments are accessible in the code in the natural (perl-)way (by prepending a $).
+      If such a line starts with a tab, then it is an output-statement.
+      See perl_code.tru and outstatements.tru for more details about these issues.
+
+      The inaction is executed when a line is matched.
+      The depthaction is executed when the next line with the same or a smaller indent is matched.
+          The output for the depthaction is put after the output of the inaction.
+      The outaction is executed directly after the depthaction.
+          The output for the outaction is put after the output of all actions for the lines with a larger indent after the matched line.
+
+      any of above described elements may be missing or may occur one or more times in any order.
+      If the definition of an action occurs more than once, all subactions are performed in
+      the given order except for the outactions which are performed in the reverse order
+      html code
+			Find details in <a href="examples/truscape/tru/action_examples/intro.tru">action_examples/intro.tru</a><br/>
+      as well as in [ perl_code.tru ]( examples/truscape/tru/action_examples/perl_code.tru ) and in [ outstatements.tru ]( examples/truscape/tru/action_examples/outstatements.tru )
+
+      some actions are special:
+	  DOC
+	    wraps around the whole document
+	    receives ARGV as arguments
+	    $_ is also set to ARGV
+	    READ is not applied to this
+	    you do not see it in the structure
+	    at level 0
+	    $DOC has no useful meaning.
+	    Use $ARGV to access the currently processed file
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/DOC.tru">action_examples/DOC.tru</a><br/>
+	  UNMATCHED
+	    used if a line is not otherwise matched
+	    If you do not supply one, tru will provide one for you which prints to STDERR a string indicating the line-number and the contents of the line which does not match.
+	    It is not necessarily a fault to have unmatched lines.
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED.tru">action_examples/UNMATCHED.tru</a><br/>
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED_default.tru">action_examples/UNMATCHED_default.tru</a><br/>
+    VERSION
+      This defines the version of this file
+      It can be any string.
+
+      If you provide a VERSION, then the truer will have the additional option -version
+
+      As shown in the example for OPTIONSandUSAGEpart2, which is build from two input-files,
+        there can be many VERSIONs for one truer
+    OPTIONS
+      Here you can define the options a truer accepts.
+      Options
+          are case sensitive     (-a and -A are different Options)
+          cannot be concatenated (-a -b cannot be said as -ab)
+          can be toggle (on/off) or they can accept an argument.
+
+      for an option with name 'Name' a perl-var with name $opt_Name is created.
+
+      technical note:
+          Options are parsed using the perl-module Getopt::Long
+          this module is used in it's default configuration with the exception of "no_ignore_case"
+    USAGE
+      Here you can define the usage text.
+      the text is defined by simply stripping one leading tab from each line.
+      this text is printed to stderr automatically whenever an invalid option is given.
+      you can also call usage() to print this text.
+      the truer is terminated, when the usage is output.
+      more than one USAGE can exist.
+      they all together make up the usage-text.
+      exactly the first USAGE should have a short text.
+      html code
+			Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGE.tru">action_examples/OPTIONSandUSAGE.tru</a><br/>
+      html code
+			Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGEpart2.tru">action_examples/OPTIONSandUSAGEpart2.tru</a><br/>
+    here text
+      Here named arrays that can be filled with constant text are defined.
+      html code
+			Find details in <a href="examples/truscape/tru/action_examples/HereText.tru">action_examples/HereText.tru</a><br/>
+    hooks
+      There is a class of sections, that act as hooks.
+      The code in these sections is executed if a certain event occurs.
+	  BEGIN
+	    At the beginning, but after Options are parsed according to action OPTIONS.
+	      $_ and @F are set according to @ARGV.
+
+	    Here you can:
+	        preset some vars.
+	        define perl subs.
+	        set $stream to 1 here instead of giving -stream to the generated truer.
+	        set the encoding
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/BEGIN.tru">action_examples/BEGIN.tru</a><br/>
+	  READ
+	    After a line is read and $level is calculated.
+	      not applied to
+	          lines in @ATTIC
+	            you can call tru::read() before unshifting if you wish to apply READ
+	          empty lines
+	            this has consequences illustrated in READempty.tru
+	    $_ holds the line as read (including all indent and tabs)
+	    You can
+	        modify $_ at will.
+	        adjust $level here.
+	    Return
+	        1 to skip this line
+	        2 to end processing
+	        0 for normal processing (supplied automatically)
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/READ.tru">action_examples/READ.tru</a><br/>
+	    READ and empty lines:
+	      READ is not applied to empty lines.
+	      Empty lines are not processed until the next non-empty line is read or the end of input is reached.
+	      This is so that the level for empty lines can be calculated.
+	      For the same reason READ has to be applied for this (non-empty) line.
+	      html code
+			Find details in <a href="examples/truscape/tru/action_examples/READempty.tru">action_examples/READempty.tru</a><br/>
+	  WRITE
+	    When a line is due to be output.
+	    performed in order of production.
+	    $_ holds the line to be written.
+	    In stream-mode it is executed just before a line is written.
+	    In the default (no-stream-mode) it does not yet do the write. It rather inserts the line in @tru::O for later use by FLUSH.
+	    use return 1 if you want to suppress a line.
+	    a return 0 is supplied automatically as last statement
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/WRITE.tru">action_examples/WRITE.tru</a><br/>
+	  ATTICREAD
+	    After a line is unshifted from ATTIC and $level is calculated.
+	    not applied to
+	        lines read from input
+	        empty lines
+	    $_ holds the line as read (including all indent and tabs)
+	    You can
+	        modify $_ at will.
+	        adjust $level here.
+	    Return
+	        1 to skip this line
+	        2 to end processing
+	        0 for normal processing (supplied automatically)
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/ATTICREAD.tru">action_examples/ATTICREAD.tru</a><br/>
+	  NEWFILE
+	    Whenever an input-file is completely read and the truer is going to switch to the next input-file.
+
+	    $ARGV holds the name of the now to be closed and completely read file.
+	    $ARGV[0] holds the name of the next file to be opened.
+
+	    the default action here is to set $. (the line-number) to 0.
+	    if you do not wish this behaviour but instead want your truer to continue counting when crossing file-boundaries, then simply put as a last statement:
+	        return 0;
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/NEWFILE.tru">action_examples/NEWFILE.tru</a><br/>
+	  SPLITAPPLY
+	    After having read a line and split into fields. Applied to each field.
+	    for each line the local var $i is guaranteed to be initialized to 0
+	    you can use it to count the fields and do specific things for specific fields
+	    the code given here is called for each field in sequence with $_ set to the field
+	    it does not affect $_ seen in the action
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/SPLITAPPLY.tru">action_examples/SPLITAPPLY.tru</a><br/>
+	  FLUSH
+	    When all buffered lines shall actually be written to STDOUT rsp. to the file given with -o.
+	    It is not processed in stream-mode.
+	    @_ contains the whole output so far. It is now in sequence. You can modify or otherwise use this output.
+	    A print @_ is supplied automatically as the last statement. If this is not what you want use return to bypass this.
+	    Here only perl-statements are allowed, no outstatements, actioncalls or mark using.
+	        Therefore a leading tab does not switch from perl to outstatement.
+	    html code
+			Find details in <a href="examples/truscape/tru/action_examples/FLUSH.tru">action_examples/FLUSH.tru</a><br/>
+flow control
+  perl statements
+    lines in any action pit that start with at least 3 spaces    and
+    lines in the hooks ATTICREAD,READ,NEWFILE,SPLITAPPLY,WRITE,BEGIN and FLUSH that start with at least 1 space
+    are perl-code
+    An exception are lines starting with either
+        >>
+        ->
+        -->
+        atmark(
+    These are described in
+        >>		redirecting actions
+        ->		calling actions
+        -->		calling actions
+        atmark(		marks
+
+    The above mentioned exceptions do not hold for FLUSH.
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/perl_code.tru">action_examples/perl_code.tru</a><br/>
+  output statements
+    lines starting with a tab are output statements.
+    they are valid in all actions as well as the special-actions ATTICREAD,READ,NEWFILE,SPLITAPPLY,WRITE and BEGIN
+    But beware that for BEGIN some restrictions apply.
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/outstatements.tru">action_examples/outstatements.tru</a><br/>
+  predefined variables in perl-statements and output-statements.
+    These variables are automatically filled:
+	$indent
+	  contains the indent (the leading whitespace) as found.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/indent.tru">var_examples/indent.tru</a><br/>
+	$level
+	  contains the absolute indent as a number (starting at 1).
+	  leading tabs count as much as 8 spaces each.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/level.tru">var_examples/level.tru</a><br/>
+	$rnr
+	  holds the relative linenumber, starting at 1.
+	  it is 1 in special action DOC.
+	  relative means relative with respect to the previous line with smaller indent.
+	@rnr
+	  holds the relative linenumbers so far.
+	  There is one entry for each level, even for skipped levels, in which case the corresponding value is empty.
+	  $rnr[0] is always 1 (for DOC).
+	$.
+	  holds the line nr of the input-file.
+	  it is 0 in special action DOC.
+	  it starts at 1 for each input-file.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/rnr.tru">var_examples/rnr.tru</a><br/>
+	$rlevel and $rindent
+	  only valid for tabaligned structure items.
+	      $rindent	the relative indent (as string) to the required tab-position, derived from the found indent.
+	      $rlevel	the relative indent (as number) to the required tab-position, basically the length of $rindent if it contained only spaces.
+	  They are only valid in the in-action.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/rindent_and_rlevel.tru">var_examples/rindent_and_rlevel.tru</a><br/>
+	$NrOfChilds
+	  Number of (non-empty) items between inaction and outaction.
+	  independent of produced output.
+	  meaningless in stream-mode.
+	  valid in depthaction and outaction.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/NrOfChilds.tru">var_examples/NrOfChilds.tru</a><br/>
+	$NrOfLinesFollowing
+	  Number of lines generated between inaction and outaction.
+	  meaningless in stream-mode.
+	  valid in depthaction and outaction.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/NrOfLinesFollowing.tru">var_examples/NrOfLinesFollowing.tru</a><br/>
+	$state
+	  contains the name of the currently processing action.
+	  for a called Action it has the value of the first arg.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/state.tru">var_examples/state.tru</a><br/>
+    This variable is not automatically filled, it can be filled by a perl-statement:
+	@ATTIC
+	  whenever something is found in the array @ATTIC this is used as input prior to getting the next line from the standard input rsp. input-file.
+	  the lines are extracted from this array using unshift, so that the order is preserved if it is filled using push.
+	  hook ATTICREAD is applied to lines obtained from @ATTIC.
+	  hook READ is not applied to lines in @ATTIC.
+	  html code
+			Find details in <a href="examples/truscape/tru/var_examples/ATTIC.tru">var_examples/ATTIC.tru</a><br/>
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/arguments.tru">action_examples/arguments.tru</a><br/>
+  calling actions
+    Actions can be called in two ways:
+      1)
+      code
+	  ->action	arg1	arg2
+      2)
+      code
+	  -->action	arg1	arg2	{
+	  }
+    compare this to "redirecting actions"
+
+    the following line
+    code
+          ->calledAction	$F[0]	$F[1]
+    is just a shorter way to write the following two lines
+    code
+          -->calledAction	$F[0]	$F[1]	{
+          }
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/callingActions.tru">action_examples/callingActions.tru</a><br/>
+  redirecting actions
+    Actions can be redirected in several ways:
+        specified in the structure	redirection example 1 and 2
+        called from the action		redirection example 3 and 4
+
+    compare this to "calling actions"
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
+  marks
+    marks can be used to place output at specified places.
+
+    To define a mark use
+    code
+	  setmark(\$varname);
+    To use a mark use
+    code
+	  usemark(\$varname);
+    and end the usage with
+    code
+	  unusemark();
+    Another way to use a mark is
+    code
+	  atmark(\$varname) {
+	    a block of code
+	  }
+    usemark must pair with unusemark
+    usemark and unusemark can spread across in,depth,out actions
+    this means also that usemark can be in a different action than unusemark
+
+    atmark(arg) { ... }
+        cannot spread across in,depth,out actions
+        must be the only statement in a line , as in
+          code
+		  atmark(\$mark_help) {
+		    a block of code
+		  }
+        not valid is
+          code
+		  if (cond) { atmark(\$mark_help) {
+		    # not valid, because atmark() is not the only statement in the line
+		    ....
+		    ....
+		  }}
+        also valid is
+          code
+		  atmark(\$mark_help)
+		  {
+		    a block of code
+		  }
+        or even using the implicit forming of blocks for outstatements
+          code
+		  atmark(\$mark_help)
+		  <tabs>smth to print
+		  <tabs>smth more to print
+
+        The following block
+          code
+		  atmark(arg) {
+		    a block of code
+		  }
+        is equvialent to
+          code
+		  usemark(arg)
+		    a block of code
+		  unusemark()
+    the order of setmark is relevant.
+      If you have two (or more) setmark in direct succession then the order is preserved.
+      There is a limit of 1000 marks that can be in direct succession.
+
+    to unset a mark use
+    code
+	  undef $varname
+    marks don't work in stream-mode.
+    they can be used before they are defined.
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
+  pit CLEAR
+    usually if you repeat actions the resulting action has the code of all occurences in the given order.
+    with the CLEAR flag to the pit you can start with an ampty action.
+    This is useful in constructs like
+    code
+	  html_tru -source | tru -- - specialized_html.tru
+    html code
+			Find details in <a href="examples/truscape/tru/action_examples/CLEAR.tru">action_examples/CLEAR.tru</a><br/>
+Limitations
+  Besides the few limitations perl imposes there is :
+    The namespace tru:: is reserved for tru.
+Caveats
+  in the tru-file in the output (i.e tru::parse) part use two backslashes to get one in the output.
+Warnings
+  do *NOT* think that just because an action is mentioned as unused on option -s you can delete it.
+  The action may still be called via
+  code
+	  >>action
+  Since it is allowed to call an action via a variable, as in
+  code
+	  >>$action
+  these calls can not be foreseen by the statisticer (-s).

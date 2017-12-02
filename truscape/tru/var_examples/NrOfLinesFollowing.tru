@@ -1,0 +1,21 @@
+VERSION	3.0
+##	$NrOfLinesFollowing
+##	  Number of lines generated between inaction and outaction.
+##	  meaningless in stream-mode.
+##	  valid in depthaction and outaction.
+actions
+  chapter	name
+    -
+	$NrOfLinesFollowing : $_
+  section	name
+    -
+	$NrOfLinesFollowing : $_
+  any line
+    -
+	$NrOfLinesFollowing : $_
+  table
+    -
+	$NrOfLinesFollowing : $_
+  tabaligned line
+    -
+	$NrOfLinesFollowing : $_

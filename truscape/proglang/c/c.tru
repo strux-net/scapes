@@ -1,0 +1,688 @@
+VERSION	3.0
+USAGE	c_tru [Options] [<file> ....]
+
+	produces a c-file
+
+	find details in
+	    ~/strux/doc/c_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/c_tru.html
+
+	per convention the input files have the extension .cTR
+OPTIONS
+	noProtos		Do not generate prototypes
+	noConfigCheck		Do not generate code to include <config.h>
+	languageType:s[c]	can be c or cpp (not yet completely functional)
+	use_printf		use printf instead of std::cout for auto print statements (c++)
+BEGIN
+  $cc = "//";	# Comment Character specific to this language - not used do to languageType="c"
+  $plang = "c";
+  $true = "1";
+  sub errout($) {
+    local ($txt) = @_;
+    $txt =~ s/"/\\"/g;
+    if ($opt_languageType eq "c") {
+	fputs("$txt\\n",stderr);
+    } else {
+	std::cerr << "$txt" << std::endl;
+    }
+  }
+actions
+  VERSION	version
+    continued
+      the version is put as a comment into the output-file.
+
+      If the program has a main function
+        option -version is introduced into your program.
+
+        If the program is invoked like
+          program -version
+        then all version information is printed to stdout and the program exits with code 0.
+
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	VERSION	2.0
+	includes
+	  stdio.h
+	  stdlib.h
+	usage	demo program
+		does very special things
+	main
+	  "hello world\n"
+
+      If the program has no main function
+        the version is ignored.
+
+        c_tru will issue a message like
+	  c_tru : some text was never output (due to unset marks) when processing filename
+	    For mark $mark_version
+		      print "  filename	0.9\n";
+	you can easily ignore this message.
+    >
+	// based on $ARGV , version : $version
+      atmark("mark_version") {
+       local $level=5;
+       ->statement	"  $ARGV\\t$version\\n"
+      }
+  DOC
+    A c-program
+      The created code is a c program.
+      Example :	c_tru
+	main
+	  foo()
+	void foo
+	  "Hello World"
+      The automatic generation of prototypes can be supressed with -noProtos.
+      The automatic generation of inclusion of config.h can be supressed with -noConfigCheck
+
+      Side Note :
+        Some work has already been done to also make it work for c++
+        This is not yet complete.
+    >
+      ->introcomment
+      setmark("mark_c_linkage");
+        if(!$opt_noConfigCheck) {
+	#if	HAVE_CONFIG_H
+	#include <config.h>
+	#endif
+        }
+      setmark("mark_prototype");
+      setmark("mark_options");
+    <
+      if ($c_linkage) {
+	#ifdef __cplusplus
+	}
+	#endif
+      }
+  main
+    the main function
+      Parameters :
+        main	indicator	.*
+      Example :	c_tru -noIntro -noConfigCheck
+	main
+	  "Hello World"
+    >
+      >>function	int main	int argc,char **argv
+    -
+      if ($VERSION ne "") {
+       atmark("mark_optiontext") {
+        local $level=3;
+        errout("\t-version\tshow version information");
+       }
+	  if (argc == 2 && argv[1][0] == '-' &&
+	                   argv[1][1] == 'v' &&
+	                   argv[1][2] == 'e' &&
+	                   argv[1][3] == 'r' &&
+	                   argv[1][4] == 's' &&
+	                   argv[1][5] == 'i' &&
+	                   argv[1][6] == 'o' &&
+	                   argv[1][7] == 'n' &&
+	                   argv[1][8] == '\\0') {
+       {
+        local $level=5;
+        ->statement	"Version :\\n"
+       }
+       setmark("mark_version");
+	    return 0;
+	  }
+      }
+      setmark("mark_usagecall");
+  defines
+    defines
+      Parameters :
+        defines	indicator	.*
+      Example :	c_tru -noIntro -noConfigCheck
+	defines
+	  max(a,b)	((a>b)?a:b)	the maximum
+	  min(a,b)	((a<b)?a:b)	the minimum
+	  debug(x)
+	    if (debugging) {
+	      print "##x";	// can contain	tabs
+	    }
+  name	definition	comment
+    a macro
+      Parameters :
+        name	mandatory	.+	the name of the macro
+        definition	optional	.+	the definition for the macro
+        comment	optional	.+	a comment for the macro
+      Example :
+        see	defines
+    -
+      local $offset = -$level;	# make them flush-left
+      if ($comment) {
+	/** $comment */
+      }
+      if ($NrOfLinesFollowing) {
+	#define	$name	$definition\\
+      } else {
+        if ($comment) {
+          s/([^\t]+\t+[^\t]+).*/$1/; # cut the comment
+        }
+	#define	  $_
+      }
+    <
+      if ($NrOfLinesFollowing) {
+       |
+      }
+  definition line
+    a line of a macro
+      Parameters :
+        definition line	mandatory	.+	the line
+        *			optional	.+	more fields of the line
+      Example :
+        see	defines
+    >
+      $level-=4;
+	$_\\
+  includes
+    including header files
+      Parameters :
+        includes	indicator	.*
+      The lines in the child-block define the includes.
+      If the first field of such a line has the form ".*" it is used as given,
+      else it is surrounded by < and >.
+      An optional second field is treated as comment and is ignored.
+      Example :	c_tru -noIntro -noConfigCheck
+	includes
+	  stdio.h	for printf
+	  "own.h"	for my vars
+    >
+      $offset -= 100000; # I want them at the far left
+    <
+      $offset += 100000;
+      setmark("mark_prototype");
+  sysinc	comment
+    a system include
+      Parameters :
+        sysinc	mandatory	.+	a system include
+        comment	optional	.+	a comment
+      Example :
+        see	includes
+    >
+	#include <$sysinc>
+  owninc	comment
+    a custom include
+      Parameters :
+        owninc	mandatory	".+"	the include file
+        comment	optional	.+	a comment
+      Example :
+        see	includes
+    >
+	#include $owninc
+  memberfunction	args	basecall
+    a memberfunction
+      Parameters :
+        memberfunction	mandatory	.+	the function name
+        args		optional	.+	the arguments to the function
+        basecall		optional	.+	the basecalls for constructors
+      Example :	c_tru -noIntro -noConfigCheck
+	gl::gl	size_t l,const char *valid	gc(l,valid)
+	  current=first=last = NULL
+	gl::~gl	
+	  delete str
+	size_t gl::operator()	int x,int y
+	  return foo(x,y)
+    >
+      setmark("mark_autodoc");
+      $basecall=" : ".$basecall if $basecall;
+	$memberfunction($args)$basecall
+	{
+    <
+	}
+
+  function	args	additions
+    a function
+      Parameters :
+        function	mandatory	.+	the function name
+        args	optional	.+	the args of the functin
+        additions	optional	.+	compiler specific additions
+      For the main-functions see |main|.
+      Example :	c_tru -noIntro -noConfigCheck
+	void foo
+	  "bar"
+	int square	int x
+	  return x*x
+	void isr_motor_step	void	interrupt CC20INT using z_1
+	  x++
+      The prototypes can be supressed with -noProtos
+    >
+      setmark("mark_autodoc");
+       |
+      $func = "$function($args)";
+      $func.=" $additions" if $additions;
+      >>prototype	$func;
+	$func
+	{
+    <
+	}
+  Option	comment
+    continued
+      c_tru makes use of getopt() with the limitation that it only supports 1-letter options.
+      The usual -- can still be used to stop option-processing.
+      Additionally to getopts features the following is also guaranteed:
+          The form -f=file is also supported.
+          If a not defined option is given then usage is called.
+
+      argv[] stays unchanged.
+      int optind is the index in argv[] of the first non-option argument.
+
+      -x results in the var opt_x
+        If -x takes no argument then the value of opt_x is
+	    0		if the option is not given
+	    1		if the option is given once
+	    n		the number 
+        If -x takes an argument then the value of opt_x is
+	    default		if option is not given. default can be empty.
+	    argument	the one given to the option.
+
+          The type of the opt_x is determined by the type of the default (as described in |opt:type[default]|)
+
+      Example for c :	c_tru -noConfigCheck -noProtos -noIntro
+	includes
+	  stdio.h
+	  stdlib.h
+	usage	calculatePrettyNumber [options]
+		this program calculates the prettiest numbers.
+		it skips
+			10	like always
+			42	for obvious reasons
+	main
+	  Option
+	    a	all
+		calculate all numbers (including the not so pretty)
+	    f:file[/tmp/x]	infile
+	      "file is %s\n", opt_f
+	    t:number[8]		how many spaces are a tab
+	  "-a : %d\n",opt_a
+	  "-f : %s\n",opt_f
+	  "-t : %d\n",opt_t
+      Example for c++ :	c_tru -noConfigCheck -noProtos -noIntro
+	includes
+	  iostream
+	  cstdlib
+	  cstdio
+	usage	calculatePrettyNumber [options] files
+		this program calculates the prettiest numbers.
+		it skips
+			10	like always
+			42	for obvious reasons
+	main
+	  Option
+	    a			all
+		calculate all numbers (including the not so pretty)
+	    f:file[/tmp/x]	in-file
+	      "file is " << opt_f << std::endl
+	    t:number[8]		size of a tab
+	    e:epsilon[42.24]	the epsilon
+	  std::cout << "-a : " << opt_a << std::endl	opt_a is of type int
+	  std::cout << "-f : " << opt_f << std::endl	opt_f is of type const char *
+	  std::cout << "-t : " << opt_t << std::endl	opt_t is of type int
+	  std::cout << "-e : " << opt_e << std::endl	opt_e is of type float
+
+	  doc	remaining args
+	  F	int i=optind...argc
+	    std::cout << "argv[" << i << "] : " << argv[i] << std::endl
+    >
+	char optchar;
+      if ($opt_languageType eq "c") {
+        $offset -= 100000; # I want it at the far left
+	#include <getopt.h>
+        $offset += 100000; # I want it at the far left
+        $comment =~ s|.*|\t/* $comment */| if $comment;
+      } else {
+        $comment =~ s|^|\t// | if $comment;
+      }
+      atmark("mark_usage") {
+        errout("OPTIONS:");
+      }
+    -
+	while ((optchar=getopt(argc,argv,"@{[$GetOpt = join "",@GetOpt]}")) != EOF) {$comment
+    <
+	  if (optchar == '?') usage();
+	}
+  opt:type[default]	shortdesc	statement
+    continued
+      For the default the following holds:
+        If it looks like an int (it matches /^\d+$/) it is a int
+        If it looks like a float (it matches /^\d*\.\d+$/) is is a float
+        Else it is a string (surrounding quotes are optional)
+    >
+      my $intopt    ;
+      my $floatopt  ;
+      my $stringopt ;
+      unless ($intopt    = ($default =~ /^\d+$/)) {
+        unless ($floatopt  = ($default =~ /^\d*\.\d+$/)) {
+          $stringopt = 1;
+          $default =~ s/^"(.+)"$/$1/;
+        }
+      }
+
+      $NrOfLinesFollowing = 1; # for c we always have something in the body
+      >>	optcommon	$opt:	optchar == '$opt'	$type
+
+      atmark("mark_optiontext") {
+        local $level = 3;
+        errout("\t-$opt=$type\t$shortdesc");
+        if ($default) {
+          errout("\t\tdefault for $type is $default");
+        }
+      }
+	  if (*optarg == '=') optarg++;
+      if ($stringopt) {
+        atmark("mark_options") {
+          local $level = $level-4;
+	const char *opt_$opt = "$default";
+        }
+	  opt_$opt = optarg;
+      } elsif ($floatopt) {
+        $default=0 unless $default;
+        atmark("mark_options") {
+          local $level = $level-4;
+	float opt_$opt = $default;
+        }
+	  opt_$opt = atof(optarg);
+      } else {
+        $default=0 unless $default;
+        atmark("mark_options") {
+          local $level = $level-4;
+	int opt_$opt = $default;
+        }
+	  opt_$opt = atoi(optarg);
+      }
+      stmt($statement);
+  opt	shortdesc	statement
+    continued
+    >
+      >>	optcommon	$opt	optchar == '$opt'	_	opt_$opt++
+      stmt($statement);
+      $level = 3;
+      atmark("mark_optiontext") {
+        errout("\t-$opt\t$shortdesc");
+      }
+      $level = 0;
+      atmark("mark_options")
+	int opt_$opt = 0;
+  Optiondescription
+    continued
+    >
+      $indent = " "x($level-9);
+      $level=3;
+      atmark("mark_optiontext") {
+        errout("\t\t$indent$_");
+      }
+  usageline
+    continued
+    >
+      $level=3;
+      errout("$rindent$_");
+  usage	shortdesc
+    continued
+    >
+      atmark("mark_usagecall") {
+	  if (argc == 2 && argv[1][0] == '-' && argv[1][1] == '?' && argv[1][2] == '\\0') {
+	    usage();
+	  }
+      }
+      >>prototype	void usage();
+	/**
+	 * emit a usage to stderr and exit with code 1
+	 */
+	void usage()
+	{
+      $level=3;
+      errout("usage : $shortdesc");
+    <
+      setmark("mark_usage");
+      setmark("mark_optiontext");
+	  exit(1);
+	}
+  compiler directive
+    compiler directive
+      survives unchanged
+      Parameters :
+        compiler directive	mandatory	#.+	the directive
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	foo
+	  #ifdef debugging
+	  "in foo"
+	  #endif
+    >
+      $level = -100000; # I want it at the far left
+	$_
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          std::cout << statement	for c++
+          printf(statement)		for c or if option use_printf was given
+      Example for c++ :	c_tru -noConfigCheck -noProtos -noIntro
+	includes
+	  iostream
+	main
+	  int count=1		the linecount
+	  ?	count != 1	"internal error\n"
+	  "count : " << count	tell it to the user
+
+      Example for c :	c_tru -noConfigCheck -noProtos -noIntro
+	includes
+	  stdio.h
+	main
+	  int count=1		the linecount
+	  ?	count != 1	"internal error\n"
+	  "count : %d",count	tell it to the user
+    -
+      if ($statement =~ /^"/) {
+        if ($opt_languageType eq "c" or $opt_use_printf) {
+	printf($statement);$comment
+        } else {
+	std::cout << $statement$statementdel$comment
+        }
+      } else {
+        if ($opt_languageType eq "c") {
+	$statement$statementdel$comment
+        } else {
+	$statement$statementdel$comment
+        }
+      }
+  linkage	c
+    specifying the linkage
+      Parameters :
+        linkage	indicator	.*
+        c		indicator	.*
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	linkage	c
+	foo
+	  "in foo"
+    >
+      $c_linkage=1;
+      atmark("mark_c_linkage") {
+	#ifdef __cplusplus
+	extern "C" {
+	#endif
+      }
+  types
+    declaring types
+      Parameters :
+        types	indicator	.*
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	types
+	  int	color
+	  long	city	capitals
+    >
+	/* types */
+  cType	newType	comment
+    a new type
+      Parameters :
+        newType	mandatory	.+	the new type
+        cType	mandatory	.+	the existing type
+        comment	optional	.+	a comment
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+        see	types
+    >
+      $comment =~ s|.*|\t/* $comment */| if $comment;
+      local ($offset)=$offset-2;
+	typedef $cType $newType;$comment
+  prototype
+    internal - emit an prototype
+      Parameters :
+        prototype	indicator	.*
+      they are put after the last include (if any)
+    >
+      return if($opt_noProtos);
+      atmark("mark_prototype") {
+        if (!$protoheadershown++) {
+	/* protos */
+        }
+	$prototype
+      }
+  jdoc
+    continued
+      The created comments are suitable for doxygen.
+      The usual step would be:
+          doxygen -g
+          vi Doxyfile
+          doxygen
+      Things said here about doxygen hold for version 1.7.3 .
+      Example with inline descriptions :	c_tru -noConfigCheck -noProtos -noIntro
+	vars
+	  int count	the robot-count
+	int foo	int a, int b
+	    Short summary for foo (should end in an dot).
+
+	    text can come here at
+	      any indent.
+
+	    This is a new paragraph since there was an empty line.
+
+	    Links like {@link #foo(int,int)} survive.
+
+	    put the param-block at the end.
+	    param	a the lower bound.
+			Text put here belongs to the param a. It can have any indent.
+	    param	b the upper bound.
+	    return	the median.
+	    freelink	defined by your company-style
+			doxygen will treat it as belonging to the previous param
+	    author	james dean
+	    see		#bar(int) for another aproach.
+			Text put here belongs to see.
+
+	    There should be no text after the param-block or both doxygen will treat them as belonging to the last param ('see' in this case)
+	  return a*b/2
+	int bar	int a
+	  autodoc
+	    Short summary for bar (should end in an dot).
+	    This demonstrates an explicit autodoc.
+	    It is completely equivalent to the the implicit version used for foo.
+	    Hence all the things said there also hold here.
+
+	    param	a the lower bound
+	    return	the half
+	  return a/2	easy calculation
+  vars
+    continued
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	vars
+	  int count = 1		count the items
+	  float sizes[]		in different units
+	    1			inch
+	    2.54		cm
+	  int j			uninitialized
+	  int i = 0
+    >
+      if ($vars eq "vars") {
+        $vars = "";
+      } else {
+        $vars .= " ";
+      }
+      if ($opt_languageType eq "c") {
+	/* ${vars}vars */
+      } else {
+	$cc ${vars}vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  try
+    continued
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	main
+	  try
+	      foo()
+	    finally
+	      bar()
+  var	comment
+    continued
+      The comment is suitable for doxygen. See |jdoc| for more info about this issue.
+    -
+      if ($comment)
+	/** $comment */
+      if ($NrOfLinesFollowing)
+	$vars$var = {
+      else
+	$vars$var;
+    <
+      if ($NrOfLinesFollowing)
+	};
+  RangeFor	exp	statement
+    a range-based for-loop
+      Parameters :
+        RangeFor	indicator	.*
+        exp		mandatory	.+	an range-expression
+        statement	optional	.+	a statement
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	main
+	  F	int n : {0,1,2,3,4,5}	std::cout << n << ' '
+	  F	auto val : myVec
+	    "val\n"
+    >
+      >>For	F	$exp	$statement
+  using	usingline
+    defining usings
+      Parameters :
+        using		indicator	.*
+        usingline	optional	.+	an element to be used
+      Example :	c_tru -noConfigCheck -noProtos -noIntro
+	using	std::cout
+	using
+	  std::cerr
+	  std::clog
+	main
+    >
+      if ($usingline ne "") {
+        >>usingline	$usingline
+      }
+  usingline	comment
+    inside a using
+      Parameters :
+        usingline	mandatory	.+	an element to be used
+        comment		optional	.*	a comment
+      Example :
+        see	using
+      the comment is silently ignored
+    >
+        local $level=0;
+	using $usingline;
+group
+  c
+	comment	*								=2		\/\/.*
+	native code								=2		c code<?
+	  nativeCodeLine	*						>>t*
+	vars									=2		private|protected|public|vars
+	  enum		name							>0		enum
+	    enumline		[comment]					>0		.+
+	  var			[comment]					>0
+	    initialisation	[comment]					>0		.+
+	F	range_declaration : range_expression	[stmt]			>2 RangeFor	F	.*:.*
+	compiler directive	*						>>*		#.+
+	linkage	c								=		linkage	c
+	types									=		types
+	  cType	newType	[comment]
+	defines									=		defines
+	  name	[definition]	comment						=		.+
+	    definition line	*						=*
+	includes								=		includes
+	  owninc	[comment]						=		".+"
+	  sysinc	[comment]						=		.+
+	using	[usingline]							=		using
+	  usingline	[comment]
+	memberfunction	[args]	basecall					=o		.+::.+
+	  autodoc								=g

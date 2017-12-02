@@ -1,0 +1,162 @@
+VERSION	3.0
+sh code
+	varwithtextacrossmultiplelines="pure sh-code can be produced\
+	  as you can see here"
+
+VERSION	3.0a
+hide
+  hidden
+vars
+  i=0									Test statement
+  b=0
+  w		what
+    one		eins
+    two		zwei
+
+usage	shtest arg
+	this program only serves as a test-suite
+	it does *NOT* do anything use- or harmfull
+
+	It simply shows the possibilities
+	 You can have any indent here
+	  1
+	       2
+	      3
+	     4
+		 6
+	         6
+	Tables look like this
+	1	2
+	11	22
+	111	222
+	1111	2222
+	11111	22222
+	111111	222222
+	1111111	2222222
+
+main
+    the main function
+  secured
+    echo "a'b"
+  F	i in $w	"$i"
+  i=1
+  S	$i
+    1		"one"
+    2		"two"
+    default	"something else"
+  b=0
+  "Running"
+  Option
+    a					all messages	"You have to note:"
+	more text for options a
+      "Option a given"
+    f:file[/tmp/schrott]		output to file	"Option f given $opt_f"
+	more text for options f
+    c					clear screen
+  "opt_a = $opt_a"
+  "opt_f = $opt_f"
+  "opt_c = $opt_c"
+  "remaining args = $*"
+  !	[ -z $opt_f ]	"muchas gracias por el f que es $opt_f"
+  ?	[ -z $opt_a ]	"You did not give me option a"
+  -			"You gave me option a, I'm so lucky"
+  "Now comes a string with a # in it"					Do comments work ?
+  test
+  function_with_args 3
+  function_with_args 4 5
+  ?	[ "1" = "1" ]	echo "yes"	echo "no"
+  !	[ "2" = "2" ]	"yes"		"no"
+  F	i=0;i < 10;i++	"$i"
+    ?	[ $i -eq 5 ]	continue
+    ".."
+  Ftest 3
+  Ftest 4
+  continued	a complicated statement
+    echo
+       arg1	comment
+       #
+       #disabled line	comment for disabled line
+       arg2		an empty line follows
+
+       arg3
+       -monitor 
+         unix:
+           /big/bill/nBill1/nBill1.cnsl,
+           #
+         #
+         server,		lucky
+         nowait
+  M	: a_	=		;
+             b		c
+	      #d		e
+	     #d		e
+	      #d		e
+
+Ftest	limit
+  F	i=1;i < limit;i=i+1
+    "$limit : $i"
+test
+  "called test()"
+  a=5
+  W	let a=a-1	"$a"
+  a=5
+  W	[ $[ a = a-1 ] -ne 0 ]
+    !	[ $a -ne 4 ]	"a is four"
+    ?-	[ $a -eq 3 ]	"a is three"
+    ?-	[ $a -eq 2 ]	"a is two"
+    -			"a is $a"
+    "$a"
+  a=3
+  U	[ $a -eq 0 ]
+    "$a"
+    : $[ a = a-1 ]
+  F	i in one two three
+    "$i"
+    ??	[ "$i" == 	 ]
+      "one"	"eins"
+      "two"	"zwei"
+      "three"	"drei"
+      -		"anything else"
+  F	i in ONE TWO THREE	"$i"
+
+another_function
+  "this function is never called"
+
+function_with_args	a,b
+  "a = $a"
+  "b = $b"
+
+function_demonstrating_blocks_and_continuationLines
+  {
+    cd /tmp
+    ls \
+      a \
+      b
+  }
+
+function_demonstrating_backgrounded_commands
+  doc	they must not be terminated with a ";"
+    since "&;" this leads to
+      syntax error near unexpected token `;'
+  anycmd &
+function_demonstrating_TAB
+  TAB
+    print '	';
+	Here a poem:
+
+	            this line
+	          and this line
+	      are here by intention
+	     and are my own invention
+  TAB	alpha	omega
+    echo '	'
+	one	eins
+	two	zwei
+function_with_a_try
+  "block will not produce output"
+  try
+      ls
+    e123
+      "error"
+    finally
+      "finally"

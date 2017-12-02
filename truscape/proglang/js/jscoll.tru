@@ -1,0 +1,27 @@
+VERSION	3.0
+# USAGE and DOC are not in js.tru so it can be used in html.tru
+USAGE	js_tru [Options] [<file> ....]
+
+	produces a javascript file
+
+	find details in
+	    ~/strux/doc/js_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/js_tru.html
+
+
+	per convention the input files have the extension .jsTR
+actions
+  DOC
+    A javascript
+      Example :	js_tru
+	var a = foo("World");
+	function foo	s
+	  "Hello "+s
+	  return 1;
+    >
+      #->introcomment
+      setmark("mark_options");
+structure
+	common				=g
+	js				=g

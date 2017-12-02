@@ -1,0 +1,126 @@
+building perl_tru
+tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru perl.tru ../globalCode.tru perlcoll.tru ../../lib/basicUSAGE.tru >perl_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+chmod +x perl_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s perl ./perl_tru >perl_tru.tmp
+~/scapes/truscape/proglang/perl/perl_tru : some text was never output (due to unset marks) when processing /tmp/infile1
+  For mark mark_usage
+	  -version	show version information
+mv perl_tru.tmp perl_tru
+chmod +x perl_tru
+GOOD	statistics.out
+GOOD	perl_tru
+{ echo "perl_tru\n  convert .plTR to .pl\n    usage"; ./perl_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .plTR to .pl" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru ./perl_tru >docs/perl_tru.html
+GOOD	docs/perl_tru.html
+testing perl_tru
+perl ./perl_tru          perltest.plTR >perltest.pl
+GOOD	perltest.pl
+perl ./perl_tru -vimPlug perltest.plTR >perltest.vim
+GOOD	perltest.vim
+perl perltest.pl -a foo >perltest.out1
+GOOD	perltest.out1
+perl perltest.pl -a -t -b  >perltest.out2
+Option b requires an argument
+usage : perltest arg
+this program only serves as a test-suite
+it does *NOT* do anything use- or harmfull
+It simply shows the possibilities
+ You can have any indent here
+  1
+       2
+      3
+     4
+	 6
+         6
+Tables look like this
+1	2
+11	22
+111	222
+1111	2222
+11111	22222
+111111	222222
+1111111	2222222
+
+Text may have a quote (' or ") or other special characters as $. or @ARGV
+OPTIONS:
+  -a	Run with option a
+        more description for option a
+  -b:<outname>	write output to file outname
+	default for <outname> is /tmp/perltest.out
+        more description for option b
+  -d	Just accept this for later usage. Text may have a quote (' or ") or other special characters as $. or @ARGV
+  -t	Run test
+  -s:<file>	output file
+  -version	show version information
+makefile:38: recipe for target 'test_perl_tru' failed
+make[1]: [test_perl_tru] Error 1 (ignored)
+GOOD	perltest.out2
+perl perltest.pl -version
+Version :
+  perltest.plTR	3.0
+  perltest.plTR	3.0a
+perl ./perl_tru      disptest.plTR >disptest.out1
+./perl_tru - No match for disptest.plTR @ 13 :     ill	legal	entry
+./perl_tru : some text was never output (due to unset marks) when processing disptest.plTR
+  For mark mark_usage
+	  -version	show version information
+GOOD	disptest.out1
+perl ./perl_tru -vim disptest.plTR >disptest.out2
+illegal line in disp : illegal => entry
+illegal line in disp : ill	legal	entry
+./perl_tru : some text was never output (due to unset marks) when processing disptest.plTR
+  For mark mark_usage
+	  -version	show version information
+GOOD	disptest.out2
+perl ./perl_tru -invalid
+Unknown option: invalid
+usage : perl_tru [Options] [<file> ....]
+
+produces a perl-script
+
+find details in
+    ~/strux/doc/perl_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/perl_tru.html
+
+per convention the input files have the extension .plTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noAutoSemicolon		Do not autmatically append ; to one-line-statements
+       -noSharpBang		Do not generate #!/usr/bin/perl
+       -noProtos		Do not generate prototypes
+       -vim			Special action disp (for vim_tru)
+       -vimPlug			make it a vim-plugin
+		produces code that checks, whether vim has +perl
+		wraps the whole script in
+		  perl <<EOT
+		    <script>
+		  EOT
+		skips the autocall for main
+
+       -vhelp shows more options
+makefile:38: recipe for target 'test_perl_tru' failed
+make[1]: [test_perl_tru] Error 1 (ignored)

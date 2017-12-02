@@ -1,0 +1,86 @@
+VERSION	3.0
+USAGE
+	How to read the truer :
+	  The truer is very simple.
+	  Each output-statement consists of two fields
+	    action	pit
+	  where
+	    field			meaning
+	    -----			-------
+	    action			indication of what (sub)action is called
+	    pit				Point in Time (see below)
+
+	How to read the output :
+	  The output lines consist of 5 fields
+	    seq	action	pit	$NrOfLinesFollowing	$_
+	  where
+	    field			meaning
+	    -----			-------
+	    seq				sequence number (see below)
+	    action			indication of what (sub)action is called
+	    pit				Point in Time (see below)
+	    $NrOfLinesFollowing		empty if zero
+	    $_				obvious
+
+	seq
+	  the chronological-sequence in which the lines are produced.
+	  A line with sequence-nr 5 is the 5th line produced.
+	pit
+	  the depth-actions (and out-actions) in which this line counts for $NrOfLinesFollowing.
+	  entries are in chronological order. (Who sees them when)
+	  underscore (_) means : seen in no action.
+	  the number of times an action occurs in the second column corresponds to $NrOfLinesFollowing.
+
+	It is suitable to be run with ~/tru/tru/unroll.tru.
+	related:
+	  test7s1.tru
+	  test7s2.tru
+	  test7s3.tru
+	Details (common to all cases)
+	  Suppose it is run for this in-file
+		1
+		  1.1
+		    1.1.1
+	  The call produces a block the following eight lines
+	    >first
+	    -first
+	    moreText1
+	    >second
+	    -second
+	    moreText2
+	      see Note below
+	    <second
+	    <first
+	  Note:
+	    after moreText2
+	      test7s1 (in)
+		-item
+		  subitem
+	      test7s2 (depth)
+		  subitem
+	      test7s3 (out)
+	        nothing
+BEGIN
+  $seq=1;
+WRITE
+  $calculated_indent = ' 'x($level-1); # $indent is empty for empty lines. I want indenting according to $level.
+  $NrOfLinesFollowing = " " unless $NrOfLinesFollowing;
+  $_="$seq\t$calculated_indent$_\t$NrOfLinesFollowing\t$f";
+  $seq++;
+actions
+  line
+    l	f
+    >
+      $f=$_;
+  item
+    l	f
+    >
+      $f=$_;
+  subitem
+    l	f
+    >
+      $f=$_;
+structure
+	line
+	  item
+	    subitem

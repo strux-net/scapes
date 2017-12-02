@@ -1,0 +1,10 @@
+title			inspect the process-tree
+pstree.vim	pstree.vimTR
+  install
+    m_copy pstree.vim ~/.vim/plugin
+  doc
+    vimdefault	txt html commands
+
+    # inplace adjust docs/pstree.txt
+    perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="==============================================================================" } if (/^$s/../$e/ ) { unless ($d++) { print "$s\n" ; print `vimInterface2Help_terse_tru pstree.vimTR`; print "\n$e\n" }} else { print }' docs/pstree.txt
+    m_diff docs/pstree.txt

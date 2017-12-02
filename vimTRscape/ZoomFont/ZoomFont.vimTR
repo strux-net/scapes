@@ -1,0 +1,41 @@
+VERSION	3.0
+usage	ZoomFont.vim
+	allows to quickly increase/decrease (rsp. switch) fonts.
+	You define a font-family like
+	  "Courier_New:h<size>:cANSI"	in a windows gui
+          "DejaVu Sans Mono <size>"	in a gtk2 gui (the default)
+	The <size> is as written (6 characters). It will be replaced with the new size.
+	For example a Windows users should have in their .vimrc a line like
+	  let g:strux_ZoomFont_family="Courier_New:h<size>:cANSI"
+	you can also set some fixed fonts for dedicated sizes like in
+	  let g:strux_ZoomFont_9="Century Schoolbook L Italic 9"
+	It does only work if a gui is running.
+
+	to install this plugin put this file into ~/.vim/plugin/
+main
+  !	has("gui_running")	finish
+  Option
+    strux_ZoomFont_family:string["DejaVu Sans Mono <size>"]	the font-family to be used per default
+    strux_ZoomFont_initialNumber:number[9]			the starting font size
+    strux_ZoomFont_max:number[24]				the max font size
+  s:size = g:strux_ZoomFont_initialNumber
+Interface
+  <C-kPlus>	&Strux.&ZoomFont.&In		increase the font	:<c-u>call ZoomFont()<cr>
+  <C-kMinus>	&Strux.&ZoomFont.&Out		decrease the font	:<c-u>call UnZoomFont()<cr>
+ZoomFont
+  let s:size+=1
+  ?	(!v:count && !v:count1) || v:count	s:size=v:count
+  ?	s:size > g:strux_ZoomFont_max		s:size=g:strux_ZoomFont_max
+  call ZoomFontTo(s:size)
+UnZoomFont
+  let s:size-=1
+  ?	s:size < 1	s:size=1
+  call ZoomFontTo(s:size)
+ZoomFontTo	size
+  exe 'let l:isSet = (exists("g:strux_ZoomFont_'.a:size.'") && g:strux_ZoomFont_'.a:size.' != "")'
+  ?	l:isSet
+    exe 'let &guifont=g:strux_ZoomFont_'.a:size
+  -
+    let &guifont=substitute(g:strux_ZoomFont_family,'<size>',a:size,"")
+  redraw!
+  set guifont?

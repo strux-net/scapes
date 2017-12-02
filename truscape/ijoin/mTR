@@ -1,0 +1,9 @@
+title				join lines with their (indent-) parents.
+ijoin	ijoin.tru
+  test
+    ./ijoin test		nodel
+    ./ijoin -j / test		delim
+  doc
+    trudefault	txt html
+  install
+    2struxbin

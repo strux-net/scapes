@@ -1,0 +1,20 @@
+example1
+  any text here
+  meta1	one
+  meta1	two
+  more text here
+example2
+  any text here
+  meta2	one
+  meta2	two
+  more text here
+example3
+  meta3	one
+  meta3	two
+example4
+  meta4a	small 1
+  meta4b	big   1
+  meta4b	big   2
+  meta4a	small 2
+example5
+  meta5		three

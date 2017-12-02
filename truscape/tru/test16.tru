@@ -1,0 +1,221 @@
+VERSION	3.0
+OPTIONS
+	noIntro			Do not generate an intro
+	noMark			Do not generate marks for Hand written stuff
+	intro:file		use specified file for intro
+		This file will be copied unchanged.
+	obeyD:string		define what D produces
+WRITE
+  s:^(?!(////|#)):" "x($level+$offset):e;
+actions
+  introcomment
+    >
+	introcomment
+  DOC
+    -
+      >>introcomment
+  doc
+    >
+      $offset-=2;
+	>doc : $doc
+    -
+	-doc : $doc
+    <
+	<doc : $doc
+      $offset+=2;
+  docline
+    >
+	>$docline
+    -
+	-$docline	$NrOfLinesFollowing lines following
+    <
+	<$docline
+  main
+    >
+      print STDERR "just for testing\n";
+	>$main
+      usemark("mark_1");
+	class has a main method
+      unusemark();
+    -
+	-$main	$NrOfLinesFollowing lines following
+    <
+	<$main
+  line	comment	
+    l	localvar
+    >
+	>line	$line
+    -
+	-line	$line	$NrOfLinesFollowing lines following
+    <
+	<line	$line
+  class
+    >
+	>$class
+      setmark("mark_1");
+    -
+	-$class
+    <
+	<$class
+  For
+    >
+	>For
+    -
+	-For
+    <
+	<For
+  fancy
+    >
+	>fancy
+      >>For
+    -
+	-fancy
+    <
+	<fancy
+  var	comment
+    -
+      if ($comment) {
+	/** $comment */
+      }
+      if ($NrOfLinesFollowing) {
+	$var = {
+      } else {
+	$var;
+      }
+    <
+      if ($NrOfLinesFollowing) {
+	};
+      }
+  vars
+    >
+      if ($opt_languageType eq "c") {
+	/* vars */
+      } else {
+	$cc vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  try
+    >
+	>$try
+    -
+	-$try	$NrOfLinesFollowing lines following
+    <
+	<$try
+  block
+    >
+	>block
+    -
+	-block	$NrOfLinesFollowing lines following
+    <
+	<block
+  autotryblock
+    >
+	>$autotryblock
+      # unshift @ATTIC, (" "x($level-1))."$_";
+      # unshift @ATTIC, (" "x($level-3))."block";
+    -
+	-$autotryblock
+    <
+	<$autotryblock
+  private
+    >
+	// private Attributes
+  privateVar
+    >
+      >>var	private $privateVar
+  lust
+    >
+	>lust
+    -
+	-lust
+    <
+	<lust
+  lustline
+    >
+	lustline $lustline
+  list
+    >
+	>list
+    -
+	-list
+    <
+	<list
+  listline
+    >
+	listline $listline
+  table
+    >
+	>table
+    -
+	-table
+    <
+	<table
+  tableline
+    >
+	tableline $_
+  foo
+    >
+	>$foo
+    -
+	-$foo	$NrOfLinesFollowing lines following
+    <
+	<$foo
+  innerdoc
+    >
+	>innerdoc
+    -
+	-innerdoc	$NrOfLinesFollowing lines following
+    <
+	<innerdoc
+  jdtag	descr
+    >
+	>jdtag	$jdtag	$descr
+    -
+	-jdtag	$jdtag	$descr
+    <
+	<jdtag	$jdtag	$descr
+  jdocu
+    >
+	>jdocu	$jdocu
+    -
+	-jdocu	$jdocu
+    <
+	<jdocu	$jdocu
+structure
+	[enum]					>2	enum
+	    enumline	text			=	[\d]+\)
+	    emptyenumline			=	.{0}
+	[list]					>2	list
+	    listline
+	    emptylistline			=	.{0}
+	[table]	*				>2	(big)?table
+	    tabrow	*
+	    emptytabrow				=	.{0}
+	[lust]			=2	lust
+	      lustline
+	      emptylustline	>	.{0}
+	class			=	class .*
+	  try			>o	try
+	    [block]		=	block
+	      []
+	  [list]		>	list
+	    listline
+	  [table]		>	table
+	    tableline	*
+	  doc			=	doc.*
+	    docline		>
+	  main			=	main
+	  foo			=	foo
+	    [innerdoc]		=	innerdoc
+	      jdtag	descr	=	.*	.*
+	      jdocu		=*	.*
+	  F			> For	F
+	  fancy			>	fancy
+	  private						=	private
+	    privateVar		[comment]			=		.+			.+
+	  vars									=	vars
+	    var		[comment]						=	.+		.+
+	      initialisation	[comment]					=	.+		.+
+	  line			>	.*

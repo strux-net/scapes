@@ -1,0 +1,203 @@
+VERSION	3.0
+BEGIN
+  $this_var_is_set_at_the_very_beginning = 1+$.;
+  #independent of the setting of -stream
+  sub foo
+  {
+    "This is output from sub foo";
+  }
+READ
+  if ($_ eq "this") {
+	this can't be matched
+	---------------------
+	+++++++++++++++++++++
+  }
+  s/.*/\U$&/;
+  $level++ if /SECHS$/;
+WRITE
+  return(1) if $NoWrite;
+#	s/^/sprintf("%3i : ",++$write_count_inaction)/e;
+  s/</< /;
+  s/>/ >/;
+  if (/with STRULL/) {
+	juchu
+  }
+FLUSH
+  for (@_) {
+#	  s/^/sprintf("%3i : ",++$write_count_outaction)/e;
+    s/ A / a /;
+  }
+
+actions
+  EMPTY
+    >
+	empty line $. at level $level
+  DOC
+    >
+	start of $DOC $this_var_is_set_at_the_very_beginning
+	checking different indents in the .tru-file
+	 one
+	  two
+	   three
+	    four
+	     five
+	      six
+	       seven
+	        eight
+		eight (with a tab)
+	         nine
+		 nine (with a tab)
+    -
+      for $a (@a) {
+	$a
+      }
+    <
+	-------------------
+	check survival of var: $txt1
+	end of $DOC
+  UNMATCHED
+    >
+	>nomatch for $_
+    <
+	<nomatch for $_
+#this is a comment
+  DESC	structure
+    >
+	-------------------
+	Testing $structure
+#next comes an empty line
+
+  =	arg1	arg2	arg3
+    >
+	>$F[0] $arg1=@{[$arg1]} | $arg2=@{[$arg2]} | $arg3=@{[$arg3]}
+    <
+	<$F[0] $arg1=@{[$arg1]} | $arg2=@{[$arg2]} | $arg3=@{[$arg3]}
+  RCS
+    >
+	>Generated from test   revision $RCS
+	>using test.tru        revision $RCS_tru
+  CODE
+    -
+	# Beginning Code
+    <
+	# Ending Code
+  this_rule_is_not_used
+    >
+	As I said, this rule is not used
+	It is here to test statistics
+  emptycodeline
+    >
+	empty codeline $. at level $level
+  codeline
+    >
+	$rnr) code : $_
+  a0	arg1	arg2
+    >
+	>a0	$level	: $a0
+    <
+	<a0	$level	: $a0
+  a01
+    >
+	pushed $a01
+      push @a,$a01;
+    -
+	@{[ join "/",@a01 ]}
+      if ($a01 eq "ZWEI")
+	>a01	$level	: $a01 > $arg1=@{[$arg1]} | $arg2=@{[$arg2]}
+      else {
+        $res = "$a01 is not equal to ZWEI";
+	$res
+      }
+    <
+	<a01	$level	: $a01 > $arg1=@{[$arg1]} | $arg2=@{[$arg2]}
+  b0
+    >
+	>@{[&foo]}
+    <
+	<@{[&foo]}
+  c0	arg1c0	arg2c0
+    >
+	<$c0	$arg1c0 $arg2c0
+    <
+	>$c0	@{[$arg1c0]} $arg2c0
+  **
+    >
+	>\$(*)
+    <
+	<\$(*)
+  D0
+    >
+	>@{[join ",",@F]}
+    <
+	<@{[join ",",@F]}
+  comment
+    >
+  field with spaces	text
+    >
+	>field with spaces $text
+  t1
+    >
+	matched TAG ONE
+  t2
+    >
+	matched TAG TWO
+  tany	txt
+    >
+	matched TAG ANY with $txt
+  tn	nr
+    >
+	matched TAG number with $nr
+  tmany	txt1	txt2
+    >
+      if ($txt1 ne $txt2)
+	matched TAG tmany with $txt1 and $txt2
+  BACKSLASH
+    >
+	1	:\t.
+	2	:\\t.
+	3	:\\\t.
+	4	:\\\\t.
+	5	:\\\\\t.
+	6	:\\\\\\t.
+  "	arg
+    >
+	$arg
+  IGNORE	flag
+    >
+      $NoWrite++ if ($flag eq "ON");
+    <
+      $NoWrite-- if ($flag eq "ON");
+  anyline
+    >
+	$anyline
+structure
+	TAG	number				= tn				TAG			[0-9]+
+	TAG	any	many			= tmany				TAG			ANY|STRULL
+	TAG	[any]				= tany				TAG			ANY|STRULL
+	TAG	ONE				= t1				TAG			ONE
+	TAG	TWO				= t2				TAG			TWO
+	TAG	THREE				= t1				TAG			THREE
+	RCS					=				^\$ID:.+
+	BACKSLASH				=				BACKSLASH
+	CODE					>				CODE
+	  emptycodeline				>				.{0}
+	  codeline	*			>
+	DESC	structure			=				DESC
+	EINS					=o				EINS
+	  a01					=o				a01
+	    OCTUS				=	OCTUS
+	EINS	*				=o a0	EINS
+	  a01					>*				.*
+	IGNORE	flag				=				IGNORE	ON|OFF
+	 anyline				=*
+	FIELD WITH SPACES	txt		= field with spaces		FIELD WITH SPACES
+	b0					=				/test copy/i
+	c0	arg1	arg2	*		=				AA.+
+	D0	*				=				D0
+	comment					=				#.*
+	=	*				>o*				[=!]
+	  "	arg				=				"
+	nosuchrule				=				NO SUCH RULE
+	**	*				=				\*
+	EMPTY					>*				.{0}
+#this is a comment

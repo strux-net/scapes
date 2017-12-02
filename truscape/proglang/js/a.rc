@@ -1,0 +1,6 @@
+~/truscape/proglang/common.tru
+jscoll.tru
+tru		tru.jar ./js_tru jstest.jsTR &
+js_tru
+jstest.jsTR	./js_tru jstest.jsTR > jstest.js
+trudev		a tru

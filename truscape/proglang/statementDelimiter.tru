@@ -1,0 +1,34 @@
+VERSION	3.0
+OPTIONS
+	noAutoSemicolon		Do not autmatically append ; to one-line-statements
+actions
+  statement	comment
+    continued
+      The statement-delimiter is appended automatically if the statement
+	is a single-line statement and
+	does not end in one of these 5 characters =,;[(
+	and there are no deeper lines
+
+      This auto-appending of ; can (in rare cases) have undesired side-effects.
+      Example :	js_tru -noIntro
+	function foo	describes the code-block
+	  doc	example for undesired effect
+	  response.writeHead(200, {		the { opens a new CODE block
+	    'Content-Type': 'text/html'	this looks like a one-line-statement, so append a ;
+	  });
+
+	  doc	workarounds for undesired effect
+
+	  doc	method 1 : make the block an 'object' - block
+	  response.writeHead(200, { // standard head	append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html'		we are in no block at all, so this simply contiues the previous line
+	  });
+	  doc	method 2 : put a , at the end of the last element
+	  response.writeHead(200, { // standard head	append a comment, now { is no longer the very last character
+	    'Content-Type': 'text/html',		we are in no block at all, so this simply contiues the previous line
+	  });
+
+      To NOT automatically append ; to one-line-statements at all use option -noAutoSemicolon.
+    -
+      # We cannot use NrOfChilds instead of NrOfLinesFollowing here, because statement is used in optcommon
+      local $statementdel = ($opt_noAutoSemicolon or $NrOfLinesFollowing or $statement =~ /[[(,=;]$/ or $statement =~/^$cc/) ? '' : ';';

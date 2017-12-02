@@ -1,0 +1,12 @@
+building m_tru
+tru -s statistics.out m.tru >m_tru
+GOOD	m_tru
+GOOD	statistics.out
+chmod +x m_tru
+{ echo "m_tru\n  produces a makefile based on the content of mTR\n    usage"; ./m_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tproduces a makefile based on the content of mTR" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing m_tru
+perl ./m_tru test_mTR >test.makefile
+GOOD	test.makefile

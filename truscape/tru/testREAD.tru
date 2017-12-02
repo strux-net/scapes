@@ -1,0 +1,10 @@
+VERSION	3.0
+READ
+  /^#/ and return 1;
+actions
+  gruppe
+    >
+	$rindent'$_'
+structure
+	Musik		=	Musik
+		gruppe	>t*

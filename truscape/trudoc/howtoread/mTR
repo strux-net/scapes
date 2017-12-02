@@ -1,0 +1,24 @@
+coloring.html
+  build
+    html_tru style coloring.txtTR	coloring.html
+options.html
+  build
+    html_tru style options.txtTR	options.html
+overview.html
+  build
+    html_tru style overview.txtTR	overview.html
+gives.html
+  build
+    html_tru style gives.txtTR		gives.html
+Example.html
+  build
+    html_tru style Example.txtTR	Example.html
+signature.html
+  build
+    html_tru style signature.txtTR	signature.html
+structure.html
+  build
+    html_tru style structure.txtTR	structure.html
+posIndicator.html
+  build
+    html_tru style posIndicator.txtTR	posIndicator.html

@@ -1,0 +1,67 @@
+VERSION	3.0
+BEGIN
+  sub MakeValidURI($$) {
+    local ($internal,$_) = @_;
+    if ($internal or s/^#//) {
+      # a local link
+      s/([^a-zA-Z0-9])/sprintf "%2x",ord($1)/ge;
+    }
+    return $_;
+  }
+READ
+  unless ($raw) {
+    my $s="";
+    #            a   [    c     ](      e     )       g
+    #          aaaaa [  ccccc   ](    eeeee   )  gggggggggggg
+    while (/(?:(.*?)\[ *(.+?) *\]\(\s*(.+?) *\))?(.*?(?=\[|$))/g) {
+      #****************************************
+      # markdown like links
+      # any text [ name ]( link ) more text
+      # .........__....____....__..........
+      #     a       c        e       g
+      #****************************************
+      my ($a,$c,$e,$g) = ($1,$2,$3,$4);
+      for ($a,$c,$g) {
+        if (defined) {
+          #****************************************
+          # here happens the conversion to the target language (tex)
+          #****************************************
+          s/\$/\\\$/g;			# $ -> \$
+          s/\\(?!\$)/\$\\backslash\$/g;	# \ -> $\backslash$
+          s/</\$<\$/g;			# < -> $<$
+          s/>/\$>\$/g;			# > -> $>$
+          s/\[/\$[\$/g;			# [ -> $[$
+          s/\]/\$]\$/g;			# ] -> $]$
+          s/&/\\&/g;			# & -> \&
+          s/%/\\%/g;			# % -> \%
+          s/#/\\#/g;			# # -> \#
+          s/_/\\_/g;			# _ -> \_
+          s/{/\\{/g;			# { -> \{
+          s/}/\\}/g;			# } -> \}
+          s/\^/\\^{}/g;			# ^ -> \^{}
+          s/~/\\~{}/g;			# ~ -> \~{}
+          s/\|/\$|\$/g;			# | -> $|$
+          s/"/''/g;			# " -> ''
+        }
+      }
+      if ($c) {
+        #****************************************
+        # here happens the treatment of links
+        #****************************************
+        # $c : (name) converted
+        # $e : (link) unconverted
+        #****************************************
+        if ($e =~ s/^#//) {
+          $e=MakeValidURI(1,$e);	# 1 : internal link
+          $s.=qq($a$c [\\ref{$e}] $g);
+        } else {
+          $s.=qq($a$c \\cite{$e} $g);
+          $CITES{$e}=$c;
+        }
+      } else {
+        $s.=$g;
+      }
+    }
+    $_=$s;
+  }
+actions

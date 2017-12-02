@@ -1,0 +1,10 @@
+ftrace.plTR	perl_tru ftrace.plTR > ftrace && chmod +x ftrace && a ftrace
+ftrace.plTR	make logged_build
+test.sh
+ftrace	./ftrace -s bash ./test.sh | tabify.pl
+
+ftrace	./ftrace -Pp -fno -f /tmp/st
+/tmp/st
+ftrace	./ftrace -Pp -f /tmp/st
+
+install	cp ftrace ~/bin

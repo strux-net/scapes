@@ -1,0 +1,6 @@
+title		An elaborated prompt for bash and/or zsh
+prompt.sh	prompt.shTR
+  doc
+    { cat docs/README.txtTR ; echo "style\\n  Title\\t$Title" ; } | html_tru	docs/README.html
+  install
+    m_copy prompt.sh ~/strux/

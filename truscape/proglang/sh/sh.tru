@@ -1,0 +1,584 @@
+VERSION	3.0
+USAGE	sh_tru [Options] [<file> ....]
+
+	produces a shell-script
+
+	find details in
+	    ~/strux/doc/sh_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/sh_tru.html
+
+	per convention the input files have the extension .shTR
+BEGIN
+  $cc = "#";	# Comment Character specific to this language
+  $plang = "sh";
+  $true = ":";
+OPTIONS
+	noSharpBang		Do not generate #!/bin/bash
+actions
+  VERSION	version
+    continued
+      the version is put as a comment into the output-file.
+
+      If the script has a main function
+        option -version is introduced into your script.
+
+        If the script is invoked like
+          script -version
+        then all version information is printed to stdout and the script exits with code 0.
+
+      Example :	sh_tru -noIntro
+	VERSION	0.1
+	main
+	  "hello world\n"
+
+      If the script has no main function
+        the version is ignored.
+
+        sh_tru will issue a message like
+	  sh_tru : some text was never output (due to unset marks) when processing filename
+	    For mark $mark_version
+		      echo "  filename	0.9\n";
+	you can easily ignore this message.
+    >
+	# based on $ARGV , version : $version
+      atmark("mark_version")
+	  echo "  $ARGV\t$version"
+  DOC
+    A shell-script
+      The created code is a sh-script (most suitable for bash)
+      Example :	sh_tru
+	main
+	  "running"
+      The automatic generation of the sharpBang-line can be supressed with -noSharpBang
+
+      Limitations :
+        Do not use names beginning with shtru for your variables.
+    -
+      unless ($opt_noSharpBang) {
+	#!/bin/bash
+      }
+      ->introcomment
+      setmark("mark_options");
+      if ($VERSION) {
+       atmark("mark_usage") {
+	  -version\tshow version information
+       }
+	if [ "\$1" == "-version" ] ; then
+	  echo "Version :"
+       setmark("mark_version");
+	  exit 0
+	fi
+      }
+    <
+      if ($main)
+	main "\$@"
+  main
+    the main function
+      Parameters :
+        main	indicator	.*
+      The main function differs from other functions in that a call to that function is created at the end of the script.
+      Example :	sh_tru -noIntro -noSharpBang
+	main
+	  "Hello World"
+	foo
+	  "bar"
+    >
+      >>function	main
+      setmark("mark_usagecall");
+  function	args
+    function
+      Parameters :
+        function	mandatory	.+	the function name
+        args	optional	.+	the parameters of the function
+      Introduces a function and it's parameters.
+      For each parameter a local var is created which is assigned the appropriate positional parameter.
+      Example :	sh_tru -noIntro -noSharpBang
+	add	a,b
+	  (( c = a+b ))
+    >
+      setmark("mark_autodoc");
+      local $i  = 0;
+	$function()
+	{
+      for (split / *, */,$args) {
+       $i++;
+	  local $_=\$$i
+      }
+    <
+	}
+  For	cond	stmt
+    continued
+      If the condition has the form /;.*;/ then it is surrounded by (( and )).
+      Else the condition is used unchanged.
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  F	t in *
+	    "$t"
+	  F	i=1;i<100;i+=4	"$i"
+    >
+      if ($cond =~/.*;.*;.*/) {
+	for (( $cond )) ; do
+      } else {
+	for $cond ; do
+      }
+      stmt($stmt);
+    <
+	done
+  W	cond	stmt
+    continued
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  W	(( i++<=4 ))
+	    echo $i
+	  doc	same as above
+	  W	(( i++<=4 ))	echo $i
+    >
+	while $cond ; do
+      stmt($stmt);
+    <
+	done
+  U	cond	stmt
+    continued
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  U	(( i++<4 ))
+	    echo $i
+	  doc	same as above
+	  U	(( i++<4 ))	echo $i
+    >
+	until $cond;do
+      stmt($stmt);
+    <
+	done
+  negate	cond
+    internal
+    >
+      $cond = "! $cond";
+  simple_if	cond
+    internal
+    >
+	if $cond ; then
+    <
+	fi
+  simple_else
+    internal
+    >
+	else
+  simple_elseif	cond
+    internal
+    >
+	elif $cond ; then
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          echo statement;
+
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  count =1			the linecount
+	  ?	(( count != 1 ))	"internal error" >&2
+	  "$count"			tell it to the user
+
+      if the statement is inside a |secured| block then additional code is generated.
+    -
+      if ($insecured) {
+	while :;do
+      }
+      if ($statement =~ /^"/) {
+	echo $statement$comment
+      } else {
+	$statement$comment
+      }
+      if ($insecured) {
+        local $statement=$statement;
+        $statement =~ s/'/'"'"'/g;
+	  shtru_errcode=\$?
+	  if [ \$shtru_errcode -ne 0 ]; then
+	    while :;do
+	      read -n 1 -p "A(bort) R(etry) I(gnore) M(ore Info) C(ommand) " <&1
+	      echo >/dev/tty
+	      case \$REPLY in
+	        [aA])	exit;;
+	        [rR])	break;;
+	        [iI])	break 2;;
+	        [mM])
+	          echo 'statement   : $statement'        >&2
+	          echo "current dir : \$PWD"             >&2
+	          echo "Error code  : \$shtru_errcode"    >&2
+	          echo "script-name : \$0"               >&2
+	          echo "pid         : \$\$"              >&2
+	          echo "function    : \$FUNCNAME"        >&2
+	          echo "linenr      : \$[ \$LINENO-17 ]" >&2
+	          ;;
+	        [cC])
+	          read -p "statement : " <&1
+	          eval \$REPLY
+	          ;;
+	      esac
+	    done
+	  else
+	    break
+	  fi
+	done
+      }
+  fancyFor	expr	statement
+    continued
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  F	i=10...20	"Nr : $i"
+  var	comment
+    continued
+    -
+      if ($NrOfLinesFollowing)
+	$var=(@{[do{"\t$cc " if "$comment"}]}$comment
+      else
+	$var;@{[do{"\t$cc " if "$comment"}]}$comment
+    <
+      if ($NrOfLinesFollowing)
+	)
+  initialisation	comment
+    continued
+      The var is an Array, the initialisation is an Array-item.
+    >
+	$initialisation@{[do{"\t$cc " if "$comment"}]}$comment
+  Option	comment
+    continued
+      sh_tru makes use of bashs getopts builtin.
+      This has the limitation that it only supports 1-letter options.
+      Additionally to getopts features the following is also guaranteed:
+          The form -f=file is also supported.
+          The usual -- can still be used to stop option-processing.
+          If a not defined option is given then usage is called.
+
+      The options and first -- after the options are shifted off the argument array.
+      $1 is the first non-option-argument.
+
+      -x results in the var $opt_x
+        $opt_x is defined even if the option is not passed to the program.
+        If -x takes no argument then the value of $opt_x is
+          0		if the option is not given
+          1		if the option is given once
+          n		the number 
+        If -x takes an argument then the value of $opt_x is
+          default	if option is not given. default can be empty.
+          argument	the one given to the option.
+
+      Example :	sh_tru -noIntro -noSharpBang
+	usage	magic [options] filename ....
+		reads all files and applies magic on them
+	main
+	  Option
+	    V			emit the Version and exit
+	      "Version 1.0.0.0.42"
+	      exit
+	    v			run verbose
+		repeat -v for a higher verbose level
+	    w			produce warning
+		repeat -w for a higher warning level
+	    f:file[/tmp/x]	ofile	"using $opt_f for output"
+	    F:file[]		ifile
+
+	  doc	some vars are guaranteed to be defined
+	  "-v : $opt_v"	0,1,2...
+	  "-w : $opt_w"	0,1,2...
+	  "-f : $opt_f"	/tmp/x or a given filename
+	  "-F : $opt_F"	empty  or a given filename
+	  "-V : $opt_V"	0,1,2... (though due to the exit above we never reach here)
+
+	  "remaining args : $@"
+
+	  doc	Examples for testing an option
+	  ?	((opt_v))		"-v given $opt_v"
+	  ?	(( opt_v == 2 ))	"-v given $opt_v"
+	  ?	(( $opt_v ))		"-v given $opt_v"
+	  ?	[ $opt_v != 0 ]		"-v given $opt_v"
+	  ?	[ $opt_v -gt 0 ]	"-v given $opt_v"
+	  ?	[ $opt_v = 1 ]		"-v given $opt_v"
+	  ?	[ $opt_v = 2 ]		"-v given $opt_v"
+	  ?	[ $opt_v == 2 ]		"-v given $opt_v"
+
+	  ?	[ -z opt_f ]		"-f not given"
+
+	  ??	(( opt_	))
+	    v	"running verbose"
+	    w	"warnings enabled"
+    >
+      atmark("mark_usage") {
+        local $level = 0;
+	OPTIONS:
+      }
+    -
+	while getopts '@GetOpt' opt ; do @{[do{"\t# " if "$comment"}]}$comment
+	  # Checking the options
+    <
+	  [ "\$opt" = "?" ] && usage
+	done # Checking the options
+
+	shift \$((OPTIND-1))
+	[ "\$1" = "--" ] && shift
+  opt:type[default]	shortdesc	statement
+    continued
+      For the default the following holds:
+        If it looks like a number (it matches /^\d+(\.\d+)?$/) is is a number.
+        Else it is a string (surrounding quotes are optional).
+    >
+      my $stringopt =  ($default eq "" or $default =~ s/^"(.+)"$/$1/ or $default =~ s/^'(.+)'$/$1/ or $default !~ /^\d+(\.\d+)?$/);
+      $NrOfLinesFollowing = 1; # for sh we always have something in the body
+      >>	optcommon	$opt:	[ "\$opt" = '$opt' ]	$type
+	  opt_$opt="\${OPTARG#*=}"
+      $level = 0;
+      atmark("mark_usage") {
+	  -$opt:<$type>\t$shortdesc
+        if ($default) {
+	\tdefault for <$type> is $default
+        }
+      }
+      $default = "'$default'" if ($stringopt);
+      atmark("mark_options")
+	opt_$opt=$default
+      $level = 5;
+      stmt($statement);
+  opt	shortdesc	statement
+    continued
+    >
+      >>	optcommon	$opt	[ "\$opt" = '$opt' ]	_	(( opt_$opt++ ))
+      stmt($statement);
+      $level = 0;
+      atmark("mark_options")
+	opt_$opt=0
+      atmark("mark_usage")
+	  -$opt\t$shortdesc
+  Optiondescription
+    continued
+    >
+      atmark("mark_usage")
+	$Optiondescription
+  usageline
+    continued
+      The usageline must not be EOU
+    >
+      $level=0;
+	$rindent$_
+  usage	shortdesc
+    continued
+    >
+      atmark("mark_usagecall") {
+	  if [ \$# -eq 1 -a "\$1" = '-?' ] ; then
+	    usage
+	  fi
+      }
+       |
+	usage()
+	{
+	  cat <<'EOU' >&2
+	usage : $shortdesc
+    <
+      setmark("mark_usage");
+	EOU
+	  exit 1
+	}
+  secured
+    starting a secured section
+      Parameters :
+        secured	indicator	.*
+      Statements in a secured section are checked for their error-code.
+      If the statement yields an error-code then the script is interrupted and the user is prompted with the error and is offered some choices.
+      This is useful for quick and dirty scripts where you do not want to worry about error-handling.
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  secured
+	    md foo
+	    cp a foo
+    >
+      $insecured++;
+    <
+      $insecured--;
+  continued	comment
+    l	statement	clevel
+    Continued (mult-line) statements
+      Parameters :
+        continued	indicator	.*
+        comment	optional	.+	a comment for this statement
+      Native shell scripts allow multi-line commands only if the lines are continued with \
+      Commenting and annotating the single parts is not easily doable.
+      This is where you want to use this statement
+
+      Example :	sh_tru -noIntro -noSharpBang
+	foo
+	  continued				startup with my super image
+	     qemu
+	     -append "
+	       root=/dev/sda 			beware the space after sda
+	       noresume				don't try to resume (no swap-partition present anyway)
+	       "
+	     -cdrom /dev/cdrom			the physical drive
+	     -soundhw es1370			Ensonic
+	     -m 1024				1GB
+	     #-no-frame
+	     -usb
+	     -drive file=			specifying the file
+	       /pathto/				where does it reside
+	       file.qcow			my super image file
+    >
+      $clevel = $level;
+	# $comment
+    <
+	$statement
+  continueLine	comment
+    part of a continued statement
+      Parameters :
+        continueLine	mandatory	.+	one part of the statement
+        comment		optional	.+	a comment for this part
+      The continueLine is appended to the final statement without a leading space.
+      Example :
+        see	continued
+    >
+      $statement.=$continueLine;
+      >>continueComment	$continueLine	$comment
+  continueLineWithSpace	comment
+    part of a continued statement
+      Parameters :
+        continueLineWithSpace	mandatory	.+	one part of the statement
+        comment			optional	.+	a comment for this part
+      The continueLineWithSpace is appended to the final statement with a leading space.
+      Example :
+        see	continued
+    >
+      $statement.=" ".$continueLineWithSpace;
+      >>continueComment	$continueLineWithSpace	$comment
+  commentedLine
+    a comment inside a continued section
+      Parameters :
+        commentedLine	indicator	.*
+      Such lines are silently ignored.
+      Example :
+        see	continued
+  continueComment	comment
+    internal
+    >
+      if ($comment) {
+        $level = $clevel;
+	# $continueComment : $comment
+      }
+  jdocu
+    continued
+    >
+	#@{[" "x$relindent]}$_
+  jdoc
+    continued
+    >
+	### $jdocu
+  enum	name
+    continued
+    >
+	# enum for $name
+      $enum=1;
+  enumline	comment
+    continued
+    >
+      $level-=2;
+	${name}_$enumline=$enum
+      $enum++
+  vars
+    continued
+      Example :	sh_tru -noIntro -noSharpBang
+	main
+	  vars
+	    count = 1		count the items
+	    Sizes		in different units
+	      1			inch
+	      2.54		cm
+	    j			uninitialized
+	    i = 0
+	  F	j=0...${#Sizes[@]}
+	    echo "item $j is ${Sizes[j]}"
+    >
+      if ($vars eq "vars") {
+        $vars = "";
+      } else {
+        $vars .= " ";
+      }
+      if ($opt_languageType eq "c") {
+	/* ${vars}vars */
+      } else {
+	$cc ${vars}vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  S	expr	comment
+    l	switchcount	casecount
+    continued
+      sh natively has no switch/break of this form.
+      sh_tru mimics it with if-statements.
+
+      Note : 
+        this statement is not related to the shell keyword case.
+
+      The expression is evaluated only once.
+      Expression and case must be comparable with == .
+      Example :	sh_tru -noIntro -noSharpBang
+	main
+	  i=2
+	  S	$i
+	    1		"one"
+	    2		"two"
+	    3		"three"
+	    default	"something else"
+	      more_code_for_default()
+
+    >
+      $switchcount = ++$gswitchcount;
+	shtruS$switchcount=$expr
+	while : ; do
+    <
+	  break
+	done
+      $no_break = 0;
+  nobreak
+    continued
+    >
+      $no_break = $noBreak=1;
+  default	statement	comment
+    l	noBreak
+    continued
+    >
+      $offset-=2;
+      stmt($statement);
+    <
+      $offset+=2;
+  case	statement	comment
+    l	noBreak
+    continued
+    >
+      if ($S ne "S*" and !$no_break or $rnr == 1)
+	if [ "\$shtruS$switchcount" == $case ]; then
+      else
+	if [ "\$shtruS$switchcount" == $case -o "\$shtruS${switchcount}_c" == "$casecount" ]; then
+      $no_break=0;
+      stmt($statement);
+      $casecount++;
+    <
+      if ($S ne "S*" and !$noBreak)  {
+	  break
+      } else {
+	  shtruS${switchcount}_c=$casecount
+      }
+	fi
+group
+  sh
+	comment	*								=2	#.*
+	native code								=2	sh code<?
+	  nativeCodeLine	*						>>t*
+	vars									=2		vars
+	  enum		name							>0		enum
+	    enumline		[comment]					>0
+	  var			[comment]					>0
+	    initialisation	[comment]					>0
+	continued			[comment]				>2	continued
+	   continueLineWithSpace	[comment]				>
+	  commentedLine		[comment]					>>*	#.*
+	  continueLine		[comment]					>
+	secured									>2	secured
+	F				expr	[stmt]				>2 For	F		(?!.*\.\.\.).+

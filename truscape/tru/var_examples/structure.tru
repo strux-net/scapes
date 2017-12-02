@@ -1,0 +1,11 @@
+VERSION	3.0
+#
+# this file holds the structure for the var-examples 
+# all examples for tru-vars are based on this structure
+structure
+	chapter	name			=	chapter
+	  section	name		>>	.*section
+	    table			=	table
+	      tabaligned line		=t*
+	    any line	*
+	  empty				=	.{0}

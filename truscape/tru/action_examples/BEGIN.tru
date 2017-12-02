@@ -1,0 +1,22 @@
+VERSION	3.0
+##	BEGIN
+##	  At the beginning, but after Options are parsed according to action OPTIONS.
+##	    $_ and @F are set according to @ARGV.
+##
+##	  Here you can:
+##	      preset some vars.
+##	      define perl subs.
+##	      set $stream to 1 here instead of giving -stream to the generated truer.
+##	      set the encoding
+#	        use encoding 'utf8';
+BEGIN
+  sub foo($)
+  {
+    local ($txt) = @_;
+    $txt;
+  }
+actions
+  DOC
+    >
+      $a = foo('one');
+	$a

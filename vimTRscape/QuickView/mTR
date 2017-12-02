@@ -1,0 +1,6 @@
+title		quick-view local settings
+QuickView.vim	QuickView.vimTR
+  install
+    m_copy QuickView.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html commands

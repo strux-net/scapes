@@ -1,0 +1,233 @@
+start of test1 1
+checking different indents in the .tru-file
+ one
+  two
+   three
+    four
+     five
+      six
+       seven
+        eight
+	eight (with a tab)
+         nine
+	 nine (with a tab)
+ZWEI
+DREI
+nonus
+decus
+VIER
+FüNF
+FüNF
+CODE
+ONE
+TWO
+THREE
+FOUR
+FIVE
+SIX
+END DES CODES
+NOW COMES AN EMPTY LINE FOR THE FIRST TIME
+
+NOW COMES AN EMPTY LINE FOR THE SECOND TIME
+
+SECHS
+NOW COMES AN EMPTY LINE FOR THE THIRD TIME
+
+SIEBEN
+ZWEI
+-------------------
+Testing BACKSLASH
+1	:	.
+2	:\t.
+3	:\	.
+4	:\\t.
+5	:\\	.
+6	:\\\t.
+matched TAG ONE
+matched TAG TWO
+matched TAG number with 123
+matched TAG ANY with 
+juchu
+matched TAG ANY with STRULL
+matched TAG tmany with ANY and TWO
+I have something to say too
+ >= VERY=VERY | SPECIAL=SPECIAL | NAME=NAME
+ >! SEHR=SEHR | SPEZIELLER=SPEZIELLER | NAME=NAME
+< ! SEHR=SEHR | SPEZIELLER=SPEZIELLER | NAME=NAME
+VERY VERY SPECIAL : "Q'"$./[]{}@F?
+< = VERY=VERY | SPECIAL=SPECIAL | NAME=NAME
+-------------------
+Testing LEVEL
+-------------------
+Testing LEVEL
+ >a0	1	: EINS
+pushed ZWEI
+ZWEI
+ >a01	3	: ZWEI > TWO=TWO | THREE=THREE
+pushed DREI
+ZWEI/DREI
+DREI is not equal to ZWEI
+< a01	5	: DREI  > TWO=TWO | THREE=THREE
+yes, got it
+pushed nonus
+ZWEI/nonus
+nonus is not equal to ZWEI
+< a01	5	: nonus  > TWO=TWO | THREE=THREE
+pushed decus
+ZWEI/decus
+decus is not equal to ZWEI
+< a01	5	: decus  > TWO=TWO | THREE=THREE
+< a01	3	: ZWEI  > TWO=TWO | THREE=THREE
+pushed VIER
+VIER
+VIER is not equal to ZWEI
+pushed FüNF
+VIER/FüNF
+FüNF is not equal to ZWEI
+< a01	5	: FüNF  > TWO=TWO | THREE=THREE
+pushed FüNF
+VIER/FüNF
+FüNF is not equal to ZWEI
+< a01	5	: FüNF  > TWO=TWO | THREE=THREE
+pushed CODE
+VIER/CODE
+CODE is not equal to ZWEI
+pushed ONE
+VIER/CODE/ONE
+ONE is not equal to ZWEI
+pushed TWO
+VIER/CODE/ONE/TWO
+TWO is not equal to ZWEI
+pushed THREE
+VIER/CODE/ONE/TWO/THREE
+THREE is not equal to ZWEI
+< a01	11	: THREE  > TWO=TWO | THREE=THREE
+< a01	9	: TWO  > TWO=TWO | THREE=THREE
+pushed FOUR
+VIER/CODE/ONE/FOUR
+FOUR is not equal to ZWEI
+pushed FIVE
+VIER/CODE/ONE/FOUR/FIVE
+FIVE is not equal to ZWEI
+< a01	11	: FIVE  > TWO=TWO | THREE=THREE
+< a01	9	: FOUR  > TWO=TWO | THREE=THREE
+pushed SIX
+VIER/CODE/ONE/SIX
+SIX is not equal to ZWEI
+< a01	9	: SIX  > TWO=TWO | THREE=THREE
+< a01	7	: ONE  > TWO=TWO | THREE=THREE
+< a01	5	: CODE  > TWO=TWO | THREE=THREE
+pushed END DES CODES
+VIER/END DES CODES
+END DES CODES is not equal to ZWEI
+< a01	5	: END DES CODES  > TWO=TWO | THREE=THREE
+pushed NOW COMES AN EMPTY LINE FOR THE FIRST TIME
+VIER/NOW COMES AN EMPTY LINE FOR THE FIRST TIME
+NOW COMES AN EMPTY LINE FOR THE FIRST TIME is not equal to ZWEI
+< a01	5	: NOW COMES AN EMPTY LINE FOR THE FIRST TIME  > TWO=TWO | THREE=THREE
+pushed 
+VIER/
+ is not equal to ZWEI
+< a01	5	:   > TWO=TWO | THREE=THREE
+pushed NOW COMES AN EMPTY LINE FOR THE SECOND TIME
+VIER/NOW COMES AN EMPTY LINE FOR THE SECOND TIME
+NOW COMES AN EMPTY LINE FOR THE SECOND TIME is not equal to ZWEI
+pushed 
+VIER/NOW COMES AN EMPTY LINE FOR THE SECOND TIME/
+ is not equal to ZWEI
+< a01	6	:   > TWO=TWO | THREE=THREE
+pushed SECHS
+VIER/NOW COMES AN EMPTY LINE FOR THE SECOND TIME/SECHS
+SECHS is not equal to ZWEI
+pushed NOW COMES AN EMPTY LINE FOR THE THIRD TIME
+VIER/NOW COMES AN EMPTY LINE FOR THE SECOND TIME/SECHS/NOW COMES AN EMPTY LINE FOR THE THIRD TIME
+NOW COMES AN EMPTY LINE FOR THE THIRD TIME is not equal to ZWEI
+< a01	7	: NOW COMES AN EMPTY LINE FOR THE THIRD TIME  > TWO=TWO | THREE=THREE
+pushed 
+VIER/NOW COMES AN EMPTY LINE FOR THE SECOND TIME/SECHS/
+ is not equal to ZWEI
+< a01	7	:   > TWO=TWO | THREE=THREE
+< a01	6	: SECHS  > TWO=TWO | THREE=THREE
+< a01	5	: NOW COMES AN EMPTY LINE FOR THE SECOND TIME  > TWO=TWO | THREE=THREE
+< a01	3	: VIER  > TWO=TWO | THREE=THREE
+pushed SIEBEN
+SIEBEN
+SIEBEN is not equal to ZWEI
+< a01	3	: SIEBEN  > TWO=TWO | THREE=THREE
+< a0	1	: EINS
+-------------------
+Testing CODE
+-------------------
+Testing CODE
+# Beginning Code
+1) code : EXPECT THIS LINE NEERLY TWICE,    I'M TESTING	TABS IN	$F
+2) code : EXPECT THIS LINE NEERLY TWICE,    I'M TESTING TABS IN $F
+3) code : AN EMPTY LINE FOLLOWS FOR THE FOURTH TIME
+4) code : LET' SEE WHICH CHARACTERS SURVIVE : ! " § $ % & / ( ) = ? ` ^ \ * # + - . , ; : <  |  > 
+empty codeline 44 at level 3
+6) code : FOREACH HUMAN-BEEING
+1) code : WISH GOOD LUCK
+2) code : IF ALREADY LUCKY
+1) code : WISH MORE LUCK
+3) code : -
+1) code : DON'T DESPARADE
+# Ending Code
+-------------------
+Testing NOMATCH
+this can't be matched
+---------------------
++++++++++++++++++++++
+ >nomatch for THIS
+< nomatch for THIS
+-------------------
+Testing COPY
+ >This is output from sub foo
+< This is output from sub foo
+-------------------
+Testing IGNORE OFF
+THIS LINE SURVIVES
+-------------------
+Testing IGNORE ON
+-------------------
+Testing ARGS PASSING
+< AA123	EINS ZWEI
+ >AA123	EINS ZWEI
+< AA4	 
+ >AA4	 
+-------------------
+Testing (*)
+ >$(*)
+< $(*)
+-------------------
+Testing SETTING OF @F
+ >D0,EINS,ZWEI,THREE,THREE AND a HALF
+< D0,EINS,ZWEI,THREE,THREE AND a HALF
+-------------------
+Testing EMPTY
+empty line 69 at level 1
+pushed ZWEI
+ZWEI
+ >a01	7	: ZWEI > TWO=TWO | THREE=THREE
+< a01	7	: ZWEI  > TWO=TWO | THREE=THREE
+ >field with spaces WORKS FINE
+-------------------
+Testing MISSING RULE
+-------------------
+Testing TYPEGLOB
+-------------------
+Testing NEXT FILE
+ >nomatch for ZEHN
+< nomatch for ZEHN
+ >E0 E0 E0
+ >setting E0 to "E1"
+ >E1 E0 E1
+ >setting E0 to "E2"
+ >E2 E0 E2
+< E2 E0 E2
+< setting E0 to "E3"
+< E3 E0 E3
+ >setting E0 to "E4"
+ >E4 E0 E4
+-------------------
+check survival of var: ANY
+end of test1

@@ -1,0 +1,18 @@
+meta
+  charset	UTF-8
+  author	Michael Naumann
+style
+  Title	Formulare für Spielwiese
+
+body
+  A simple test, if javascript is working as expected
+  javascript
+    function P	s
+      color="blue"
+    P<!shifted plan	s/number/1/;	s/number/2/;
+      testing here, if Plans also work here #number
+  looks good, eh?
+
+  now a one-liner
+  javascript	a=1
+  and ?

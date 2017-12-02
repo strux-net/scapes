@@ -1,0 +1,24 @@
+main() {
+  if (t1) {
+    if (t11) {
+      t11
+    } else if (t12) {
+      t12
+    } else {
+      t13
+    }
+    s1
+  } else if (t2) {
+    if (t22) {
+      s22
+    } else if (t22) {
+      t22
+    } else {
+      t23
+    }
+    t2
+  } else {
+    t3
+  }
+  t0
+}

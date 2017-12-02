@@ -1,0 +1,179 @@
+building tabify
+perl_tru tabify.plTR >tabify
+GOOD	tabify
+chmod +x tabify
+{ echo "tabify\n  $Title\n    usage"; ./tabify -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing tabify
+./tabify in
+ 1			eins		one
+ 22			zwei		two
+ 333			drei		three
+ 4444			vier
+ 55555			fuenf
+ 666666			sechs
+ 7777777		sieben		seven
+ 88888888		acht		eight
+ 999999999		neun
+ 0000000000		zehn		10
+ aaaaaaaaaaa		elf		11
+ bbbbbbbbbbbb		zwoelf
+ ccccccccccccc		dreizehn
+ dddddddddddddd		vierzehn
+ eeeeeeeeeeeeeee	fuenfzehn
+ ffffffffffffffff	sechszehn
+ 1
+  2
+   3
+    4
+     5
+      6
+       7
+        8
+         9
+          10
+           11
+            12
+             13
+              14
+1			2
+                3
+
+./tabify -l in
+ 1			eins		one
+ 22			zwei		two
+ 333			drei		three
+ 4444			vier
+ 55555			fuenf
+ 666666			sechs
+ 7777777		sieben		seven
+ 88888888		acht		eight
+ 999999999		neun
+ 0000000000		zehn		10
+ aaaaaaaaaaa		elf		11
+ bbbbbbbbbbbb		zwoelf
+ ccccccccccccc		dreizehn
+ dddddddddddddd		vierzehn
+ eeeeeeeeeeeeeee	fuenfzehn
+ ffffffffffffffff	sechszehn
+ 1
+  2
+   3
+    4
+     5
+      6
+       7
+        8
+         9
+			  10
+			   11
+            12
+             13
+              14
+1			2
+			3
+
+./tabify -c 2 in
+ 1			eins	one
+ 22			zwei	two
+ 333			drei	three
+ 4444			vier
+ 55555			fuenf
+ 666666			sechs
+ 7777777		sieben	seven
+ 88888888		acht	eight
+ 999999999		neun
+ 0000000000		zehn	10
+ aaaaaaaaaaa		elf	11
+ bbbbbbbbbbbb		zwoelf
+ ccccccccccccc		dreizehn
+ dddddddddddddd		vierzehn
+ eeeeeeeeeeeeeee	fuenfzehn
+ ffffffffffffffff	sechszehn
+ 1
+  2
+   3
+    4
+     5
+      6
+       7
+        8
+         9
+          10
+           11
+            12
+             13
+              14
+1			2
+                3
+
+./tabify -delim "\t" in
+ 1			eins		one
+ 22			zwei		two
+ 333			drei		three
+ 4444			vier
+ 55555			fuenf
+ 666666			sechs
+ 7777777		sieben		seven
+ 88888888		acht		eight
+ 999999999		neun
+ 0000000000		zehn		10
+ aaaaaaaaaaa		elf		11
+ bbbbbbbbbbbb		zwoelf
+ ccccccccccccc		dreizehn
+ dddddddddddddd		vierzehn
+ eeeeeeeeeeeeeee	fuenfzehn
+ ffffffffffffffff	sechszehn
+ 1
+  2
+   3
+    4
+     5
+      6
+       7
+        8
+         9
+          10
+           11
+            12
+             13
+              14
+1					2
+                3
+
+./tabify -m 8 in
+ 1		eins		one
+ 22		zwei		two
+ 333		drei		three
+ 4444		vier
+ 55555		fuenf
+ 666666		sechs
+ 7777777	sieben		seven
+ 88888888	acht		eight
+ 999999999	neun
+ 0000000000	zehn		10
+ aaaaaaaaaaa	elf		11
+ bbbbbbbbbbbb	zwoelf
+ ccccccccccccc	dreizehn
+ dddddddddddddd	vierzehn
+ eeeeeeeeeeeeeee	fuenfzehn
+ ffffffffffffffff	sechszehn
+ 1
+  2
+   3
+    4
+     5
+      6
+       7
+        8
+         9
+          10
+           11
+            12
+             13
+              14
+1		2
+                3
+

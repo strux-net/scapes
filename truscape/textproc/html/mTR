@@ -1,0 +1,22 @@
+title		convert .txtTR to html
+html_tru
+  build	../../proglang/common.tru ../../proglang/statementDelimiter.tru ../../proglang/plainvar.tru ../../proglang/js/js.tru ../../proglang/c_like_vars.tru ../../lib/style.tru ../common.tru html.tru ../../lib/htmlREAD.tru ../../lib/basicUSAGE.tru
+  test
+    : expect 1 warning
+    ./html_tru -allowP testwithjs.txtTR	testwithjs.html
+    ./html_tru style ../test.txtTR	test1.html
+    ./html_tru       ../test.txtTR	test1nostyle.html
+    ./html_tru -show_vars
+    -./html_tru -invalid
+  doc
+    trudefault	txt html
+    trudoc_tru -noGives ./html_tru	docs/html_tru.html
+  install
+    2struxbin
+  helpers
+    sensible-browser test1.html
+    chmod +x html_tru && xterm -e bash -c '~/bin/tru.jar ./html_tru ../test.txt\TR;read'&
+    chmod +x html_tru && xterm -e bash -c '~/bin/tru.jar ./html_tru ../style1;read'&
+    perl -d:ptkdb html_tru ../style1&
+    perl -d:ptkdb html_tru ../test.txtTR&
+    ./html_tru -structure

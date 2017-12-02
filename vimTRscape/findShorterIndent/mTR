@@ -1,0 +1,6 @@
+title	find the next/prev line with a shorter indent
+findShorterIndent.vim	findShorterIndent.vimTR
+  install
+    m_copy findShorterIndent.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html

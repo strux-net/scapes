@@ -1,0 +1,13 @@
+VERSION	3.0
+BEGIN
+  sub htmlescape
+  {
+    local $_=shift;
+    s/\&/&amp;/g;                                   # #  &
+    s/</&lt;/g;                                     # # <
+    s/>/&gt;/g;                                     # # >
+    #s/\\/\\\\/g;                                    # # \
+    s/'/&lsquo;/g;                                  # # '
+    s/"/&quot;/g;                                   # # "
+    $_
+  }

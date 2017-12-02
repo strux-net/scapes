@@ -1,0 +1,46 @@
+VERSION	3.0
+usage	tabify [Options] [<file> ...]
+
+	tabify reads all files given as argument and aligns the tabs.
+	If no file is specified the input is taken from stdin.
+	The output
+	  is written to stdout
+	  is produced when the last line is seen.
+
+main
+  Option
+    t				textmode (only DOS) : output lines end with \\r
+    l				treat field after leading tab as second field
+    m:maxsize			max size for the fields
+    delim:delimiter["\t+"]	split on this
+    c:columns[0]		columns to tabify, default all
+      ?	$opt_c < 2
+	STDERR "value $opt_c for -c not useful. Value must be >= 2\n"
+	exit
+  binmode(STDOUT) unless $opt_t
+  W	<>
+    chomp
+    !	$opt_l
+      W	s/^(\t*)\t/$1        /	# convert leading tabs to spaces
+    @a=split(/$opt_delim/,$_,$opt_c)	one ore more tab(s) seperate(s) columns
+    push @b,[@a]			this stack is fifo (push/shift)
+    maxsize				of the current columns and the already seen columns
+  printout			what is selected so far
+
+printout
+  recalcmaxsize								to have it tabaligned
+  W	$a=shift @b							# For each entry ...
+    F	$i=0;$i<@$a;$i++						# ... take each column ...
+      "@$a[$i]"."\t"x (($i<$#$a)*(abs($s[$i]-length(@$a[$i])-1)/8+1))	... print it out ...
+    "\n"								... and end the whole line with a \n (or see -t)
+
+maxsize
+  F	$i=0;$i<@a;$i++				# For each column ...
+    $l=length $a[$i]				... take the length
+    $s[$i] = $l if $l>$s[$i]			... and use it if larger than any entry before
+
+recalcmaxsize
+  # tabalign each column
+  ?	$opt_m
+    F	$i=0;$i<@s;$i++		$s[$i] = $opt_m if $s[$i] > $opt_m
+  F	$i=0;$i<@s;$i++		$s[$i] = 8*(int ($s[$i]/8) + 1)

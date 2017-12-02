@@ -1,0 +1,876 @@
+VERSION	3.0
+USAGE	perl_tru [Options] [<file> ....]
+
+	produces a perl-script
+
+	find details in
+	    ~/strux/doc/perl_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/perl_tru.html
+
+	per convention the input files have the extension .plTR
+OPTIONS
+	noSharpBang		Do not generate #!/usr/bin/perl
+	noProtos		Do not generate prototypes
+	vim			Special action disp (for vim_tru)
+	vimPlug			make it a vim-plugin
+		produces code that checks, whether vim has +perl
+		wraps the whole script in
+		  perl <<EOT
+		    <script>
+		  EOT
+		skips the autocall for main
+BEGIN
+  $cc = "#";	# Comment Character specific to this language
+  $plang = "perl";
+  $true = "1";
+  sub proto($)
+  {
+    local ($proto) = @_;
+    if (!$opt_noProtos) {
+      atmark("mark_protos") {
+        unless ($anyproto_generated++) {
+	#  protos
+        }
+	$proto
+      }
+    }
+  }
+
+actions
+  VERSION	version
+    continued
+      the version is put as a comment into the output-file.
+
+      If the script has a main function
+        option -version is introduced into your script.
+
+        If the script is invoked like
+          script -version
+        then all version information is printed to stdout and the script exits with code 0.
+
+      Example :	perl_tru -noProtos -noIntro
+	VERSION	0.1
+	main
+	  "hello world\n"
+
+      If the script has no main function
+        the version is ignored.
+
+        perl_tru will issue a message like
+	  perl_tru : some text was never output (due to unset marks) when processing filename
+	    For mark $mark_version
+		      print "  filename	0.9\n";
+	you can easily ignore this message.
+    >
+	# based on $ARGV , version : $version
+      atmark("mark_version")
+	    print "  $ARGV\t$version\\n";
+  DOC
+    A perl-program
+      The created code can be a perl-script or a vim-plugin (depending on Option -vimPlug)
+      Example :	perl_tru
+	main
+	  "running"
+      The automatic generation of prototypes can be supressed with -noProtos.
+      The automatic generation of the sharpBang-line can be supressed with -noSharpBang
+
+      Example for a vim-plugin :	perl_tru -vimPlug
+	foo
+	  "running"
+      You can put this in vim's plugin-dir and in vim you can then
+        :perl foo()
+
+      Limitations :
+        Do not use names beginning with perltru for your variables.
+    >
+      if ($opt_vimPlug) {
+        $opt_vim = $opt_noSharpBang = 1;
+	if ! (has("perl"))
+	  finish
+	endif
+	perl <<EOT
+      } else {
+        unless ($opt_noSharpBang)
+	#!/usr/bin/perl
+      }
+      setmark("mark_package");
+      ->introcomment
+      setmark("mark_protos");
+      setmark("mark_options");
+      setmark("mark_usagecall");
+    -
+      if ($VERSION ne "") {
+       atmark("mark_usage") {
+	  -version\tshow version information
+       }
+      }
+    <
+      if ($opt_vimPlug)
+	EOT
+      elsif ($main)
+	main();
+  main
+    the main function
+      Parameters :
+        main	indicator	.*
+      The main function differs from other functions in that a call to that function is created at the end of the script.
+      This call is not generated if -vimPlug is given.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	main
+	  "Hello World"
+	foo
+	  return "bar"
+    -
+      >>function	main
+       if ($VERSION) {
+	  if ( \$ARGV[0] eq "-version" ) {
+	    print "Version :\\n";
+        setmark("mark_version");
+	    exit 0
+	  }
+      }
+  sub	args
+    an anonymous sub
+      Parameters :
+        sub	indicator	.+
+        args	optional	.+	the parameters of the function
+      Introduces an anonymous sub and it's parameters.
+      It behaves basically identical to function except that no prototype is genenrated
+      The args can be
+        empty like in
+	    foo
+        a list of vars like in
+	    foo	$a,$b
+          In this case the parameters are treated as my-vars.
+        a perl PROTO like in
+	    mysyswrite	$$$;$
+          In this case you have to do the assignment yourself.
+
+      works only inside WantListOrObject
+      Example :
+        see	wantListOrObject
+    >
+      >>function	anon-y-mous	$args
+  function	args
+    function
+      Parameters :
+        function	mandatory	.+	the function name
+        args	optional	.+	the parameters of the function
+      Introduces a function (rsp. a sub) and it's parameters.
+      The args can be
+        empty like in
+	    foo
+        a list of vars like in
+	    foo	$a,$b
+          In this case the parameters are treated as my-vars.
+        a perl PROTO like in
+	    mysyswrite	$$$;$
+          In this case you have to do the assignment yourself.
+
+      For each sub a prototype is generated at the beginning of the program.
+      This can be supressed with -noProtos.
+      Example :	perl_tru -noIntro -noSharpBang
+	foo
+	  return 1
+	bar	$n,$j
+	  return $n+$j
+	mysplice	\@$$@
+	  whatever
+    >
+      setmark("mark_autodoc");
+       |
+      $function = "" if $function eq "anon-y-mous";
+      if ($args) {
+        if ($args =~ /[^\$*@;\\]/) {
+          $dargs = "";
+          for (split/ *, */,$args) { $dargs .= substr $_,0,1 }
+          proto("sub $function($dargs);") if $function ne "";
+	sub $function($dargs)
+	{
+	  local ($args) = \@_;
+        } else {
+          proto("sub $function($args);") if $function ne "";
+	sub $function($args)
+	{
+        }
+      } else {
+        proto("sub $function;");
+	sub $function
+	{
+      }
+    <
+      $parent = $tru::actions[-2][1];
+      $post = '';
+      # sub is structure-item only in wantListOrObject
+      # I could as well ask if $grandparent eq "wantListOrObject"
+      $post = ',' if $parent eq "sub";
+      $post = ''  if $parent eq "sub" and $isLast or $parent eq "statement";
+	}$post
+  label
+    label
+      Parameters :
+        label	indicator	.+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  here:
+	    bar()
+    >
+	$label {
+    <
+	} # $label
+  LabeledLoop	cond	stmt
+    labelled loop
+      Parameters :
+        LabeledLoop	indicator	.+:[FWU]
+        condition	mandatory	.+	the condition
+        stmt	optional	.+	the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  here:F	$i=1;$i<10;$i++
+	    next here if $i==5
+	    bar()
+	  there:U	$i==100
+	    baz()
+	    next there if $i==50
+	    $i++
+	  anywhere:W	$i!=1000
+	    next anywhere if $i%40
+	    foobar()
+    >
+      local ($label,$what) = $LabeledLoop =~ /(.*:)\s*(.)/;
+	$label
+      $what = "For" if $what eq "F";
+      >>$what	$what	$cond	$stmt
+  For	cond	stmt
+    continued
+      If the condition has the form /;.*;/ then it is surrounded by ( and ).
+      Else the condition is used unchanged.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  F	$t (@T)
+	    "$t"
+	  F	$i=1;$i<100;$i+=4	"$i"
+    >
+      if ($cond =~/;.*;/)
+	for ($cond) {
+      else
+	for $cond {
+      stmt($stmt);
+    <
+	}
+  U	cond	stmt
+    an until-loop
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  U	$i++>=10
+	    bar()
+    >
+	do {
+      stmt($stmt);
+    <
+	} until	$cond;
+  W	cond	stmt
+    continued
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  W	$i++<=10
+	    bar()
+	  doc	same as above
+	  W	$i++<=10	bar()
+    >
+	while ($cond) {
+      stmt($stmt);
+    <
+	}
+  Option	comment
+    continued
+      perl_tru makes use of GetOpt() with the limitation that
+	it only supports 1-letter options
+	it is case-insensitive (-p is the same as -P)
+      The usual -- can still be used to stop option-processing.
+      Additionally to getopts features the following is also guaranteed:
+          The form -f=file is also supported.
+          If a not defined option is given then usage is called.
+
+      argv[] stays unchanged.
+      int optind is the index in argv[] of the first non-option argument.
+
+      -x results in the var opt_x
+        If -x takes no argument then the value of opt_x is
+	    0		if the option is not given
+	    1		if the option is given once
+	    n		the number 
+        If -x takes an argument then the value of opt_x is
+	    default		if option is not given. default can be empty.
+	    argument	the one given to the option.
+
+          The type of the opt_x is determined by the type of the default (as described in |opt:type[default]|)
+      Parameters :
+        Option	indicator	.*
+        comment	optional	.+	just a comment
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	usage	calculatePrettyNumber [options]
+		this program calculates the prettiest numbers.
+		it skips
+			10	like always
+			42	for obvious reasons
+	main
+	  Option		
+	    q			quiet
+	    v			verbose		"running"
+	    f:file[~/infile]	in-file
+	    nr:line[10]		nr of lines
+    >
+      atmark("mark_usage") {
+        local $level = 0;
+	OPTIONS:
+      }
+	use Getopt::Long;
+    -
+	usage() if !GetOptions('@{[join "','",@GetOpt]}');@{[do{"\t# $comment" if "$comment"}]}
+  opt:type[default]	shortdesc	statement
+    continued
+      For the default the following holds:
+        If it looks like a number (it matches /^\d+(\.\d+)?$/) then it is a number.
+        Else it is a string (surrounding quotes are optional).
+    >
+      my $stringopt =  ($default eq "" or $default =~ s/^"(.+)"$/$1/ or $default =~ s/^'(.+)'$/$1/ or $default !~ /^\d+(\.\d+)?$/);
+      $level = 0;
+      atmark("mark_usage") {
+	  -$opt:<$type>\t$shortdesc
+        if ($default)
+	\tdefault for <$type> is $default
+      }
+      $default = "'$default'" if ($stringopt);
+      atmark("mark_options")
+	\$opt_$opt = $default;
+    -
+      >>	optcommon	$opt=s	\$opt_$opt	$type		$statement
+  opt	shortdesc	statement
+    continued
+    >
+      $level = 0;
+      atmark("mark_usage")
+	  -$opt\t$shortdesc
+      atmark("mark_options")
+	\$opt_$opt = 0;
+    -
+      >>	optcommon	$opt	\$opt_$opt	_		$statement
+  Optiondescription
+    continued
+    >
+      atmark("mark_usage")
+	$Optiondescription
+  usageline
+    continued
+    >
+      $level=0;
+	$rindent$_
+  usage	shortdesc
+    continued
+    >
+      proto("sub usage;");
+      unless ($opt_vimPlug) {
+        atmark("mark_usagecall") {
+	if (\@ARGV == 1 and \$ARGV[0] eq '-?') {
+	  usage();
+	}
+        }
+      }
+       |
+	sub usage
+	{
+	  print STDERR <<'EOU';
+	usage : $shortdesc
+    <
+      setmark("mark_usage");
+	EOU
+	  exit(1);
+	}
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+          print statement;
+
+        Also a statement of the form
+	    STDxxx "string"
+        is treated this way (if perl_tru is not invoked with -vim)
+
+        If perl-tru is invoked with -vim, then this done via
+	    VIM::Msg(statement)
+
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  my $count =1		the linecount
+	  ?	$count != 1	STDERR "internal error"
+	  "$count"		tell it to the user
+    -
+      if ($opt_vim and $statement =~ /^['"]/)
+	VIM::Msg($statement)$statementdel$comment
+      elsif (!$opt_vim and $statement =~ /^(STD\S{3} )?\s*"/)
+	print $statement$statementdel$comment
+      else
+	$statement$statementdel$comment
+
+  map	array	stmt
+    map
+      Parameters :
+        map		indicator	.*
+        array	optional	.+	the Array over what the map works
+        statement	optional	.+	the statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  map	@A	s/a/b/
+	  map	@B
+	    s/x/y/
+	    s/ /\t/
+    >
+	map {
+      stmt($stmt);
+    <
+	} $array;
+  package	pkg
+    naming the package
+      Parameters :
+        package	indicator	.*
+        pkg		mandatory	.+	the package name
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	package	myPackage
+    >
+      atmark("mark_package")
+	package $pkg;
+  req_or_use	req
+    q require/use statement
+      Parameters :
+        req_or_use	indicator	.+
+        req		optional	.+	the name of the package
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	require	packagea
+	use
+	  packageb
+	  packagec
+    >
+      if ($req)
+	$req_or_use $req;
+  req
+    inside a req_or_use
+      Parameters :
+        req		mandatory	.+	the package name
+      Example :
+        see	req_or_use
+    >
+      $level-=2;
+	$req_or_use $req;
+  p_BEGIN	stmt
+    BEGIN statement or block
+      Parameters :
+        p_BEGIN	indicator	.*
+        stmt	optional	.+	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	BEGIN
+	  $a=1
+    >
+	BEGIN {
+      if ($stmt)
+	  $stmt;
+    <
+	}
+  END	stmt
+    an END statement or block
+      Parameters :
+        END		indicator	.*
+        stmt	optional	.+	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	END
+	  "sum = $sum"
+    >
+	END {
+      if ($stmt)
+	  $stmt;
+    <
+	}
+  disp	bufname
+    disp-statement or block
+      Parameters :
+        disp	indicator	.+
+        bufname	optional	.+	desc
+      This is only valid if perl_tru is invoked with -vim.
+      It is intended for vim-scripts and requires the plugin disp.vim.
+      See the documentation for disp.vim for more details.
+      Example :	perl_tru -noIntro -noSharpBang -noProtos -vim
+	foo
+	  disp	files
+	    dir		"/etc"
+    >
+	$disp {
+      if ($bufname)
+	  bufname => "$bufname",
+    <
+	};
+  key	value
+    inside a disp-block
+      Parameters :
+        key		mandatory	.+	the key
+        value	mandatory	.+	the value
+      Example :
+        see	disp
+    >
+	$key => $value,
+  illegal
+    inside a disp-block
+      Parameters :
+        illegal	indicator	.*
+      to catch invalid entries
+      Example :
+        see	disp
+    >
+      print STDERR "illegal line in disp : $_\n";
+  fancyFor	expr	statement
+    continued
+      You can also have scope declarations in this statement, as in
+          F	my $i=0...10
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  F	my $i=10...20	"Nr : $i"
+  var	comment
+    continued
+    -
+      if ($NrOfLinesFollowing)
+	$var = (@{[do{"\t$cc " if "$comment"}]}$comment
+      else
+	$var;@{[do{"\t$cc " if "$comment"}]}$comment
+    <
+      if ($NrOfLinesFollowing)
+	);
+  initialisation	comment
+    continued
+      The var is an Array, the initialisation is an Array-item.
+    >
+	$initialisation,@{[do{"\t$cc " if "$comment"}]}$comment
+  jdocu
+    continued
+    >
+	#@{[" "x$relindent]}$_
+  jdoc
+    continued
+    >
+	### $jdocu
+  negate	cond
+    internal
+    >
+      $cond = "!($cond)";
+  simple_if	cond
+    internal
+    >
+	if ($cond) {
+    <
+	}
+  simple_else
+    internal
+    >
+	} else {
+  simple_elseif	cond
+    internal
+    >
+	} elsif ($cond) {
+  enum	name
+    continued
+    >
+	# enum for $name
+      $enum=1;
+  enumline	comment
+    continued
+    >
+      $level-=2;
+	${name}_$enumline = $enum
+      $enum++
+  vars
+    continued
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	vars
+	  $count = 1		count the items
+	  @sizes		in different units
+	    1			inch
+	    2.54		cm
+	  $i = 0
+    >
+      if ($vars eq "vars") {
+        $vars = "";
+      } else {
+        $vars .= " ";
+      }
+      if ($opt_languageType eq "c") {
+	/* ${vars}vars */
+      } else {
+	$cc ${vars}vars
+      }
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  S	expr	comment
+    l	switchcount	casecount
+    continued
+      perl natively has no switch/break.
+      perl_tru mimics it with if-statements.
+      The case does not need to be a constant. It can be any expression.
+      The expression is evaluated only once.
+      Expression and case must be comparable with == .
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	main
+	  S	getindex()
+	    1		"one"
+	    2		"two"
+	    default	"something else"
+	      more_code_for_default()
+    >
+      $switchcount = ++$gswitchcount;
+	\$perltruS$switchcount=$expr;
+	while (1) {
+    <
+	  last;
+	}
+      $no_break = 0;
+  nobreak
+    continued
+    >
+      $no_break = $noBreak=1;
+  default	statement	comment
+    l	noBreak
+    continued
+    >
+      $offset-=2;
+      stmt($statement);
+    <
+      $offset+=2;
+  case	statement	comment
+    l	noBreak
+    continued
+    >
+      if ($S ne "S*" and !$no_break or $rnr == 1)
+	if (\$perltruS$switchcount == $case) {
+      else
+	if ((\$perltruS$switchcount == $case) || \$perltruS${switchcount}_c == $casecount) {
+      $no_break=0;
+      stmt($statement);
+      $casecount++;
+    <
+      if ($S ne "S*" and !$noBreak)  {
+	  last;
+      } else {
+	  \$perltruS${switchcount}_c = $casecount;
+      }
+	}
+  try	statement
+    continued
+      perl_tru makes use of the module Try::Tiny.
+      Make sure it is installed.
+      You can do so with
+          cpan App::cpanminus  # do once before installing any module
+          cpanm Try::Tiny
+
+      The needed use-statement is created automatically.
+
+      The limitations described in "perldoc Try::Tiny" apply.
+      Especially that only the last catch block is used and that this block catches all errors.
+
+      Example (taken from Tiny.pm) :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  try
+	      die_sometimes()
+	    catch
+	      # ...code run in case of error
+	    finally
+	      ?	@_
+		"The try block died with: @_\n"
+	      -
+		"The try block ran without error.\n"
+    >
+      unless ($Tiny_used++) {
+	use Try::Tiny;
+      }
+	try {
+      stmt($statement);
+      $offset-=2;
+    <
+	  }
+      $offset+=2;
+  catch	statement
+    continued
+      the keyword "catch" must be used here.
+      All Errors are caught in the last catch within a try.
+    >
+      if ($catch ne "catch") {
+        print STDERR qq($ARGV:$. : the catch should be named "catch"\n);
+      }
+	} catch {
+      $level+=2;
+      stmt($statement);
+  finally	statement
+    continued
+    >
+	} finally {
+      $level+=2;
+      stmt($statement);
+  continue	stmt
+    a continue block
+      Parameters :
+        continue	indicator	.*
+        stmt	opional		.*	a statement
+      Example :	perl_tru -noIntro -noSharpBang -noProtos
+	foo
+	  $i=5
+	  W	$i
+	    "i : $i\n"
+	  continue
+	    $i--
+
+	  doc	same as above
+	  $i=5
+	  W	$i	"i : $i\n"
+	  continue	$i--
+    >
+	continue {
+      stmt($stmt)
+    <
+	}
+  wantListOrObject	c_or_i		comment2
+    an object, an Array or a argument-list follows
+
+      It comes in two forms
+        Form 1) for outside of an object
+      Parameters :
+        wantListOrObject		mandatory	.*[\{\[\(]\.\.[\)\]\}]	a line containing {..} or [..] or (..)
+        c_or_i				optional	.+			a comment
+        comment2			unused		unused			unused
+
+      2) for inside an object
+      Parameters :
+        wantListOrObject		mandatory	.*			a property-name
+        c_or_i				mandatory	[\{\[\(]\.\.[\)\]\}]	one of {..} or [..] or (..)
+        comment2			optional	.+			a comment
+
+      Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
+
+      Example :	perl_tru -noIntro
+	foo
+	  local $s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
+	  local $a = {..}		here comes an object
+	    answer	42		you know why
+	    p3		[..]		objects can contain arrays
+	      'joo'
+	      'nee'
+	      {..}		arrays can contain objects
+		k1	'Right'
+		k2	'Left'
+	      [..]		arrays can contain arrays
+		'green'
+		'blue'
+	    # objects, arglists and arrays can contain subs
+	    sub	$a,$b
+		just return the sum of the two args
+	      return $a+$b
+	  local $myDraw = Drawing([{..}])
+	    x	"red"
+	    y	"green"
+	  local $fox=bax("nice",..)
+	    "foxbax"
+	    sub	$r
+	      return $r*$r
+	bax	$a,$b,$code
+	  print $code()
+    l	closer
+    >
+      unless ($wantListOrObject =~ s/\.\.([\}\]\)].*)//) {
+        $wantListOrObject = "$wantListOrObject => $c_or_i";
+        $comment = $comment2;
+        $wantListOrObject =~ s/\.\.([\}\]\)].*)//;
+        $closer = $1;
+      } else {
+        $comment = $c_or_i;
+        $closer = $1;
+      }
+      $comment = "\t$cc $comment" if $comment ne "";
+      $pre = ($tru::actions[-2][1] eq "vars") ? $vars : '';
+	$pre$wantListOrObject$comment
+    <
+      $parent = $tru::actions[-2][1];
+      $post = ';';
+      $post = ',' if  $parent eq "wantListOrObject";
+      $post = ''  if $parent eq "wantListOrObject" and $isLast or $parent eq "statement";
+	$closer$post
+  arrayelem	comment
+    an element of a array variable
+      Parameters :
+        arrayelem	mandatory	.+	the element
+        comment		optional	.+	a comment for this element
+      Example :	js_tru -noIntro
+	local @a = [..]
+	  'one'
+	  'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      if ($isLast)
+	$arrayelem$comment
+      else
+	$arrayelem,$comment
+  property	value	comment
+    a property and its value
+      Parameters :
+        property	mandatory	.+	the property
+        value		mandatory	.+	the value of the property
+        comment	optional		.+	a comment
+      Example :	js_tru -noIntro
+	local $a = {..}
+	  uno	'one'
+	  duo	'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      $terminator = $isLast ? '' : ',';
+	$property => $value$terminator$comment
+group
+  ListOrObject
+	want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	    autodoc								=g
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
+	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	    autodoc								=g
+	  wantObject	{..}		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
+	  wantArray	[..]		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
+	  property	value		[comment]				=
+	wantArray			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\{\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\[\.\.\]/
+	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	    autodoc								=g
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
+  perl
+	comment	*								=2		#.*
+	native code								=2		perl code<?
+	  nativeCodeLine	*						>>t*
+	vars									=2		vars
+	  ListOrObject								=g
+	  enum		name							>0		enum
+	    enumline		[comment]					>0
+	  var			[comment]					>0		.+
+	    initialisation	[comment]					>0
+	label									>2		\w+:
+	F			expr	[stmt]					>2 For		F		(?!.*\.\.\.).+
+	continue		[stmt]						>2		continue
+	LabeledLoop		expr	[stmt]					>2		\w+\s*:\s*[FWU]
+	map			[array]	stmt					>2		map
+	package	pkg								=		package
+	req_or_use	[req]							=*2		require|use
+	  req
+	BEGIN	[stmt]								= p_BEGIN	BEGIN
+	END	[stmt]								=		END
+	disp	[bufname]							>2($opt_vim)	(do)?disp
+	  key	value
+	  *									= illegal

@@ -1,0 +1,178 @@
+VERSION	3.0
+linkage	c
+includes
+  iostream.h
+  "ctest.h"
+using
+  std::string
+using	std::regex
+VERSION	3.0a
+usage	ctest
+	this program only serves as a test-suite
+	it does *NOT* do anything use- or harmfull
+	It simply shows the possibilities
+	 You can have any indent here
+	  1
+	       2
+	      3
+	     4
+		 6
+	         6
+	Tables look like this
+	1	2
+	11	22
+	111	222
+	1111	2222
+	11111	22222
+	111111	222222
+	1111111	2222222
+
+types
+  int	INT	for portability
+  char	CHAR
+defines
+  a		1 + 2	a silly comment
+  aa		1 + 2	a silly comment
+  aaa		1 + 2	a silly comment
+  aaaa		1 + 2	a silly comment
+  aaaaa		1 + 2	a silly comment
+  aaaaaa	1 + 2	a silly comment
+  aaaaaaa	1 + 2	a silly comment
+  aaaaaaaa	1 + 2	a silly comment
+  aaaaaaaaa	1 + 2	a silly comment
+  aaaaaaaaaa	1 + 2	a silly comment
+  aaaaaaaaaaa	1 + 2	a silly comment
+  aaaaaaaaaaaa	1 + 2	a silly comment
+  bbbbbbbbbbbb	1 + 2
+  Long	(l,
+    o,
+    n,
+     g)
+  Text	"running"
+c code
+	char *varwithtextacrossmultiplelines = "pure c-code can be produced
+	  as you can see here
+	  You could not write such a thing as statement, since a ; would
+	  be appended to each line
+	  and tabs	wouldn't be as expected
+	  No such thing happens in this mode
+	  Empty lines will survive
+
+	  And :
+	    leading spaces will survive relative to c code
+	    But :
+	      leading tabs will be converted to lots of spaces";
+
+vars
+  enum	colours
+    red
+    green
+    blue
+  int i=0								Test statement
+  // a comment in the var-section
+  int j[]
+    1
+    2
+    3
+  hide
+    bla blah	blah
+main
+  int a=17			a comment
+  int b=0
+  char *c=0
+  cout << Text << endl
+
+  Option								Test Option
+    a				Option a	a=1
+	description for option a
+    b				Option b	b=1
+      a=0
+    f:file[/tmp/schrott]	file name
+	description for option f
+    t				Option t	test(3,4)
+  "-a\t" << opt_a << endl	another comment
+  "-b\t" << opt_b << endl
+  "-f\t" << opt_f << endl
+  "-c\t" << opt_c << endl
+  "-t\t" << opt_t << endl
+  cout << "optind is " << getopt.optind << endl
+  #if	1
+  !	1==1	cerr << "PANIC, PANIC, PANIC"	cout << "42"
+  ?	0
+  ?	1	i=0	i=1
+  ?	2	i=2
+  ?-	b								// Test if
+    int k = 4
+    F	i=0;i<3;i++							// Test for
+      int j = i*i
+      cout << i << " : " << j << endl
+    W	i--								// Test while
+      W	k--	cout << k << endl
+    ?	x1
+      y(1)
+    !-	x2
+      y(2)
+    -
+      y(3)
+  -									// Test else
+    cout << "you did not give me a b" << endl
+  #endif
+
+  a=0
+  U	a>5	cout << a++
+    ??	a
+      < 2	cout << " smaller 2" << endl
+      == 2	cout << " equal 2" << endl
+      > 2	cout << " greater 2" << endl
+      -		cout << " cannot occur" << endl
+
+  ??*	a
+    == 6	cout << a << " equal 6" << endl
+    >  5	cout << a << " greater 5" << endl
+    <  2	cout << a << " smaller 2" << endl
+
+  R	a,b,c	x	y
+    1	2
+      3	4
+	5	6
+      7	8	9
+      // copied unchanged
+
+  R/object/	a,b,c	xobjecty
+      object1object2
+	3object4
+
+void test	int f, int g	interrupt INT19
+    a short description for function test.
+    A detailed description for test.
+    param	f a description for param f
+    param	g a description for param g
+    return	a description for the return value
+  cout << "called test()" << endl
+  S	f								Test switch
+    default	cout << "internal" << endl				Test default for switch
+      nobreak
+    1
+    2
+      ??	w
+	a
+	-
+	  b
+    3		cout << "I feel good" << endl				Test case for switch
+      S	g
+        'a'	cout << "xingalf"
+	  nobreak
+	'b'	cout << "kringalf"
+    4		cout << "Me too" << endl
+      S*	f
+        'a'	cout << "knusel"
+	'b'	cout << "wusel"
+	default	cout << "drusel"
+
+void nevercalled
+  doc	this function is never called
+    because none of these functions is ever called
+  FOREVER
+    cerr << "kill me, kill me please" << endl
+  FOREVER	cerr << "I'm still alive, I wanna die" << endl
+  F	int n : {0,1,2,3,4,5}	std::cout << n << ' '

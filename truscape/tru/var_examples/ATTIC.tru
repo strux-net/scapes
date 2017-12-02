@@ -1,0 +1,58 @@
+VERSION	3.0
+##	@ATTIC
+##	  whenever something is found in the array @ATTIC this is used as input prior to getting the next line from the standard input rsp. input-file.
+##	  the lines are extracted from this array using unshift, so that the order is preserved if it is filled using push.
+##	  hook ATTICREAD is applied to lines obtained from @ATTIC.
+##	  hook READ is not applied to lines in @ATTIC.
+#	  Examples
+#	    provide an include statement i a truer
+#		structure
+#			<#include>	*		>>* include	<include\s+.+>
+#		actions
+#		  include
+#		    >
+#		      ($include) = $include =~ /<include\s+(.+)>/;
+#		      open INCFILE,$include or die "cannot include $include : $!";
+#		      unshift @ATTIC,map { chomp;tru::read();$_ } <INCFILE>;
+#		      close INCFILE;
+#	    kind of include statement in a proglang truer
+#	       P<!	open(IN,"<$_");$_="";splice(@ATTIC,-1,0,map {chomp;$_} <IN>);close(IN)
+#	         file1
+#	         file2
+#
+READ
+  s/field1/FIELD1/;
+BEGIN
+  @ATTIC = (
+     "chapter	fixed1",
+     "chapter	fixed2",
+     "  section	zero",
+     "    this 'field1' isn't affected by (hook) READ",
+   );
+ATTICREAD
+  s/affected/Affected/;
+actions
+  chapter	name
+    >
+	$. : $_
+  section	name
+    >
+	$. : $_
+      if ($name eq "two") {
+        push @ATTIC,(
+          "  section\tthree",
+          "    this 'field1' isn't affected by (hook) READ",
+        );
+        $_ = "    this 'field1' is affected by (hook) READ";
+        tru::read();
+        push @ATTIC,$_;
+      }
+  any line
+    >
+	$. : $_
+  table
+    >
+	$. : $_
+  tabaligned line
+    >
+	$. : $_

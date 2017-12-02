@@ -1,0 +1,12 @@
+building pstree.vim
+vim_tru pstree.vimTR >pstree.vim
+GOOD	pstree.vim
+{ echo "pstree.vim\n  inspect the process-tree\n    usage"; < pstree.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tinspect the process-tree" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+Title="*pstree.txt*   inspect the process-tree" vimInterface2Help_tru pstree.vimTR >docs/pstree-commands.txt
+GOOD	docs/pstree-commands.txt
+perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="==============================================================================" } if (/^$s/../$e/ ) { unless ($d++) { print "$s\n" ; print `vimInterface2Help_terse_tru pstree.vimTR`; print "\n$e\n" }} else { print }' docs/pstree.txt
+GOOD	docs/pstree.txt
+testing pstree.vim

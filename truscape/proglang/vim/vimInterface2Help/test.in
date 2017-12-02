@@ -1,0 +1,1904 @@
+usage	LL - a powerful file-browser
+au
+  BufLeave
+    /strux/LL
+      cd . "vim needs to know we're possibly somewhere else. This does the trick.
+  BufEnter
+    /strux/LL
+      perl my $fullname4vim=getFullname4vim($$LL::currentH{dir},"");VIM::DoCommand(qq( exe 'try | silent cd '. fnameescape("$fullname4vim") . ' | catch | echohl ErrorMsg | echo "cannot enter directory, you see the last content" | echohl None | endtry'))
+main
+  Option
+    strux_LL_shell:string["/bin/sh"]						the shell to be used
+	The value of this var is used for:
+	    <F4>  and its variants in view frequentCommands.
+	    <F4>  and its variants in view LL.
+	    d<F4> and its variants in view LL.
+	    x<F4> and its variants in view LL.
+	    dd and d? and d.       in view LL.
+    strux_LL_xterm:string["xterm -e"]						the xterm to be used
+	The value of this var is used for
+	    1<F4>     2<F4>        in frequentCommands.
+	    1<F4>     2<F4>        in view LL.
+	    d1<F4>    d2<F4>       in view LL.
+	    x1<F4>    x2<F4>       in view LL.
+	    d.                     in view LL.
+    strux_LL_shell_setup:string[]						setting up shell-commands
+	The value of this var is used wherever strux_LL_shell is used.
+	This can be used to tell the shell to do additional initializations.
+	e.G if you specified|g:strux_LL_shell|to be /bin/bash and want it to also
+	obey your aliases, functions and other settings, you can do
+	  let g:strux_LL_shell_setup='shopt -s expand_aliases;source ~/.profile'
+    strux_LL_parsestring:string["%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/"]		configure how the output of LL looks like.
+	The formats:
+	    %			A single "%" - Character
+	    T			A single tab
+	    t			denotes tagged lines
+	    n			filename
+	    /			filename, with "/" appended, if file is a directory
+	    i			inode number
+	    F			mode flags as octal number
+	    f			mode flags in drwxrwxrwx - notation
+	    u			user id (numerically)
+	    U			user id (text)
+	    g			group id (numerically)
+	    G			group id (text)
+	    s			file size
+	    a			atime (in readable form)
+	    c			ctime (in readable form)
+	    m			mtime (in readable form)
+	    d			device number
+	    l			number of links
+	    r			rdev
+	    b			blocksize
+	    S			number of blocks
+	    A			atime (numerically)
+	    C			ctime (numerically)
+	    M			mtime (numerically)
+	    !			modification flags
+	    x			result of per file command, as defined by cx
+	Note to Windows-Users:
+	  %l %U %G give not really useful information on windows-systems
+	  you may wish to set it to "%t%f %!%T%m%T%s%T%/"
+    strux_LL_perFileCommand:string["file -b"]					per file command
+	The value of this var is used as the command to be executed for each
+	file (not directory) if parsestring contains %x
+    strux_LL_perDirCommand:string["#"]						per directory command
+	The value of this var is used as the command to be executed for each
+	directory if parsestring contains %x
+    strux_LL_perFileOrDirText:string["magic"]					description for per file/dir command
+	The value of this var is used as the string to be output for the
+	descriptive header.
+    strux_LL_dirsettings:string["~/LL.dirsettings,~/strux/etc/LL.dirsettings"]	locations for LL.dirsettings
+	The value of this var defines the locations for the dirsettings-file.
+	This is a comma-separeted list of files.
+	All files are read in the given order.
+	For details about this file see |LL-dirsettings|
+    strux_LL_header:string["%d%T%t%T%n Entries%T%s"]				configure the header
+	The value of this var is used to configure how the header line lookes like
+	The formats:
+	    %			A single "%" - Character
+	    T			A single tab
+	    d			the directory
+	    t			the time, where the information was gathered
+	    n			the number of entries
+	    s			the sorting method
+    strux_LL_grep:string["grep -l"]						command for xg
+	The value of this var defines the start of the command for xg.
+	on unix, "grep -l" is a good choice
+	It may be overwritten by the user, but the behaviour of grep is used
+	to determine whether the command succeeded.
+
+	from the grep manpage (at least on my system)
+	  DIAGNOSTICS
+	    Normally, exit status is 0 if matches were found, and 1 if
+	    no matches were found.  (The -v option inverts  the  sense
+	    of  the exit status.)  Exit status is 2 if there were syn
+	    tax errors in the pattern, inaccessible input  files,  or
+	    other system errors.
+
+	Note: even if the command may not return 0, some files may get tagged.
+	  Eg. if you use xg with "re *" as reply to "Grepcmd : ", in which case
+	  all files are searched, but some of them may be directories, which force
+	  grep to return something not equal to zero.
+    strux_LL_editcmd:string["edit"]						command for <CR>
+	The value of this var defines how a file is to be opened when pressing <CR>
+	on a filename or double clicking it.
+	Directories are always entered in the LL-view.
+	The default "edit" means : edit the file in the same window in which the directory is shown.
+	You may wish to set it to one of >
+	  split
+	  vsplit
+	  rightbelow split
+	  leftabove split
+	  rightbelow vsplit
+	  leftabove vsplit
+
+	< Many users might find the combination with |:only| useful. As in: >
+	    only|rightbelow vnew|wincmd p|30wincmd \||wincmd p|edit
+	< Together with a parsestring consisting of only "%/" this gives a nice
+	  little hot-dir listing. (See |LL-cpg|)
+
+	  For more information see |:split|,|:vsplit|,|:rightbelow|,|:leftabove| and |:only|
+    strux_LL_dateFormat:string["%Y-%m-%d %H:%M:%S"]				strftime - format for printing dates
+	The value of this var defines the format for printing timestamps.
+	See the manual page of the C function strftime() for the format.
+	Some settings to try: >
+	  %y-%m-%d %H:%M:%S
+	  %d.%m.%y %H:%M:%S
+	  %d.%m.%Y %H:%M:%S
+	<
+  ?	exists("loaded_pexplorer")	finish	loaded_pexplorer=1
+  runtime plugin/disp.vim
+  s:cpo_save = &cpo
+  s:cmdBuf = -1		cmd Buffer not yet loaded
+  set cpo&vim
+  com! -n=? -complete=file	LL	perl LLorRedisp('<args>')	start LL for current or given dir/file
+  com!				L	perl L()			convert current buffer to LL
+  com! -n=?			LLF	perl LLF('<args>')		LL for files returned be find
+  com! -n=?			LLG	perl LLG('<args>')		LL for files containing a given regexp
+  com! -n=* -complete=shellcmd	LLO	perl LLO(q(<args>))		LL for files returned by a shellcmd
+  doc
+    I'd rather checked the platform from whithin perl, but to no luck
+    I tried with
+      if ($ENV{OSTYPE} =~/win/i) {
+	$S_IFDIR=0040000;
+	sub isdir { @_[0] & $S_IFDIR };
+	sub isreg { !isdir @_ };
+	sub s_getpwuid { @_[0] };
+	sub s_getgrgid { @_[0] };
+      } elsif ($ENV{OSTYPE} =~/linux/) {
+	require "linux/stat.ph";
+	sub isdir { S_ISDIR(@_)};
+	sub isreg { S_ISREG(@_)};
+	sub s_getpwuid { getpwuid @_[0] };
+	sub s_getgrgid { getgrgid @_[0] };
+      }
+    in main
+
+    I don't know, why this didn't do the job. So I put this stuff here for now.
+  perl use Fcntl S_ISDIR,S_IFMT,S_IFLNK,S_ISLNK,S_ISREG,S_ISSOCK,S_ISLNK,S_ISCHR,S_ISBLK,S_ISFIFO
+  ?	has ("gui_win32") || has ("gui_win32s")
+    perl $S_IFDIR=0040000		this is true for LINUX and WINNT, I need a better way to get this value
+    perl sub S_ISBLK { 0 }
+    perl sub S_ISLNK { 0 }
+    perl sub isdir { @_[0] & $S_IFDIR }
+    perl sub isreg { !isdir @_ }
+    perl sub s_getpwuid { @_[0] }
+    perl sub s_getgrgid { @_[0] }
+  -
+    "perl require "linux/stat.ph"
+    perl sub isdir { S_ISDIR(@_)}
+    perl sub isreg { S_ISREG(@_)}
+    perl sub s_getpwuid { getpwuid @_[0] }
+    perl sub s_getgrgid { getgrgid @_[0] }
+
+    perl $S_ISUID = 04000
+    perl $S_ISGID = 02000
+    perl $S_ISVTX = 01000
+ActivateCmdBuffer
+  ?	bufexists(s:cmdBuf)
+    switchbuf=&switchbuf
+    set switchbuf=useopen
+    exe "sb ".s:cmdBuf
+    &switchbuf=switchbuf
+    ret = 1	buffer was already open
+  -
+    silent sp ~/frequentCommands
+    s:cmdBuf=bufnr("%")
+    setlocal
+      modifiable
+      noswapfile	so that multiple LL instances don't get a swapfile-found message
+    ret = 0	buffer is newly created
+  ?	v:count	exe v:count.'wincmd _'
+  return ret
+RepeatLastShellCommand	mode
+  perl WriteTmpScript("$LL::lastShellCommand \"\$f\"",$$LL::currentH{Array}[$$LL::currentH{posInfo} =~ m/'lnum'.*?(\d+)/,$1-2][0])	write the script (uses tn)
+  call ExecuteScript(a:mode)						start the script
+ExecuteCurrentLine	mode
+    systemcall currentline
+    the window for frequentCommands must be active
+  perl WriteTmpScript($curbuf->Get(($curwin->Cursor())[0]),$$LL::currentH{Array}[$$LL::currentH{posInfo} =~ m/'lnum'.*?(\d+)/,$1-2][0])	write the script (uses tn)
+  call ExecuteScript(a:mode)						start the script
+ExecuteScript		mode
+  perl CloseTmpScript()
+  ??	a:mode == '	'
+    n
+      exe ":!" . g:strux_LL_shell ." ".g:strux_LL_scriptname
+      " call delete(g:strux_LL_scriptname)
+    x
+      exe ":!".g:strux_LL_xterm." " . g:strux_LL_shell ." ".g:strux_LL_scriptname
+      " call delete(g:strux_LL_scriptname)
+    r
+      exe "silent r!" . g:strux_LL_shell." ".g:strux_LL_scriptname
+      normal! V'[
+      " call delete(g:strux_LL_scriptname)
+    xb
+      exe ":silent !".g:strux_LL_xterm." " . g:strux_LL_shell ." ".g:strux_LL_scriptname."&"
+      exe "normal \<c-l>"
+    rb
+      new
+      exe "silent r!" . g:strux_LL_shell." ".g:strux_LL_scriptname
+      silent 1d
+      set nomodified
+      " call delete(g:strux_LL_scriptname)
+    -
+      echoerr 'Internal error (wrong mode) in Pexplorer.vim'
+ShowProcess
+  save_x=@x
+  normal!
+    0		start of line
+    ww		start of 2nd word (pid)
+    "xye	yank the pid to register x
+  ?	ActivateDispBuffer('pstree')
+    normal r	pstree is already open, refresh first
+  normal!
+    /		search
+    \<		start of word
+    x		pid
+    \>		end of word
+    /		end search
+    		yes vim, really do the search
+    :		to get rid of "search hit BOTTOM, continuing at TOP" or the searchstring in the commandline
+  @x=save_x
+DoCmd			mode
+  ?	ActivateCmdBuffer()
+    call ExecuteCurrentLine(a:mode)
+    LL
+  -
+    echohl WarningMsg
+    '<F4> here needs frequentCommands to be visible. First select the cmd to be executed!'
+    echohl None
+main
+  &cpo = s:cpo_save
+  unlet s:cpo_save
+Interface
+  <C-kPlus>	&Strux.&ZoomFont.&In		increase the font	:<c-u>call ZoomFont()<cr>
+  <C-kMinus>	&Strux.&ZoomFont.&Out		increase the font	:<c-u>call UnZoomFont()<cr>
+Interface	/strux/LL
+  help	new filename
+    Prompts for a new name for the file or dir under the cursor.
+    The usual filename-completion works on the input-line.
+    The new file name is preset with the current-name for easy editing.
+    Type ctrl-u to clear the line and type a completely new path/name
+
+    A check is performed whether the new file already exists.
+      In this case you are asked for confirmation.
+      Reply with y or Y if you really want the action.
+    Cancel the action with Escape or Ctrl-C
+  <2-leftmouse>										Edit the file									:perl OpenFile $LL::editcmd<CR>
+    Double-click is the same as <CR>
+  <CR>		&Entry.&Edit							Edit the file									:perl OpenFile $LL::editcmd<CR>
+    Edit the file under the cursor in the same vim.
+    Come back to the directory-view with :LL
+    If the cursor is on the header-line toggle it between normal/descriptive
+    Also see |g:strux_LL_editcmd|.
+  fr		&File.&rename							Rename the file under the cursor						:perl renameOrCopyFile "rename"<CR>
+    Interactive	new filename
+      Renaming is tried in two steps.
+	First it is tried with the build-in rename().
+	If this fails (e.G if the rename is cross-device), a call to mv is issued.
+  fc		&File.&copy							Copy the file under the cursor							:perl renameOrCopyFile "copy"<CR>
+    Interactive	new filename
+      A check is performed whether the source is a directory
+	In this case you are asked for confirmation to recurse.
+	Reply with y or Y if you really want a recursive copy
+  fd		&File.&delete							Delete the file under the cursor						:perl deleteFile<CR>
+    Interactive
+      prompts for confirmation
+	Reply with y or Y if you really want the action.
+      Checks whether the file is a directory and whether it is not empty
+	In this case you are again asked for confirmation.
+	Reply with y or Y if you really want a recursive delete
+      Cancel the action with Escape or Ctrl-C
+  fe		&File.&edit in main vim						Edit the file under the cursor in gvim						:perl editFile<CR>
+    Edit the file under the cursor in a new tab of a running gvim-instance.
+    This gvim instance must have been started with "--servername main"
+  f+		&File.&Clipboard.name to &clipboard				Put the filename into the clipboard						:perl fileToClipboard('+','f')<CR>
+  f*		&File.Clipboard.name to &primary				Put the filename into primary							:perl fileToClipboard('*','f')<CR>
+  f"		&File.Clipboard.name to &unnamed register			Put the filename into vim's unnamed register (")				:perl fileToClipboard('"','f')<CR>
+  fp+		&File.Clipboard.name with path to c&lipboard			Put the filename with path into the clipboard					:perl fileToClipboard('+','p')<CR>
+  fp*		&File.Clipboard.name with path to p&rimary			Put the filename with path into primary						:perl fileToClipboard('*','p')<CR>
+  fp"		&File.Clipboard.name with path to u&nnamed register		Put the filename with path into vim's unnamed register (")			:perl fileToClipboard('"','p')<CR>
+  help		shell command
+    At the prompt enter a shell-command.
+    This command is executed with the full filename appended.
+    Use # as last character to turn this into a comment.
+    The command is executed as typed.
+    It is NOT subject to vim's treating of some chars as % and #
+
+    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.
+
+    The following vars are set for the command:
+	$f	filename with path		/path/to/file/name.ext
+	$p	path				/path/to/file
+	$F	filename as given		name.ext
+	$r	filename without extension	name
+	$e	extension			ext
+    If you want to clear it use # as command (making it a comment)
+    Cancel the action with Escape or Ctrl-C
+  d<F4>		&Do.E&xecute a command						Execute a command								:perl DoSpecified(0,'n')<cr>
+    Interactive	shell command
+  d1<F4>	&Do.Execute a command in x&term					Execute a command in an xterm							:perl DoSpecified(0,'x')<cr>
+    Interactive	shell command
+  d2<F4>	&Do.Execute a command in &background xterm			Execute a command in an background xterm					:perl DoSpecified(0,'xb')<cr>
+    Interactive	shell command
+  d<S-F4>	&Do.Execute a command And Read Output into a &new buffer	Execute a command and read output into a new buffer				:perl DoSpecified(0,'rb')<cr>
+    Interactive	shell command
+  d.		&Do.&Repeat Last command					Repeat last command								:perl RepeatLastShellCommand<CR>
+    Repeats the last command, this time with the file that is now selected.
+    Whether the output is displayed or ignored is remembered from the last command.
+    An error-message is issued if there is no last command.
+  cc		&Do.A&ccording to cmd-view.&open cmd				Open the command window								:<c-u>:call ActivateCmdBuffer()<CR>
+    Opens the command-vindow (holds the file ~/frequentCommands)
+    The current working directory for the commands executed in this window is what LL just shows.
+
+    You can invoke it with <count>cc (as in 3cc) to make the window <count> lines high.
+
+    Special mappings are available in this window.
+      press <F1> in this window to get help on these mappings
+  <F4>		&Do.A&ccording to cmd-view.&Execute				Execute this command								:call DoCmd('n')<cr>
+    This command is basically the same as
+      ,cc	open the command window
+      <F4>	execute the command where the cursor is on
+      LL	reenter the LL-window
+  1<F4>		&Do.A&ccording to cmd-view.Execute in x&term			Execute this command in an xterm						:call DoCmd('x')<cr>
+    This command is basically the same as
+      ,cc	open the command window
+      1<F4>	execute the command where the cursor is on in an xterm
+      LL	reenter the LL-window
+  2<F4>		&Do.A&ccording to cmd-view.Execute in &background xterm		Execute this command in an background xterm					:call DoCmd('xb')<cr>
+    This command is basically the same as
+      ,cc	open the command window
+      2<F4>	execute the command where the cursor is on in an background xterm
+      LL	reenter the LL-window
+  <S-F4>	&Do.A&ccording to cmd-view.Read Output into a &new buffer	Execute this command.Read Output into a &new buffer				:call DoCmd('rb')<cr>
+    This command is basically the same as
+      ,cc	open the command window
+      <S-F4>	execute the command where the cursor is and read output into a new buffer
+      LL	reenter the LL-window
+  dd		&Do.&acmd.E&xecute default command				Execute acmd for current file							:perl AcmdFile 0<CR>
+    execute acmd for current file
+  d?		&Do.&acmd.&menu							Open acmd-menu for current file							:perl AcmdFile 1<CR>
+    show all possible acmd commands for current file
+    Special mappings are available in this window.
+      press <F1> in this window to get help on these mappings
+  dr		&Do.&acmd.R&eread acmd-database					Reread the acmd-database							:perl AcmdInit<CR>
+    reread the acmd database
+  sn		S&ort.&Name							Sort by Name									:perl setSode($LL::sode&~0xff\|15);SortAndRedisp<CR>
+    Sort the entries alphabetically by name, obeying case
+    Example :
+      A.c < a.c
+  sI		S&ort.N&ame (case ignored)					Sort by Name (case ignored)							:perl setSode($LL::sode&~0xff\|18);SortAndRedisp<CR>
+    Sort the entries alphabetically by name, ignoring case
+    Example :
+      a.c < B.c
+  sN		S&ort.Na&me (numerically)					Sort by Name (numerically)							:perl setSode($LL::sode&~0xff\|19);SortAndRedisp<CR>
+    Sort the entries numerically by name
+    Example :
+      2.c  < 10.c
+      a2.c < a10.c
+  se		S&ort.&Extension						Sort by Extension								:perl setSode($LL::sode&~0xff\|16);SortAndRedisp<CR>
+    Sort the entries alphabetically by extension
+    Example :
+      a.c < a.y
+  sL		S&ort.Lengt&h							Sort by Length of Basename							:perl setSode($LL::sode&~0xff\|17);SortAndRedisp<CR>
+    Sort by the length of the name
+    Example :
+      ab < aaa
+  sd		S&ort.De&v							Sort by Dev									:perl setSode($LL::sode&~0xff\| 1);SortAndRedisp<CR>
+    Sort by device number
+  si		S&ort.In&o							Sort by Ino									:perl setSode($LL::sode&~0xff\| 3);SortAndRedisp<CR>
+    Sort by inode number
+  sM		S&ort.Mo&de							Sort by Mode									:perl setSode($LL::sode&~0xff\| 4);SortAndRedisp<CR>
+    Sort by mode, numerically
+  sl		S&ort.Nlin&k							Sort by Nlink									:perl setSode($LL::sode&~0xff\| 5);SortAndRedisp<CR>
+    Sort by number of links
+  su		S&ort.&Uid							Sort by Uid									:perl setSode($LL::sode&~0xff\| 6);SortAndRedisp<CR>
+    Sort by UID (User id), numerically
+  sg		S&ort.&Gid							Sort by Gid									:perl setSode($LL::sode&~0xff\| 7);SortAndRedisp<CR>
+    Sort by GID (Group id), numerically
+  sr		S&ort.&Rdev							Sort by Rdev									:perl setSode($LL::sode&~0xff\| 8);SortAndRedisp<CR>
+    Sort by Rdev, numerically
+  ss		S&ort.&Size							Sort by Size									:perl setSode($LL::sode&~0xff\| 9);SortAndRedisp<CR>
+    Sort by Filesize
+  sa		S&ort.A&time							Sort by Atime									:perl setSode($LL::sode&~0xff\|10);SortAndRedisp<CR>
+    Sort by Atime
+  sm		S&ort.Mt&ime							Sort by Mtime									:perl setSode($LL::sode&~0xff\|11);SortAndRedisp<CR>
+    Sort by Mtime
+  sc		S&ort.&Ctime							Sort by Ctime									:perl setSode($LL::sode&~0xff\|12);SortAndRedisp<CR>
+    Sort by Ctime
+  sB		S&ort.&Blksize							Sort by Blksize									:perl setSode($LL::sode&~0xff\|13);SortAndRedisp<CR>
+    Sort by Blocksize
+  sb		S&ort.B&locks							Sort by Blocks									:perl setSode($LL::sode&~0xff\|14);SortAndRedisp<CR>
+    Sort by nr. of blocks
+  sx		S&ort.&X-info							Sort by X-Info									:perl setSode($LL::sode&~0xff\|20);SortAndRedisp<CR>
+    Sort by result of xPerFileCommand
+  S>		S&ort.Direction and grou&ping.Descend (do&wn)			Sort order is descending							:perl setSode($LL::sode\|0x100);   SortAndRedisp<CR>
+    Sort in descending order.
+  S<		S&ort.Direction and grou&ping.Ascend (u&p)			Sort order is ascending								:perl setSode($LL::sode&~0x100);   SortAndRedisp<CR>
+    Sort in ascending order.
+  S/		S&ort.Direction and grouping.&separate Dirs			Separate dirs									:perl setSode($LL::sode\|0x200);   SortAndRedisp<CR>
+    Directories are put at the beginning of the list, regardless of sorting
+  S#		S&ort.Direction and grouping.&don't separate Dirs		Don't Separate dirs								:perl setSode($LL::sode&~0x200);   SortAndRedisp<CR>
+    Directories and normal files are intermixed, due to sorting
+  Sx		S&ort.Direction and grouping.separate &tagged			Separate tagged									:perl setSode($LL::sode\|0x400);   SortAndRedisp<CR>
+    Tagged files are put at the beginning of the list, regardless of sorting
+  SX		S&ort.Direction and grouping.d&on't separate tagged		Don't Separate tagged								:perl setSode($LL::sode&~0x400);   SortAndRedisp<CR>
+    Tagged files and untagged files are intermixed, due to sorting
+  Sf		S&ort.Direction and grouping.&fix the settings for this dir	Fix the settings for this dir							:perl fixSort<CR>
+    The current sort-settings are fixed for this directory.
+    The fix can be released by applying a new sort-order in this directory.
+  i		&Entry.&Inspect							Inspect the file								:perl Inspect<CR>
+    Open the inspect window and show a lot of useful information about the file under the cursor.
+    The inspect window has the name /strux/INSPECT and additional commands are available there.
+  p		&Entry.&Preview							Preview the file								:perl OpenFile "pedit"<CR>
+    Edit the file under the cursor in a new window
+  xx		&Tags.&Tag							Tag the file									:perl TagFile ">"<CR>
+    Tag (mark) the file under the cursor.
+  xX		&Tags.&Untag							Untag the file									:perl TagFile " "<CR>
+    Untag (unmark) the file under the cursor.
+  xa		&Tags.Tag &all							Tag all										:perl TagAll  ">"<CR>
+    Tag (mark) all files
+  xA		&Tags.Untag a&ll						Untag all									:perl TagAll  " "<CR>
+    Untag (unmark) all files
+  xT		&Tags.to&ggle tags						Toggle tags									:perl ToggleTags<CR>
+    Toggle all tags.
+	Untagged files become tagged, and
+	Tagged files become untagged
+  xt		&Tags.toggle t&his						Toggle this									:perl TagFile "^"<CR>
+    Toggle the tag for this file
+  xp		&Tags.Tag by &Pattern						Tag by Pattern									:perl TagByPattern ">"<CR>
+    Interactive
+      Prompt for a regexp and tags all files matching this regexp.
+      The regexp has to be a perl-like regexp, not one you know from ls.
+
+      E.g to tag all c-files that start with the letter a, use:
+      ^a.*\.c$
+  xP		&Tags.Untag b&y Pattern						Untag by Pattern								:perl TagByPattern " "<CR>
+    Interactive
+      Prompt for a regexp and untags all files matching this regexp.
+      The same rules as for xp apply here
+  xf		&Tags.Tag by &file						Tag by file									:perl TagByFile ">"<CR>
+    Interactive
+      Prompts for the filename of a namesfile. This file should contain the names of files, each in its own line.
+      Other than xp and xP, these names are not regexpes but literal names.
+      It may be the result of:
+      grep -l something *
+      All files, that occur in the namesfile are tagged.
+
+      See also :
+	  xF
+  xF		&Tags.Untag by file-&content					Untag by file									:perl TagByFile " "<CR>
+    Interactive
+      Prompts for the filename of a namesfile. This file should contain the names of files, each in its own line.
+      Other than xp and xP, these names are not regexpes but literal names.
+      It may be the result of:
+      grep -l something *
+      All files, that occur in the namesfile are untagged.
+
+      See also :
+	  xf
+  xg		&Tags.Tag by g&rep						Tag by grep									:perl TagByGrep ">"<CR>
+    Interactive
+      Prompts for grep-cmd and tags all files matched.
+
+      Example :
+	key *.c *.h
+	  tags all your c and h-files that contain the string key
+	-i key *.c *.h
+	  make above search case-insensitive
+
+      Don't be confused by messages like
+      grep: xyz: is a directory.
+      Just press <C-L> to get rid of them.
+      Also see |g:strux_LL_grep|.
+  xG		&Tags.Untag by gr&ep						Untag by grep									:perl TagByGrep " "<CR>
+    Interactive
+      Prompts for grep-cmd and untags all files matched.
+      For details see xg above
+  x<F4>		&Tags.E&xecute a command					Execute a command to tagged files						:perl DoSpecified(1,'n')<cr>
+    Interactive		shell command
+      Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+  x1<F4>	&Tags.Execute a command in xter&m				Execute a command to tagged files in an xterm					:perl DoSpecified(1,'x')<cr>
+    Interactive		shell command
+      Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+  x2<F4>	&Tags.Execute a command in &background xterm			Execute a command to tagged files in an background xterm			:perl DoSpecified(1,'xb')<cr>
+    Interactive		shell command
+      Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+  x<S-F4>	&Tags.Execute a command And Read Output into a &new buffer	Execute a command to tagged files and read output into a new buffer		:perl DoSpecified(1,'rb')<cr>
+    Interactive		shell command
+      Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
+  <BS>		&Navigate.&Back (Previous visited dir)				Go to the previously visited dir						:perl previousDir<CR>
+  <tab>		&Navigate.&Forward						Go to the next visited dir							:perl nextDir<CR>
+  ..		&Navigate.&Parent Directory					Go to parent dir								:perl LL ".."<CR>
+    Enter parent directory of the currently viewed directory
+  ./		&Navigate.&Root Directory					Go to root dir									:perl LL "/"<CR>
+    Enter the root-directory /
+  .~		&Navigate.&Home Directory					Go to home dir									:perl LL $ENV{HOME}<CR>
+    Enter the home-directory ($HOME)
+  .:		&Navigate.&specified Directory					Go to any dir									:perl EnterDir<CR>
+    Interactive
+      Prompts for a directory and enters this directory
+      filename-completen works here
+  ff		&Navigate.f&ollow the link					Follow the link under the cursor						:perl followLink<CR>
+    Example : you have the view at dir /usr/bin
+      the file rcp is in fact a link to /etc/alternatives/rcp
+      LL show this as "rcp -> /etc/alternatives/rcp"
+      if you press ff with the cursor on this line the view is changed to /etc/alternatives
+      and the cursor is positioned on rcp
+      here you may see "rcp -> /usr/bin/scp"
+      pressing ff here brings you to /usr/bin with the cursor on the line for scp
+    Same for a file that has a / in its name
+      e.G. if you do "find . whatever | L"
+  <C-R>		&View.R&efresh							Refresh the current view							:perl UpdateView 0;RefreshView 1<CR>
+    Refresh the current view.
+    stat - information are updated and the !-flags are reset
+    The sorting of the listing is repeated.
+    The timestamp in the header-line is adjusted.
+    See also :
+	k
+	U
+  u		&View.&Update							Update the current view								:perl UpdateView 1<CR>
+    Update the current view.
+    stat - information of files allready in the listing are not updated.
+    Such changes are flagged in the ! - column (see cpg rsp. cpl below)
+    The timestamp of the header-line as well as 
+    the sorting of the listing remains unchanged.
+    Possible flags are:
+	n	file is new since last refresh
+	c	file has changed since last refresh
+	d	file is deleted since last refresh
+	<blank>	file is unmodified since last refresh
+    See also :
+	U
+	<C-R>
+  U		&View.Upda&te clean						Update the current view (keep deleted)						:perl RefreshView 0<CR>
+    Refresh the current view.
+    stat - information are updated and the !-flags are reset
+    THis command works much like <C-R> except that
+    deleted files stay in the listing (marked with d)
+    The sorting of the listing is repeated.
+    The timestamp in the header-line is adjusted.
+    See also :
+	u
+	<C-R>
+  .?		&View.&Visited							View the list of visited dirs							:perl VisitedDirs<CR>
+    Display a list of all visited directories in a separate window.
+    This window has the name /strux/VISITED and additional commands are available there.
+      press <F1> in this window to get help on these mappings
+  .!		&View.&DirStack							View the back/forward stack							:perl ShowDirStack<CR>
+    Display the stack used for <BS> and <TAB>
+    This window has the name /strux/DIRSTACK and additional commands are available there.
+      press <F1> in this window to get help on these mappings
+  help		per entry command
+    If the first two characters are "P " then the rest is passed to (build-in) perl.
+      The filename is not automatically appended in this case.
+      The perl-code is executed in the namespace XPE (for x-per-entry).
+    Else the command is executed as a shell command.
+      The complete path to the file is appended (properly quoted) to the command.
+      both stderr and stdout are displayed.
+    The following vars are set for the command:
+	$F	filename (as shown by LL)			file.ext
+	$d	base-directory (as shown in the header-line)	/path/to/
+	$f	filename with path				/path/to/file.ext
+  help		per file command
+    The command is applied to each file if the "Parse String" (see cpg rsp. cpl) contains %x.
+    The command output is put at the position indicated by %x.
+    It is not applied to directories. See cxdl rsp. cxdg for this.
+    more at	per entry command
+  cxfg		&Configure.global Per File &Command				Configure the Global Per File Command						:perl SetxPerEntryCmd("g","file")<CR>
+    Interactive		per file command
+      It is not applied to directories. See cxdg for this.
+      The local Per File command (as set with cxfl) can override the global Per File command.
+      Example :
+	file -b
+	grep -s something
+	head -q -n 1
+	wc
+
+	cvs log  -N -rHEAD $F|perl -ne '/date://.../^==/ and print'|perl -ne '$.==2 and print' #
+	cvs status $F 2>/dev/null|perl -ne 'if ($.==2) {s//.*Status: //;print;}' #
+	  In the above examples $F is used in the command. LL still appends the full pathname to the command.
+	  Therefore the final # is present to turn this into a comment.
+	P open F,$F and do { chomp(my $s=<F>);close F;return $s}
+	  the above example is equivalent to "head -q -n 1" but much faster, since no external program needs to be startet.
+
+      If you set it to empty then the default entry (file -b) will be used.
+      You can set the default entry in your .vimrc with
+	let g:strux_LL_perFileCommand='new command' (see |g:strux_LL_perFileCommand|)
+      See also :
+	cxdg
+	cxfl
+	cxdl
+  cxfl		&Configure.local Per File C&ommand				Configure the Local Per File Command						:perl SetxPerEntryCmd("l","file")<CR>
+    Interactive		per file command
+      It is not applied to directories. See cxdl for this.
+      It overrides a global Per File command (as set with cxfg).
+      Example :
+	cat 2>/dev/null
+	  the above exapmple is usefull e.G in /proc/sys or /proc/ide
+	whatis -s1 "$F" | sed -e 's/.*- //' #
+	  the above exapmple is usefull e.G in /bin or /usr/bin
+	P open F,$F and do { chomp(my $s=<F>);close F;return $s}
+	  the above command is equivalent to "cat 2>/dev/null".
+
+      If you set it to empty then the gloal entry will be used.
+      See also :
+	cxdg
+	cxfg
+	cxdl
+	dirsettings
+  help		per dir command
+    The command is applied to each directory if the "Parse String" (see cpg rsp. cpl) contains %x.
+    Its output is put at the position indicated by %x.
+    It is not applied to normal files. See cxfl rsp. cxfg for this.
+    more at	per entry command
+  cxdg		&Configure.global Per &Dir Command				Configure the Global Per Dir Command						:perl SetxPerEntryCmd("g","dir")<CR>
+    Interactive		per dir command
+      The local Per Dir command (as set with cxdl) can override the global Per Dir command.
+      Example :
+	du -sh "$F" | awk '{ print $1 }' # 
+	ls -1 "$F"| wc -l #
+	  In the above examples $F is used in the command. LL still appends the full pathname to the command.
+	  Therefore the final # is present to turn this into a comment.
+
+	P my $s;opendir DH,$F and do { $s=@{[readdir DH]} ; close DH }; return $s
+	  the above example is equivalent to "ls -1 "$F"| wc -l #"  but much faster, since no external program needs to be startet.
+
+      If you set it to empty then the default entry (# for no command) will be used.
+      You can set the default entry in your .vimrc with
+	let g:strux_LL_perDirCommand='new command' (see |g:strux_LL_perDirCommand|)
+      See also :
+	cxfg
+	cxfl
+	cxdl
+  cxdl		&Configure.local Per Dir Co&mmand				Configure the Local Per Dir Command						:perl SetxPerEntryCmd("l","dir")<CR>
+    Interactive		per dir command
+      It overrides a global Per Dir command (as set with cxfg).
+      Example :
+	[ -e $F/status  ] && { read pid name status rest < $F/stat;echo -en "$status\t" ; perl -ne 's//.*\t//;chop;print "$_\t";exit' $F/status ; tr '\0' ' ' <$F/cmdline ; } #
+	  the above exapmple is usefull e.G in /proc/sys or /proc/ide
+	P return if $F !~ /\d+/  ;my $s;open F,"$F/stat" and do { $s .= (split(/\s+/,<F>))[2]." ";close F };open F,"$F/status" and do { $s .= (split(/\t+|\n/,<F>))[1]."\t";close F };open F,"$F/cmdline" and do { my $x = <F>;$x =~ s/\0/ /g;$s.=$x;close F };$s
+	  the above command is equivalent to the shell-command above.
+
+      If you set it to empty then the gloal entry will be used.
+      See also :
+	cxdg
+	cxfg
+	cxdl
+	dirsettings
+  help		Parse String
+    The format-string defines how to display the dir-entries.
+    It consists of printf style '%' items interspersed with normal text.
+    The formats:
+	%	A single "%" - Character
+	T	A single tab
+	t	denotes tagged lines
+	n	filename
+	/	filename, with "/" appended, if file is a directory, symlinks are indicated by ->
+	i	inode number
+	F	mode flags as octal number
+	f	mode flags in drwxrwxrwx - notation
+	u	user id (numerically)
+	U	user id (text)
+	g	group id (numerically)
+	G	group id (text)
+	s	file size
+	a	atime (in readable form)
+	c	ctime (in readable form)
+	m	mtime (in readable form)
+	d	device number
+	l	number of links
+	r	rdev
+	b	blocksize
+	S	number of blocks
+	A	atime (numerically)
+	C	ctime (numerically)
+	M	mtime (numerically)
+	!	modification flags
+	x	result of per file command, as defined by cxfl or cxfg
+    Any sequence of tabs will be shortened/prolonged to make all tab-seperated columns aligned.
+  cpg		&Configure.global &Parse String					Configure the global Parse String						:perl SetParseString "g"<CR>
+    Interactive		Parse String
+      Set the parsestring
+      If you enter an empty format-string, it is reset to the default.
+      The format-string defaults to : %t%f %!^I%l^I%U^I%G^I%m^I%s^I%/
+      This can be overwritten by setting |g:strux_LL_parsestring|
+      See also :
+	  cpl
+  cpl		&Configure.local P&arse String					Configure the local Parse String						:perl SetParseString "l"<CR>
+    Interactive		Parse String
+      Set the parse-string for this directory
+      If you enter an empty format-string, it is reset to the global parse string (as set with cpg).
+      See also :
+	  cpg
+	  dirsettings
+  cpr		&Configure.reread d&irsettings					Reread the LL-autocommands							:perl RereadNewViewAutocommands(0)<cr>
+    Rereads the file ~/LL.dirsettings which holds the NewView Autocommands
+vInterface	/strux/LL
+  xx			&Tags.&Tag			Tag selected files			:perl vTagFile ">"<CR>
+    Tag (mark) the selected files
+  xX			Tags.&Untag			Untag selected files			:perl vTagFile " "<CR>
+    Untag (unmark) the selected files
+  xt			Tags.toggle t&his		Toggle selected files			:perl vTagFile "^"<CR>
+    Toggle the tag for the selected files
+Interface	frequentCommands
+  <F4>		&Cmd.&Execute					Execute this command						:call ExecuteCurrentLine('n')<cr>
+    Execute the line under the cursor in your shell
+    The command is executed as typed
+    It is NOT subject to vim's treating of some chars as % and #
+    The following vars are set for the command:
+	$f	filename with path		/path/to/file/name.ext
+	$p	path				/path/to/file
+	$F	filename as given		name.ext
+	$r	filename without extension	name
+	$e	extension			ext
+    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+  1<F4>		&Cmd.Execute in x&term				Execute this command in an xterm				:call ExecuteCurrentLine('x')<cr>
+    same as <F4>, but the command is executed in an xterm.
+    This is usefull if you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
+    See |g:strux_LL_xterm| for configuring the xterm.
+  2<F4>		&Cmd.Execute in &background xterm		Execute this command in an background xterm			:call ExecuteCurrentLine('xb')<cr>
+    same as <F4>, but the command is executed in an xterm, which again is put into background.
+    You can continune using vim, even if the command is not yet finished.
+    This is usefull if
+	you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
+	you want to execute a longrunning program in the background (even in (term-)vim)
+    See |g:strux_LL_xterm| for configuring the xterm.
+  <S-F4>	&Cmd.Execute And Read Output into a &new buffer	Execute this command and read output into a new buffer		:call ExecuteCurrentLine('rb')<cr>
+    same as <S-F4>, but the output is read into a new buffer
+  1<S-F4>	&Cmd.E&xecute And Read Output			Execute this command and read output				:call ExecuteCurrentLine('r')<cr>
+    same as <F4>, but the output is read into the frequentCommands buffer.
+    The read output is also visually selected.
+      This is useful to have things like > (shift in) work out of the box
+      Press <ESC> to get rid of the visual selection
+  <F3>		&Cmd.&Show file or Dir				LL file under cursor, remain in command-window			:LL <c-r><c-r><c-f><cr>:call ActivateCmdBuffer()<CR>
+    This command may fail, if the name under the cursor contains spaces
+  1<F3>		&Cmd.&Go To file or Dir				LL file under cursor						:LL <c-r><c-r><c-f><cr>
+    This command may fail, if the name under the cursor contains spaces
+  2<F3>		&Cmd.Show &file or Dir (whole line)		LL file under cursor (whole line), remain in command-window	:exe 'perl LL("'. substitute(getline("."),'\s*',"","") .'")'<cr>:call ActivateCmdBuffer()<CR>
+    Take the whole line as filename, but skip leading whitespaces
+    This is especially useful if the path/filename contains spaces
+    or other strange characters.
+  3<F3>		&Cmd.Go T&o file or Dir (whole line)		LL file under cursor (whole line)				:exe 'perl LL("'. substitute(getline("."),'\s*',"","") .'")'<cr>
+    Take the whole line as filename, but skip leading whitespaces
+    This is especially useful if the path/filename contains spaces
+    or other strange characters.
+Interface	/strux/INSPECT
+  <2-leftmouse>						Inspect harder				:perl InspectHarder<CR>
+  <CR>			&Inspect.&this			Inspect harder				:perl InspectHarder<CR>
+    On some lines in the inspect-window, you can get more information with this command
+    Notably on the following fields:
+	name		If the file is a symbolic link show the complete link-chain
+	dev		show the disk-free info for the filesystem this file belongs to
+	magic		show more hits of "file", if available
+	process-line	start pst and position the cursor on the appropriate entry
+	  see |pstree| for details of this view
+Interface	/strux/ACMD
+  i			&Acmd.&Show			Show the command			:perl AcmdShowCommand -1<CR>
+    show the associated command
+  <CR>			&Acmd.&do			Do the command				:perl AcmdShowCommand 1<CR>
+    execute the selected command
+Interface	/strux/DIRSTACK
+  <2-leftmouse>						Select the dir				:perl DirStackSelect<CR>
+    Jump to selected dir
+  <CR>			&View.&Select			Select the dir				:perl DirStackSelect<CR>
+    Jump to selected dir
+  s			&View.S&how			Show the dir				:perl DirStackSelect;ShowDirStack<CR>
+    Show to selected dir, but stay in the Dirstack-View
+Interface	/strux/VISITED
+  <2-leftmouse>						Select the dir				:perl VisitedSelect<CR>
+    Jump to selected dir
+  <CR>			&View.&Select			Select the dir				:perl VisitedSelect<CR>
+    Jump to selected dir
+  s			&View.S&how			Show the dir				:perl VisitedSelect;VisitedDirs<CR>
+    Show to selected dir, but stay in the Visited-View
+  dd			&View.&forget this view		Forget this dir				:perl VisitedForget<CR>
+    The view under the cursor is put into oblivion.
+    It may still be present in the DIRSTACK (for Back (Backspace) and Forward (Tab).
+    If the corresponding view is open right now, it will be remembered until the dir is left.
+vInterface	/strux/VISITED
+  dd			&View.&forget selected views		Forget selected views			:perl vVisitedForget<CR>
+    The selected views are put into oblivion.
+    Some of them may still be present in the DIRSTACK (for Back (Backspace) and Forward (Tab)).
+    If one of the corresponding view is open right now, it will be remembered until the dir is left.
+perl
+  use	POSIX qw(strftime)
+  main
+    M	$LL::					=vimvar("g:strux_LL_				");
+      defaultParseString = $LL::globalParseString			parsestring
+      defaultxPerFileCmd = $LL::globalxPerFileCmd			perFileCommand
+      defaultxPerDirCmd  = $LL::globalxPerDirCmd			perDirCommand
+      defaultxText       = $LL::globalxText				perFileOrDirText
+      newViewAutocommands						dirsettings
+      dateFormat							dateFormat
+      currentHeader							header
+      grepcmd								grep
+      editcmd								editcmd
+    $LL::AcmdRequires = "$ENV{HOME}/strux/bin/acmd"
+    RereadNewViewAutocommands(1)
+    $LL::sode=(0x300|11)	reversed by mtime with seperated dirs
+    $LL::dirstackposition=-1	no directories yet stacked
+  fixSort
+    ?	exists($$disp::H{sort})
+      "already fixed, you can apply a new sorting, then fix again"
+    -
+      $$disp::H{sort} = $LL::sode
+      VIM::DoCommand("setlocal modifiable")
+      VIM::DoCommand('normal!ggA (fixed)')
+      VIM::DoCommand('normal! ``')
+      VIM::DoCommand("setlocal nomodifiable|setlocal nomodified")
+      "sorting fixed for this view"
+  setSode			$s
+    $LL::sode = $s
+    delete $$disp::H{sort}
+  vimvar			$var
+    my $success
+    my $val
+    VIM::DoCommand(qq(if exists("$var")|let cmd=$var|else|let cmd=''|endif))
+    ($success, $val) = VIM::Eval("cmd")
+    ?	$success and $val	return $val	return ""
+  getcwd
+    doc	The reason for this function (as opposed to just using cwd)
+      1) cwd invokes external program pwd
+      2) cwd does not work reliably under windows
+    (my $success, my $val) = VIM::Eval("getcwd()")
+    return $val
+  redrawVisitedAndDirstack
+    VIM::DoCommand(qq(if bufwinnr('/strux/VISITED')  != -1 | exe "perl VisitedDirs" |silent wincmd p | endif))
+    VIM::DoCommand(qq(if bufwinnr('/strux/DIRSTACK') != -1 | exe "perl ShowDirStack"|silent wincmd p | endif))
+    my $fullname4vim=getFullname4vim("$$LL::currentH{dir}","")
+    VIM::DoCommand(qq(exe 'try | silent cd '. fnameescape("$fullname4vim") . ' | catch | echohl ErrorMsg | echo "cannot enter directory, you see the last content" | echohl None | endtry'))
+    my $statuslineName
+    ?	$$LL::currentH{type} eq "filelist"	$statuslineName="Lst : $fullname4vim"	$statuslineName="Dir : $fullname4vim"
+    VIM::DoCommand(qq(let b:dir="$statuslineName"|setlocal stl=%{b:dir}%=F1\\ for\\ Help))
+    $LL::dir = getcwd
+  previousDir
+    ?	$LL::dirstackposition > 0
+      (my $success, $$LL::currentH{posInfo}) = VIM::Eval("string(winsaveview())")
+      hdisp($LL::currentH=$LL::Dirstack[--$LL::dirstackposition])
+      VIM::DoCommand('normal! /<BS>')		Vim does not leave the last line in a good state.
+      ?	$$LL::currentH{type} eq "filelist"	$LL::Dirs{"Lst : $$LL::currentH{dir}"} = $LL::currentH	$LL::Dirs{$$LL::currentH{dir}} = $LL::currentH
+      redrawVisitedAndDirstack
+    -	"First on stack"
+  nextDir
+    ?	$LL::dirstackposition < $#LL::Dirstack
+      (my $success, $$LL::currentH{posInfo}) = VIM::Eval("string(winsaveview())")
+      hdisp($LL::currentH=$LL::Dirstack[++$LL::dirstackposition])
+      VIM::DoCommand('normal! /<BS>')		Vim does not leave the last line in a good state.
+      ?	$$LL::currentH{type} eq "filelist"	$LL::Dirs{"Lst : $$LL::currentH{dir}"} = $LL::currentH	$LL::Dirs{$$LL::currentH{dir}} = $LL::currentH
+      redrawVisitedAndDirstack
+    -	"Last on stack"
+  EnterDir
+    viminput	"Dir : "	""	"dir"
+      doc
+	LL($answer)
+	does not work for /tmp/dir\ with\ spaces
+	hence this workaround
+      VIM::DoCommand(qq(try | silent cd $answer | catch | echohl ErrorMsg | echo "cannot enter directory" | echohl None | endtry))
+      LL(".")
+  tellLinkeChain		$file
+    my %Linkseen= {}
+    ?	-l $file
+      FOREVER
+	"$file"
+	!	-l $file	last
+	$file = readlink $file
+	?	$Linkseen{$file}++
+	  "Recursive link ... stopping (before going insane)"
+	  last
+    -	"file is not a sybolic link"
+  InspectHarder
+    my $l = ($curwin->Cursor())[0]
+    ??	($l	)
+      ==1	tellLinkeChain $$disp::H{Array}[0][0]
+      ==2	VIM::Msg(`df -h '$$disp::H{fullname4shell}'`)		filename : df
+      ==15	VIM::Msg(`file -kz '$$disp::H{fullname4shell}'`)	magic    : file -kz
+      >=19	VIM::DoCommand("call ShowProcess()")
+      -		"not here"
+  AcmdShowCommand		$DoOrShow
+    my $l = ($curwin->Cursor())[0]-2
+    VIM::DoCommand('normal! /<BS>')		Vim does not leave the last line in a good state.
+    ?	$l > 0
+      ?	$_=choice($l*$DoOrShow)	VIM::Msg($_)
+    -	"not here"
+  AcmdInit
+    $opt_vimcall=1
+    require $LL::AcmdRequires
+    acmd_init()
+    "acmd database reread"
+  AcmdFile			$withMenu
+    $opt_vimcall=1
+    require $LL::AcmdRequires
+    my $l = ($curwin->Cursor())[0]
+    my $f = @{$$disp::A[$l-2]}[0]
+    find_entries($f)
+    ?	$withMenu
+      disp	/strux/ACMD
+	Array		\@POSSIBILITIES
+	in_function	sub {$curbuf->Append(0,$f)}
+	item_function	\&poss
+	linenr		3
+    -
+      ?	$_=choice(1)	VIM::Msg($_)
+  LLF				$pattern
+    my $cmd
+    ?	$pattern eq ""
+      doc	position the cursor between the tow stars (*)
+      $cmd = "find . -iname '**'\\<home>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>"
+    -
+      doc	surround the pattern by two stars, but only if no star is already in the pattern
+      ?	$pattern !~ /\*/	$pattern="*$pattern*"
+      doc	position the cursor on the i of -iname
+      $cmd = "find . -iname '$pattern'\\<home>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>"
+    LLproducedlist_interactive($cmd)
+  LLG				$pattern
+    my $cmd
+    ?	$pattern eq ""
+      doc	position the cursor inside the ''
+      $cmd = "grep -lr '' .\\<home>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>"
+    -
+      doc	position the cursor on the first option letter
+      $cmd = "grep -lr '$pattern' .\\<home>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>\\<right>"
+    LLproducedlist_interactive($cmd)
+  LLO				$cmd
+    ?	$cmd eq ''	LLproducedlist_interactive()	LLproducedlist($cmd)
+  LLproducedlist_interactive
+    my ($cmd) = @_;
+    viminput	"Command : "	"$cmd"
+      ?	$answer ne ""	LLproducedlist($answer)
+  LLproducedlist		$cmd
+    VIM::DoCommand('let tn=tempname()')
+    VIM::DoCommand('exe "silent new ".tn')
+    $curbuf->Append(0,"$cmd 2>/dev/null")
+    VIM::DoCommand('silent call ExecuteCurrentLine("r")|silent 1d|exe "normal \<esc>"')
+    (my $success, my $val) = VIM::Eval('line("$")')
+    ?	$val == 1
+      VIM::DoCommand("bw!")
+      doc	I need to output three lines of text, else the messages disappear
+      VIM::Msg("  no hits  ","Error")
+      "command was :"
+      "  $cmd"
+    -
+      VIM::DoCommand('silent $d|silent L')
+      VIM::DoCommand('silent exe "bw! ".tn')
+  LLorRedisp			$d
+    ?	$d			LL $d
+    ?-	$$LL::currentH{time}	dodisp $LL::currentH;redrawVisitedAndDirstack();VIM::DoCommand("set ft=$$disp::H{ft}")
+    -				LL '.'
+  VisitedForget
+    my $s
+    my $arrayIndex
+    !	delete $LL::Dirs{$s=@$disp::A[$arrayIndex=($curwin->Cursor())[0]-1]}
+      "internal error forgetting $s","Error"
+      return
+    VIM::DoCommand('setlocal modifiable|silent d|setlocal nomodifiable')
+    splice(@$disp::A,$arrayIndex,1)
+    "forgetting $s"
+  vVisitedForget
+    my ($success,$start) = VIM::Eval(q(line("'<")))
+    my ($success,$end  ) = VIM::Eval(q(line("'>")))
+    VIM::DoCommand('setlocal modifiable|exe "normal gvd"|setlocal nomodifiable')
+    F	my $ai=$start-1...$end	delete $LL::Dirs{@$disp::A[$ai]}
+    splice(@$disp::A,$start-1,my $count=$end-$start+1)
+    "forgetting $count views"
+  DirStackSelect
+    hdisp($LL::currentH=$LL::Dirstack[$LL::dirstackposition=($curwin->Cursor())[0]-1])
+    VIM::DoCommand('normal! /<BS>')		Vim does not leave the last line in a good state.
+    redrawVisitedAndDirstack
+  pushDirstack
+    ?	$LL::dirstackposition != -1 and $LL::Dirstack[$LL::dirstackposition]{dir} eq $$LL::currentH{dir} and $$LL::currentH{type} eq 'dir'	return
+    $#LL::Dirstack=$LL::dirstackposition++
+    push @LL::Dirstack,$LL::currentH
+  VisitedSelect
+    $LL::currentH=$LL::Dirs{ @$disp::A[($curwin->Cursor())[0]-1] }
+    hdisp $LL::currentH
+    pushDirstack
+    VIM::DoCommand('normal! /<BS>')		Vim does not leave the last line in a good state.
+    redrawVisitedAndDirstack
+  editFile
+    setstatvars @$disp::A[($curwin->Cursor())[0]-2]
+    ?	grep(/^MAIN$/i,`vim --serverlist`)
+      `vim --servername main --remote-tab "$LL::file"`
+      "file opened in remote vim"
+    -	"vimserver MAIN not running","Error"
+  deleteFile
+    setstatvars @$disp::A[($curwin->Cursor())[0]-2]
+    my $fullname4vim=getFullname4vim($$disp::H{dir},$LL::file)
+    viminput	"delete file $fullname4vim : "
+      ?	!$answer or ($answer ne 'y' and $answer ne 'Y')
+	"delete cancelled"
+	return
+      ?	isdir($LL::mode)
+	local *dirhandle
+	?	opendir(dirhandle,$LL::file)
+	  my $nrOfFiles = @{ [ readdir(dirhandle) ] }
+	  closedir dirhandle
+	  ?	$nrOfFiles > 2
+	    viminput	"Directory is not empty, recursive delete : "
+	      ?	!$answer or ($answer ne 'y' and $answer ne 'Y')
+		"delete cancelled"
+		return
+	      my $fullname4shell=getFullname4shell($$disp::H{dir},$LL::file)
+	      VIM::Msg(`rm -rf -- '$fullname4shell' 2>&1`)
+	      ?	$?	return
+	      goto success
+	    -	return
+	?	rmdir($LL::file) != 1
+	  "Delete failed : $!","Error"
+	  return
+      -
+	!	unlink($LL::file) == 1
+	  "Delete failed","Error"
+	  return
+      success:
+	"delete sucessfull, press ^R to refresh view"
+  renameOrCopyFile		$mode
+    setstatvars @$disp::A[($curwin->Cursor())[0]-2]
+    my $fullname4vim=getFullname4vim($$disp::H{dir},$LL::file)
+    viminput	"$mode file $fullname4vim to : "	"$fullname4vim"	"file"
+      my $newname
+      !	$newname=$answer
+	"$mode cancelled"
+	return
+      $newname =~ s:^~/:$ENV{HOME}/:
+      ?	-f $newname or -d $newname and -e "$newname/$LL::file"
+	viminput	"file exists, $mode anyway : "
+	  ?	!$answer or ($answer ne 'y' and $answer ne 'Y')
+	    "$mode cancelled"
+	    return
+	-	return
+
+      my $fullname4shell=getFullname4shell($$disp::H{dir},$LL::file)
+      doc	dilemma
+	vim already might have escaped some characters (such as blank) due to tab-completion.
+	So if the input is a mix of tab-completion and entered characters, some might be escaped, some not.
+	And there is no way to tell which is which.
+	I remove all \-es here.
+      ?	$newname =~ /\\\\/
+	"filenames with backslash are not supported, $mode failed"
+	return
+      (my $newnameNoBackslash = $newname) =~ s:\\::g
+      my $newfullname4shell=getFullname4shell($$disp::H{dir},$newnameNoBackslash)
+      ?	$mode eq "rename"
+	!	rename $LL::file,$newname
+	  doc	rename failed
+	    try to let mv do the job
+	  VIM::Msg(`mv '$fullname4shell' '$newfullname4shell' 2>&1`)
+	  ?	$?	return
+      ?-	$mode eq "copy"
+	?	-d $LL::file
+	  viminput	"file is a directory, copy recursively? : "
+	    ?	!$answer or ($answer ne 'y' and $answer ne 'Y')
+	      "$mode cancelled"
+	      return
+	  -	return
+	VIM::Msg(`cp -pr '$fullname4shell' '$newfullname4shell' 2>&1`)
+	?	$?	return
+      -	return
+      "$mode sucessfull, press ^R to refresh view"
+  DoSpecified			$tagged,$scriptmode
+    my $prompt
+    ?	$scriptmode eq 'rb' or VIM::Eval('has("gui_running")')	$prompt = "(NON-interactive) Cmd : "	$prompt = "Cmd : "
+    viminput	"$prompt"	""	"shellcmd"
+      !	$answer	return
+      ?	$tagged
+	F	(grep($$_[1]{x_tagged} eq ">",@$disp::A))	WriteTmpScript($answer.' $f' ,$$_[0])
+	VIM::DoCommand("call ExecuteScript('$scriptmode')")
+      -
+	$LL::lastShellCommand=$answer
+	$LL::scriptmode=$scriptmode
+	RepeatLastShellCommand
+  RepeatLastShellCommand
+    !	$LL::lastShellCommand
+      "No last command","Error"
+      return
+    $$LL::currentH{posInfo} = VIM::Eval("string(winsaveview())")
+    VIM::DoCommand("call RepeatLastShellCommand('$LL::scriptmode')")
+  ShowDirStack
+    disp		/strux/DIRSTACK
+      Array		\@LL::Dirstack
+      linenr		$LL::dirstackposition+1
+      item_function	sub { (($$disp::A[$i]{type} eq "filelist") ? "Lst : " : "" ). $$disp::A[$i]{dir} }
+  VisitedDirs
+    my @A = sort keys %LL::Dirs
+    my $linenr=1
+    F	my $i=0...@A
+      doc	find the line of the current dir
+	don't use $$LL::currentH instead of $$disp::H here, it is still the old dir
+      ?	$$disp::H{type} eq 'filelist'
+	?	$A[$i] eq "Lst : $$disp::H{dir}"
+	  $linenr += $i
+	  last
+      -
+	?	$A[$i] eq $$disp::H{dir}
+	  $linenr += $i
+	  last
+    disp	/strux/VISITED
+      Array		\@A
+      linenr		$linenr
+      item_function	\&visitedTerse
+      tabify		1
+  Inspect
+    my $l = ($curwin->Cursor())[0]	The linener
+    ?	$l > 1
+      disp	/strux/INSPECT
+	Array		[[@{$$disp::A[$l-2]}[0..1],lstat(@{$$disp::A[$l-2]}[0])]]
+	item_function	\&stat2inspect
+      VIM::DoCommand("setlocal ts=8|wincmd p")
+    -	"not here","Error"
+  process			$file
+    local *dirhandle
+    ?	lstat $file
+      ?	isdir((lstat _)[2]) and ($opt_r || $opt_x) and !(-l $file) || $opt_h
+	$opt_x=0			ony one level deep
+	?	chdir $file
+	  opendir(dirhandle,".") or VIM::Msg("cannot open dir $file : $!","Error")
+	  W	$_=readdir dirhandle	process $_
+	  closedir dirhandle
+      -
+	@$LL::Dir[scalar @$LL::Dir] = [ $file,{},lstat _ ]			stat ok
+    -
+      @$LL::Dir[scalar @$LL::Dir] = [ $file,{} ]				cannot stat this file
+  getFullname4perl		$dir,$file
+    doc	returns filename suitable for perl
+      each of $dir and $file may be empty
+      if $file is an absolute path or if $dir is empty then $file is returned unchanged
+      if $file is empty then $dir is returned
+
+    ?	$file eq ""	return $dir
+
+    ?	substr($file,0,1) ne "/" and $dir
+      ?	$dir eq "/"	return "/$file"	return "$dir/$file"
+    -	return $file
+  getFullname4vim		$dir,$file
+    doc	returns filename suitable for vim
+      use fnameescape("$fullname4vim") in vim to make it suitable here
+    (my $tmp = getFullname4perl($dir,$file)) =~ s/(['"])/\\$1/g	to make filenames like a'"b   (yes 4 characters a ' " and b) work
+    $tmp
+  getFullname4shell		$dir,$file
+    (my $tmp = getFullname4perl($dir,$file)) =~ s/'/'"'"'/g	to make filenames like "Leonard Cohen - First, We'll Take Manhattan" work
+    $tmp
+  visitedTerse			$D,$i
+    my $f = @$D[$i]
+    ?	$f eq "/"	return "/\t/"
+    $f =~ m:([^/]+)$:
+    return "$1\t$f"
+  stat2inspect			$D,$i
+    setstatvars @$D[$i]
+    my $additionalSizeInfo
+    my $magicStr
+    my $packageStr
+    my @packageStr
+    my $fullname4internal=getFullname4perl($$LL::currentH{dir},$LL::file)
+    my $fullname4shell = $$disp::H{fullname4shell} = getFullname4shell($$LL::currentH{dir},$LL::file)
+
+    !		$LL::size				$additionalSizeInfo.="0B\tEMPTY"
+    -
+      $additionalSizeInfo=sprintf("%sB",$LL::size)
+      ?		$LL::size > 1024		$additionalSizeInfo.=sprintf "\t%.2fkB",$LL::size/(1024)
+	?	$LL::size > 1024*1024		$additionalSizeInfo.=sprintf "\t%.2fMB",$LL::size/(1024*1024)
+	  ?	$LL::size > 1024*1024*1024	$additionalSizeInfo.=sprintf "\t%.2fGB",$LL::size/(1024*1024*1024)
+	    ?	$LL::size > 1024*1024*1024*1024	$additionalSizeInfo.=sprintf "\t%.2fTB",$LL::size/(1024*1024*1024*1024)
+    chomp($magicStr =`file -b '$fullname4shell'`)
+    doc	the package
+      "dlocate <filename>" returns all files starting with <filename>
+      So eg. "dlocate /usr/lib/i486" returns
+	libc6: /usr/lib/i486-linux-gnu
+	libssl0.9.7: /usr/lib/i486
+	and more
+      So I have to find the correct entry (i.E the one looking like /^<package>: <filename>$/
+      On the other hand there may be filenames like "/usr/include/g++-3" which cannot be used as in
+	($packageStr) = grep /: $fullname4internal$/,@packageStr
+      since this gives something like
+	Nested quantifiers in regex; marked by <-- HERE in m/: /usr/include/g++ <-- HERE -3$/ at (eval 12) line 468, <AC_strem> line 22.
+      The following construct tries to avoid all these issues
+    chomp(@packageStr =`dlocate '$fullname4shell'`)
+    ($packageStr) = grep { /(.*?): (.*)/; $2 eq $fullname4internal} @packageStr
+    ($packageStr) = $packageStr =~ /(.*?): /
+
+    chomp(@lsof=`lsof '$fullname4shell' 2>/dev/null`)
+    ?	@lsof
+      map	@lsof	s/^/  /
+      unshift @lsof,"Processes currently accessing this file:"
+    -
+      unshift @lsof,"No Process currently accessing this file (as far as I can tell)"
+
+    M	$curbuf->Append($item++,									);
+				"name\t$fullname4internal"
+				sprintf("dev\t%d,%d",$LL::dev>>8,$LL::dev&0xff)
+				"ino\t$LL::ino"
+				sprintf "mode\t0%o\t\t%s",$LL::mode,Flags($LL::mode)
+				"nlink\t$LL::nlink"
+				"uid\t$LL::uid\t\t".s_getpwuid $LL::uid
+				"gid\t$LL::gid\t\t".s_getgrgid $LL::gid
+				"rdev\t$LL::rdev".((S_ISCHR($LL::mode) or S_ISBLK($LL::mode)) ? sprintf( "\t\t%d, %3d",($LL::rdev >> 8),($LL::rdev & 0xff) ): "")
+				"size\t$additionalSizeInfo"
+				"blksize\t$LL::blksize"
+				"blocks\t$LL::blocks"
+				"atime\t$LL::atime\t".xpand($LL::atime)
+				"ctime\t$LL::ctime\t".xpand($LL::ctime)
+				"mtime\t$LL::mtime\t".xpand($LL::mtime)
+				"magic\t$magicStr"
+				"package\t$packageStr"
+    $curbuf->Append($item,@lsof)
+    $item+=@lsof
+    return undef
+  xpand				$time
+    strftime($LL::dateFormat,localtime($time))
+  setstatvars
+    M	*	=\$_[0][	];
+	LL::file	0
+	LL::dev		2
+	LL::ino		3
+	LL::mode	4
+	LL::nlink	5
+	LL::uid		6
+	LL::gid		7
+	LL::rdev	8
+	LL::size	9
+	LL::atime	10
+	LL::mtime	11
+	LL::ctime	12
+	LL::blksize	13
+	LL::blocks	14
+	LL::xInfo	15
+    $LL::tags=$_[0][1]
+  stat2hrParsed			$D,$i
+    my $escapedfile
+    my $line=""			output is constructed here in
+    my $called4desc = !$D and !$i	we are called for the header line
+    !	$called4desc
+      setstatvars @$D[$i]
+      ($escapedfile=$LL::file) =~ s/\t/\\t/g
+    F	my $j=0;$j<length($LL::currentParseString);$j++
+      my $c=substr $LL::currentParseString,$j,1
+      ?	$c eq "%"
+	$c=substr $LL::currentParseString,++$j,1
+	parse:
+	  M	if ($c eq '	') { $line.= ( $called4desc?("		"):(							));last parse }
+	                    %					%			'%'
+	                    t					  			$$LL::tags{x_tagged} || " "
+	                    T					\t			"\t"
+	                    n					name			$escapedfile
+	                    /					name			isdir($LL::mode) ? "$escapedfile/" : NameWithLink()
+	                    i					inode			$LL::ino
+	                    F					mod			sprintf "%03o",$LL::mode&0777
+	                    f					mode      		Flags($LL::mode)
+	                    u					uid			$LL::uid
+	                    U					uid			(local $tmp = s_getpwuid $LL::uid)?$tmp:$LL::uid
+	                    g					gid			$LL::gid
+	                    G					gid			(local $tmp = s_getgrgid $LL::gid)?$tmp:$LL::gid
+	                    s					           size		(S_ISCHR($LL::mode) or S_ISBLK($LL::mode)) ? sprintf( "%10d, %3d",($LL::rdev >> 8),($LL::rdev & 0xff) ): sprintf "%15s",$LL::size
+	                    a					atime			xpand($LL::atime)
+	                    c					ctime			xpand($LL::ctime)
+	                    m					mtime			xpand($LL::mtime)
+	                    d					dev			$LL::dev
+	                    l					nlink			$LL::nlink+0
+	                    r					rdev			$LL::rdev
+	                    b					blksize			$LL::blksize
+	                    S					blocks			$LL::blocks+0
+	                    A					atime			$LL::atime
+	                    C					ctime			$LL::ctime
+	                    M					mtime			$LL::mtime
+	                    !					!			(local $tmp = $$LL::tags{_ll_})?$tmp:" "
+	                    x					$LL::currentxText	xPerFile
+	  $line.="ERROR"
+      -
+	$line.="$c"
+    $line
+  SetParseString		$scope
+    ?	$scope eq "g"
+      doc	global parse string
+      viminput	"global ParseString : "	"$LL::globalParseString"
+	?	$answer ne $LL::globalParseString
+	  ?	$answer	$LL::globalParseString=$answer	$LL::globalParseString=$LL::defaultParseString
+	  UpdateView 1				Assure, that the changes are applied immediatly
+    -
+      doc	local parse string
+      local $lps=$LL::P{$LL::dir}?$LL::P{$LL::dir}:$LL::globalParseString
+      viminput	"local ParseString : "	"$lps"
+	?	$answer ne $LL::P{$LL::dir}
+	  ?	$answer	$LL::P{$LL::dir}=$answer	undef($LL::P{$LL::dir})
+	  UpdateView 1				Assure, that the changes are applied immediatly
+    !	$LL::currentParseString =~ m:%/$:
+      $$disp::H{ft}='LL-common'
+      VIM::DoCommand("set ft=$$disp::H{ft}")
+  fileToClipboard		$register,$what
+    setstatvars @$disp::A[($curwin->Cursor())[0]-2]
+    my $fullname4vim
+    ?	$what eq 'f'	$fullname4vim=getFullname4vim("",$LL::file)		$fullname4vim=getFullname4vim($$disp::H{dir},$LL::file)
+    VIM::DoCommand qq(exe 'let \@$register="'.fnameescape("$fullname4vim").'"')
+    VIM::DoCommand qq(echo "yanked" \@$register)
+  followLink
+    setstatvars @$disp::A[($curwin->Cursor())[0]-2]
+    ?	S_ISLNK $LL::mode
+      ?	substr((my $l=readlink $LL::file),0,1) ne '/'
+	(my $f=$LL::file) =~ s:[^/]*$::
+	LL($f.readlink $LL::file)
+      -
+	LL(readlink $LL::file)
+    ?-	$LL::file =~ m:/:
+      LL($LL::file)
+    -
+      "File is neither a symbolic link nor is it in a subdir"
+  NameWithLink
+    my $str=$LL::file
+    ?	S_ISLNK $LL::mode
+      my ($f,$l)
+      ?	substr(($l=readlink $LL::file),0,1) ne '/'	($f=$LL::file) =~ s:[^/]*$::
+      ?	 $l =~ /^pipe|socket:\[\d+\]$/ or -e $f.readlink $LL::file	$str.=" -> "	$str.=" -!> "
+      $str.=$l
+      # ?	-d readlink $LL::file	$str.="/"
+      #  don't do the above or at least also check if the link already ends in /
+      #  I think it's better to show links as they are
+    $str=~s/\t/\\t/g
+    $str
+  SetxPerEntryCmd		$scope,$type
+    local *globalxPerEntryCmd
+    local *defaultxPerEntryCmd
+    local *XPe
+    ?	$type eq "dir"
+      *globalxPerEntryCmd  = \$LL::globalxPerDirCmd
+      *defaultxPerEntryCmd = \$LL::defaultxPerDirCmd
+      *XPe                 = \%LL::Xd
+    -
+      *globalxPerEntryCmd  = \$LL::globalxPerFileCmd
+      *defaultxPerEntryCmd = \$LL::defaultxPerFileCmd
+      *XPe                 = \%LL::Xf
+    ?	$scope eq "g"
+      doc	global x per entry command
+      viminput	"(optional) description : "	"$LL::globalxText"
+	$LL::currentxText = $LL::globalxText = $answer
+
+      (my $xpf=$globalxPerEntryCmd) =~ s/(['"])/\\$1/g
+      viminput	"global x per $type command : "	"$xpf"
+	?	$answer ne $globalxPerEntryCmd
+	  ?	$answer	$globalxPerEntryCmd=$answer	$globalxPerEntryCmd=$defaultxPerEntryCmd
+	  RefreshView 0				Assure, that the changes are applied immediatly
+    -
+      doc	local x per entry command
+      my $xpf=$XPe{$LL::dir}?$XPe{$LL::dir}:$globalxPerEntryCmd
+      $xpf =~ s/(['"])/\\$1/g
+      viminput	"(optional) description : "	"$Xt{$LL::dir}"
+	$LL::currentxText = $Xt{$LL::dir} = $answer
+      viminput	"local x per $type command : "	"$xpf"
+	?	$answer ne $XPe{$LL::dir}
+	  ?	$answer	$XPe{$LL::dir}=$answer	undef($XPe{$LL::dir})
+	  RefreshView 0				Assure, that the changes are applied immediatly
+  xPerFile
+    doc
+      execute the LL::currentxPerFileCmd for files.
+      execute the LL::currentxPerDirCmd  for directories (not for . and .. ).
+      but only if the command is not empty.
+      stderr is redirected to stdout.
+      command starting with "P " are Perl-commands.
+      $d and $F are set to path and file rsp.
+    !	$LL::mode		return ""
+    ?	defined($LL::xInfo)	return $LL::xInfo
+    local *cmd
+    ?	isdir($LL::mode)
+      ?	$LL::file eq "." or $LL::file eq ".."	return ""
+      *cmd = \$LL::currentxPerDirCmd
+    -
+      *cmd = \$LL::currentxPerFileCmd
+    ?	substr($cmd,0,1) eq "#"	return
+    ?	$LL::currentxIn and !$LL::xinDone++
+      ?	substr($LL::currentxIn,0,2) eq "P "
+	$d = $$disp::H{dir}
+	eval("package XPE;".substr($LL::currentxIn,2))
+      -
+	$ENV{d} = $$disp::H{dir}
+	`2>&1 $LL::currentxIn`
+    $F = $LL::file
+    $d = $$disp::H{dir}
+    $f = $LL::file
+    !	$f =~ m:^/:
+      doc	if filename is not already absolute prepend the path
+      $f="$$disp::H{dir}/$f"
+    ?	substr($cmd,0,2) eq "P "
+      $XPE::F = $F
+      $XPE::d = $d
+      $XPE::f = $f
+      return $LL::xInfo=eval("package XPE;".substr($cmd,2))
+    -
+      $ENV{F} = $F
+      $ENV{d} = $d
+      $ENV{f} = $f
+
+      $f =~ s/'/'"'"'/g;
+      chomp(my $tmp=`2>&1 $cmd '$f'`)
+      return $LL::xInfo=$tmp
+  Flags				$f
+    my ($str,$i,$b)
+    ??	(	($LL::mode))
+      isreg		$str = '-'
+      isdir		$str = 'd'
+      S_ISSOCK		$str = 's'
+      S_ISLNK		$str = 'l'
+      S_ISCHR		$str = 'c'
+      S_ISBLK		$str = 'b'
+      S_ISFIFO		$str = 'p'
+      -			$str = ' '
+
+    F	$i = 1,$b = 0400; $i<=9 ; $b>>=1,$i++	$str .= $f & $b ? substr("drwxrwxrwx",$i,1) : '-'
+    ?	$f & $S_ISUID	substr($str,3,1) = 's'
+    ?	$f & $S_ISGID	substr($str,6,1) = 's'
+    ?	$f & $S_ISVTX	substr($str,9,1) = 't'
+
+    $str
+  TagByPattern			$v
+    viminput	"Pattern : "
+      !	$answer	return
+      F	(grep(@$_[0]=~$answer,@$disp::A))	$$_[1]{x_tagged}=$v
+      redisp
+  ToggleTags
+    map	@{$$disp::H{Array}}
+      $$_[1]{x_tagged}=$$_[1]{x_tagged} eq ">"?" ":">"
+    redisp
+  TagAll			$v
+    map	@{$$disp::H{Array}}
+      $$_[1]{x_tagged}=$v
+    redisp
+  TagByGrep			$v
+    viminput	"Grepcmd : "
+      !	$answer	return
+      my $f
+      my $count=0
+      my $greperror=0
+      local *TF
+      ?	open(TF,$LL::grepcmd." $answer|")
+	W	$f=<TF>
+	  chop $f
+	  $count++
+	  F	(grep(@$_[0] eq $f,@$disp::A))	$$_[1]{x_tagged}=$v
+	close TF
+	doc	for $greperror see note about grepcmd in main
+	?	$? & ~0x300	$greperror=1
+	redisp
+	?	$greperror	"Error invoking grep"	"$count hits"
+      -	"Cannot grep (fork failed)"
+  TagByFile			$v
+    viminput	"File : "	""	"file"
+      !	$answer	return
+      my $f
+      local *TF
+      ?	-r $answer
+	?	open(TF,$answer)
+	  W	$f=<TF>
+	    chop $f
+	    F	(grep(@$_[0] eq $f,@$disp::A))	$$_[1]{x_tagged}=$v
+	  close TF
+	  redisp
+	-	"File $answer not found"
+      -		"File $answer not found"
+  vTagFile			$v
+    my ($success,$start) = VIM::Eval(q(line("'<")))
+    my ($success,$end  ) = VIM::Eval(q(line("'>")))
+    VIM::DoCommand("setlocal modifiable")
+    F	my $ai=$start-2...$end-1
+      setstatvars @$disp::A[$ai]
+      ?	$v eq "^"	$$LL::tags{x_tagged} =($$LL::tags{x_tagged} eq ">")? " " : ">"	$$LL::tags{x_tagged} = $v
+      my $vi=$ai+2
+      VIM::DoCommand("normal! ${vi}G0r$$LL::tags{x_tagged}$vc ")
+    VIM::DoCommand("setlocal nomodifiable|setlocal nomodified")
+  TagFile			$v
+    my ($vi,$vc)=($curwin->Cursor())	the line in vim
+    my $ai=$vi-2			the index in A
+    setstatvars @$disp::A[$ai]
+    ?	$v eq "^"	$$LL::tags{x_tagged} =($$LL::tags{x_tagged} eq ">")? " " : ">"	$$LL::tags{x_tagged} = $v
+    VIM::DoCommand("setlocal modifiable")
+    doc	motivation for s instead of r
+      normally I'd rather do
+	VIM::DoCommand("normal! 0r$$LL::tags{x_tagged}$vc ")
+      but then, if a file gets tagged and showmatch is set then vim beeps
+      Due to some plugins it may also not be suffient to simply
+	setlocal matchpairs=
+    VIM::DoCommand("normal! 0s<$$LL::tags{x_tagged}0x$vc ")
+    VIM::DoCommand("setlocal nomodifiable|setlocal nomodified")
+  RefreshView			$RemoveDeleted
+    my $nameUnderCursor
+    ?	$RemoveDeleted
+      "Refreshing view for $$disp::H{dir}"
+    -
+      "Clean-updating view for $$disp::H{dir}"
+    $$disp::H{time} = time
+    ?	($curwin->Cursor())[0] > 1	$nameUnderCursor=$$disp::A[($curwin->Cursor())[0]-2][0]
+    F	(@{$$disp::H{Array}})
+      ?	lstat $$_[0]
+	$_=[$$_[0],$$_[1],lstat _]
+	$$_[1]{_ll_} = ""
+      -
+	$$_[1]{_ll_}="d"
+    ?	$RemoveDeleted	@{$$disp::H{Array}} = grep { $$_[1]{_ll_} ne "d" } @{$$disp::H{Array}}
+    SortAndRedisp $nameUnderCursor
+  UpdateView			$verbose
+    ?	$verbose	"Updating view for $$disp::H{dir}"
+    my $oldDir = $$disp::H{Array}
+    $LL::Dir = []				here process puts it's stuff in
+    my $newDir = $LL::Dir
+    my $oi=0
+    my $ni=0
+    my @D=()
+    my $nameUnderCursor
+    ?	$$disp::H{type} eq "dir"
+      ?	($curwin->Cursor())[0] > 1	$nameUnderCursor=$$disp::A[($curwin->Cursor())[0]-2][0]
+      $opt_x=1;process $$disp::H{dir}
+      Sort $newDir,15		sort by name
+      Sort $oldDir,15		sort like newDir
+    -
+      doc	this is a filelist-view
+	we only process the items in the list
+      F	(@$oldDir)	@$LL::Dir[scalar @$LL::Dir] = [ @$_[0],@$_[1],lstat @$_[0] ]
+    W	$oi<=$#$oldDir and $ni<=$#$newDir
+      my $check=$$newDir[$ni][0] cmp $$oldDir[$oi][0]
+      ??	$check == 
+	0	# new == old
+	  push @D,$$oldDir[$oi]
+	  ?	$#{$$newDir[$ni]} == 1
+	    $D[-1][1]{_ll_} = "d"
+	  -
+	    ?	$$newDir[$ni][2] != $$oldDir[$oi][2] or $$newDir[$ni][3] != $$oldDir[$oi][3] or $$newDir[$ni][4] != $$oldDir[$oi][4] or $$newDir[$ni][5] != $$oldDir[$oi][5] or $$newDir[$ni][6] != $$oldDir[$oi][6] or $$newDir[$ni][7] != $$oldDir[$oi][7] or $$newDir[$ni][8] != $$oldDir[$oi][8] or $$newDir[$ni][9] != $$oldDir[$oi][9] or $$newDir[$ni][11] != $$oldDir[$oi][11] or $$newDir[$ni][12] != $$oldDir[$oi][12] or $$newDir[$ni][13] != $$oldDir[$oi][13] or $$newDir[$ni][14] != $$oldDir[$oi][14]
+	      $D[-1][1]{_ll_} = "c"
+	    -
+	      ?	$D[-1][1]{_ll_} ne "n"	$D[-1][1]{_ll_} = ""
+	  $ni++
+	  $oi++
+	-1	# new < old
+	  push @D,$$newDir[$ni]
+	  $D[-1][1]{_ll_} = "n"
+	  $ni++
+	1	# new > old
+	  push @D,$$oldDir[$oi]
+	  $D[-1][1]{_ll_} = "d"
+	  $oi++
+    W	$oi<=$#$oldDir
+      push @D,$$oldDir[$oi++]
+      $D[-1][1]{_ll_} = "d"
+    W	$ni<=$#$newDir
+      push @D,$$newDir[$ni++]
+      $D[-1][1]{_ll_} = "n"
+    $disp::A = $$disp::H{Array} = \@D
+    (my $success, $$disp::H{posInfo}) = VIM::Eval("string(winsaveview())")
+    ?	$$disp::H{type} eq "dir"	SortAndRedisp $nameUnderCursor		dodisp $disp::H
+  OpenFile			$editcmd
+    my $lineNr = ($curwin->Cursor())[0]
+    ?	$lineNr == 1
+      $$disp::H{showdesc} = !$$disp::H{showdesc}
+      LLorRedisp('')
+      VIM::DoCommand "1"
+    -
+      ?	chdir $$disp::H{dir}
+	setstatvars @$disp::A[$lineNr-2]
+	my $fullname4vim=getFullname4vim($$disp::H{dir},$LL::file)
+	?		isdir $LL::mode or S_ISLNK $LL::mode and -d readlink $LL::file
+	  (my $success, $$disp::H{posInfo}) = VIM::Eval("string(winsaveview())")
+	  LL $LL::file
+	-
+	  VIM::DoCommand qq(exe "$editcmd " . fnameescape("$fullname4vim"))
+      -	"cannot reenter $$disp::H{dir}","Error"
+  L
+    (my $success, my $result) = VIM::Eval("exists('b:dir')")
+    ?	$result
+      "L not applicable for this buffer","Error"
+      return
+    "Converting to LL"
+    my $count=$curbuf->Count()
+    my $dir=getcwd
+    my $Dir
+    F	my $i=1;$i<=$count;$i++
+      ?	my $file=$curbuf->Get($i)
+	my @lstat = lstat $file
+	@$Dir[scalar @$Dir] = [ $file,@lstat?{}:{ _ll_ => 'd' },@lstat ]
+    ExexNewViewAutocommandPre($dir)
+    disp	/strux/LL
+      time		time
+      dir		$dir
+      sort		0
+      type		"filelist"
+      in_function	\&LL_in_function
+      out_function	\&LL_out_function
+      Array		$Dir
+      item_function	\&stat2hrParsed
+      linenr		2
+      tabify		2
+      ft		"LL-default"
+    ExexNewViewAutocommandPost($dir)
+    $LL::Dirs{"Lst : $dir"} = $disp::H
+    $LL::currentH = $disp::H
+    LLorRedisp('')
+    pushDirstack
+    redrawVisitedAndDirstack
+  LL				$ndir
+    $ndir =~ s:^~/:$ENV{HOME}/:
+    my $file
+    !	 -d $ndir
+      ($ndir,$file) = $ndir =~ m:(.*/)?(.*):
+      ?	$ndir eq ""	$ndir = '.'
+    ?	$ndir eq ".." and $LL::dir =~ m.^([a-zA-Z]:)?/$.
+      "Already at rootdir","Error"
+    ?-	$ndir eq "." or chdir $ndir
+      # the part '$ndir eq "."' is needed for windows. Else .:y: will not work
+      doc	if :LL is invoked from within a LL-window BufLeave had no chance to set the linenr
+      ?	$curbuf->Name() eq '/strux/LL'	(my $success, $$disp::H{posInfo}) = VIM::Eval("string(winsaveview())")
+      $LL::dir = getcwd
+      ?	defined(my $knownH = $LL::Dirs{$LL::dir})
+	"Using known view for $LL::dir"
+	?	$file ne ""
+	  my $knownArray = $$knownH{Array}
+	  F	my $i=0...@$knownArray
+	    ?	$$knownArray[$i][0] eq $file
+	      $$knownH{linenr} = $i+2
+	      last
+	hdisp $knownH
+      -
+	$LL::Dir=()
+	ExexNewViewAutocommandPre($LL::dir)
+	"New view for $LL::dir"
+	$opt_x=1;process $LL::dir
+	Sort $LL::Dir,$LL::sode		sort default
+	my $linenr = 2
+	?	$file ne ""
+	  F	my $i=0...@$LL::Dir
+	    ?	$$LL::Dir[$i][0] eq $file
+	      $linenr += $i
+	      last
+	disp	/strux/LL
+	  time		time
+	  dir		$LL::dir
+	  type		"dir"
+	  in_function	\&LL_in_function
+	  out_function	\&LL_out_function
+	  Array		$LL::Dir
+	  item_function	\&stat2hrParsed
+	  linenr	$linenr
+	  tabify	2
+	  currentSort	$LL::sode
+	  ft		"LL-default"
+	ExexNewViewAutocommandPost($LL::dir)
+	$LL::Dirs{$LL::dir} = $disp::H
+	?	($LL::sode&0xff) == 20
+	  SortAndRedisp	for sorting along x-info the info was not yet applied when sorting before disp
+      $LL::currentH = $disp::H
+      pushDirstack
+      redrawVisitedAndDirstack
+    -	"cannot enter $ndir","Error"
+  tellsort
+    my $str
+    my $currentSode = $$disp::H{currentSort}
+    my $i = $currentSode &0xff
+    M	if ($i ==	) { $str ="				 " }
+		  0			not sorted
+		  1			dev
+		  3			ino
+		  4			mode
+		  5			nlink
+		  6			uid
+		  7			gid
+		  8			rdev
+		  9			size
+		  10			atime
+		  11			mtime
+		  12			ctime
+		  13			blksize
+		  14			blocks
+		  15			Name
+		  16			Extension
+		  17			Length of Basename
+		  18			Name (case ignored)
+		  19			Name (numerically)
+		  20			X-Info
+    ?	$i
+      $str.=($currentSode&0x100)?"descending":"ascending"
+      $str.=",dirs "  .(($currentSode&0x200)?"separated":"not separated")
+      $str.=",tagged ".(($currentSode&0x400)?"separated":"not separated")
+    ?	exists($$disp::H{sort})	$str.=" (fixed)"
+    $str
+  LL_in_function
+    ?	$LL::P{$$disp::H{dir}}
+      ($LL::currentParseString = $LL::P{$$disp::H{dir}}) =~ s/%:/$LL::globalParseString/g
+    -
+      $LL::currentParseString = $LL::globalParseString
+    $LL::xinDone=0
+    chdir $$disp::H{dir}
+    ?	$LL::Xf{$$disp::H{dir}}		$LL::currentxPerFileCmd = $LL::Xf{$$disp::H{dir}}	$LL::currentxPerFileCmd = $LL::globalxPerFileCmd
+    ?	$LL::Xd{$$disp::H{dir}}		$LL::currentxPerDirCmd  = $LL::Xd{$$disp::H{dir}}	$LL::currentxPerDirCmd  = $LL::globalxPerDirCmd
+    ?	$LL::Xin{$$disp::H{dir}}	$LL::currentxIn         = $LL::Xin{$$disp::H{dir}}	$LL::currentxIn         = ''
+    ?	$LL::Xout{$$disp::H{dir}}	$LL::currentxOut        = $LL::Xout{$$disp::H{dir}}	$LL::currentxOut        = ''
+    ?	$LL::Xt{$$disp::H{dir}}		$LL::currentxText       = $LL::Xt{$$disp::H{dir}}	$LL::currentxText       = $LL::globalxText
+    ?	$$disp::H{showdesc}
+      $$disp::H{tabify} = 1	also tabalign the header-line (holds the descriptions here)
+      $curbuf->Append(0,stat2hrParsed(0,0))
+    -
+      my $line=""		output is constructed here in
+      $$disp::H{tabify} = 2	do not tabalign the header-line
+      F	my $j=0;$j<length($LL::currentHeader);$j++
+	my $c=substr $LL::currentHeader,$j,1
+	?	$c eq "%"
+	  $c=substr $LL::currentHeader,++$j,1
+	  parse:
+	    M	if ($c eq '	') { $line.=				;last parse }
+			      %			'%'
+			      T			"\t"
+			      d			$$disp::H{dir}
+			      t			xpand($$disp::H{time})
+			      n			@{$$disp::H{Array}}
+			      s			tellsort
+	    $line.="ERROR"
+	-
+	  $line.="$c"
+      $curbuf->Append(0,$line)
+  LL_out_function
+    ?	$LL::xinDone and $LL::currentxOut
+      ?	substr($LL::currentxOut,0,2) eq "P "
+	$d = $$disp::H{dir}
+	eval("package XPE;".substr($LL::currentxOut,2))
+      -
+	$ENV{d} = $$disp::H{dir}
+	`2>&1 $LL::currentxOut`
+  numerically
+    my $na
+    my $nb
+    ($na) = @$a[0] =~ /(\d+)/
+    ($nb) = @$b[0] =~ /(\d+)/
+    $na <=> $nb or @$a[0] cmp @$b[0]
+  SortAndRedisp
+    my $thisLine = $$disp::H{linenr}
+    ?	$LL::SortAndRedispSkip	return
+    my ($nameUnderCursor) = @_
+    my $currentSode
+    ?	exists($$disp::H{sort})	$currentSode = $$disp::H{sort}	$currentSode = $LL::sode
+    $$disp::H{currentSort} = $currentSode
+    ?	!$nameUnderCursor and ($curwin->Cursor())[0] > 1	$nameUnderCursor = $$disp::A[($curwin->Cursor())[0]-2][0]
+
+    ?	($currentSode&0xff) == 20
+      dodisp $disp::H	for sorting along x-info it must be made sure, that the info is applied
+
+    ?	$currentSode	Sort $disp::A,$currentSode
+    my $i
+    F	$i=0...@$disp::A
+      ?	$nameUnderCursor eq $$disp::A[$i][0]
+	$$disp::H{linenr}=$i+2
+	last
+    ?	$i >= @$disp::A				$$disp::H{linenr}=$thisLine
+    ?	$$disp::H{linenr} >= @$disp::A+2	$$disp::H{linenr}=1
+    (my $success, $$disp::H{posInfo}) = VIM::Eval("string(winsaveview())")
+    dodisp $disp::H
+  Sort				$A,$i
+    my $sortdescending = $i&0x100
+    my $seperateDirs   = $i&0x200
+    my $seperateTagged = $i&0x400
+    $i&=0xff
+    ?	2<=$i and $i <=14	@$A = sort {           @$a[$i] <=> @$b[$i]           or @$a[0] cmp @$b[0] } @$A
+    ??	$i ==
+      15			@$A = sort {            @$a[0] cmp @$b[0]                                 } @$A	sn : Sort by Name
+      16			@$A = sort { extension(@$a[0]) cmp extension(@$b[0]) or @$a[0] cmp @$b[0] } @$A	se : Sort by Extension
+      17			@$A = sort {     length @$a[0] <=> length @$b[0]     or @$a[0] cmp @$b[0] } @$A	sL : Sort by Length of Basename
+      18			@$A = sort {         lc @$a[0] cmp lc @$b[0]                              } @$A	sI : Sort by Name (case ignored)
+      19			@$A = sort numerically @$A							sN : Sort by Name (numerically)
+      20			@$A = sort {           @$a[15] cmp @$b[15]           or @$a[0] cmp @$b[0] } @$A	sx : Sort by X-Info
+    ?	$sortdescending		@$A = reverse @$A
+    ?	$seperateDirs		@$A = (grep(isdir(@$_[4]),@$A),grep(!isdir(@$_[4]),@$A))
+    ?	$seperateTagged		@$A = (grep($$_[1]{x_tagged} eq ">",@$A),grep($$_[1]{x_tagged} ne ">",@$A))
+  extension			$str
+    $str =~ m(\.(.+?)$)
+    $1
+  doc				NewViewAutocommands
+    they are read from $LL::newViewAutocommands (defaults : ~/LL.dirsettings,~/strux/etc/LL.dirsettings) and stored in the internal Data Structure @LL::AC
+    @LL::AC looks basically like this
+      [ dir-pattern1 , { P => parsestring , Xf => 'xstring for files', Xd => 'xstring for directories' } ],
+      [ dir-pattern2 , { P => parsestring                } ],
+
+    So if ~/strux/etc/LL.dirsettings looks like this
+      ^/proc$
+	P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /proc
+      /tmp
+	P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /tmp
+	Xf	file
+	Xt	magic	can contain tabs
+	Xd
+    then @LL::AC will look like this
+      @LL::AC = [
+	      [
+		'^/proc$',
+		{
+		  'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /proc'
+		}
+	      ],
+	      [
+		'/tmp',
+		{
+		  'Xf' => 'file',
+		  'Xd' => '',
+		  'Xt' => 'magic	can contain tabs'
+		  'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /tmp'
+		}
+	      ]
+	    ];
+  RereadNewViewAutocommands	$initial
+    @LL::AC = ()
+    F	$f (split(/,/,$LL::newViewAutocommands))
+      $f =~ s:^~/:$ENV{HOME}/:
+      ?	$initial and ! -e $f	next
+      local *AC_stream
+      !	open(AC_stream,$f)
+	"cannot read file $f"
+	next
+      W	<AC_stream>
+	chomp
+	?	/^\s*#/ or !$_	next
+	!	/^\s/
+	  doc	we have a dirname-pattern here
+	  push @LL::AC,[ $_ , {} ]
+	-
+	  doc	we have an action for pattern for previous dirname
+	  my ($name,$val) = /\s+(.*?)\t+(.*)/
+	  $LL::AC[-1][1]{ $name }  = $val
+      !	$initial	"$f reread succcessfully"
+      close AC_stream
+  ExexNewViewAutocommandPre	$dir
+    F	my $i=0...@LL::AC
+      ?	$dir =~ /$LL::AC[$i][0]/
+	W	my ($key,$val) = each %{$LL::AC[$i][1]}
+	  ??	$key eq '	'
+	    P
+	      !	defined($LL::P{$dir})	$LL::P{$dir}=$val
+	    Xf
+	      !	defined($LL::Xf{$dir})	$LL::Xf{$dir}=$val
+	    Xd
+	      !	defined($LL::Xd{$dir})	$LL::Xd{$dir}=$val
+	    Xt
+	      !	defined($LL::Xt{$dir})	$LL::Xt{$dir}=$val
+	    Xi	$LL::Xin{$dir} =$val
+	    Xo	$LL::Xout{$dir}=$val
+	last
+  ExexNewViewAutocommandPost	$dir
+    VIM::DoCommand("set ft=$$disp::H{ft}")
+    F	my $i=0...@LL::AC
+      ?	$dir =~ /$LL::AC[$i][0]/
+	W	my ($key,$val) = each %{$LL::AC[$i][1]}
+	  ??	$key eq '	'
+	    V	VIM::DoCommand($val)
+	    S
+	      my $sode=$LL::sode
+	      $LL::SortAndRedispSkip=1
+	      VIM::DoCommand("normal ${val}Sf")
+	      $LL::SortAndRedispSkip=0
+	      $LL::sode=$sode
+	      SortAndRedisp()
+	last
+    (my $success, my $val) = VIM::Eval("&ft")
+    $$disp::H{ft}=$val
+  hdisp				$tH
+    disp $tH
+    ?	!$$disp::H{sort} and $$disp::H{currentSort} != $LL::sode	SortAndRedisp
+    VIM::DoCommand("set ft=$$disp::H{ft}")
+  WriteTmpScript		$cmd,$filename
+    my ($tmpname,$f,$p,$F,$r,$e)
+
+    $f = getFullname4shell($$LL::currentH{dir},$filename)
+    ($p = $f) =~ s:/[^/]*$::
+    ($F = $f) =~ s:.*/::
+    ($r = $F) =~ s/\.[^.]*$//
+    ?	$f =~ /\./	($e=$f) =~ s/.*\.//	$e = ""
+    !	$LL::tmpScriptIsOpen
+      VIM::DoCommand('let g:strux_LL_scriptname=tempname()')
+      $tmpname = VIM::Eval('g:strux_LL_scriptname')
+      !	open(FPC,">$tmpname")
+	"opening tempfile $tmpname for writing failed : $!","Error"
+	return
+      $LL::tmpScriptIsOpen = 1
+      M	print FPC 	."\n" ; #
+			"# for the sake of 'binary' data in filenames. (to avoid 'cannot execute binary file')"
+			vimvar('g:strux_LL_shell_setup')		additional initializations
+    M	print FPC 	."\n" ; #
+			"f='$f'"					$f : /dir/name.ext
+			"p='$p'"					$p : /dir
+			"F='$F'"					$F : name.ext
+			"r='$r'"					$r : name
+			"e='$e'"					$e : ext
+			"$cmd"						the command
+  CloseTmpScript
+    close FPC
+    $LL::tmpScriptIsOpen = 0
+    # I cannot delete the tmp-file here since an background xterm might still need it.

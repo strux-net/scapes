@@ -1,0 +1,20 @@
+style
+  Title	structure (How To Read)
+How to read the structure.
+  the structure controls which line of the input is processed by what action.
+  the structure is shown in a table with three columns:
+      action_and_args	action and arguments
+      indicator		indicator
+      regexes		regular expressions
+  Notes:
+      (ascii-)tab characters are indicated by a color-change as described in [ coloring ]( coloring.html ).
+      Hover your mouse over an indent to see the indent numerically.
+      Hover your mouse over structure to see the file where this tree is defined.
+      Click on an action to jump to the description of this action.
+
+  The structure for a single action:
+      Represents the complete tree that contains action.
+      Multiple trees are possible.
+      Action is highlighted
+
+  Here are the [ glory details ]( ../tru.html#structure ) about the structure.

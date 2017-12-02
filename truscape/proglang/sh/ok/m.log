@@ -1,0 +1,103 @@
+building sh_tru
+tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'try catch clause' was defined but never used
+chmod +x sh_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s sh ./sh_tru >sh_tru.tmp
+~/scapes/truscape/proglang/sh/sh_tru : some text was never output (due to unset marks) when processing /tmp/infile1
+  For mark mark_usage
+	  -version	show version information
+mv sh_tru.tmp sh_tru
+chmod +x sh_tru
+GOOD	statistics.out
+GOOD	sh_tru
+{ echo "sh_tru\n  convert .shTR to .sh\n    usage"; ./sh_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .shTR to .sh" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+: expect 1 warning - because try is not supported
+trudoc_tru ./sh_tru >docs/sh_tru.html
+warning see for link 'try' does not resolve
+GOOD	docs/sh_tru.html
+testing sh_tru
+./sh_tru shtest.shTR >shtest.sh
+GOOD	shtest.sh
+./sh_tru -invalid
+Unknown option: invalid
+usage : sh_tru [Options] [<file> ....]
+
+produces a shell-script
+
+find details in
+    ~/strux/doc/sh_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/sh_tru.html
+
+per convention the input files have the extension .shTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noSharpBang		Do not generate #!/bin/bash
+
+       -vhelp shows more options
+makefile:35: recipe for target 'test_sh_tru' failed
+make[1]: [test_sh_tru] Error 1 (ignored)
+bash shtest.sh -f test file1 file2 >shtest.out
+GOOD	shtest.out
+bash shtest.sh -version
+Version :
+  shtest.shTR	3.0
+  shtest.shTR	3.0a
+bash shtest.sh -x test file1 file2 >shtest_illegal_option.out
+shtest.sh: illegal option -- x
+usage : shtest arg
+this program only serves as a test-suite
+it does *NOT* do anything use- or harmfull
+
+It simply shows the possibilities
+ You can have any indent here
+  1
+       2
+      3
+     4
+	 6
+         6
+Tables look like this
+1	2
+11	22
+111	222
+1111	2222
+11111	22222
+111111	222222
+1111111	2222222
+
+OPTIONS:
+  -a	all messages
+        more text for options a
+  -f:<file>	output to file
+	default for <file> is /tmp/schrott
+        more text for options f
+  -c	clear screen
+  -version	show version information
+makefile:35: recipe for target 'test_sh_tru' failed
+make[1]: [test_sh_tru] Error 1 (ignored)
+GOOD	shtest_illegal_option.out

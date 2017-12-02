@@ -1,0 +1,75 @@
+DESC	Backslash
+backslash
+tag	one
+tag	two
+tag	123
+tag
+tag	strull
+tag	any	two
+=	very	special		name
+  !	sehr	spezieller	name
+  "	very very special : "q'"$./[]{}@F?
+DESC	Level
+DESC	Level
+eins	two	three
+  zwei
+    drei
+    octus
+  vier
+    fünf
+    fünf
+    code
+      one
+        two
+	  three
+	four
+	  five
+	six
+    end des codes
+    now comes an empty line for the first time
+
+    now comes an empty line for the second time
+
+    sechs
+      now comes an empty line for the third time
+
+  sieben
+DESC	code
+DESC	code
+code
+  expect this line neerly twice,    I'm testing	tabs in	$f
+  expect this line neerly twice,    I'm testing tabs in $f
+  an empty line follows for the fourth time
+  let' see which characters survive : ! " § $ % & / ( ) = ? ` ^ \ * # + - . , ; : < | > 
+
+  foreach human-beeing
+    wish good luck
+    if already lucky
+      wish more luck
+    -
+      don't desparade
+DESC	nomatch
+this
+DESC	COPY
+Test COPY
+DESC	ignore off
+ignore	off
+ this line survives
+DESC	ignore on
+ignore	on
+ this line vanishes
+DESC	Args passing
+AA123	eins	zwei	drei
+AA4
+DESC	(*)
+*	eins	zwei	drei
+DESC	Setting of @F
+D0	eins	zwei	three	three and a half
+DESC	EMPTY
+
+eins
+      zwei
+field with spaces	works fine
+DESC	missing rule
+No such rule
+DESC	typeglob

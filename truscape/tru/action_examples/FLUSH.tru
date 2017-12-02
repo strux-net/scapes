@@ -1,0 +1,38 @@
+VERSION	3.0
+##	FLUSH
+##	  When all buffered lines shall actually be written to STDOUT rsp. to the file given with -o.
+##	  It is not processed in stream-mode.
+##	  @_ contains the whole output so far. It is now in sequence. You can modify or otherwise use this output.
+##	  A print @_ is supplied automatically as the last statement. If this is not what you want use return to bypass this.
+##	  Here only perl-statements are allowed, no outstatements, actioncalls or mark using.
+##	      Therefore a leading tab does not switch from perl to outstatement.
+#	  The following two codes are equivalent (in output) to the default code
+#	    for (@_) {
+#	      print;
+#	    }
+#	    return;
+#	  and
+#	    print @_;
+#	    return;
+#
+#	  to tabify the output use
+#	    FLUSH
+#	      open(STDOUT,"|tabify.pl -l");
+#	      print @_;
+#	      close STDOUT;
+#	      return;
+#	  in stream-mode the following will suffice
+#	    BEGIN
+#	      open(STDOUT,"|tabify.pl -l");
+FLUSH
+  map {
+	s/(.)/\u\1/; # this is a perl-statement despite it beginning with a tab.
+  } @_;
+actions
+  DOC
+    >
+	one
+	two
+	three
+	four
+	five

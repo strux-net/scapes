@@ -1,0 +1,74 @@
+VERSION	3.0
+USAGE
+	Testprogram for actioncall in depth-action.
+
+	In the depth-action of item call first and second
+
+	Basically:
+	  item
+	  |-
+	    >>first
+	    >>second
+
+	take a closer look at -item
+	  Suppose it is run for this in-file
+		1
+		  1.1
+		    1.1.1
+	  $NrOfLinesFollowing for -first is 6. Hence you find 6 occurences of first in the second column .
+	Details:
+	  depthaction(first) directly follows inaction(first)
+	    > first
+	    - first
+	    it does not follow the depthaction(line), as you might expect
+	    same for second
+
+	    \$NrOfLinesFollowing in depthaction(first) and outaction(first) includes all lines produced after the ">> first" in depthaction(line)
+	      In the example:
+	        $NrOfLinesFollowing is 8
+	        index 5-12
+	          note : the outaction of second is also included
+	    \$NrOfLinesFollowing in depthaction(second) and outaction(second) includes all lines produced after the ">> second" in depthaction(line)
+	      In the example:
+	        $NrOfLinesFollowing is 4
+	        index 8-11
+	  the outactions are in the following order
+	    < second
+	    < first
+	    < line
+actions
+  line
+    >
+	>line		_
+    -
+	-line		_
+    <
+	<line		_
+  item
+    >
+	>item		line
+    -
+	-item		line
+      >>first
+	moreText1	first line
+      >>second
+	moreText2	second first line
+    <
+	<item		line
+  first
+    >
+	>first		line
+    -
+	-first		line
+    <
+	<first		line
+  second
+    >
+	>second		first line
+    -
+	-second		first line
+    <
+	<second		first line
+  subitem
+    >
+	subitem		second first item line

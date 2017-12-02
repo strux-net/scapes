@@ -1,0 +1,8 @@
+building tabify.vim
+vim_tru tabify.vimTR >tabify.vim
+GOOD	tabify.vim
+{ echo "tabify.vim\n  tabalign a visual region\n    usage"; < tabify.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\ttabalign a visual region" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing tabify.vim

@@ -1,0 +1,11 @@
+VERSION	3.0
+READ
+  s/three/3/;
+SPLITAPPLY
+  s/^two$/2/;
+actions
+  line	a1	a2
+    >
+	$line	$a1	$a2
+structure
+	line	a1	a2

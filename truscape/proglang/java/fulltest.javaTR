@@ -1,0 +1,5206 @@
+VERSION	3.0
+//: c03:AllOps.java
+// Tests all the operators on all the primitive data types
+// to show which ones are accepted by the Java compiler.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class AllOps
+  // To accept the results of a boolean test:
+  void f	boolean b
+  void boolTest	boolean x, boolean y
+    // Arithmetic operators:
+    //! x = x * y
+    //! x = x / y
+    //! x = x % y
+    //! x = x + y
+    //! x = x - y
+    //! x++
+    //! x--
+    //! x = +y
+    //! x = -y
+    // Relational and logical:
+    //! f(x > y)
+    //! f(x >= y)
+    //! f(x < y)
+    //! f(x <= y)
+    f(x == y)
+    f(x != y)
+    f(!y)
+    x = x && y
+    x = x || y
+    // Bitwise operators:
+    //! x = ~y
+    x = x & y
+    x = x | y
+    x = x ^ y
+    //! x = x << 1
+    //! x = x >> 1
+    //! x = x >>> 1
+    // Compound assignment:
+    //! x += y
+    //! x -= y
+    //! x *= y
+    //! x /= y
+    //! x %= y
+    //! x <<= 1
+    //! x >>= 1
+    //! x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! char c = (char)x
+    //! byte B = (byte)x
+    //! short s = (short)x
+    //! int i = (int)x
+    //! long l = (long)x
+    //! float f = (float)x
+    //! double d = (double)x
+  void charTest	char x, char y
+    // Arithmetic operators:
+    x = (char)(x * y)
+    x = (char)(x / y)
+    x = (char)(x % y)
+    x = (char)(x + y)
+    x = (char)(x - y)
+    x++
+    x--
+    x = (char)+y
+    x = (char)-y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    x= (char)~y
+    x = (char)(x & y)
+    x  = (char)(x | y)
+    x = (char)(x ^ y)
+    x = (char)(x << 1)
+    x = (char)(x >> 1)
+    x = (char)(x >>> 1)
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    x <<= 1
+    x >>= 1
+    x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    byte B = (byte)x
+    short s = (short)x
+    int i = (int)x
+    long l = (long)x
+    float f = (float)x
+    double d = (double)x
+  void byteTest	byte x, byte y
+    // Arithmetic operators:
+    x = (byte)(x* y)
+    x = (byte)(x / y)
+    x = (byte)(x % y)
+    x = (byte)(x + y)
+    x = (byte)(x - y)
+    x++
+    x--
+    x = (byte)+ y
+    x = (byte)- y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    x = (byte)~y
+    x = (byte)(x & y)
+    x = (byte)(x | y)
+    x = (byte)(x ^ y)
+    x = (byte)(x << 1)
+    x = (byte)(x >> 1)
+    x = (byte)(x >>> 1)
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    x <<= 1
+    x >>= 1
+    x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    short s = (short)x
+    int i = (int)x
+    long l = (long)x
+    float f = (float)x
+    double d = (double)x
+  void shortTest	short x, short y
+    // Arithmetic operators:
+    x = (short)(x * y)
+    x = (short)(x / y)
+    x = (short)(x % y)
+    x = (short)(x + y)
+    x = (short)(x - y)
+    x++
+    x--
+    x = (short)+y
+    x = (short)-y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    x = (short)~y
+    x = (short)(x & y)
+    x = (short)(x | y)
+    x = (short)(x ^ y)
+    x = (short)(x << 1)
+    x = (short)(x >> 1)
+    x = (short)(x >>> 1)
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    x <<= 1
+    x >>= 1
+    x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    byte B = (byte)x
+    int i = (int)x
+    long l = (long)x
+    float f = (float)x
+    double d = (double)x
+  void intTest	int x, int y
+    // Arithmetic operators:
+    x = x * y
+    x = x / y
+    x = x % y
+    x = x + y
+    x = x - y
+    x++
+    x--
+    x = +y
+    x = -y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    x = ~y
+    x = x & y
+    x = x | y
+    x = x ^ y
+    x = x << 1
+    x = x >> 1
+    x = x >>> 1
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    x <<= 1
+    x >>= 1
+    x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    byte B = (byte)x
+    short s = (short)x
+    long l = (long)x
+    float f = (float)x
+    double d = (double)x
+  void longTest	long x, long y
+    // Arithmetic operators:
+    x = x * y
+    x = x / y
+    x = x % y
+    x = x + y
+    x = x - y
+    x++
+    x--
+    x = +y
+    x = -y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    x = ~y
+    x = x & y
+    x = x | y
+    x = x ^ y
+    x = x << 1
+    x = x >> 1
+    x = x >>> 1
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    x <<= 1
+    x >>= 1
+    x >>>= 1
+    x &= y
+    x ^= y
+    x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    byte B = (byte)x
+    short s = (short)x
+    int i = (int)x
+    float f = (float)x
+    double d = (double)x
+  void floatTest	float x, float y
+    // Arithmetic operators:
+    x = x * y
+    x = x / y
+    x = x % y
+    x = x + y
+    x = x - y
+    x++
+    x--
+    x = +y
+    x = -y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    //! x = ~y
+    //! x = x & y
+    //! x = x | y
+    //! x = x ^ y
+    //! x = x << 1
+    //! x = x >> 1
+    //! x = x >>> 1
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    //! x <<= 1
+    //! x >>= 1
+    //! x >>>= 1
+    //! x &= y
+    //! x ^= y
+    //! x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    byte B = (byte)x
+    short s = (short)x
+    int i = (int)x
+    long l = (long)x
+    double d = (double)x
+  void doubleTest	double x, double y
+    // Arithmetic operators:
+    x = x * y
+    x = x / y
+    x = x % y
+    x = x + y
+    x = x - y
+    x++
+    x--
+    x = +y
+    x = -y
+    // Relational and logical:
+    f(x > y)
+    f(x >= y)
+    f(x < y)
+    f(x <= y)
+    f(x == y)
+    f(x != y)
+    //! f(!x)
+    //! f(x && y)
+    //! f(x || y)
+    // Bitwise operators:
+    //! x = ~y
+    //! x = x & y
+    //! x = x | y
+    //! x = x ^ y
+    //! x = x << 1
+    //! x = x >> 1
+    //! x = x >>> 1
+    // Compound assignment:
+    x += y
+    x -= y
+    x *= y
+    x /= y
+    x %= y
+    //! x <<= 1
+    //! x >>= 1
+    //! x >>>= 1
+    //! x &= y
+    //! x ^= y
+    //! x |= y
+    // Casting:
+    //! boolean b = (boolean)x
+    char c = (char)x
+    byte B = (byte)x
+    short s = (short)x
+    int i = (int)x
+    long l = (long)x
+    float f = (float)x
+//
+// Autogenerated from java_tru using Assignment.java!
+// do not edit this file, look for Assignment.java! and change this
+// or you may loose all your changes and probably choose the wrong method.
+// goto http://www.struX.net to find more information.
+//
+//: c03:Assignment.java
+// Assignment with objects is a bit tricky.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+class Number
+  vars
+    int i
+
+public class Assignment
+  vars
+    static Test monitor = new Test()		initialize the Test-Monitor
+
+  main
+    Number n1 = new Number()
+    Number n2 = new Number()
+    n1.i = 9
+    n2.i = 47
+    "1: n1.i: " + n1.i + ", n2.i: " + n2.i
+    n1 = n2
+    "2: n1.i: " + n1.i + ", n2.i: " + n2.i
+    n1.i = 27
+    "3: n1.i: " + n1.i + ", n2.i: " + n2.i
+
+    java code<
+	monitor.expect(new String[] {
+	  "1: n1.i: 9, n2.i: 47",
+	  "2: n1.i: 47, n2.i: 47",
+	  "3: n1.i: 27, n2.i: 27"
+	});
+//: c03:AutoInc.java
+// Demonstrates the ++ and -- operators.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class AutoInc
+  vars
+    static Test monitor = new Test()
+  main
+    int i = 1
+    "i : " + i
+    "++i : " + ++i	Pre-increment
+    "i++ : " + i++	Post-increment
+    "i : " + i
+    "--i : " + --i	Pre-decrement
+    "i-- : " + i--	Post-decrement
+    "i : " + i
+    java code
+	monitor.expect(new String[] {
+	  "i : 1",
+	  "++i : 2",
+	  "i++ : 2",
+	  "i : 3",
+	  "--i : 2",
+	  "i-- : 2",
+	  "i : 1"
+	});
+//: c03:BitManipulation.java
+// Using the bitwise operators.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class BitManipulation
+  vars
+    static Test monitor = new Test()
+  main
+    Random rand = new Random()
+    int i = rand.nextInt()
+    int j = rand.nextInt()
+    printBinaryInt("-1", -1)			11111111111111111111111111111111 32 Bit
+    printBinaryInt("+1", +1)			00000000000000000000000000000001 32 Bit
+    int maxpos = 2147483647
+    printBinaryInt("maxpos", maxpos)		01111111111111111111111111111111 32 Bit
+    int maxneg = -2147483648
+    printBinaryInt("maxneg", maxneg)		10000000000000000000000000000000 32 Bit
+    printBinaryInt("i", i)
+    printBinaryInt("~i", ~i)
+    printBinaryInt("-i", -i)
+    printBinaryInt("j", j)
+    printBinaryInt("i & j", i & j)
+    printBinaryInt("i | j", i | j)
+    printBinaryInt("i ^ j", i ^ j)
+    printBinaryInt("i << 5", i << 5)
+    printBinaryInt("i >> 5", i >> 5)
+    printBinaryInt("(~i) >> 5", (~i) >> 5)
+    printBinaryInt("i >>> 5", i >>> 5)
+    printBinaryInt("(~i) >>> 5", (~i) >>> 5)
+
+    long l = rand.nextLong()
+    long m = rand.nextLong()
+    printBinaryLong("-1L", -1L)			1111111111111111111111111111111111111111111111111111111111111111 64 Bit
+    printBinaryLong("+1L", +1L)			0000000000000000000000000000000000000000000000000000000000000001 64 Bit
+    long ll = 9223372036854775807L
+    printBinaryLong("maxpos", ll)		0111111111111111111111111111111111111111111111111111111111111111 64 Bit
+    long lln = -9223372036854775808L
+    printBinaryLong("maxneg", lln)		1000000000000000000000000000000000000000000000000000000000000000 64 Bit
+    printBinaryLong("l", l)
+    printBinaryLong("~l", ~l)
+    printBinaryLong("-l", -l)
+    printBinaryLong("m", m)
+    printBinaryLong("l & m", l & m)
+    printBinaryLong("l | m", l | m)
+    printBinaryLong("l ^ m", l ^ m)
+    printBinaryLong("l << 5", l << 5)
+    printBinaryLong("l >> 5", l >> 5)
+    printBinaryLong("(~l) >> 5", (~l) >> 5)
+    printBinaryLong("l >>> 5", l >>> 5)
+    printBinaryLong("(~l) >>> 5", (~l) >>> 5)
+    monitor.expect("BitManipulation.out")
+  static void printBinaryInt	String s, int i
+    System.out.println( s + ", int: " + i + ", binary: ")
+    System.out.print("   ")
+    F	int j = 31; j >= 0; j--
+      ?	((1 << j) &  i) != 0
+        System.out.print("1")
+      -
+        System.out.print("0")
+    System.out.println()
+  static void printBinaryLong	String s, long l
+    System.out.println( s + ", long: " + l + ", binary: ")
+    System.out.print("   ")
+    F	int i = 63; i >= 0; i--
+      ?	((1L << i) & l) != 0
+        System.out.print("1")
+      -
+        System.out.print("0")
+    System.out.println()
+//: c03:Bool.java
+// Relational and logical operators.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class Bool
+  vars
+    static Test monitor = new Test()
+  main
+    Random rand = new Random()
+    int i = rand.nextInt(100)
+    int j = rand.nextInt(100)
+    "i = " + i
+    "j = " + j
+    "i > j is " + (i > j)
+    "i < j is " + (i < j)
+    "i >= j is " + (i >= j)
+    "i <= j is " + (i <= j)
+    "i == j is " + (i == j)
+    "i != j is " + (i != j)
+    // Treating an int as a boolean is not legal Java:
+    //! System.out.println("i && j is " + (i && j))
+    //! System.out.println("i || j is " + (i || j))
+    //! System.out.println("!i is " + !i)
+    "(i < 10) && (j < 10) is " + ((i < 10) && (j < 10))
+    "(i < 10) || (j < 10) is " + ((i < 10) || (j < 10))
+    java code
+	monitor.expect(new String[] {
+	  "%% i = -?\\d+",
+	  "%% j = -?\\d+",
+	  "%% i > j is (true|false)",
+	  "%% i < j is (true|false)",
+	  "%% i >= j is (true|false)",
+	  "%% i <= j is (true|false)",
+	  "%% i == j is (true|false)",
+	  "%% i != j is (true|false)",
+	  "%% \\(i < 10\\) && \\(j < 10\\) is (true|false)",
+	  "%% \\(i < 10\\) \\|\\| \\(j < 10\\) is (true|false)"
+	});
+//: c03:BreakAndContinue.java
+// Demonstrates break and continue keywords.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class BreakAndContinue
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 100; i++
+      ?	i == 74		break;    // Out of for loop
+      ?	i % 9 != 0	continue; // Next iteration
+      System.out.println(i)
+    int i = 0
+    // An "infinite loop":
+    W	true
+      i++
+      int j = i * 27
+      ?	j == 1269	break;    // Out of loop
+      ?	i % 10 != 0	continue; // Top of loop
+      System.out.println(i)
+    java code
+	monitor.expect(new String[] {
+	  "0",
+	  "9",
+	  "18",
+	  "27",
+	  "36",
+	  "45",
+	  "54",
+	  "63",
+	  "72",
+	  "10",
+	  "20",
+	  "30",
+	  "40"
+	});
+  //: c03:CastingNumbers.java
+  // What happens when you cast a float
+  // or double to an integral value?
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class CastingNumbers
+  vars
+    static Test monitor = new Test()
+  main
+    double above = 0.7
+    double below = 0.4
+    "above: " + above
+    "below: " + below
+    "(int)above: " + (int)above
+    "(int)below: " + (int)below
+    "(char)('a' + above): " + (char)('a' + above)
+    "(char)('a' + below): " + (char)('a' + below)
+    java code
+	monitor.expect(new String[] {
+	  "above: 0.7",
+	  "below: 0.4",
+	  "(int)above: 0",
+	  "(int)below: 0",
+	  "(char)('a' + above): a",
+	  "(char)('a' + below): a"
+	});
+  //: c03:CommaOperator.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class CommaOperator
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 1, j = i + 10; i < 5; i++, j = i * 2	"i= " + i + " j= " + j
+    java code
+	monitor.expect(new String[] {
+	  "i= 1 j= 11",
+	  "i= 2 j= 4",
+	  "i= 3 j= 6",
+	  "i= 4 j= 8"
+	});
+//: c03:EqualsMethod.java
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class EqualsMethod
+  vars
+    static Test monitor = new Test()
+  main
+    Integer n1 = new Integer(47)
+    Integer n2 = new Integer(47)
+    System.out.println(n1.equals(n2))
+    java code
+	monitor.expect(new String[] {
+	  "true"
+	});
+//: c03:EqualsMethod2.java
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Value
+  vars
+    int i
+
+public class EqualsMethod2
+  vars
+    static Test monitor = new Test()
+  main
+    Value v1 = new Value()
+    Value v2 = new Value()
+    v1.i = v2.i = 100
+    System.out.println(v1.equals(v2))
+    java code
+	monitor.expect(new String[] {
+	  "false"
+	});
+//: c03:Equivalence.java
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Equivalence
+  vars
+    static Test monitor = new Test()
+  main
+    Integer n1 = new Integer(47)
+    Integer n2 = new Integer(47)
+    System.out.println(n1 == n2)
+    System.out.println(n1 != n2)
+    java code
+	monitor.expect(new String[] {
+	  "false",
+	  "true"
+	});
+//: c03:IfElse.java
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class IfElse
+  vars
+    static Test monitor = new Test()
+  static int test	int testval, int target
+    int result = 0
+    ?	testval > target
+      result = +1
+    ?-	testval < target
+      result = -1
+    -
+      result = 0	Match
+    return result
+  main
+    System.out.println(test(10, 5))
+    System.out.println(test(5, 10))
+    System.out.println(test(5, 5))
+    java code
+	monitor.expect(new String[] {
+	  "1",
+	  "-1",
+	  "0"
+	});
+//: c03:IfElse2.java
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class IfElse2
+  vars
+    static Test monitor = new Test()
+  static int test	int testval, int target
+    ?	testval > target
+      return +1
+    ?-	testval < target
+      return -1
+    -
+      return 0	Match
+  main
+    System.out.println(test(10, 5))
+    System.out.println(test(5, 10))
+    System.out.println(test(5, 5))
+    java code
+	monitor.expect(new String[] {
+	  "1",
+	  "-1",
+	  "0"
+	});
+//: c03:LabeledFor.java
+// Java's "labeled for" loop.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class LabeledFor
+  vars
+    static Test monitor = new Test()
+  main
+    int i = 0
+    outer: F	; true ;
+      inner: F	; i < 10; i++
+        "i = " + i
+        ?	i == 2
+          "continue"
+          continue
+        ?	i == 3
+          "break"
+          i++	Otherwise i never gets incremented.
+          break
+        ?	i == 7
+          "continue outer"
+          i++	Otherwise i never gets incremented.
+          continue outer
+        ?	i == 8
+          "break outer"
+          break outer
+        F	int k = 0; k < 5; k++
+          ?	k == 3
+            "continue inner"
+            continue inner
+    // Can't break or continue to labels here
+    java code
+	monitor.expect(new String[] {
+	  "i = 0",
+	  "continue inner",
+	  "i = 1",
+	  "continue inner",
+	  "i = 2",
+	  "continue",
+	  "i = 3",
+	  "break",
+	  "i = 4",
+	  "continue inner",
+	  "i = 5",
+	  "continue inner",
+	  "i = 6",
+	  "continue inner",
+	  "i = 7",
+	  "continue outer",
+	  "i = 8",
+	  "break outer"
+	});
+  //: c03:LabeledWhile.java
+  // Java's "labeled while" loop.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class LabeledWhile
+  vars
+    static Test monitor = new Test()
+  main
+    int i = 0
+    outer: W	true
+      "Outer while loop"
+      W	true
+        i++
+        "i = " + i
+        ?	i == 1
+          "continue"
+          continue
+        ?	i == 3
+          "continue outer"
+          continue outer
+        ?	i == 5
+          "break"
+          break
+        ?	i == 7
+          "break outer"
+          break outer
+    java code
+	monitor.expect(new String[] {
+	  "Outer while loop",
+	  "i = 1",
+	  "continue",
+	  "i = 2",
+	  "i = 3",
+	  "continue outer",
+	  "Outer while loop",
+	  "i = 4",
+	  "i = 5",
+	  "break",
+	  "Outer while loop",
+	  "i = 6",
+	  "i = 7",
+	  "break outer"
+	});
+//: c03:ListCharacters.java
+// Demonstrates "for" loop by listing
+// all the lowercase ASCII letters.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class ListCharacters
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 128; i++
+      ?	Character.isLowerCase((char)i)
+        "value: " + i + " character: " + (char)i
+    java code
+	monitor.expect(new String[] {
+	  "value: 97 character: a",
+	  "value: 98 character: b",
+	  "value: 99 character: c",
+	  "value: 100 character: d",
+	  "value: 101 character: e",
+	  "value: 102 character: f",
+	  "value: 103 character: g",
+	  "value: 104 character: h",
+	  "value: 105 character: i",
+	  "value: 106 character: j",
+	  "value: 107 character: k",
+	  "value: 108 character: l",
+	  "value: 109 character: m",
+	  "value: 110 character: n",
+	  "value: 111 character: o",
+	  "value: 112 character: p",
+	  "value: 113 character: q",
+	  "value: 114 character: r",
+	  "value: 115 character: s",
+	  "value: 116 character: t",
+	  "value: 117 character: u",
+	  "value: 118 character: v",
+	  "value: 119 character: w",
+	  "value: 120 character: x",
+	  "value: 121 character: y",
+	  "value: 122 character: z"
+	});
+  //: c03:Literals.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Literals
+  vars
+    char c = 0xffff	max char hex value
+    byte b = 0x7f	max byte hex value
+    short s = 0x7fff	max short hex value
+    int i1 = 0x2f	Hexadecimal (lowercase)
+    int i2 = 0X2F	Hexadecimal (uppercase)
+    int i3 = 0177	Octal (leading zero)
+    // Hex and Oct also work with long.
+    long n1 = 200L	long suffix
+    long n2 = 200l	long suffix (but can be confusing)
+    long n3 = 200
+    //! long l6(200)	not allowed
+    float f1 = 1
+    float f2 = 1F	float suffix
+    float f3 = 1f	float suffix
+    float f4 = 1e-45f	10 to the power
+    float f5 = 1e+9f	float suffix
+    double d1 = 1d	double suffix
+    double d2 = 1D	double suffix
+    double d3 = 47e47d	10 to the power
+//: c03:MathOps.java
+// Demonstrates the mathematical operators.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class MathOps
+  vars
+    static Test monitor = new Test()
+  // Shorthand to print a string and an int:
+  static void printInt	String s, int i
+    System.out.println(s + " = " + i)
+  // Shorthand to print a string and a float:
+  static void printFloat	String s, float f
+    System.out.println(s + " = " + f)
+  main
+    // Create a random number generator,
+    // seeds with current time by default:
+    Random rand = new Random()
+    int i, j, k
+    // Choose value from 1 to 100:
+    j = rand.nextInt(100) + 1
+    k = rand.nextInt(100) + 1
+    printInt("j", j);  printInt("k", k)
+    i = j + k; printInt("j + k", i)
+    i = j - k; printInt("j - k", i)
+    i = k / j; printInt("k / j", i)
+    i = k * j; printInt("k * j", i)
+    i = k % j; printInt("k % j", i)
+    j %= k; printInt("j %= k", j)
+    // Floating-point number tests:
+    float u,v,w	applies to doubles, too
+    v = rand.nextFloat()
+    w = rand.nextFloat()
+    printFloat("v", v); printFloat("w", w)
+    u = v + w; printFloat("v + w", u)
+    u = v - w; printFloat("v - w", u)
+    u = v * w; printFloat("v * w", u)
+    u = v / w; printFloat("v / w", u)
+    // the following also works for
+    // char, byte, short, int, long,
+    // and double:
+    u += v; printFloat("u += v", u)
+    u -= v; printFloat("u -= v", u)
+    u *= v; printFloat("u *= v", u)
+    u /= v; printFloat("u /= v", u)
+    java code
+	monitor.expect(new String[] {
+	  "%% j = -?\\d+",
+	  "%% k = -?\\d+",
+	  "%% j \\+ k = -?\\d+",
+	  "%% j - k = -?\\d+",
+	  "%% k / j = -?\\d+",
+	  "%% k \\* j = -?\\d+",
+	  "%% k % j = -?\\d+",
+	  "%% j %= k = -?\\d+",
+	  "%% v = -?\\d+\\.\\d+(E-?\\d)?",
+	  "%% w = -?\\d+\\.\\d+(E-?\\d)?",
+	  "%% v \\+ w = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% v - w = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% v \\* w = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% v / w = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% u \\+= v = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% u -= v = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% u \\*= v = -?\\d+\\.\\d+(E-?\\d)??",
+	  "%% u /= v = -?\\d+\\.\\d+(E-?\\d)??"
+	});
+//: c03:Overflow.java
+// Surprise! Java lets you overflow.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Overflow
+  vars
+    static Test monitor = new Test()
+  main
+    int big = 0x7fffffff	max int value
+    "big = " + big
+    int bigger = big * 4
+    "bigger = " + bigger
+    java code
+	monitor.expect(new String[] {
+	  "big = 2147483647",
+	  "bigger = -4"
+	});
+//: c03:PassObject.java
+// Passing objects to methods may not be what
+// you're used to.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Letter
+  vars
+    char c
+
+public class PassObject
+  vars
+    static Test monitor = new Test()
+  static void f	Letter y
+    y.c = 'z'
+  main
+    Letter x = new Letter()
+    x.c = 'a'
+    "1: x.c: " + x.c
+    f(x)
+    "2: x.c: " + x.c
+    java code
+	monitor.expect(new String[] {
+	  "1: x.c: a",
+	  "2: x.c: z"
+	});
+  //: c03:RandomBounds.java
+  // Does Math.random() produce 0.0 and 1.0?
+  // {RunByHand}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class RandomBounds
+  static void usage
+    "Usage: \n\t" + "RandomBounds lower\n\tRandomBounds upper"
+    System.exit(1)
+  main
+    ?	argv.length != 1	usage()
+    ?	argv[0].equals("lower")
+      W	Math.random() != 0.0
+        // Keep trying
+      "Produced 0.0!"
+    ?-	argv[0].equals("upper")
+      W	Math.random() != 1.0
+        // Keep trying
+      "Produced 1.0!"
+    -
+      usage()
+//: c03:ShortCircuit.java
+// Demonstrates short-circuiting behavior.
+// with logical operators.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class ShortCircuit
+  vars
+    static Test monitor = new Test()
+  static boolean test1	int val
+    "test1(" + val + ")"
+    "result: " + (val < 1)
+    return val < 1
+  static boolean test2	int val
+    "test2(" + val + ")"
+    "result: " + (val < 2)
+    return val < 2
+  static boolean test3	int val
+    "test3(" + val + ")"
+    "result: " + (val < 3)
+    return val < 3
+  main
+    ?	test1(0) && test2(2) && test3(2)
+      "expression is true"
+    -
+      "expression is false"
+    java code
+	monitor.expect(new String[] {
+	  "test1(0)",
+	  "result: true",
+	  "test2(2)",
+	  "result: false",
+	  "expression is false"
+	});
+//: c03:URShift.java
+// Test of unsigned right shift.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class URShift
+  vars
+    static Test monitor = new Test()
+  main
+    int i = -1
+    System.out.println(i >>>= 10)
+    long l = -1
+    System.out.println(l >>>= 10)
+    short s = -1
+    System.out.println(s >>>= 10)
+    byte b = -1
+    System.out.println(b >>>= 10)
+    b = -1
+    System.out.println(b>>>10)
+    java code
+	monitor.expect(new String[] {
+	  "4194303",
+	  "18014398509481983",
+	  "-1",
+	  "-1",
+	  "4194303"
+	});
+//: c03:VowelsAndConsonants.java
+// Demonstrates the switch statement.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class VowelsAndConsonants
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 100; i++
+      char c = (char)(Math.random() * 26 + 'a')
+      System.out.print(c + ": ")
+      S*	c
+        'a'
+        'e'
+        'i'
+        'o'
+        'u'	"vowel"
+          break
+        'y'
+        'w'	"Sometimes a vowel"
+          break
+        default	"consonant"
+          break
+      java code
+	monitor.expect(new String[] {
+	  "%% [aeiou]: vowel|[yw]: Sometimes a vowel|" +
+	    "[^aeiouyw]: consonant"
+	}, Test.AT_LEAST);
+  //: c03:WhileTest.java
+  // Demonstrates the while loop.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class WhileTest
+  vars
+    static Test monitor = new Test()
+  main
+    double r = 0
+    W	r < 0.99d
+      r = Math.random()
+      System.out.println(r)
+      java code
+	monitor.expect(new String[] {
+	  "%% \\d\\.\\d+E?-?\\d*"
+	}, Test.AT_LEAST);
+  //: c04:ArrayClassObj.java
+  // Creating an array of nonprimitive objects.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class ArrayClassObj
+  vars
+    static Test monitor = new Test()
+    static Random rand = new Random()
+  main
+    Integer[] a = new Integer[rand.nextInt(20)]
+    "length of a = " + a.length
+    F	int i = 0; i < a.length; i++
+      a[i] = new Integer(rand.nextInt(500))
+      "a[" + i + "] = " + a[i]
+    java code
+	monitor.expect(new Object[] {
+	  "%% length of a = \\d+",
+	  new TestExpression("%% a\\[\\d+\\] = \\d+", a.length)
+	});
+  //: c04:ArrayInit.java
+  // Array initialization.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class ArrayInit
+  main
+    vars
+      Integer[] a
+	new Integer(1)
+	new Integer(2)
+	new Integer(3)
+    Integer[] b = new Integer[] {
+      new Integer(1),
+      new Integer(2),
+      new Integer(3),
+    };
+  //: c04:ArrayNew.java
+  // Creating arrays with new.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class ArrayNew
+  vars
+    static Test monitor = new Test()
+    static Random rand = new Random()
+  main
+    int[] a
+    a = new int[rand.nextInt(20)]
+    "length of a = " + a.length
+    F	int i = 0; i < a.length; i++	"a[" + i + "] = " + a[i]
+    java code
+	monitor.expect(new Object[] {
+	  "%% length of a = \\d+",
+	  new TestExpression("%% a\\[\\d+\\] = 0", a.length)
+	});
+  //: c04:Arrays.java
+  // Arrays of primitives.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Arrays
+  vars
+    static Test monitor = new Test()
+  main
+    int[] a1 = { 1, 2, 3, 4, 5 }
+    int[] a2
+    a2 = a1
+    F	int i = 0; i < a2.length; i++	a2[i]++
+    F	int i = 0; i < a1.length; i++	"a1[" + i + "] = " + a1[i]
+    java code
+	monitor.expect(new String[] {
+	  "a1[0] = 2",
+	  "a1[1] = 3",
+	  "a1[2] = 4",
+	  "a1[3] = 5",
+	  "a1[4] = 6"
+	});
+  //: c04:DefaultConstructor.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Bird
+  vars
+    int i
+
+public class DefaultConstructor
+  main
+    Bird nc = new Bird()	Default!
+  //: c04:Demotion.java
+  // Demotion of primitives and overloading.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Demotion
+  vars
+    static Test monitor = new Test()
+    void f1(char x)   { System.out.println("f1(char)")   ; }
+    void f1(byte x)   { System.out.println("f1(byte)")   ; }
+    void f1(short x)  { System.out.println("f1(short)")  ; }
+    void f1(int x)    { System.out.println("f1(int)")    ; }
+    void f1(long x)   { System.out.println("f1(long)")   ; }
+    void f1(float x)  { System.out.println("f1(float)")  ; }
+    void f1(double x) { System.out.println("f1(double)") ; }
+
+    void f2(char x)   { System.out.println("f2(char)")   ; }
+    void f2(byte x)   { System.out.println("f2(byte)")   ; }
+    void f2(short x)  { System.out.println("f2(short)")  ; }
+    void f2(int x)    { System.out.println("f2(int)")    ; }
+    void f2(long x)   { System.out.println("f2(long)")   ; }
+    void f2(float x)  { System.out.println("f2(float)")  ; }
+
+    void f3(char x)   { System.out.println("f3(char)")   ; }
+    void f3(byte x)   { System.out.println("f3(byte)")   ; }
+    void f3(short x)  { System.out.println("f3(short)")  ; }
+    void f3(int x)    { System.out.println("f3(int)")    ; }
+    void f3(long x)   { System.out.println("f3(long)")   ; }
+
+    void f4(char x)   { System.out.println("f4(char)")   ; }
+    void f4(byte x)   { System.out.println("f4(byte)")   ; }
+    void f4(short x)  { System.out.println("f4(short)")  ; }
+    void f4(int x)    { System.out.println("f4(int)")    ; }
+
+    void f5(char x)   { System.out.println("f5(char)")   ; }
+    void f5(byte x)   { System.out.println("f5(byte)")   ; }
+    void f5(short x)  { System.out.println("f5(short)")  ; }
+
+    void f6(char x)   { System.out.println("f6(char)")   ; }
+    void f6(byte x)   { System.out.println("f6(byte)")   ; }
+
+    void f7(char x)   { System.out.println("f7(char)")   ; }
+
+  void testDouble
+    double x = 0
+    "double argument:"
+    f1(x)
+    f2((float)x)
+    f3((long)x)
+    f4((int)x)
+    f5((short)x)
+    f6((byte)x)
+    f7((char)x)
+  main
+    Demotion p = new Demotion()
+    p.testDouble()
+    java code
+	monitor.expect(new String[] {
+	  "double argument:",
+	  "f1(double)",
+	  "f2(float)",
+	  "f3(long)",
+	  "f4(int)",
+	  "f5(short)",
+	  "f6(byte)",
+	  "f7(char)"
+	});
+  //: c04:ExplicitStatic.java
+  // Explicit static initialization with the "static" clause.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Cup
+  Cup	int marker
+    "Cup(" + marker + ")"
+  void f	int marker
+    "f(" + marker + ")"
+
+class Cups
+  vars
+    static Cup c1
+    static Cup c2
+  static
+    c1 = new Cup(1)
+    c2 = new Cup(2)
+  Cups
+    "Cups()"
+
+public class ExplicitStatic
+  vars
+    static Test monitor = new Test()
+  main
+    "Inside main()"
+    Cups.c1.f(99)	(1)
+    java code
+	monitor.expect(new String[] {
+	  "Inside main()",
+	  "Cup(1)",
+	  "Cup(2)",
+	  "f(99)"
+	});
+  vars
+    // static Cups x = new Cups()	(2)
+    // static Cups y = new Cups()	(2)
+  //: c04:Flower.java
+  // Calling constructors with "this."
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Flower
+  vars
+    static Test monitor = new Test()
+    int petalCount = 0
+    String s = new String("null")
+  Flower	int petals
+    petalCount = petals
+    "Constructor w/ int arg only, petalCount= " + petalCount
+  Flower	String ss
+    "Constructor w/ String arg only, s=" + ss
+    s = ss
+  Flower	String s, int petals
+    this(petals)
+    //!    this(s)	Can't call two!
+    this.s = s	Another use of "this"
+    "String & int args"
+  Flower
+    this("hi", 47)
+    "default constructor (no args)"
+  void print
+    //! this(11)	Not inside non-constructor!
+    "petalCount = " + petalCount + " s = "+ s
+  main
+    Flower x = new Flower()
+    x.print()
+    java code
+	monitor.expect(new String[] {
+	  "Constructor w/ int arg only, petalCount= 47",
+	  "String & int args",
+	  "default constructor (no args)",
+	  "petalCount = 47 s = hi"
+	});
+  //: c04:InitialValues.java
+  // Shows default initial values.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class InitialValues
+  vars
+    static Test monitor = new Test()
+    boolean t
+    char c
+    byte b
+    short s
+    int i
+    long l
+    float f
+    double d
+  void print	String s
+    System.out.println(s)
+  void printInitialValues
+    print("Data type      Initial value")
+    print("boolean        " + t)
+    print("char           [" + c + "]")
+    print("byte           " + b)
+    print("short          " + s)
+    print("int            " + i)
+    print("long           " + l)
+    print("float          " + f)
+    print("double         " + d)
+  main
+    InitialValues iv = new InitialValues()
+    iv.printInitialValues()
+    /* You could also say:
+    new InitialValues().printInitialValues()
+    */
+    java code
+	monitor.expect(new String[] {
+	  "Data type      Initial value",
+	  "boolean        false",
+	  "char           [" + (char)0 + "]",
+	  "byte           0",
+	  "short          0",
+	  "int            0",
+	  "long           0",
+	  "float          0.0",
+	  "double         0.0"
+	});
+  //: c04:Leaf.java
+  // Simple use of the "this" keyword.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Leaf
+  vars
+    static Test monitor = new Test()
+    int i = 0
+  Leaf increment
+    i++
+    return this
+  void print
+    "i = " + i
+  main
+    Leaf x = new Leaf()
+    x.increment().increment().increment().print()
+    java code
+	monitor.expect(new String[] {
+	  "i = 3"
+	});
+  //: c04:Mugs.java
+  // Java "Instance Initialization."
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Mug
+  Mug	int marker
+    "Mug(" + marker + ")"
+  void f	int marker
+    "f(" + marker + ")"
+
+public class Mugs
+  vars
+    static Test monitor = new Test()
+    Mug c1
+    Mug c2
+  {
+    c1 = new Mug(1)
+    c2 = new Mug(2)
+    "c1 & c2 initialized"
+  }
+  Mugs
+    "Mugs()"
+  main
+    "Inside main()"
+    Mugs x = new Mugs()
+    java code
+	monitor.expect(new String[] {
+	  "Inside main()",
+	  "Mug(1)",
+	  "Mug(2)",
+	  "c1 & c2 initialized",
+	  "Mugs()"
+	});
+  //: c04:MultiDimArray.java
+  // Creating multidimensional arrays.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+public class MultiDimArray
+  vars
+    static Test monitor = new Test()
+    static Random rand = new Random()
+  main
+    vars
+      int[][] a1
+	{ 1, 2, 3, }
+	{ 4, 5, 6, }
+    F	int i = 0; i < a1.length; i++
+      F	int j = 0; j < a1[i].length; j++
+	"a1[" + i + "][" + j + "] = " + a1[i][j]
+    // 3-D array with fixed length:
+    int[][][] a2 = new int[2][2][4]
+    F	int i = 0; i < a2.length; i++
+      F	int j = 0; j < a2[i].length; j++
+        F	int k = 0; k < a2[i][j].length; k++
+          "a2[" + i + "][" + j + "][" + k + "] = " + a2[i][j][k]
+    // 3-D array with varied-length vectors:
+    int[][][] a3 = new int[rand.nextInt(7)][][]
+    F	int i = 0; i < a3.length; i++
+      a3[i] = new int[rand.nextInt(5)][]
+      F	int j = 0; j < a3[i].length; j++
+        a3[i][j] = new int[rand.nextInt(5)]
+    F	int i = 0; i < a3.length; i++
+      F	int j = 0; j < a3[i].length; j++
+        F	int k = 0; k < a3[i][j].length; k++
+          "a3[" + i + "][" + j + "][" + k + "] = " + a3[i][j][k]
+    // Array of nonprimitive objects:
+    vars
+      Integer[][] a4
+	{ new Integer(1), new Integer(2)}
+	{ new Integer(3), new Integer(4)}
+	{ new Integer(5), new Integer(6)}
+    F	int i = 0; i < a4.length; i++
+      F	int j = 0; j < a4[i].length; j++
+        "a4[" + i + "][" + j + "] = " + a4[i][j]
+    Integer[][] a5
+    a5 = new Integer[3][]
+    F	int i = 0; i < a5.length; i++
+      a5[i] = new Integer[3]
+      F	int j = 0; j < a5[i].length; j++
+        a5[i][j] = new Integer(i * j)
+    F	int i = 0; i < a5.length; i++
+      F	int j = 0; j < a5[i].length; j++
+        "a5[" + i + "][" + j + "] = " + a5[i][j]
+    // Output test
+    int ln = 0
+    F	int i = 0; i < a3.length; i++
+      F	int j = 0; j < a3[i].length; j++
+        F	int k = 0; k < a3[i][j].length; k++
+          ln++
+    java code
+	monitor.expect(new Object[] {
+	  "a1[0][0] = 1",
+	  "a1[0][1] = 2",
+	  "a1[0][2] = 3",
+	  "a1[1][0] = 4",
+	  "a1[1][1] = 5",
+	  "a1[1][2] = 6",
+	  new TestExpression(
+	    "%% a2\\[\\d\\]\\[\\d\\]\\[\\d\\] = 0", 16),
+	  new TestExpression(
+	    "%% a3\\[\\d\\]\\[\\d\\]\\[\\d\\] = 0", ln),
+	  "a4[0][0] = 1",
+	  "a4[0][1] = 2",
+	  "a4[1][0] = 3",
+	  "a4[1][1] = 4",
+	  "a4[2][0] = 5",
+	  "a4[2][1] = 6",
+	  "a5[0][0] = 0",
+	  "a5[0][1] = 0",
+	  "a5[0][2] = 0",
+	  "a5[1][0] = 0",
+	  "a5[1][1] = 1",
+	  "a5[1][2] = 2",
+	  "a5[2][0] = 0",
+	  "a5[2][1] = 2",
+	  "a5[2][2] = 4"
+	});
+  //: c04:OrderOfInitialization.java
+  // Demonstrates initialization order.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+// When the constructor is called to create a
+// Tag object, you'll see a message:
+class Tag
+  Tag	int marker
+    "Tag(" + marker + ")"
+
+class Card
+  vars
+    Tag t1 = new Tag(1)	Before constructor
+  Card
+    // Indicate we're in the constructor:
+    "Card()"
+    t3 = new Tag(33)	Reinitialize t3
+  vars
+    Tag t2 = new Tag(2)	After constructor
+  void f
+    "f()"
+  vars
+    Tag t3 = new Tag(3)	At end
+
+public class OrderOfInitialization
+  vars
+    static Test monitor = new Test()
+  main
+    Card t = new Card()
+    t.f()	Shows that construction is done
+    java code
+	monitor.expect(new String[] {
+	  "Tag(1)",
+	  "Tag(2)",
+	  "Tag(3)",
+	  "Card()",
+	  "Tag(33)",
+	  "f()"
+	});
+  //: c04:Overloading.java
+  // Demonstration of both constructor
+  // and ordinary method overloading.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+class Tree
+  vars
+    int height
+  Tree
+    "Planting a seedling"
+    height = 0
+  Tree	int i
+    "Creating new Tree that is " + i + " feet tall"
+    height = i
+  void info
+    "Tree is " + height + " feet tall"
+  void info	String s
+    System.out.println(s + ": Tree is " + height + " feet tall");
+
+public class Overloading
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 5; i++
+      Tree t = new Tree(i)
+      t.info()
+      t.info("overloaded method")
+    // Overloaded constructor:
+    new Tree()
+    java code
+	monitor.expect(new String[] {
+	  "Creating new Tree that is 0 feet tall",
+	  "Tree is 0 feet tall",
+	  "overloaded method: Tree is 0 feet tall",
+	  "Creating new Tree that is 1 feet tall",
+	  "Tree is 1 feet tall",
+	  "overloaded method: Tree is 1 feet tall",
+	  "Creating new Tree that is 2 feet tall",
+	  "Tree is 2 feet tall",
+	  "overloaded method: Tree is 2 feet tall",
+	  "Creating new Tree that is 3 feet tall",
+	  "Tree is 3 feet tall",
+	  "overloaded method: Tree is 3 feet tall",
+	  "Creating new Tree that is 4 feet tall",
+	  "Tree is 4 feet tall",
+	  "overloaded method: Tree is 4 feet tall",
+	  "Planting a seedling"
+	});
+  //: c04:OverloadingOrder.java
+  // Overloading based on the order of the arguments.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class OverloadingOrder
+  vars
+    static Test monitor = new Test()
+  static void print	String s, int i
+    "String: " + s + ", int: " + i
+  static void print	int i, String s
+    "int: " + i + ", String: " + s
+  main
+    print("String first", 11)
+    print(99, "Int first")
+    java code
+	monitor.expect(new String[] {
+	  "String: String first, int: 11",
+	  "int: 99, String: Int first"
+	});
+  //: c04:PrimitiveOverloading.java
+  // Promotion of primitives and overloading.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class PrimitiveOverloading
+  vars
+    static Test monitor = new Test()
+    void f1(char x)   { System.out.println("f1(char)")   ; }
+    void f1(byte x)   { System.out.println("f1(byte)")   ; }
+    void f1(short x)  { System.out.println("f1(short)")  ; }
+    void f1(int x)    { System.out.println("f1(int)")    ; }
+    void f1(long x)   { System.out.println("f1(long)")   ; }
+    void f1(float x)  { System.out.println("f1(float)")  ; }
+    void f1(double x) { System.out.println("f1(double)") ; }
+
+    void f2(byte x)   { System.out.println("f2(byte)")   ; }
+    void f2(short x)  { System.out.println("f2(short)")  ; }
+    void f2(int x)    { System.out.println("f2(int)")    ; }
+    void f2(long x)   { System.out.println("f2(long)")   ; }
+    void f2(float x)  { System.out.println("f2(float)")  ; }
+    void f2(double x) { System.out.println("f2(double)") ; }
+
+    void f3(short x)  { System.out.println("f3(short)")  ; }
+    void f3(int x)    { System.out.println("f3(int)")    ; }
+    void f3(long x)   { System.out.println("f3(long)")   ; }
+    void f3(float x)  { System.out.println("f3(float)")  ; }
+    void f3(double x) { System.out.println("f3(double)") ; }
+
+    void f4(int x)    { System.out.println("f4(int)")    ; }
+    void f4(long x)   { System.out.println("f4(long)")   ; }
+    void f4(float x)  { System.out.println("f4(float)")  ; }
+    void f4(double x) { System.out.println("f4(double)") ; }
+
+    void f5(long x)   { System.out.println("f5(long)")   ; }
+    void f5(float x)  { System.out.println("f5(float)")  ; }
+    void f5(double x) { System.out.println("f5(double)") ; }
+
+    void f6(float x)  { System.out.println("f6(float)")  ; }
+    void f6(double x) { System.out.println("f6(double)") ; }
+
+    void f7(double x) { System.out.println("f7(double)") ; }
+
+  void testConstVal
+    "Testing with 5"
+    f1(5);f2(5);f3(5);f4(5);f5(5);f6(5);f7(5)
+  void testChar
+    char x = 'x'
+    "char argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testByte
+    byte x = 0
+    "byte argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testShort
+    short x = 0
+    "short argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testInt
+    int x = 0
+    "int argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testLong
+    long x = 0
+    "long argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testFloat
+    float x = 0
+    "float argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  void testDouble
+    double x = 0
+    "double argument:"
+    f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x)
+  main
+    PrimitiveOverloading p = new PrimitiveOverloading()
+    p.testConstVal()
+    p.testChar()
+    p.testByte()
+    p.testShort()
+    p.testInt()
+    p.testLong()
+    p.testFloat()
+    p.testDouble()
+    java code
+	monitor.expect(new String[] {
+	  "Testing with 5",
+	  "f1(int)",
+	  "f2(int)",
+	  "f3(int)",
+	  "f4(int)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "char argument:",
+	  "f1(char)",
+	  "f2(int)",
+	  "f3(int)",
+	  "f4(int)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "byte argument:",
+	  "f1(byte)",
+	  "f2(byte)",
+	  "f3(short)",
+	  "f4(int)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "short argument:",
+	  "f1(short)",
+	  "f2(short)",
+	  "f3(short)",
+	  "f4(int)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "int argument:",
+	  "f1(int)",
+	  "f2(int)",
+	  "f3(int)",
+	  "f4(int)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "long argument:",
+	  "f1(long)",
+	  "f2(long)",
+	  "f3(long)",
+	  "f4(long)",
+	  "f5(long)",
+	  "f6(float)",
+	  "f7(double)",
+	  "float argument:",
+	  "f1(float)",
+	  "f2(float)",
+	  "f3(float)",
+	  "f4(float)",
+	  "f5(float)",
+	  "f6(float)",
+	  "f7(double)",
+	  "double argument:",
+	  "f1(double)",
+	  "f2(double)",
+	  "f3(double)",
+	  "f4(double)",
+	  "f5(double)",
+	  "f6(double)",
+	  "f7(double)"
+	});
+  //: c04:SimpleConstructor.java
+  // Demonstration of a simple constructor.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Rock
+  Rock
+    "Creating Rock"
+
+public class SimpleConstructor
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 10; i++
+      new Rock()
+    java code
+	monitor.expect(new String[] {
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock",
+	  "Creating Rock"
+	});
+  //: c04:SimpleConstructor2.java
+  // Constructors can have arguments.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Rock2
+  Rock2	int i
+    "Creating Rock number " + i
+
+public class SimpleConstructor2
+  vars
+    static Test monitor = new Test()
+  main
+    F	int i = 0; i < 10; i++
+      new Rock2(i)
+    java code
+	monitor.expect(new String[] {
+	  "Creating Rock number 0",
+	  "Creating Rock number 1",
+	  "Creating Rock number 2",
+	  "Creating Rock number 3",
+	  "Creating Rock number 4",
+	  "Creating Rock number 5",
+	  "Creating Rock number 6",
+	  "Creating Rock number 7",
+	  "Creating Rock number 8",
+	  "Creating Rock number 9"
+	});
+  //: c04:StaticInitialization.java
+// Specifying initial values in a class definition.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Bowl
+  Bowl	int marker
+    "Bowl(" + marker + ")"
+  void f	int marker
+    "f(" + marker + ")"
+
+class Table
+  vars
+    static Bowl b1 = new Bowl(1)
+  Table
+    "Table()"
+    b2.f(1)
+  void f2	int marker
+    "f2(" + marker + ")"
+  vars
+    static Bowl b2 = new Bowl(2)
+
+class Cupboard
+  vars
+    Bowl b3 = new Bowl(3)
+    static Bowl b4 = new Bowl(4)
+  Cupboard
+    "Cupboard()"
+    b4.f(2)
+  void f3	int marker
+    "f3(" + marker + ")"
+  vars
+    static Bowl b5 = new Bowl(5)
+
+public class StaticInitialization
+  vars
+    static Test monitor = new Test()
+  main
+    "Creating new Cupboard() in main"
+    new Cupboard()
+    "Creating new Cupboard() in main"
+    new Cupboard()
+    t2.f2(1)
+    t3.f3(1)
+    java code
+	monitor.expect(new String[] {
+	  "Bowl(1)",
+	  "Bowl(2)",
+	  "Table()",
+	  "f(1)",
+	  "Bowl(4)",
+	  "Bowl(5)",
+	  "Bowl(3)",
+	  "Cupboard()",
+	  "f(2)",
+	  "Creating new Cupboard() in main",
+	  "Bowl(3)",
+	  "Cupboard()",
+	  "f(2)",
+	  "Creating new Cupboard() in main",
+	  "Bowl(3)",
+	  "Cupboard()",
+	  "f(2)",
+	  "f2(1)",
+	  "f3(1)"
+	});
+  vars
+    static Table    t2 = new Table()
+    static Cupboard t3 = new Cupboard()
+  //: c04:TerminationCondition.java
+  // Using finalize() to detect an object that
+  // hasn't been properly cleaned up.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Book
+  vars
+    boolean checkedOut = false
+  Book	boolean checkOut
+    checkedOut = checkOut
+  void checkIn
+    checkedOut = false
+  public void finalize
+    ?	checkedOut
+      "Error: checked out"
+
+public class TerminationCondition
+  vars
+    static Test monitor = new Test()
+  main
+    Book novel = new Book(true)
+    // Proper cleanup:
+    novel.checkIn()
+    // Drop the reference, forget to clean up:
+    new Book(true)
+    // Force garbage collection & finalization:
+    System.gc()
+    java code
+	monitor.expect(new String[] {
+	  "Error: checked out"}, Test.WAIT);
+  //: c04:VarArgs.java
+  // Using array syntax to create variable argument lists.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class A
+  vars
+    int i
+
+public class VarArgs
+  vars
+    static Test monitor = new Test()
+  static void print	Object[] x
+    F	int i = 0; i < x.length; i++	System.out.println(x[i])
+  main
+    java code
+	print(new Object[] {
+	  new Integer(47),
+	  new VarArgs(),
+	  new Float(3.14),
+	  new Double(11.11)
+	});
+    print(new Object[] {"one", "two", "three" })
+    print(new Object[] {new A(), new A(), new A()})
+    java code
+	monitor.expect(new Object[] {
+	  "47",
+	  "%% VarArgs@\\p{XDigit}+",
+	  "3.14",
+	  "11.11",
+	  "one",
+	  "two",
+	  "three",
+	  new TestExpression("%% A@\\p{XDigit}+", 3)
+	});
+  //: c05:Cake.java
+// Accesses a class in a separate compilation unit.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Cake
+  vars
+    static Test monitor = new Test()
+  main
+    Pie x = new Pie()
+    x.f()
+    java code
+	monitor.expect(new String[] {
+	  "Pie.f()"
+	});
+  //: c05:ChocolateChip.java
+  // Can't use package-access member from another package.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  c05_trued.dessert.*
+
+public class ChocolateChip extends Cookie
+  vars
+    private static Test monitor = new Test()
+  public ChocolateChip
+    "ChocolateChip constructor"
+  main
+    ChocolateChip x = new ChocolateChip()
+    //! x.bite()	Can't access bite
+    java code
+	monitor.expect(new String[] {
+	  "Cookie constructor",
+	  "ChocolateChip constructor"
+	});
+  //: c05:Dinner.java
+  // Uses the library.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  c05_trued.dessert.*
+
+public class Dinner
+  vars
+    static Test monitor = new Test()
+  public Dinner
+    "Dinner constructor"
+  main
+    Cookie x = new Cookie()
+    //! x.bite()	Can't access
+    java code
+	monitor.expect(new String[] {
+	  "Cookie constructor"
+	});
+  //: c05:IceCream.java
+  // Demonstrates "private" keyword.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Sundae
+  private Sundae
+  static Sundae makeASundae
+    return new Sundae()
+
+public class IceCream
+  main
+    //! Sundae x = new Sundae()
+    Sundae x = Sundae.makeASundae()
+  //: c05:LibTest.java
+  // Uses the library.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  com.bruceeckel.simple.*
+
+public class LibTest
+  vars
+    static Test monitor = new Test()
+  main
+    Vector v = new Vector()
+    List l = new List()
+    java code
+	monitor.expect(new String[] {
+	  "com.bruceeckel.simple.Vector",
+	  "com.bruceeckel.simple.List"
+	});
+  //: c05:Lunch.java
+// Demonstrates class access specifiers. Make a class
+// effectively private with private constructors:
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Soup
+  private Soup
+  // (1) Allow creation via static method:
+  public static Soup makeSoup
+    return new Soup()
+  // (2) Create a static object and return a reference
+  // upon request.(The "Singleton" pattern):
+  vars
+    private static Soup ps1 = new Soup()
+  public static Soup access
+    return ps1
+  public void f
+
+class Sandwich
+  void f
+    new Lunch()
+
+// Only one public class allowed per file:
+public class Lunch
+  void test
+    // Can't do this! Private constructor:
+    //! Soup priv1 = new Soup()
+    Soup priv2 = Soup.makeSoup()
+    Sandwich f1 = new Sandwich()
+    Soup.access().f()
+  //: c05:Pie.java
+  // The other class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Pie
+  void f
+    "Pie.f()"
+  //: c05:TestAssert.java
+  // Demonstrating the assertion tool. Comment the following,
+  // and uncomment the subsequent line to change
+  // assertion behavior:
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  com.bruceeckel.tools.debug.*
+// import com.bruceeckel.tools.*
+
+public class TestAssert
+  vars
+    static Test monitor = new Test()
+  main
+    Assert.is_true((2 + 2) == 5)
+    Assert.is_false((1 + 1) == 2)
+    Assert.is_true((2 + 2) == 5, "2 + 2 == 5")
+    Assert.is_false((1 + 1) == 2, "1 +1 != 2")
+    java code
+	monitor.expect(new String[] {
+	  "Assertion failed",
+	  "Assertion failed",
+	  "Assertion failed: 2 + 2 == 5",
+	  "Assertion failed: 1 +1 != 2"
+	});
+  //: c05:ToolTest.java
+  // Uses the tools library.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.tools.*
+  com.bruceeckel.simpletest.*
+
+public class ToolTest
+  vars
+    static Test monitor = new Test()
+  main
+    P.rintln("Available from now on!")
+    P.rintln("" + 100)	Force it to be a String
+    P.rintln("" + 100L)
+    P.rintln("" + 3.14159)
+    java code
+	monitor.expect(new String[] {
+	  "Available from now on!",
+	  "100",
+	  "100",
+	  "3.14159"
+	});
+  //: c06:Bath.java
+  // Constructor initialization with composition.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Soap
+  vars
+    private String s
+  Soap
+    "Soap()"
+    s = new String("Constructed")
+  public String toString
+    return s
+
+public class Bath
+  vars
+    private static Test monitor = new Test()
+    // Initializing at point of definition:
+    private String s1 = new String("Happy")
+    private String s2 = "Happy"
+    private String s3, s4
+    private Soap castille
+    private int i
+    private float toy
+  public Bath
+    "Inside Bath()"
+    s3 = new String("Joy")
+    i = 47
+    toy = 3.14f
+    castille = new Soap()
+  public String toString
+    ?	s4 == null	// Delayed initialization:
+      s4 = new String("Joy")
+    return
+      "s1 = " + s1 + "\n" +
+      "s2 = " + s2 + "\n" +
+      "s3 = " + s3 + "\n" +
+      "s4 = " + s4 + "\n" +
+      "i = " + i + "\n" +
+      "toy = " + toy + "\n" +
+      "castille = " + castille;
+  main
+    Bath b = new Bath()
+    System.out.println(b)
+    java code
+	monitor.expect(new String[] {
+	  "Inside Bath()",
+	  "Soap()",
+	  "s1 = Happy",
+	  "s2 = Happy",
+	  "s3 = Joy",
+	  "s4 = Joy",
+	  "i = 47",
+	  "toy = 3.14",
+	  "castille = Constructed"
+	});
+  //: c06:Beetle.java
+  // The full process of initialization.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Insect
+  vars
+    protected static Test monitor = new Test()
+    private int i = 9
+    protected int j
+  Insect
+    "i = " + i + ", j = " + j
+    j = 39
+  vars
+    private static int x1 = print("static Insect.x1 initialized")
+  static int print	String s
+    System.out.println(s)
+    return 47
+
+public class Beetle extends Insect
+  vars
+    private int k = print("Beetle.k initialized")
+  public Beetle
+    "k = " + k
+    "j = " + j
+  vars
+    private static int x2 = print("static Beetle.x2 initialized")
+  main
+    "Beetle constructor"
+    Beetle b = new Beetle()
+    java code
+	monitor.expect(new String[] {
+	  "static Insect.x1 initialized",
+	  "static Beetle.x2 initialized",
+	  "Beetle constructor",
+	  "i = 9, j = 0",
+	  "Beetle.k initialized",
+	  "k = 47",
+	  "j = 39"
+	});
+  //: c06:BlankFinal.java
+  // "Blank" final fields.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Poppet
+  vars
+    private int i
+  Poppet	int ii
+    i = ii
+
+public class BlankFinal
+  vars
+    private final int i = 0	Initialized final
+    private final int j		Blank final
+    private final Poppet p	Blank final reference
+    // Blank finals MUST be initialized in the constructor:
+  public BlankFinal
+    j = 1		Initialize blank final
+    p = new Poppet(1)	Initialize blank final reference
+  public BlankFinal	int x
+    j = x		Initialize blank final
+    p = new Poppet(x)	Initialize blank final reference
+  main
+    new BlankFinal()
+    new BlankFinal(47)
+  //: c06:CADSystem.java
+  // Ensuring proper cleanup.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+package	c06_trued
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+class Shape
+  Shape	int i
+    "Shape constructor"
+  void dispose
+    "Shape dispose"
+
+class Circle extends Shape
+  Circle	int i
+    super(i)
+    "Drawing Circle"
+  void dispose
+    "Erasing Circle"
+    super.dispose()
+
+class Triangle extends Shape
+  Triangle	int i
+    super(i)
+    "Drawing Triangle"
+  void dispose
+    "Erasing Triangle"
+    super.dispose()
+
+class Line extends Shape
+  vars
+    private int start, end
+  Line	int start, int end
+    super(start)
+    this.start = start
+    this.end = end
+    "Drawing Line: "+ start+ ", "+ end
+  void dispose
+    "Erasing Line: "+ start+ ", "+ end
+    super.dispose()
+
+public class CADSystem extends Shape
+  vars
+    private static Test monitor = new Test()
+    private Circle c
+    private Triangle t
+    private Line[] lines = new Line[5]
+  public CADSystem	int i
+    super(i + 1)
+    F	int j = 0; j < lines.length; j++
+      lines[j] = new Line(j, j*j)
+    c = new Circle(1)
+    t = new Triangle(1)
+    "Combined constructor"
+  public void dispose
+    "CADSystem.dispose()"
+    // The order of cleanup is the reverse
+    // of the order of initialization
+    t.dispose()
+    c.dispose()
+    F	int i = lines.length - 1; i >= 0; i--
+      lines[i].dispose()
+    super.dispose()
+  main
+    CADSystem x = new CADSystem(47)
+    try
+      block
+        // Code and exception handling...
+      finally
+        x.dispose()
+    java code
+	monitor.expect(new String[] {
+	  "Shape constructor",
+	  "Shape constructor",
+	  "Drawing Line: 0, 0",
+	  "Shape constructor",
+	  "Drawing Line: 1, 1",
+	  "Shape constructor",
+	  "Drawing Line: 2, 4",
+	  "Shape constructor",
+	  "Drawing Line: 3, 9",
+	  "Shape constructor",
+	  "Drawing Line: 4, 16",
+	  "Shape constructor",
+	  "Drawing Circle",
+	  "Shape constructor",
+	  "Drawing Triangle",
+	  "Combined constructor",
+	  "CADSystem.dispose()",
+	  "Erasing Triangle",
+	  "Shape dispose",
+	  "Erasing Circle",
+	  "Shape dispose",
+	  "Erasing Line: 4, 16",
+	  "Shape dispose",
+	  "Erasing Line: 3, 9",
+	  "Shape dispose",
+	  "Erasing Line: 2, 4",
+	  "Shape dispose",
+	  "Erasing Line: 1, 1",
+	  "Shape dispose",
+	  "Erasing Line: 0, 0",
+	  "Shape dispose",
+	  "Shape dispose"
+	});
+  //: c06:Car.java
+  // Composition with public objects.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Engine
+  public void start
+  public void rev
+  public void stop
+
+class Wheel
+  public void inflate	int psi
+
+class Window
+  public void rollup
+  public void rolldown
+
+class Door
+  vars
+    public Window window = new Window()
+  public void open
+  public void close
+
+public class Car
+  vars
+    public Engine engine = new Engine()
+    public Wheel[] wheel = new Wheel[4]
+    public Door left = new Door()
+    public Door right = new Door()	2-door
+  public Car
+    F	int i = 0; i < 4; i++
+      wheel[i] = new Wheel()
+  main
+    Car car = new Car()
+    car.left.window.rollup()
+    car.wheel[0].inflate(72)
+  //: c06:Cartoon.java
+  // Constructor calls during inheritance.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Art
+  Art
+    "Art constructor"
+
+class Drawing extends Art
+  Drawing
+    "Drawing constructor"
+
+public class Cartoon extends Drawing
+  vars
+    private static Test monitor = new Test()
+  public Cartoon
+    "Cartoon constructor"
+  main
+    Cartoon x = new Cartoon()
+    java code
+	monitor.expect(new String[] {
+	  "Art constructor",
+	  "Drawing constructor",
+	  "Cartoon constructor"
+	});
+  //: c06:Chess.java
+  // Inheritance, constructors and arguments.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Game
+  Game	int i
+    "Game constructor"
+
+class BoardGame extends Game
+  BoardGame	int i
+    super(i)
+    "BoardGame constructor"
+
+public class Chess extends BoardGame
+  vars
+    private static Test monitor = new Test()
+  Chess
+    super(11)
+    "Chess constructor"
+  main
+    Chess x = new Chess()
+    java code
+	monitor.expect(new String[] {
+	  "Game constructor",
+	  "BoardGame constructor",
+	  "Chess constructor"
+	});
+  //: c06:Detergent.java
+  // Inheritance syntax & properties.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Cleanser
+  vars
+    protected static Test monitor = new Test()
+    private String s = new String("Cleanser")
+  public void append	String a
+    s += a
+  public void dilute
+    append(" dilute()")
+  public void apply
+    append(" apply()")
+  public void scrub
+    append(" scrub()")
+  public String toString
+    return s
+  main
+    Cleanser x = new Cleanser()
+    x.dilute()
+    x.apply()
+    x.scrub()
+    System.out.println(x)
+    java code
+	monitor.expect(new String[] {
+	  "Cleanser dilute() apply() scrub()"
+	});
+
+public class Detergent extends Cleanser
+  // Change a method:
+  public void scrub
+    append(" Detergent.scrub()")
+    super.scrub()	Call base-class version
+  // Add methods to the interface:
+  public void foam
+    append(" foam()")
+  // Test the new class:
+  main
+    Detergent x = new Detergent()
+    x.dilute()
+    x.apply()
+    x.scrub()
+    x.foam()
+    System.out.println(x)
+    System.out.println("Testing base class:");
+    java code
+	monitor.expect(new String[] {
+	  "Cleanser dilute() apply() " +
+	  "Detergent.scrub() scrub() foam()",
+	  "Testing base class:",
+	});
+    Cleanser.main(argv)
+  //: c06:FinalArguments.java
+  // Using "final" with method arguments.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Gizmo
+  public void spin
+
+public class FinalArguments
+  void with	final Gizmo g
+    //! g = new Gizmo()	Illegal -- g is final
+  void without	Gizmo g
+    g = new Gizmo()	OK -- g not final
+    g.spin()
+  // void f	final int i
+  //   i++	Can't change
+  // You can only read from a final primitive:
+  int g	final int i
+    return i + 1
+  main
+    FinalArguments bf = new FinalArguments()
+    bf.without(null)
+    bf.with(null)
+  //: c06:FinalData.java
+  // The effect of final on fields.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+class Value
+  vars
+    int i	Package access
+  public Value	int i
+    this.i = i
+
+public class FinalData
+  vars
+    private static Test   monitor = new Test()
+    private static Random rand    = new Random()
+    private String id
+  public FinalData	String id
+    this.id = id
+  // Can be compile-time constants:
+  vars
+    private        final int   VAL_ONE   = 9
+    private static final int   VAL_TWO   = 99
+    // Typical public constant:
+    public  static final int   VAL_THREE = 39
+    // Cannot be compile-time constants:
+    private        final int   i4        = rand.nextInt(20)
+    static         final int   i5        = rand.nextInt(20)
+    private              Value v1        = new Value(11)
+    private        final Value v2        = new Value(22)
+    private static final Value v3        = new Value(33)
+    // Arrays:
+    private        final int[] a         = { 1, 2, 3, 4, 5, 6 }
+  public String toString
+    return id + ": " + "i4 = " + i4 + ", i5 = " + i5
+  main
+    FinalData fd1 = new FinalData("fd1")
+    //! fd1.VAL_ONE++	Error: can't change value
+    fd1.v2.i++	Object isn't constant!
+    fd1.v1 = new Value(9)	OK -- not final
+    F	int i = 0; i < fd1.a.length; i++
+      fd1.a[i]++	Object isn't constant!
+    //! fd1.v2 = new Value(0)	Error: Can't
+    //! fd1.v3 = new Value(1)	change reference
+    //! fd1.a = new int[3]
+    System.out.println(fd1)
+    "Creating new FinalData"
+    FinalData fd2 = new FinalData("fd2")
+    System.out.println(fd1)
+    System.out.println(fd2)
+    java code
+	monitor.expect(new String[] {
+	  "%% fd1: i4 = \\d+, i5 = \\d+",
+	  "Creating new FinalData",
+	  "%% fd1: i4 = \\d+, i5 = \\d+",
+	  "%% fd2: i4 = \\d+, i5 = \\d+"
+	});
+  //: c06:FinalOverridingIllusion.java
+  // It only looks like you can override
+  // a private or private final method.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class WithFinals
+  // Identical to "private" alone:
+  private final void f
+    "WithFinals.f()"
+  // Also automatically "final":
+  private void g
+    "WithFinals.g()"
+
+class OverridingPrivate extends WithFinals
+  private final void f
+    "OverridingPrivate.f()"
+  private void g
+    "OverridingPrivate.g()"
+
+class OverridingPrivate2 extends OverridingPrivate
+  public final void f
+    "OverridingPrivate2.f()"
+  public void g
+    "OverridingPrivate2.g()"
+
+public class FinalOverridingIllusion
+  vars
+    private static Test monitor = new Test()
+  main
+    OverridingPrivate2 op2 = new OverridingPrivate2()
+    op2.f()
+    op2.g()
+    // You can upcast:
+    OverridingPrivate op = op2
+    // But you can't call the methods:
+    //! op.f()
+    //! op.g()
+    // Same here:
+    WithFinals wf = op2
+    //! wf.f()
+    //! wf.g()
+    java code
+	monitor.expect(new String[] {
+	  "OverridingPrivate2.f()",
+	  "OverridingPrivate2.g()"
+	});
+  //: c06:Hide.java
+// Overloading a base-class method name in a derived class
+// does not hide the base-class versions.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Homer
+  char doh	char c
+    "doh(char)"
+    return 'd'
+  float doh	float f
+    "doh(float)"
+    return 1.0f
+
+class Milhouse
+
+class Bart extends Homer
+  void doh	Milhouse m
+    "doh(Milhouse)"
+
+public class Hide
+  vars
+    private static Test monitor = new Test()
+  main
+    Bart b = new Bart()
+    b.doh(1)
+    b.doh('x')
+    b.doh(1.0f)
+    b.doh(new Milhouse())
+    java code
+	monitor.expect(new String[] {
+	  "doh(float)",
+	  "doh(char)",
+	  "doh(float)",
+	  "doh(Milhouse)"
+	});
+  //: c06:Jurassic.java
+// Making an entire class final.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class SmallBrain
+
+final class Dinosaur
+  vars
+    int i = 7
+    int j = 1
+    SmallBrain x = new SmallBrain()
+  void f
+
+//! class Further extends Dinosaur
+// error: Cannot extend final class 'Dinosaur'
+
+public class Jurassic
+  main
+    Dinosaur n = new Dinosaur()
+    n.f()
+    n.i = 40
+    n.j++
+  //: c06:Orc.java
+  // The protected keyword.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+class Villain
+  vars
+    private String name
+  protected void set	String nm
+    name = nm
+  public Villain	String name
+    this.name = name
+  public String toString
+    return "I'm a Villain and my name is " + name
+
+public class Orc extends Villain
+  vars
+    private static Test monitor = new Test()
+    private int orcNumber
+  public Orc	String name, int orcNumber
+    super(name)
+    this.orcNumber = orcNumber
+  public void change	String name, int orcNumber
+    set(name)	Available because it's protected
+    this.orcNumber = orcNumber
+  public String toString
+    return "Orc " + orcNumber + ": " + super.toString()
+  main
+    Orc orc = new Orc("Limburger", 12)
+    System.out.println(orc)
+    orc.change("Bob", 19)
+    System.out.println(orc)
+    java code
+	monitor.expect(new String[] {
+	  "Orc 12: I'm a Villain and my name is Limburger",
+	  "Orc 19: I'm a Villain and my name is Bob"
+	});
+  //: c06:PlaceSetting.java
+  // Combining composition & inheritance.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Plate
+  Plate	int i
+    "Plate constructor"
+
+class DinnerPlate extends Plate
+  DinnerPlate	int i
+    super(i)
+    "DinnerPlate constructor"
+
+class Utensil
+  Utensil	int i
+    "Utensil constructor"
+
+class Spoon extends Utensil
+  Spoon	int i
+    super(i)
+    "Spoon constructor"
+
+class Fork extends Utensil
+  Fork	int i
+    super(i)
+    "Fork constructor"
+
+class Knife extends Utensil
+  Knife	int i
+    super(i)
+    "Knife constructor"
+
+// A cultural way of doing something:
+class Custom
+  Custom	int i
+    "Custom constructor"
+
+public class PlaceSetting extends Custom
+  vars
+    private static Test monitor = new Test()
+    private Spoon sp
+    private Fork frk
+    private Knife kn
+    private DinnerPlate pl
+  public PlaceSetting	int i
+    super(i + 1)
+    sp = new Spoon(i + 2)
+    frk = new Fork(i + 3)
+    kn = new Knife(i + 4)
+    pl = new DinnerPlate(i + 5)
+    "PlaceSetting constructor"
+  main
+    PlaceSetting x = new PlaceSetting(9)
+    java code
+	monitor.expect(new String[] {
+	  "Custom constructor",
+	  "Utensil constructor",
+	  "Spoon constructor",
+	  "Utensil constructor",
+	  "Fork constructor",
+	  "Utensil constructor",
+	  "Knife constructor",
+	  "Plate constructor",
+	  "DinnerPlate constructor",
+	  "PlaceSetting constructor"
+	});
+  //: c06:SprinklerSystem.java
+  // Composition for code reuse.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class WaterSource
+  vars
+    private String s
+  WaterSource
+    "WaterSource()"
+    s = new String("Constructed")
+  public String toString
+    return s
+
+public class SprinklerSystem
+  vars
+    private static Test monitor = new Test()
+    private String valve1, valve2, valve3, valve4
+    private WaterSource source
+    private int i
+    private float f
+  public String toString
+    return
+      "valve1 = " + valve1 + "\n" +
+      "valve2 = " + valve2 + "\n" +
+      "valve3 = " + valve3 + "\n" +
+      "valve4 = " + valve4 + "\n" +
+      "i = " + i + "\n" +
+      "f = " + f + "\n" +
+      "source = " + source;
+  main
+    SprinklerSystem sprinklers = new SprinklerSystem()
+    System.out.println(sprinklers)
+    java code
+	monitor.expect(new String[] {
+	  "valve1 = null",
+	  "valve2 = null",
+	  "valve3 = null",
+	  "valve4 = null",
+	  "i = 0",
+	  "f = 0.0",
+	  "source = null"
+	});
+  //: c06:Wind.java
+  // Inheritance & upcasting.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  java.util.*
+
+class Instrument
+  public void play
+  static void tune	Instrument i
+    // ...
+    i.play()
+
+// Wind objects are instruments
+// because they have the same interface:
+public class Wind extends Instrument
+  main
+    Wind flute = new Wind()
+    Instrument.tune(flute)	Upcasting
+  //: c07:Frog.java
+  // Cleanup and inheritance.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Characteristic
+  vars
+    private String s
+  Characteristic	String s
+    this.s = s
+    "Creating Characteristic " + s
+  protected void dispose
+    "finalizing Characteristic " + s
+
+class Description
+  vars
+    private String s
+  Description	String s
+    this.s = s
+    "Creating Description " + s
+  protected void dispose
+    "finalizing Description " + s
+
+class LivingCreature
+  vars
+    private Characteristic p = new Characteristic("is alive")
+    private Description t    = new Description("Basic Living Creature")
+  LivingCreature
+    "LivingCreature()"
+  protected void dispose
+    "LivingCreature dispose"
+    t.dispose()
+    p.dispose()
+
+class Animal extends LivingCreature
+  vars
+    private Characteristic p = new Characteristic("has heart")
+    private Description t    = new Description("Animal not Vegetable")
+  Animal
+    "Animal()"
+  protected void dispose
+    "Animal dispose"
+    t.dispose()
+    p.dispose()
+    super.dispose()
+
+class Amphibian extends Animal
+  vars
+    private Characteristic p = new Characteristic("can live in water")
+    private Description t    = new Description("Both water and land")
+  Amphibian
+    "Amphibian()"
+  protected void dispose
+    "Amphibian dispose"
+    t.dispose()
+    p.dispose()
+    super.dispose()
+
+public class Frog extends Amphibian
+  vars
+    private static Test monitor = new Test()
+    private Characteristic p    = new Characteristic("Croaks")
+    private Description t       = new Description("Eats Bugs")
+  public Frog
+    "Frog()"
+  protected void dispose
+    "Frog dispose"
+    t.dispose()
+    p.dispose()
+    super.dispose()
+  main
+    Frog frog = new Frog()
+    "Bye!"
+    frog.dispose()
+    java code
+	monitor.expect(new String[] {
+	  "Creating Characteristic is alive",
+	  "Creating Description Basic Living Creature",
+	  "LivingCreature()",
+	  "Creating Characteristic has heart",
+	  "Creating Description Animal not Vegetable",
+	  "Animal()",
+	  "Creating Characteristic can live in water",
+	  "Creating Description Both water and land",
+	  "Amphibian()",
+	  "Creating Characteristic Croaks",
+	  "Creating Description Eats Bugs",
+	  "Frog()",
+	  "Bye!",
+	  "Frog dispose",
+	  "finalizing Description Eats Bugs",
+	  "finalizing Characteristic Croaks",
+	  "Amphibian dispose",
+	  "finalizing Description Both water and land",
+	  "finalizing Characteristic can live in water",
+	  "Animal dispose",
+	  "finalizing Description Animal not Vegetable",
+	  "finalizing Characteristic has heart",
+	  "LivingCreature dispose",
+	  "finalizing Description Basic Living Creature",
+	  "finalizing Characteristic is alive"
+	});
+  //: c07:PolyConstructors.java
+  // Constructors and polymorphism
+  // don't produce what you might expect.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+abstract class Glyph
+  vars
+    abstract void draw()
+  Glyph
+    "Glyph() before draw()"
+    draw()
+    "Glyph() after draw()"
+
+class RoundGlyph extends Glyph
+  vars
+    private int radius = 1
+  RoundGlyph	int r
+    radius = r
+    "RoundGlyph.RoundGlyph(), radius = " + radius
+  void draw
+    "RoundGlyph.draw(), radius = " + radius
+
+public class PolyConstructors
+  vars
+    private static Test monitor = new Test()
+  main
+    new RoundGlyph(5)
+    java code
+	monitor.expect(new String[] {
+	  "Glyph() before draw()",
+	  "RoundGlyph.draw(), radius = 0",
+	  "Glyph() after draw()",
+	  "RoundGlyph.RoundGlyph(), radius = 5"
+	});
+  //: c07:PrivateOverride.java
+  // Abstract classes and methods.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class PrivateOverride
+  vars
+    private static Test monitor = new Test()
+  private void f
+    "private f()"
+  main
+    PrivateOverride po = new Derived()
+    po.f()
+    java code
+	monitor.expect(new String[] {
+	  "private f()"
+	});
+
+class Derived extends PrivateOverride
+  public void f
+    "public f()"
+  //: c07:RTTI.java
+  // Downcasting & Run-Time Type Identification (RTTI).
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Useful
+  public void f
+  public void g
+
+class MoreUseful extends Useful
+  public void f
+  public void g
+  public void u
+  public void v
+  public void w
+
+public class RTTI
+  main
+    vars
+      Useful[] x
+	new Useful()
+	new MoreUseful()
+    x[0].f()
+    x[1].g()
+    // Compile time: method not found in Useful:
+    //! x[1].u()
+    ((MoreUseful)x[1]).u()	Downcast/RTTI
+    ((MoreUseful)x[0]).u()	Exception thrown
+  //: c07:Sandwich.java
+  // Order of constructor calls.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+package	c07_trued
+imports
+  com.bruceeckel.simpletest.*
+
+class Meal
+  Meal
+    "Meal()"
+
+class Bread
+  Bread
+    "Bread()"
+
+class Cheese
+  Cheese
+    "Cheese()"
+
+class Lettuce
+  Lettuce
+    "Lettuce()"
+
+class Lunch extends Meal
+  Lunch
+    "Lunch()"
+
+class PortableLunch extends Lunch
+  PortableLunch
+    "PortableLunch()"
+
+public class Sandwich extends PortableLunch
+  vars
+    private static Test monitor = new Test()
+    private Bread b             = new Bread()
+    private Cheese c            = new Cheese()
+    private Lettuce l           = new Lettuce()
+  public Sandwich
+    "Sandwich()"
+  main
+    new Sandwich()
+    java code
+	monitor.expect(new String[] {
+	  "Meal()",
+	  "Lunch()",
+	  "PortableLunch()",
+	  "Bread()",
+	  "Cheese()",
+	  "Lettuce()",
+	  "Sandwich()"
+	});
+  //: c07:Shapes.java
+  // Polymorphism in Java.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.util.*
+
+class Shape
+  void draw
+  void erase
+
+class Circle extends Shape
+  void draw
+    "Circle.draw()"
+  void erase
+    "Circle.erase()"
+
+class Square extends Shape
+  void draw
+    "Square.draw()"
+  void erase
+    "Square.erase()"
+
+class Triangle extends Shape
+  void draw
+    "Triangle.draw()"
+  void erase
+    "Triangle.erase()"
+
+// A "factory" that randomly creates shapes:
+class RandomShapeGenerator
+  vars
+    private Random rand = new Random()
+  public Shape next
+    S*	rand.nextInt(3)
+      default
+      0	return new Circle()
+      1	return new Square()
+      2	return new Triangle()
+
+public class Shapes
+  vars
+    private static Test monitor = new Test()
+    private static RandomShapeGenerator gen = new RandomShapeGenerator()
+  main
+    Shape[] s = new Shape[9]
+    // Fill up the array with shapes:
+    F	int i = 0; i < s.length; i++	s[i] = gen.next()
+    // Make polymorphic method calls:
+    F	int i = 0; i < s.length; i++	s[i].draw()
+    java code
+	monitor.expect(new Object[] {
+	  new TestExpression("%% (Circle|Square|Triangle)"
+	    + "\\.draw\\(\\)", s.length)
+	});
+  //: c07:Transmogrify.java
+  // Dynamically changing the behavior of an object
+  // via composition (the "State" design pattern).
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+abstract class Actor
+  vars
+    public abstract void act()
+
+class HappyActor extends Actor
+  public void act
+    "HappyActor"
+
+class SadActor extends Actor
+  public void act
+    "SadActor"
+
+class Stage
+  vars
+    private Actor actor = new HappyActor()
+  public void change
+    actor = new SadActor()
+  public void performPlay
+    actor.act()
+
+public class Transmogrify
+  vars
+    private static Test monitor = new Test()
+  main
+    Stage stage = new Stage()
+    stage.performPlay()
+    stage.change()
+    stage.performPlay()
+    java code
+	monitor.expect(new String[] {
+	  "HappyActor",
+	  "SadActor"
+	});
+  //: c08:Adventure.java
+  // Multiple interfaces.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+interface CanFight
+  void fight
+
+interface CanSwim
+  void swim
+
+interface CanFly
+  void fly
+
+class ActionCharacter
+  public void fight
+
+class Hero extends ActionCharacter implements CanFight, CanSwim, CanFly
+  public void swim
+  public void fly
+
+public class Adventure
+  public static void t	CanFight x
+    x.fight()
+  public static void u	CanSwim x
+    x.swim()
+  public static void v	CanFly x
+    x.fly()
+  public static void w	ActionCharacter x
+    x.fight()
+  main
+    Hero h = new Hero()
+    t(h)	Treat it as a CanFight
+    u(h)	Treat it as a CanSwim
+    v(h)	Treat it as a CanFly
+    w(h)	Treat it as an ActionCharacter
+  //: c08:AnonymousConstructor.java
+  // Creating a constructor for an anonymous inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+abstract class Base
+  public Base	int i
+    "Base constructor, i = " + i
+  public abstract void f
+
+public class AnonymousConstructor
+  vars
+    private static Test monitor = new Test()
+  public static Base getBase	int i
+    return new Base(i) {
+      {
+	"Inside instance initializer"
+      }
+      public void f() {
+	"In anonymous f()"
+      }
+    };
+  main
+    Base base = getBase(47)
+    base.f()
+    java code
+	monitor.expect(new String[] {
+	  "Base constructor, i = 47",
+	  "Inside instance initializer",
+	  "In anonymous f()"
+	});
+  //: c08:BigEgg.java
+// An inner class cannot be overriden like a method.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Egg
+  vars
+    private Yolk y
+  protected class Yolk
+    public Yolk
+      "Egg.Yolk()"
+  public Egg
+    "New Egg()"
+    y = new Yolk()
+
+public class BigEgg extends Egg
+  vars
+    private static Test monitor = new Test()
+  public class Yolk
+    public Yolk
+      "BigEgg.Yolk()"
+  main
+    BigEgg be = new BigEgg()
+    java code
+	monitor.expect(new String[] {
+	  "New Egg()",
+	  "Egg.Yolk()"
+	});
+  //: c08:BigEgg2.java
+  // Proper inheritance of an inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Egg2
+  protected class Yolk
+    public Yolk
+      "Egg2.Yolk()"					1 3
+    public void f
+      "Egg2.Yolk.f()"
+  vars
+    private Yolk y = new Yolk()
+  public Egg2
+    "New Egg2()"					2
+  public void insertYolk	Yolk yy
+    y = yy
+  public void g
+    y.f()
+
+public class BigEgg2 extends Egg2
+  public class Yolk extends Egg2.Yolk
+    public Yolk
+      "BigEgg2.Yolk()"					4
+    public void f
+      "BigEgg2.Yolk.f()"				5
+  public BigEgg2
+    insertYolk(new Yolk())
+  main
+    Egg2 e2 = new BigEgg2()
+    e2.g()
+  //: c08:Callbacks.java
+  // Using inner classes for callbacks
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+interface Incrementable
+  void increment
+
+// Very simple to just implement the interface:
+class Callee1 implements Incrementable
+  vars
+    private int i = 0
+  public void increment
+    i++
+    System.out.println(i)
+
+class MyIncrement
+  void increment
+    "Other operation"
+  static void f	MyIncrement mi
+    mi.increment()
+
+// If your class must implement increment() in
+// some other way, you must use an inner class:
+class Callee2 extends MyIncrement
+  vars
+    private int i = 0
+  private void incr
+    i++
+    System.out.println(i)
+  private class Closure implements Incrementable
+    public void increment
+      incr()
+  Incrementable getCallbackReference
+    return new Closure()
+
+class Caller
+  vars
+    private Incrementable callbackReference
+  Caller	Incrementable cbh
+    callbackReference = cbh
+  void go
+    callbackReference.increment()
+
+public class Callbacks
+  vars
+    private static Test monitor = new Test()
+  main
+    Callee1 c1 = new Callee1()
+    Callee2 c2 = new Callee2()
+    MyIncrement.f(c2)
+    Caller caller1 = new Caller(c1)
+    Caller caller2 = new Caller(c2.getCallbackReference())
+    caller1.go()
+    caller1.go()
+    caller2.go()
+    caller2.go()
+    java code
+	monitor.expect(new String[] {
+	  "Other operation",
+	  "1",
+	  "2",
+	  "1",
+	  "2"
+	});
+  //: c08:Contents.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public interface Contents
+  int value
+  //: c08:Destination.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public interface Destination
+  String readLabel
+  //: c08:GreenhouseController.java
+  // Configure and execute the greenhouse system.
+  // {Args: 5000}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  c08_trued.controller.*
+
+public class GreenhouseController
+  main
+    GreenhouseControls gc = new GreenhouseControls()
+    // Instead of hard-wiring, you could parse
+    // configuration information from a text file here:
+    gc.addEvent(gc.new Bell(900))
+    vars
+      Event[] eventList
+	gc.new ThermostatNight (0)
+	gc.new LightOn         (200)
+	gc.new LightOff        (400)
+	gc.new WaterOn         (600)
+	gc.new WaterOff        (800)
+	gc.new ThermostatDay   (1400)
+    gc.addEvent(gc.new Restart(2000, eventList))
+    ?	argv.length == 1	gc.addEvent(gc.new Terminate(Integer.parseInt(argv[0])))
+    gc.run()
+  //: c08:GreenhouseControls.java
+  // This produces a specific application of the
+  // control system, all in a single class. Inner
+  // classes allow you to encapsulate different
+  // functionality for each type of event.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  c08_trued.controller.*
+
+public class GreenhouseControls extends Controller
+  vars
+    private static Test monitor = new Test()
+    private boolean light = false
+  public class LightOn extends Event
+    public LightOn	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here to
+      // physically turn on the light.
+      light = true
+    public String toString
+      return "Light is on"
+  public class LightOff extends Event
+    public LightOff	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here to
+      // physically turn off the light.
+      light = false
+    public String toString
+      return "Light is off"
+  vars
+    private boolean water = false
+  public class WaterOn extends Event
+    public WaterOn	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here.
+      water = true
+    public String toString
+      return "Greenhouse water is on"
+  public class WaterOff extends Event
+    public WaterOff	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here.
+      water = false
+    public String toString
+      return "Greenhouse water is off"
+  vars
+    private String thermostat = "Day"
+  public class ThermostatNight extends Event
+    public ThermostatNight	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here.
+      thermostat = "Night"
+    public String toString
+      return "Thermostat on night setting"
+  public class ThermostatDay extends Event
+    public ThermostatDay	long delayTime
+      super(delayTime)
+    public void action
+      // Put hardware control code here.
+      thermostat = "Day"
+    public String toString
+      return "Thermostat on day setting"
+  // An example of an action() that inserts a
+  // new one of itself into the event list:
+  public class Bell extends Event
+    public Bell	long delayTime
+      super(delayTime)
+    public void action
+      addEvent(new Bell(delayTime))
+    public String toString
+      return "Bing!"
+  public class Restart extends Event
+    vars
+      private Event[] eventList
+    public Restart	long delayTime, Event[] eventList
+      super(delayTime)
+      this.eventList = eventList
+      F	int i = 0; i < eventList.length; i++
+        addEvent(eventList[i])
+    public void action
+      F	int i = 0; i < eventList.length; i++
+        eventList[i].start()	Rerun each event
+        addEvent(eventList[i])
+      start()	Rerun this Event
+      addEvent(this)
+    public String toString
+      return "Restarting system"
+  public class Terminate extends Event
+    public Terminate	long delayTime
+      super(delayTime)
+    public void action
+      System.exit(0)
+    public String toString
+      return "Terminating"
+  //: c08:HorrorShow.java
+// Extending an interface with inheritance.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+interface Monster
+  void menace
+
+interface DangerousMonster extends Monster
+  void destroy
+
+interface Lethal
+  void kill
+
+class DragonZilla implements DangerousMonster
+  public void menace
+  public void destroy
+
+interface Vampire extends DangerousMonster, Lethal
+  void drinkBlood
+
+class VeryBadVampire implements Vampire
+  public void menace
+  public void destroy
+  public void kill
+  public void drinkBlood
+
+public class HorrorShow
+  static void u	Monster b
+    b.menace()
+  static void v	DangerousMonster d
+    d.menace()
+    d.destroy()
+  static void w	Lethal l
+    l.kill()
+  main
+    DangerousMonster barney = new DragonZilla()
+    u(barney)
+    v(barney)
+    Vampire vlad = new VeryBadVampire()
+    u(vlad)
+    v(vlad)
+    w(vlad)
+  //: c08:IInterface.java
+  // Nested classes inside interfaces.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public interface IInterface
+  static class Inner
+    vars
+      int i, j, k
+    public Inner
+    void f
+  //: c08:InheritInner.java
+  // Inheriting an inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class WithInner
+  class Inner
+
+public class InheritInner extends WithInner.Inner
+  //! InheritInner
+  InheritInner	WithInner wi
+    wi.super()
+  main
+    WithInner    wi = new WithInner()
+    InheritInner ii = new InheritInner(wi)
+  //: c08:InterfaceCollision.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+interface I1
+  void f
+interface I2
+  int f	int i
+interface I3
+  int f
+class C
+  public int f
+    return 1
+
+class C2 implements I1, I2
+  public void f
+  public int f	int i
+    return 1
+    // overloaded
+
+class C3 extends C implements I2
+  public int f	int i
+    return 1
+    // overloaded
+
+class C4 extends C implements I3
+  // Identical, no problem:
+  public int f
+    return 1
+
+// Methods differ only by return type:
+//! class C5 extends C implements I1
+//! interface I4 extends I1, I3
+  //: c08:LocalInnerClass.java
+  // Holds a sequence of Objects.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+interface Counter
+  int next
+
+public class LocalInnerClass
+  vars
+    private static Test monitor = new Test()
+    private int count = 0
+  Counter getCounter	final String name
+    // A local inner class:
+    class LocalCounter implements Counter
+      public LocalCounter
+        // Local inner class can have a constructor
+	"LocalCounter()"
+      public int next
+        System.out.print(name)	Access local final
+        return count++
+    return new LocalCounter()
+  // The same thing with an anonymous inner class:
+  Counter getCounter2	final String name
+    return new Counter() {
+      doc
+	Anonymous inner class cannot have a named
+        constructor, only an instance initializer:
+      {
+	"Counter()"
+      }
+      public int next() {
+	System.out.print(name)	Access local final
+	return count++
+      }
+    };
+  main
+    LocalInnerClass lic = new LocalInnerClass()
+    Counter c1          = lic.getCounter("Local inner ")
+    Counter c2          = lic.getCounter2("Anonymous inner ")
+    F	int i = 0; i < 5; i++	System.out.println(c1.next())
+    F	int i = 0; i < 5; i++	System.out.println(c2.next())
+    java code
+	monitor.expect(new String[] {
+	  "LocalCounter()",
+	  "Counter()",
+	  "Local inner 0",
+	  "Local inner 1",
+	  "Local inner 2",
+	  "Local inner 3",
+	  "Local inner 4",
+	  "Anonymous inner 5",
+	  "Anonymous inner 6",
+	  "Anonymous inner 7",
+	  "Anonymous inner 8",
+	  "Anonymous inner 9"
+	});
+  //: c08:Month.java
+  // A more robust enumeration system.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+package	c08_trued
+imports
+  com.bruceeckel.simpletest.*
+
+public final class Month
+  vars
+    private static Test monitor = new Test()
+    private String name
+  private Month	String nm
+    name = nm
+  public String toString
+    return name
+  vars
+    public static final Month JAN = new Month("January")
+    public static final Month FEB = new Month("February")
+    public static final Month MAR = new Month("March")
+    public static final Month APR = new Month("April")
+    public static final Month MAY = new Month("May")
+    public static final Month JUN = new Month("June")
+    public static final Month JUL = new Month("July")
+    public static final Month AUG = new Month("August")
+    public static final Month SEP = new Month("September")
+    public static final Month OCT = new Month("October")
+    public static final Month NOV = new Month("November")
+    public static final Month DEC = new Month("December")
+    public static final Month[] month
+      JAN
+      FEB
+      MAR
+      APR
+      MAY
+      JUN
+      JUL
+      AUG
+      SEP
+      OCT
+      NOV
+      DEC
+  public static final Month number	int ord
+    return month[ord - 1]
+  main
+    Month m = Month.JAN
+    System.out.println(m)
+    m = Month.number(12)
+    System.out.println(m)
+    System.out.println(m == Month.DEC)
+    System.out.println(m.equals(Month.DEC))
+    System.out.println(Month.month[3])
+    java code
+	monitor.expect(new String[] {
+	  "January",
+	  "December",
+	  "true",
+	  "true",
+	  "April"
+	});
+  //: c08:Months.java
+  // Using interfaces to create groups of constants.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+package	c08_trued
+
+public interface Months
+  vars
+    int JANUARY   = 1
+    int FEBRUARY  = 2
+    int MARCH     = 3
+    int APRIL     = 4
+    int MAY       = 5
+    int JUNE      = 6
+    int JULY      = 7
+    int AUGUST    = 8
+    int SEPTEMBER = 9
+    int OCTOBER   = 10
+    int NOVEMBER  = 11
+    int DECEMBER  = 12
+  //: c08:MultiImplementation.java
+  // With concrete or abstract classes, inner
+  // classes are the only way to produce the effect
+  // of "multiple implementation inheritance."
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+package	c08_trued
+
+class D
+abstract class E
+
+class Z extends D
+  E makeE
+    return new E() {}
+
+public class MultiImplementation
+  static void takesD	D d
+  static void takesE	E e
+  main
+    Z z = new Z()
+    takesD(z)
+    takesE(z.makeE())
+  //: c08:MultiInterfaces.java
+// Two ways that a class can implement multiple interfaces.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+interface A
+interface B
+
+class X implements A, B
+
+class Y implements A
+  B makeB
+    // Anonymous inner class:
+    return new B() {}
+
+
+public class MultiInterfaces
+  static void takesA	A a
+  static void takesB	B b
+  main
+    X x = new X()
+    Y y = new Y()
+    takesA(x)
+    takesA(y)
+    takesB(x)
+    takesB(y.makeB())
+  //: c08:MultiNestingAccess.java
+  // Nested classes can access all members of all
+  // levels of the classes they are nested within.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class MNA
+  private void f
+  class A
+    private void g
+    public class B
+      void h
+        g()
+        f()
+
+public class MultiNestingAccess
+  main
+    MNA mna       = new MNA()
+    MNA.A mnaa    = mna.new A()
+    MNA.A.B mnaab = mnaa.new B()
+    mnaab.h()
+  //: c08:Parcel1.java
+  // Creating inner classes.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel1
+  class Contents
+    vars
+      private int i = 11
+    public int value
+      return i
+  class Destination
+    vars
+      private String label
+    Destination	String whereTo
+      label = whereTo
+    String readLabel
+      return label
+  // Using inner classes looks just like
+  // using any other class, within Parcel1:
+  public void ship	String dest
+    Contents c = new Contents()
+    Destination d = new Destination(dest)
+    System.out.println(d.readLabel())
+  main
+    Parcel1 p = new Parcel1()
+    p.ship("Tanzania")
+  //: c08:Parcel10.java
+  // Nested classes (static inner classes).
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel10
+  private static class ParcelContents implements Contents
+    vars
+      private int i = 11
+    public int value
+      return i
+  protected static class ParcelDestination implements Destination
+    vars
+      private String label
+    private ParcelDestination	String whereTo
+      label = whereTo
+    public String readLabel
+      return label
+    // Nested classes can contain other static elements:
+    public static void f
+    vars
+      static int x = 10
+    static class AnotherLevel
+      public static void f
+      vars
+	static int x = 10
+  public static Destination dest	String s
+    return new ParcelDestination(s)
+  public static Contents cont
+    return new ParcelContents()
+  main
+    Contents c = cont()
+    Destination d = dest("Tanzania")
+  //: c08:Parcel11.java
+  // Creating instances of inner classes.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel11
+  class Contents
+    vars
+      private int i = 11
+    public int value
+      return i
+  class Destination
+    vars
+      private String label
+    Destination	String whereTo
+      label = whereTo
+    String readLabel
+      return label
+  main
+    Parcel11 p = new Parcel11()
+    // Must use instance of outer class
+    // to create an instances of the inner class:
+    Parcel11.Contents    c = p.new Contents()
+    Parcel11.Destination d = p.new Destination("Tanzania")
+  //: c08:Parcel2.java
+  // Returning a reference to an inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel2
+  class Contents
+    vars
+      private int i = 11
+    public int value
+      return i
+  class Destination
+    vars
+      private String label
+    Destination	String whereTo
+      label = whereTo
+    String readLabel
+      return label
+  public Destination to	String s
+    return new Destination(s)
+  public Contents cont
+    return new Contents()
+  public void ship	String dest
+    Contents c = cont()
+    Destination d = to(dest)
+    System.out.println(d.readLabel())
+  main
+    Parcel2 p = new Parcel2()
+    p.ship("Tanzania")
+    Parcel2 q = new Parcel2()
+    // Defining references to inner classes:
+    Parcel2.Contents c = q.cont()
+    Parcel2.Destination d = q.to("Borneo")
+  //: c08:Parcel4.java
+// Nesting a class within a method.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel4
+  public Destination dest	String s
+    class PDestination implements Destination
+      vars
+	private String label
+      private PDestination	String whereTo
+	label = whereTo
+      public String readLabel
+	return label
+    return new PDestination(s)
+  main
+    Parcel4 p = new Parcel4()
+    Destination d = p.dest("Tanzania")
+  //: c08:Parcel5.java
+// Nesting a class within a scope.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel5
+  private void internalTracking	boolean b
+    ?	b
+      class TrackingSlip
+        vars
+          private String id
+        TrackingSlip	String s
+          id = s
+        String getSlip
+          return id
+      TrackingSlip ts = new TrackingSlip("slip")
+      String s = ts.getSlip()
+    // Can't use it here! Out of scope:
+    //! TrackingSlip ts = new TrackingSlip("x")
+  public void track
+    internalTracking(true)
+  main
+    Parcel5 p = new Parcel5()
+    p.track()
+  //: c08:Parcel6.java
+  // A method that returns an anonymous inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel6
+  public Contents cont
+    return new Contents() {
+      private int i = 11
+      public int value() {
+	return i
+      }
+    }; // Semicolon required in this case
+  main
+    Parcel6 p = new Parcel6();
+    Contents c = p.cont();
+  //: c08:Parcel7.java
+// An anonymous inner class that calls
+// the base-class constructor.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel7
+  public Wrapping wrap	int x
+    // Base constructor call:
+    return new Wrapping(x) {
+      doc	Pass constructor argument.
+      public int value() {
+	return super.value() * 47
+      }
+    }; // Semicolon required
+  main
+    Parcel7 p = new Parcel7()
+    Wrapping w = p.wrap(10)
+  //: c08:Parcel8.java
+// An anonymous inner class that performs
+// initialization. A briefer version of Parcel4.java.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class Parcel8
+  // Argument must be final to use inside
+  // anonymous inner class:
+  public Destination dest	final String dest
+    return new Destination() {
+      private String label = dest
+      public String readLabel() {
+	return label
+      }
+    };
+  main
+    Parcel8 p = new Parcel8()
+    Destination d = p.dest("Tanzania")
+  //: c08:Parcel9.java
+  // Using "instance initialization" to perform
+  // construction on an anonymous inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Parcel9
+  vars
+    private static Test monitor = new Test()
+  public Destination dest	final String dest, final float price
+    return new Destination() {
+      private int cost
+      doc	Instance initialization for each object:
+      {
+	cost = Math.round(price)
+	?	cost > 100	"Over budget!"
+      }
+      private String label = dest
+      public String readLabel() {
+	return label
+      }
+    };
+  main
+    Parcel9 p = new Parcel9()
+    Destination d = p.dest("Tanzania", 101.395F)
+    java code
+	monitor.expect(new String[] {
+	  "Over budget!"
+	});
+  //: c08:RandVals.java
+// Initializing interface fields with
+// non-constant initializers.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  java.util.*
+
+public interface RandVals
+  vars
+    Random rand         = new Random()
+    int    randomInt    = rand.nextInt(10)
+    long   randomLong   = rand.nextLong()   * 10
+    float  randomFloat  = rand.nextLong()   * 10
+    double randomDouble = rand.nextDouble() * 10
+  //: c08:Sequence.java
+  // Holds a sequence of Objects.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+interface Selector
+  boolean end
+  Object current
+  void next
+
+public class Sequence
+  vars
+    private static Test monitor = new Test()
+    private Object[] objects
+    private int next = 0
+  public Sequence	int size
+    objects = new Object[size]
+  public void add	Object x
+    ?	next < objects.length	objects[next++] = x
+  private class SSelector implements Selector
+    vars
+      private int i = 0
+    public boolean end
+      return i == objects.length
+    public Object current
+      return objects[i]
+    public void next
+      ?	i < objects.length	i++
+  public Selector getSelector
+    return new SSelector()
+  main
+    Sequence sequence = new Sequence(10)
+    F	int i = 0; i < 10; i++	sequence.add(Integer.toString(i))
+    Selector selector = sequence.getSelector()
+    W	!selector.end()
+      System.out.println(selector.current())
+      selector.next()
+    java code
+	monitor.expect(new String[] {
+	  "0",
+	  "1",
+	  "2",
+	  "3",
+	  "4",
+	  "5",
+	  "6",
+	  "7",
+	  "8",
+	  "9"
+	});
+  //: c08:TestBed.java
+  // Putting test code in a nested class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class TestBed
+  public TestBed
+  public void f
+    "f()"
+  public static class Tester
+    public static void main	String[] args
+      TestBed t = new TestBed()
+      t.f()
+  //: c08:TestParcel.java
+  // Returning a reference to an inner class.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class Parcel3
+  private class PContents implements Contents
+    vars
+      private int i = 11
+    public int value
+      return i
+  protected class PDestination implements Destination
+    vars
+      private String label
+    private PDestination	String whereTo
+      label = whereTo
+    public String readLabel
+      return label
+  public Destination dest	String s
+    return new PDestination(s)
+  public Contents cont
+    return new PContents()
+
+public class TestParcel
+  main
+    Parcel3 p = new Parcel3()
+    Contents c = p.cont()
+    Destination d = p.dest("Tanzania")
+    // Illegal -- can't access private class:
+    //! Parcel3.PContents pc = p.new PContents()
+  //: c08:TestRandVals.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class TestRandVals
+  vars
+    private static Test monitor = new Test()
+  main
+    System.out.println(RandVals.randomInt)
+    System.out.println(RandVals.randomLong)
+    System.out.println(RandVals.randomFloat)
+    System.out.println(RandVals.randomDouble)
+    java code
+	monitor.expect(new String[] {
+	  "%% -?\\d+",
+	  "%% -?\\d+",
+	  "%% -?\\d\\.\\d+E?-?\\d+",
+	  "%% -?\\d\\.\\d+E?-?\\d+"
+	});
+  //: c08:Wrapping.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public class Wrapping
+  vars
+    private int i
+  public Wrapping	int x
+    i = x
+  public int value
+    return i
+  //: c09:AlwaysFinally.java
+  // Finally is always executed.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class FourException extends Exception
+
+public class AlwaysFinally
+  vars
+    private static Test monitor = new Test()
+  main
+    "Entering first try block"
+    try
+      block
+        "Entering second try block"
+        try
+          block
+            throw new FourException()
+          finally
+            "finally in 2nd try block"
+      FourException e
+	System.err.println("Caught FourException in 1st try block")
+      finally
+        System.err.println("finally in 1st try block")
+    java code
+	monitor.expect(new String[] {
+	  "Entering first try block",
+	  "Entering second try block",
+	  "finally in 2nd try block",
+	  "Caught FourException in 1st try block",
+	  "finally in 1st try block"
+	});
+  //: c09:Cleanup.java
+  // Paying attention to exceptions in constructors.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.io.*
+
+class InputFile
+  vars
+    private BufferedReader in
+  public InputFile	String fname	throws Exception
+    try
+      block
+        in = new BufferedReader(new FileReader(fname))
+        // Other code that might throw exceptions
+      FileNotFoundException e
+        System.err.println("Could not open " + fname)
+        // Wasn't open, so don't close it
+        throw e
+      Exception e
+        // All other exceptions must close it
+        try
+          block
+            in.close()
+          IOException e2
+            System.err.println("in.close() unsuccessful")
+        throw e	Rethrow
+      finally
+        // Don't close it here!!!
+  public String getLine
+    String s
+    try
+      block
+        s = in.readLine()
+      IOException e
+        throw new RuntimeException("readLine() failed")
+    return s
+  public void dispose
+    try
+      block
+        in.close()
+        "dispose() successful"
+      IOException e2
+        throw new RuntimeException("in.close() failed")
+
+public class Cleanup
+  vars
+    private static Test monitor = new Test()
+  main
+    try
+      block
+	InputFile in = new InputFile("Cleanup.java")
+	String s
+	int i = 1
+	W	(s = in.getLine()) != null
+	  doc	Perform line-by-line processing here...
+	in.dispose()
+      Exception e
+	System.err.println("Caught Exception in main")
+	e.printStackTrace()
+    java code
+	monitor.expect(new String[] {
+	  "dispose() successful"
+	});
+  //: c09:DynamicFields.java
+  // A Class that dynamically adds fields to itself.
+  // Demonstrates exception chaining.
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class DynamicFieldsException extends Exception
+
+public class DynamicFields
+  vars
+    private static Test monitor = new Test()
+    private Object[][] fields
+  public DynamicFields	int initialSize
+    fields = new Object[initialSize][2]
+    F	int i = 0; i < initialSize; i++	fields[i] = new Object[] { null, null }
+  public String toString
+    StringBuffer result = new StringBuffer()
+    F	int i = 0; i < fields.length; i++
+      result.append(fields[i][0])
+      result.append(": ")
+      result.append(fields[i][1])
+      result.append("\n")
+    return result.toString()
+  private int hasField	String id
+    F	int i = 0; i < fields.length; i++
+      ?	id.equals(fields[i][0])		return i
+    return -1
+  private int getFieldNumber	String id	throws NoSuchFieldException
+    int fieldNum = hasField(id)
+    ?	fieldNum == -1		throw new NoSuchFieldException()
+    return fieldNum
+  private int makeField	String id
+    F	int i = 0; i < fields.length; i++
+      ?	fields[i][0] == null
+        fields[i][0] = id
+        return i
+    // No empty fields. Add one:
+    Object[][]tmp = new Object[fields.length + 1][2]
+    F	int i = 0; i < fields.length; i++		tmp[i] = fields[i]
+    F	int i = fields.length; i < tmp.length; i++	tmp[i] = new Object[] { null, null }
+    fields = tmp
+    // Reursive call with expanded fields:
+    return makeField(id)
+  public Object getField	String id	throws NoSuchFieldException
+    return fields[getFieldNumber(id)][1]
+  public Object setField	String id, Object value	throws DynamicFieldsException
+    ?	value == null
+      // Most exceptions don't have a "cause" constructor.
+      // In these cases you must use initCause(),
+      // available in all Throwable subclasses.
+      DynamicFieldsException dfe = new DynamicFieldsException()
+      dfe.initCause(new NullPointerException())
+      throw dfe
+    int fieldNumber = hasField(id)
+    ?	fieldNumber == -1	fieldNumber = makeField(id)
+    Object result = null
+    try
+      block
+        result = getField(id)	Get old value
+      NoSuchFieldException e
+        // Use constructor that takes "cause":
+        throw new RuntimeException(e)
+    fields[fieldNumber][1] = value
+    return result
+  main
+    DynamicFields df = new DynamicFields(3)
+    System.out.println(df)
+    try
+      block
+        df.setField("d"       , "A value for d")
+        df.setField("number"  , new Integer(47))
+        df.setField("number2" , new Integer(48))
+        System.out.println(df)
+        df.setField("d"       , "A new value for d")
+        df.setField("number3" , new Integer(11))
+        System.out.println(df)
+        System.out.println(df.getField("d"))
+        Object field = df.getField("a3")	Exception
+      NoSuchFieldException e
+        throw new RuntimeException(e)
+      DynamicFieldsException e
+        throw new RuntimeException(e)
+    java code
+	monitor.expect(new String[] {
+	  "null: null",
+	  "null: null",
+	  "null: null",
+	  "",
+	  "d: A value for d",
+	  "number: 47",
+	  "number2: 48",
+	  "",
+	  "d: A new value for d",
+	  "number: 47",
+	  "number2: 48",
+	  "number3: 11",
+	  "",
+	  "A value for d",
+	  "Exception in thread \"main\" " +
+	  "java.lang.RuntimeException: " +
+	  "java.lang.NoSuchFieldException",
+	  "\tat DynamicFields.main(DynamicFields.java:98)",
+	  "Caused by: java.lang.NoSuchFieldException",
+	  "\tat DynamicFields.getFieldNumber(" +
+	  "DynamicFields.java:37)",
+	  "\tat DynamicFields.getField(DynamicFields.java:58)",
+	  "\tat DynamicFields.main(DynamicFields.java:96)"
+	});
+  //: c09:ExceptionMethods.java
+  // Demonstrating the Exception Methods.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class ExceptionMethods
+  vars
+    private static Test monitor = new Test()
+  main
+    try
+      block
+        throw new Exception("My Exception")
+      Exception e
+        System.err.println("Caught Exception")
+        System.err.println("getMessage():" + e.getMessage())
+        System.err.println("getLocalizedMessage():" + e.getLocalizedMessage())
+        System.err.println("toString():" + e)
+        System.err.println("printStackTrace():")
+        e.printStackTrace()
+    java code
+	monitor.expect(new String[] {
+	  "Caught Exception",
+	  "getMessage():My Exception",
+	  "getLocalizedMessage():My Exception",
+	  "toString():java.lang.Exception: My Exception",
+	  "printStackTrace():",
+	  "java.lang.Exception: My Exception",
+	  "%% \tat ExceptionMethods.main\\(.*\\)"
+	});
+  //: c09:ExtraFeatures.java
+  // Further embellishment of exception classes.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class MyException2 extends Exception
+  vars
+    private int x
+  public MyException2
+  public MyException2	String msg
+    super(msg)
+  public MyException2	String msg, int x
+    super(msg)
+    this.x = x
+  public int val
+    return x
+  public String getMessage
+    return "Detail Message: "+ x + " "+ super.getMessage()
+
+public class ExtraFeatures
+  vars
+    private static Test monitor = new Test()
+  public static void f	 	throws MyException2
+    "Throwing MyException2 from f()"
+    throw new MyException2()
+  public static void g	 	throws MyException2
+    "Throwing MyException2 from g()"
+    throw new MyException2("Originated in g()")
+  public static void h	 	throws MyException2
+    "Throwing MyException2 from h()"
+    throw new MyException2("Originated in h()", 47)
+  main
+    try
+      block
+        f()
+      MyException2 e
+        e.printStackTrace()
+    try
+      block
+	g()
+      MyException2 e
+	e.printStackTrace()
+    try
+      block
+	h()
+      MyException2 e
+	e.printStackTrace()
+	System.err.println("e.val() = " + e.val())
+    java code
+	monitor.expect(new String[] {
+	  "Throwing MyException2 from f()",
+	  "MyException2: Detail Message: 0 null",
+	  "%% \tat ExtraFeatures.f\\(.*\\)",
+	  "%% \tat ExtraFeatures.main\\(.*\\)",
+	  "Throwing MyException2 from g()",
+	  "MyException2: Detail Message: 0 Originated in g()",
+	  "%% \tat ExtraFeatures.g\\(.*\\)",
+	  "%% \tat ExtraFeatures.main\\(.*\\)",
+	  "Throwing MyException2 from h()",
+	  "MyException2: Detail Message: 47 Originated in h()",
+	  "%% \tat ExtraFeatures.h\\(.*\\)",
+	  "%% \tat ExtraFeatures.main\\(.*\\)",
+	  "e.val() = 47"
+	});
+  //: c09:FinallyWorks.java
+  // The finally clause is always executed.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class ThreeException extends Exception
+
+public class FinallyWorks
+  vars
+    private static Test monitor = new Test()
+    static int count = 0
+  main
+    W	true
+      try
+        block
+          // Post-increment is zero first time:
+          ?	count++ == 0
+            throw new ThreeException()
+          "No exception"
+        ThreeException e
+          System.err.println("ThreeException")
+        finally
+          System.err.println("In finally clause")
+          ?	count == 2	break; // out of "while"
+    java code
+	monitor.expect(new String[] {
+	  "ThreeException",
+	  "In finally clause",
+	  "No exception",
+	  "In finally clause"
+	});
+  //: c09:FullConstructors.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class MyException extends Exception
+  public MyException
+  public MyException	String msg
+    super(msg)
+
+public class FullConstructors
+  vars
+    private static Test monitor = new Test()
+  public static void f	 	throws MyException
+    "Throwing MyException from f()"
+    throw new MyException()
+  public static void g	 	throws MyException
+    "Throwing MyException from g()"
+    throw new MyException("Originated in g()")
+  main
+    try
+      block
+        f()
+      MyException e
+        e.printStackTrace()
+    try
+      block
+	g()
+      MyException e
+	e.printStackTrace()
+    java code
+	monitor.expect(new String[] {
+	  "Throwing MyException from f()",
+	  "MyException",
+	  "%% \tat FullConstructors.f\\(.*\\)",
+	  "%% \tat FullConstructors.main\\(.*\\)",
+	  "Throwing MyException from g()",
+	  "MyException: Originated in g()",
+	  "%% \tat FullConstructors.g\\(.*\\)",
+	  "%% \tat FullConstructors.main\\(.*\\)"
+	});
+  //: c09:Human.java
+  // Catching exception hierarchies.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class Annoyance extends Exception
+class Sneeze extends Annoyance
+
+public class Human
+  vars
+    private static Test monitor = new Test()
+  main
+    try
+      block
+        throw new Sneeze()
+      Sneeze s
+        System.err.println("Caught Sneeze")
+      Annoyance a
+        System.err.println("Caught Annoyance")
+    java code
+	monitor.expect(new String[] {
+	  "Caught Sneeze"
+	});
+  //: c09:LostMessage.java
+  // How an exception can be lost.
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class VeryImportantException extends Exception
+  public String toString
+    return "A very important exception!"
+
+class HoHumException extends Exception
+  public String toString
+    return "A trivial exception"
+
+public class LostMessage
+  vars
+    private static Test monitor = new Test()
+  void f	 	throws VeryImportantException
+    throw new VeryImportantException()
+  void dispose	 	throws HoHumException
+    throw new HoHumException()
+  public static void main	String[] args	throws Exception
+    LostMessage lm = new LostMessage()
+    try
+      block
+        lm.f()
+      finally
+        lm.dispose()
+    java code
+	monitor.expect(new String[] {
+	  "Exception in thread \"main\" A trivial exception",
+	  "\tat LostMessage.dispose(LostMessage.java:24)",
+	  "\tat LostMessage.main(LostMessage.java:31)"
+	});
+  //: c09:MainException.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  java.io.*
+
+public class MainException
+  // Pass all exceptions to the console:
+  public static void main	String[] args	throws Exception
+    // Open the file:
+    FileInputStream file = new FileInputStream("MainException.java")
+    // Use the file ...
+    // Close the file:
+    file.close()
+  //: c09:NeverCaught.java
+  // Ignoring RuntimeExceptions.
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class NeverCaught
+  vars
+    private static Test monitor = new Test()
+  static void f
+    throw new RuntimeException("From f()")
+  static void g
+    f()
+  main
+    g()
+    java code
+	monitor.expect(new String[] {
+	  "Exception in thread \"main\" " +
+	  "java.lang.RuntimeException: From f()",
+	  "        at NeverCaught.f(NeverCaught.java:7)",
+	  "        at NeverCaught.g(NeverCaught.java:10)",
+	  "        at NeverCaught.main(NeverCaught.java:13)"
+	});
+  //: c09:OnOffException1.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public class OnOffException1 extends Exception
+  //: c09:OnOffException2.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public class OnOffException2 extends Exception
+  //: c09:OnOffSwitch.java
+  // Why use finally?
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class OnOffSwitch
+  vars
+    private static Switch sw = new Switch()
+  public static void f	 	throws OnOffException1,OnOffException2
+  main
+    try
+      block
+        sw.on()
+        // Code that can throw exceptions...
+        f()
+        sw.off()
+      OnOffException1 e
+        System.err.println("OnOffException1")
+        sw.off()
+      OnOffException2 e
+        System.err.println("OnOffException2")
+        sw.off()
+  //: c09:RethrowNew.java
+  // Rethrow a different object from the one that was caught.
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class OneException extends Exception
+  public OneException	String s
+    super(s)
+
+class TwoException extends Exception
+  public TwoException	String s
+    super(s)
+
+public class RethrowNew
+  vars
+    private static Test monitor = new Test()
+  public static void f	 	throws OneException
+    "originating the exception in f()"
+    throw new OneException("thrown from f()")
+  public static void main	String[] args	throws TwoException
+    try
+      block
+        f()
+      OneException e
+	System.err.println("Caught in main, e.printStackTrace()")
+        e.printStackTrace()
+        throw new TwoException("from main()")
+    java code
+	monitor.expect(new String[] {
+	  "originating the exception in f()",
+	  "Caught in main, e.printStackTrace()",
+	  "OneException: thrown from f()",
+	  "\tat RethrowNew.f(RethrowNew.java:18)",
+	  "\tat RethrowNew.main(RethrowNew.java:22)",
+	  "Exception in thread \"main\" " +
+	  "TwoException: from main()",
+	  "\tat RethrowNew.main(RethrowNew.java:28)"
+	});
+  //: c09:Rethrowing.java
+  // Demonstrating fillInStackTrace()
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+public class Rethrowing
+  vars
+    private static Test monitor = new Test()
+  public static void f	 	throws Exception
+    "originating the exception in f()"
+    throw new Exception("thrown from f()")
+  public static void g	 	throws Throwable
+    try
+      block
+        f()
+      Exception e
+        System.err.println("Inside g(),e.printStackTrace()")
+        e.printStackTrace()
+        throw e				17
+        // throw e.fillInStackTrace()	18
+  public static void main	String[] args	throws Throwable
+    try
+      block
+        g()
+      Exception e
+        System.err.println("Caught in main, e.printStackTrace()")
+        e.printStackTrace()
+    java code
+	monitor.expect(new String[] {
+	  "originating the exception in f()",
+	  "Inside g(),e.printStackTrace()",
+	  "java.lang.Exception: thrown from f()",
+	  "%% \tat Rethrowing.f(.*?)",
+	  "%% \tat Rethrowing.g(.*?)",
+	  "%% \tat Rethrowing.main(.*?)",
+	  "Caught in main, e.printStackTrace()",
+	  "java.lang.Exception: thrown from f()",
+	  "%% \tat Rethrowing.f(.*?)",
+	  "%% \tat Rethrowing.g(.*?)",
+	  "%% \tat Rethrowing.main(.*?)"
+	});
+  //: c09:SimpleExceptionDemo.java
+  // Inheriting your own exceptions.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+
+class SimpleException extends Exception
+
+public class SimpleExceptionDemo
+  vars
+    private static Test monitor = new Test()
+  public void f	 	throws SimpleException
+    "Throw SimpleException from f()"
+    throw new SimpleException()
+  main
+    SimpleExceptionDemo sed = new SimpleExceptionDemo()
+    try
+      block
+        sed.f()
+      SimpleException e
+        System.err.println("Caught it!")
+    java code
+	monitor.expect(new String[] {
+	  "Throw SimpleException from f()",
+	  "Caught it!"
+	});
+  //: c09:StormyInning.java
+  // Overridden methods may throw only the exceptions
+// specified in their base-class versions, or exceptions
+// derived from the base-class exceptions.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+class BaseballException extends Exception
+class Foul extends BaseballException
+class Strike extends BaseballException
+
+abstract class Inning
+  public Inning	 	throws BaseballException
+  public void event	 	throws BaseballException
+  // Doesn't actually have to throw anything
+  public abstract void atBat	 	throws Strike, Foul
+  public void walk
+  // Throws no checked exceptions
+
+class StormException extends Exception
+class RainedOut extends StormException
+class PopFoul extends Foul
+
+interface Storm
+  public void event	 	throws RainedOut
+  public void rainHard	 	throws RainedOut
+
+public class StormyInning extends Inning implements Storm
+  // OK to add new exceptions for constructors, but you
+  // must deal with the base constructor exceptions:
+  public StormyInning	 	throws RainedOut, BaseballException
+  public StormyInning	String s	throws Foul, BaseballException
+  // Regular methods must conform to base class:
+  //! void walk	 	throws PopFoul
+  // Interface CANNOT add exceptions to existing
+  // methods from the base class:
+  //! public void event	 	throws RainedOut
+  // If the method doesn't already exist in the
+  // base class, the exception is OK:
+  public void rainHard	 	throws RainedOut
+  // You can choose to not throw any exceptions,
+  // even if the base version does:
+  public void event
+  // Overridden methods can throw inherited exceptions:
+  public void atBat	 	throws PopFoul
+  main
+    try
+      block
+        StormyInning si = new StormyInning()
+        si.atBat()
+      PopFoul e
+        System.err.println("Pop foul")
+      RainedOut e
+        System.err.println("Rained out")
+      BaseballException e
+        System.err.println("Generic baseball exception")
+    // Strike not thrown in derived version.
+    try
+      block
+        // What happens if you upcast?
+        Inning i = new StormyInning()
+        i.atBat()
+        // You must catch the exceptions from the
+      // base-class version of the method:
+      Strike e
+	System.err.println("Strike")
+      Foul e
+	System.err.println("Foul")
+      RainedOut e
+	System.err.println("Rained out")
+      BaseballException e
+	System.err.println("Generic baseball exception")
+  //: c09:Switch.java
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public class Switch
+  vars
+    private boolean state = false
+  public boolean read
+    return state
+  public void on
+    state = true
+  public void off
+    state = false
+  //: c09:ThrowOut.java
+  // {ThrowsException}
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+public class ThrowOut
+  public static void main	String[] args	throws Throwable
+    try
+      block
+        throw new Throwable()
+      Exception e
+        System.err.println("Caught in main()")
+  //: c09:TurnOffChecking.java
+  // "Turning off" Checked exceptions.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+imports
+  com.bruceeckel.simpletest.*
+  java.io.*
+
+class WrapCheckedException
+  void throwRuntimeException	int type
+    try
+      block
+        S*	type
+          0		throw new FileNotFoundException()
+          1		throw new IOException()
+          2		throw new RuntimeException("Where am I?")
+	  default	return
+      Exception e
+        throw new RuntimeException(e)
+
+class SomeOtherException extends Exception
+
+public class TurnOffChecking
+  vars
+    private static Test monitor = new Test()
+  main
+    WrapCheckedException wce = new WrapCheckedException()
+    // You can call f() without a try block, and let
+    // RuntimeExceptions go out of the method:
+    wce.throwRuntimeException(3)
+    // Or you can choose to catch exceptions:
+    F	int i = 0; i < 4; i++
+      try
+        block
+          ?	i < 3
+            wce.throwRuntimeException(i)
+          -
+            throw new SomeOtherException()
+        SomeOtherException e
+	  "SomeOtherException: " + e
+        RuntimeException re
+          try
+            block
+              throw re.getCause()
+            FileNotFoundException e
+	      "FileNotFoundException: " + e
+            IOException e
+              "IOException: " + e
+            Throwable e
+              "Throwable: " + e
+    java code
+	monitor.expect(new String[] {
+	  "FileNotFoundException: " +
+	  "java.io.FileNotFoundException",
+	  "IOException: java.io.IOException",
+	  "Throwable: java.lang.RuntimeException: Where am I?",
+	  "SomeOtherException: SomeOtherException"
+	});
+  //: c09:WithFinally.java
+  // Finally Guarantees cleanup.
+  // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+  // www.BruceEckel.com. See copyright notice in CopyRight.txt.
+
+public class WithFinally
+  vars
+    static Switch sw = new Switch()
+  main
+    try
+      block
+        sw.on()
+        // Code that can throw exceptions...
+        OnOffSwitch.f()
+      OnOffException1 e
+        System.err.println("OnOffException1")
+      OnOffException2 e
+        System.err.println("OnOffException2")
+      finally
+        sw.off()

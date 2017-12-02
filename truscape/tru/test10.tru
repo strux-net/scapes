@@ -1,0 +1,7 @@
+VERSION	3.0
+actions
+  line
+    >
+	$ARGV : $. : $_
+structure
+	line	*	>*($.<100)

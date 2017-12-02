@@ -1,0 +1,109 @@
+building acmd
+perl_tru acmd.plTR >acmd
+GOOD	acmd
+chmod +x acmd
+html_tru docs/README.txtTR >docs/README.html
+GOOD	docs/README.html
+testing acmd
+echo  "0" | ./acmd            -V /MostLikelyNotADir/a ; echo
+reading ~/acmd.rc
+reading ~/strux/etc/acmd.rc
+skipping /etc/acmd.rc
+no rule for /MostLikelyNotADir/a
+
+echo  "0" | ./acmd -a LL.acmd -V /MostLikelyNotADir/a ; echo
+reading LL.acmd
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : not here
+choice : 
+echo  "1" | ./acmd -l LL.acmd -V /MostLikelyNotADir/a ; echo
+reading ~/acmd.rc
+reading ~/strux/etc/acmd.rc
+skipping /etc/acmd.rc
+reading LL.acmd
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : doing something(T) with /MostLikelyNotADir/a
+choice : 
+echo  "2" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+reading LL.acmd
+reading ~/acmd.rc
+reading ~/strux/etc/acmd.rc
+skipping /etc/acmd.rc
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : not here
+choice : 
+echo "-2" | ./acmd -a LL.acmd    /MostLikelyNotADir/a ; echo
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : not here
+choice : 
+echo  "3" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+reading LL.acmd
+reading ~/acmd.rc
+reading ~/strux/etc/acmd.rc
+skipping /etc/acmd.rc
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : /MostLikelyNotADir/a
+choice : 
+echo  "4" | ./acmd -f LL.acmd -V /MostLikelyNotADir/a ; echo
+reading LL.acmd
+reading ~/acmd.rc
+reading ~/strux/etc/acmd.rc
+skipping /etc/acmd.rc
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : /MostLikelyNotADir/a
+and more to do
+choice : 
+echo  "9" | ./acmd -a LL.acmd    /MostLikelyNotADir/a ; echo
+0	a
+1	  o echo T
+2	a
+3	  o cmd 1
+4	  p cmd 2
+choice : no good choice
+choice : 
+./acmd /MostLikelyNotAFile
+no rule for /MostLikelyNotAFile
+./acmd -invalid
+Unknown option: invalid
+usage : acmd <file>
+offer a menu of choices of what to do with <file>
+
+Reads
+  ~/acmd.rc
+  ~/strux/etc/acmd.rc
+  /etc/acmd.rc
+
+All found files are read (in the order given above) to build the database.
+The commands are valid in the order found.
+OPTIONS:
+  -V	Verbose
+  -a:<file>	Use only this acmd-file
+  -l:<file>	Use this acmd-file as a last resort
+  -f:<file>	Use this acmd-file as a first resort
+  -version	show version information
+makefile:29: recipe for target 'test_acmd' failed
+make[1]: [test_acmd] Error 1 (ignored)

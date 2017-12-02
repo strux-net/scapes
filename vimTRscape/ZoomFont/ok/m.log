@@ -1,0 +1,10 @@
+building ZoomFont.vim
+vim_tru ZoomFont.vimTR >ZoomFont.vim
+GOOD	ZoomFont.vim
+{ echo "ZoomFont.vim\n  (un-)zoom fontsize\n    usage"; < ZoomFont.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\t(un-)zoom fontsize" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+Title="*ZoomFont.txt*   (un-)zoom fontsize" vimInterface2Help_tru ZoomFont.vimTR >docs/ZoomFont-commands.txt
+GOOD	docs/ZoomFont-commands.txt
+testing ZoomFont.vim

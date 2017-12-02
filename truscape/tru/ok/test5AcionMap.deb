@@ -1,0 +1,7 @@
+DOC : test5
+markup : markup
+text :   foo
+bold : bold
+text :   bar
+special : special
+text :   baz

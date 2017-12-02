@@ -1,0 +1,114 @@
+VERSION	3.0
+actions
+  closure	statement	outfile
+    >
+	$statement
+          atmark("mark2") {
+	  hier m_copy $outfile ok/
+          }
+  DOC
+    >
+      >>intro
+	mark1 and mark2:
+      setmark("mark1");
+      setmark("mark2");
+	mark5:
+      setmark("mark5");
+    -
+	-DOC
+    <
+	<DOC
+      usemark("mark_not_set");
+	this text should never apear since mark_not_set is not set
+      unusemark();
+  doc
+    >
+      Usemark("mark3");
+	>doc : $doc
+    -
+	-doc : $doc
+    <
+	<doc : $doc
+      Unusemark();
+  intro
+    >
+	>intro
+    -
+	-intro
+    <
+	<intro
+  docline
+    >
+	>$docline
+      atmark("mark5") {
+	docline : $docline
+	docline : $docline repeated
+      }
+    -
+	-$docline	$NrOfLinesFollowing lines following
+    <
+	<$docline
+  line
+    >
+	>$line
+    -
+	-$line	$NrOfLinesFollowing lines following
+    <
+	<$line
+  class
+    >
+	Intro for class $class
+	mark4 and mark3:
+      setmark("mark4");
+      setmark("mark3");
+	after setmark
+      Usemark("mark2");
+	having in $class
+      Unusemark();
+	>$class
+    -
+	-$class pre
+      Usemark("mark2");
+	having depth $class
+      Unusemark();
+	-$class post
+    <
+      Usemark("mark2");
+	having out $class
+      Unusemark();
+      Usemark("mark1");
+	should go before DOC
+      Unusemark();
+	<$class
+
+  forced
+    >
+	>forced
+    -
+	-forced
+    <
+	<forced
+  above
+    >
+      Usemark("mark4");
+	>$above
+    -
+	-$above	$NrOfLinesFollowing lines following
+      >>forced
+    <
+	<$above
+      Unusemark();
+  aboveline
+    >
+	>abovline : $aboveline
+    -
+	-abovline : $aboveline	$NrOfLinesFollowing lines following
+    <
+	<abovline : $aboveline
+structure
+	class			=	class .*
+	  doc			=	doc.*
+	    above			>*	above.*
+	      aboveline		=*
+	    docline		>
+	  line			>

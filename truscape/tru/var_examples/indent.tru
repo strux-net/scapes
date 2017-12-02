@@ -1,0 +1,19 @@
+VERSION	3.0
+##	$indent
+##	  contains the indent (the leading whitespace) as found.
+actions
+  chapter	name
+    >
+	$indent$_
+  section	name
+    >
+	$indent$_
+  any line
+    >
+	$indent$_
+  table
+    >
+	$indent$_
+  tabaligned line
+    >
+	$indent$_

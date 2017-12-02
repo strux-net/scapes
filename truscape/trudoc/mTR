@@ -1,0 +1,18 @@
+title			produces html-documentation for a truer
+xtractStructure.pl	xtractStructure.plTR
+  install
+    m_copy xtractStructure.pl ~/strux/lib
+
+trudoc_tru	trudoc.tru ../lib/html.tru
+  doc
+    { echo "trudoc_tru\n  $Title\n    usage"; ./trudoc_tru -? 2>&1 | i -it 1 ; }	docs/README.txt
+    sed "s/^    usage$/    code/" docs/README.txt | html_tru				docs/README.html
+  test
+    ./trudoc_tru -doc 	doc.out
+    PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s c ./trudoc_tru >trudoc_tru.tmp
+    mv trudoc_tru.tmp trudoc_tru
+    chmod +x trudoc_tru
+    m_diff trudoc_tru
+    ./trudoc_tru ./trudoc_tru		docs/trudoc_tru.html
+  install
+    2struxbin

@@ -1,0 +1,9 @@
+VERSION	3.0
+actions
+  any
+    >
+      $tmp=join ",",@rnr;
+	[$tmp] : $rnr : $_
+structure
+	any	*
+	 any	*	>*

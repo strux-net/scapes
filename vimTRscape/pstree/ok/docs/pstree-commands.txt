@@ -1,0 +1,49 @@
+*pstree.txt*   inspect the process-tree
+
+COMMANDS FOR VIEW PSTREE                                                          *pstree-commands*
+
+                                                                                  *pstree-r*
+  r : Refresh view~
+    refreshes the view reflecting the changes in the pstree
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> refresh
+                                                                                  *pstree-P*
+  P : Goto next pid~
+    move cursor to the next Pid
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> next
+                                                                                  *pstree-p*
+  p : Search next Pid and show info~
+    move cursor to the next Pid and show info for this pid
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> next and info
+                                                                                  *pstree-K*
+  K : Kill this process~
+    prompts for a kill-command,
+    the PID under or right of the cursor is inserted.
+    the cursor is right of the signal
+    You may wish to adjust the signal before pressing <ENTER>
+    This is an |interactive-command|.
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> kill
+                                                                                  *pstree-i*
+  i : Info about this pid~
+    shows info for the pid under the cursor.
+    If there is no pid under the cursor, the next pid in this line right of the cursor is tryed
+    If there is no pid right of the cursor, the pid left of the cursor is used
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> info
+                                                                                  *pstree-a*
+  a : LL of /proc/<pid>~
+    for the pid under the cursor start LL in /proc/<pid>
+
+
+    This command can also be found in the menu under :
+      Strux -> pstree -> LL
+==============================================================================
+vim:ft=help

@@ -1,0 +1,47 @@
+VERSION	3.0
+USAGE	shorttext
+	this is one of the tru testsuite
+OPTIONS
+	a		text for option a
+		description for this option
+		  can continue on any indent
+		  and	can contain tabs
+	b:type		text for option b
+	c:type[default]	text for option c
+BEGIN
+  $offset=-1;
+WRITE
+  s:^(?!(////|#)):" "x($level+$offset):e;
+actions
+  ?-	cond
+    >
+      usemark("mark_if$level");
+	} else if ($cond) {
+    <
+      unusemark();
+  else
+    >
+      usemark("mark_if$level");
+	} else {
+    <
+      unusemark();
+  main
+    >
+	main() {
+    <
+	}
+  ?	cond
+    >
+	if ($cond) {
+    <
+      setmark("mark_if$level");
+	}
+  stmt
+    >
+	$stmt
+structure
+	main		=	main
+	  ?	cond	>	\?
+	  ?-	cond	>	\?-
+	  -		> else	\-
+	  stmt		>

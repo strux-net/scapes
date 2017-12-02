@@ -1,0 +1,26 @@
+VERSION	3.0
+##	$isLast
+##	  is 0, if it is not the last line in a block.
+##	  is 1, if it is the last line in a block.
+##        is >1 if it is the last non-empty line in a block.
+##          the value is 1+number of empty lines following
+##
+##	  meaningless in stream-mode.
+##	  valid in depthaction and outaction.
+actions
+  chapter	name
+    -
+	$isLast : $_
+  section	name
+    -
+	$isLast : $_
+  any line
+    -
+	$isLast : $_
+  table
+    -
+	$isLast : $_
+  tabaligned line
+    -
+	$isLast : $_
+

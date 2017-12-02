@@ -1,0 +1,24 @@
+run			tru.jar ./action_demo_tru action_demo.in >|out
+docexpand.tru		./tru docexpand.tru > docexpand_tru && a docexpand_tru
+tru.doc.frame
+
+quicktest.tru		./tru quicktest.tru > quicktest_tru && a quicktest.in
+quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out
+  
+
+structure_demo.tru	./tru structure_demo.tru > structure_demo_tru && a structure_demo_tru
+structure_demo.in
+structure_demo_tru	chmod +x structure_demo_tru && structure_demo_tru -debug -debStructure structure_demo.in >| structure_demo.out
+
+testStructureGroup.tru	./tru testStructureGroup.tru >testStructureGroup_tru && a testStructureGroup_tru
+testStructureGroup.in
+testStructureGroup_tru	perl testStructureGroup_tru -debug -debStructure testStructureGroup.in >testStructureGroup.deb;perl testStructureGroup_tru -structure ;echo ================;perl testStructureGroup_tru -structure -groupExpand
+test16.tru		./tru test16.tru > test16_tru && a test16_tru
+test16
+test16_tru		chmod +x test16_tru && test16_tru test16 >| test16.out
+
+trusupp.plTR		perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >| trusupp.pl && a quicktest.tru
+helpers
+  ./structure_demo_tru -structure
+  tru.jar ./tru structure_demo.tru
+  tru.jar testStructureGroup_tru testStructureGroup.in

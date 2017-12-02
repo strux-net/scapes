@@ -1,0 +1,137 @@
+VERSION	3.0
+doc
+  @Structure	Array containing `$truer -vstructure -groupExpand`
+  @FileNames	Array (same size as @Structure) with corresponding filenames
+  @Indent	Array (same size as @Structure) with corresponding indents    (as a number basically counting the leading spaces)
+  @Pattern	Array (same size as @Structure) with corresponding patterns   (no leading or trailing spaces)
+  @Indicator	Array (same size as @Structure) with corresponding indicators (inclusive action)
+  @Regexp	Array (same size as @Structure) with corresponding regexp     (no leading or trailing spaces)
+  @Action	Array (same size as @Structure) with corresponding action
+  %Hits		Hash{action} of Array with index-numbers into @Structure
+  %Uri		Hash{'link'|'anchor'}{action} for warnings
+main
+  #xtractStructureTest()
+  1
+resolveLinks	$_
+  s/\|([^\s](.+?[^\s])?)\|/sprintf '<A href="#A_'.MakeValidURI('link',$1).qq(">$1<\/a>)/ge
+  return $_
+uriWarnings
+  F	my $key (sort keys %{$Uri{'link'}})
+    ?	$key ne '[]' and !defined $Uri{'anchor'}{$key}		STDERR "warning link '$key' does not resolve\n"
+  F	my $key (sort keys %{$Uri{'see'}})
+    !	defined $Uri{'anchor'}{$key}				STDERR "warning see for link '$key' does not resolve\n"
+  F	my $key (sort keys %{$Uri{'anchor'}})
+    $val = ${$Uri{'anchor'}}{$key}
+    ?	!defined $Uri{'link'}{$key} and !specialAction($key)	STDERR "warning anchor '$key' is not used in structure\n"
+    ?	$val != 1						STDERR "warning anchor '$key' defined $val times\n"
+specialAction	$name
+  F	("DOC", "READ", "WRITE", "BEGIN", "OPTIONS", "USAGE", "UNMATCHED")
+    ?	$name eq $_	return 1
+  return 0
+MakeValidURI	$context,$_
+    $context	the context of usage (either 'link' or 'anchor')
+    make a valid uri for the given txt and return it
+  $Uri{$context}{$_}++	for warnings
+  s/\&nbsp;//g
+  s/([^a-zA-Z0-9_])/sprintf "%2x",ord($1)/ge
+  return $_
+emitHit	$i
+  doemit($i,"hit")
+emit	$i
+  ?	$Action[$i] eq $rootItem	emitHit($i)	doemit($i,"structure")
+doemit	$i,$class
+  $Emitted[$i] = 1
+  $string = $Structure[$i]
+  !	$string =~ /^structure$/
+    my $pattern   = $Pattern[$i]
+    my $indicator = $Indicator[$i] || "="
+    my $regexp    = $Regexp[$i]
+    R/var/	pattern,indicator,regexp
+      $var =~ s/&/&amp;/g;
+      $var =~ s/</&lt;/g;
+      $var =~ s/>/&gt;/g;
+    ?	$class ne "hit"
+      ?	$pattern eq "[]"
+	$pattern = qq(<A href="howtoread/posIndicator.html">[]</a>)
+      -
+	!	$pattern =~ s/^\[([^\t]+)\]/qq([<A href="#A_).MakeValidURI('link',$Action[$i]).qq(">$1]<\/a>)/e
+	  $pattern =~ s/^([^\t]+)/qq(<A href="#A_)     .MakeValidURI('link',$Action[$i]).qq(">$1<\/a>)/e
+    R/var/	pattern,indicator,regexp	$var = colorize($var);
+    my $indent    = qq(<a class="tabSep" title = "Indent (not counting leading tab) : @{[ $Indent[$i] - 8 ]}">).($Indent[$i]?q(       |):"")." "x($Indent[$i]-8)."</a>"
+    tru::write("<tr class=\"$class\"><td>$indent$pattern</td><td>$indicator</td><td>$regexp</td></tr>")
+  -
+    tru::write(qq(<tr><td><a class="structureInd" title="$FileNames[$i]">$string</a></td><td></td><td></td></tr>))
+colorize	$string
+  FOREVER
+    last unless $string=~s:(\t+)([^\t]+):q(<ping>).("\cC" x length($1))."$2</ping>":e
+    last unless $string=~s:(\t+)([^\t]+):q(<pong>).("\cC" x length($1))."$2</pong>":e
+  $string =~ s:\cC:<a title="here is a Tab">\t</a>:g
+  return $string
+xtractStructureTest
+  readStructure("java_tru")
+  fillHashAndArrays
+  F	(keys(%Hits))
+    structureFor($_)
+  return
+  printHash
+  printStructure
+completeStructure
+  F	my $i=0...@Structure	emit($i)
+structureFor	$item
+  $rootItem = $item
+  @Emitted = []
+  F	$i (@{$Hits{$item}})
+    ?	$Emitted[$i]	next
+    my $thislevel = $Indent[$i]
+    @Pre = ()
+    F	$j=$i-1;$j>=0;$j--
+      ?	$Indent[$j] < $thislevel
+        push @Pre,$j
+        !	$thislevel = $Indent[$j]	last
+    F	$j=$#Pre;$j>=0;$j--
+      emit($Pre[$j])
+    emitHit($i)
+    $thislevel = $Indent[$i]
+    F	$j=$i+1...@Structure
+      ?	$Indent[$j] <= $thislevel	last
+      emit($j)
+readStructure	$truer
+  my $filename
+  @StructureWithFilenames =`$truer -vstructure -groupExpand`
+  chomp @StructureWithFilenames 
+  F	(@StructureWithFilenames)
+    ?	/^#file\t([^\t]+)/
+      ($filename = $1) =~ s/^$ENV{'HOME'}/~/o
+    -
+      push @Structure,$_
+      push @FileNames,$filename
+fillHashAndArrays
+  F	my $i=0...@Structure
+    $_=$Structure[$i]
+    chomp
+    next if /^\s*$/			empty lines are ignored in structure
+    next if /^structure$/
+    W	s/^(\t*)\t/$1        /
+    ($level) = /(^ +)/
+    $level = length($level)		level = indent (leading tabs count 8 spaces)
+    $Indent[$i] = $level
+    s/^ +//				we now have level and don't need the indent
+    local $indicator
+    local $explicit     = ""
+    local $notcontained = ""
+    ($pattern,$indicator,$regexp) = split /\t+([=>][^\t]*)\t*/,$_,3
+    $Pattern[$i]   = $pattern
+    $Indicator[$i] = $indicator
+    $Regexp[$i]    = $regexp
+    !	$indicator	$indicator="="
+    @names = split /\t+/,$pattern
+    ?	$indicator =~ s/ +([^(]+)//	$action = $1	$action = $names[0]
+    $action =~ s/^\[(.+)\]$/$1/
+    push @{ $Hits{$action} },$i
+    $Action[$i]     = $action
+printStructure
+  F	my $i=0...@Structure
+    "$i\t$Indent[$i]\t$Structure[$i]"
+printHash
+  F	(keys(%Hits))
+    "$_\t@{$Hits{$_}}\n"

@@ -1,0 +1,8 @@
+style
+  Title	Example (How To Read)
+How to read the Example.
+  An example represents an input-file exactly as shown.
+  (ascii-)tab characters are indicated by a color-change as described in [ coloring ]( coloring.html ).
+  Hover your mouse over an indent to see the indent numerically.
+  Hover your mouse over [cmd] to see the complete command used for processing this example.
+  The result can be seen in the gives-section.

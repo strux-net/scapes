@@ -1,0 +1,60 @@
+VERSION	3.0
+USAGE
+	helps debugging
+	  This does not work in stream-mode.
+	  Put it at the end of the chain (tru whatever.tru more.tru unroll.tru).
+	  Does not work, if complicated WRITE-actions are used.
+	  Pipe it through tabify.pl
+	  Usage example:
+	    rm run_test/*;c=$(perl foo.pl -unroll 0 --noHeader in 2>/dev/null|wc -l) ;for i in $(seq $c); do echo -en "\r$i ";perl foo.pl -unroll $i in | tabify.pl >| run_test/$i.out ;done 2>|err
+OPTIONS
+	noHeader		suppress Header
+	unroll:number[0]	show internal vars
+		-unroll n
+		  Prepend each line of the output with some debugging info.
+		  It is not usefull in -stream mode.
+		  The info is valid at the time of the WRITE (inaction)
+			index		of \@tru:O
+			seq		sequence Nr
+			d-range		the range of lines corresponding to \$NrOfLinesFollowing (only valid in inaction and depthaction)
+			\$Oi		\$tru::Oi
+			\@Oi		\@tru::Oi
+			\$rnr*		\$rnr and \$NrOfLinesFollowing
+			\$tru::action
+			\$.		with regard to -resetlinenr
+			f		the actual output
+		  stop after producing n lines. Use 0 for all lines.
+BEGIN
+  print "  index\t seq\td-range\t\$Oi\t\@Oi\t\$rnr*\t\$action\t\$.\tf\n" if defined($opt_unroll) and ! ($opt_debug or $opt_noHeader);
+WRITE
+  if (defined($opt_unroll)) {
+    if ($stream) {
+      print STDERR "$0 : -unroll not possible in stream-mode\n" unless $uroll_depth_warning_printed++;
+      return;
+    }
+    my $first = int($tru::Oi)+1;
+    my $last  = int($tru::Or[-1]);
+    my $range = " ";
+    my $NrOfLinesFollowingPretty=$NrOfLinesFollowing;
+    $NrOfLinesFollowingPretty = "" unless $NrOfLinesFollowingPretty;
+    if ($NrOfLinesFollowing and $tru::pit eq '-') {
+      if ($first == $last) {
+        $range ="$first";
+      } else {
+        $range ="$first-$last";
+      }
+    }
+    $_ = sprintf "%5d\t$range\t$tru::Oi\t%s\t$rnr $NrOfLinesFollowingPretty\t$tru::pit$tru::action\t$.\t$_",
+                  ++$tru::unroll::seq,                join(",",@tru::Oi)||"<empty>";
+    if ($opt_unroll and @tru::O >= $opt_unroll-1) {
+      return if $corrected++;
+      s/./>/;
+    }
+  }
+FLUSH
+  if (defined($opt_unroll)) {
+    $of=0;
+    map {
+      s/(.)/\1 $of\t/;$of++;
+    } @_;
+  }

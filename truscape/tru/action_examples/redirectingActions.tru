@@ -1,0 +1,63 @@
+VERSION	3.0
+##	redirecting actions
+##	  Actions can be redirected in several ways:
+##	      specified in the structure	redirection example 1 and 2
+##	      called from the action		redirection example 3 and 4
+##
+##	  compare this to "calling actions"
+#	    as described in callingActions.tru
+actions
+  calledAction
+    demonstrates the setting of
+      $calledAction
+	if called from the structure
+	  field one of the triggering line
+	if called via >>calledAction
+	  has the value of the first arg ($F[0] in the example)
+	if called via >> calledAction
+	  has the value of the action-name (calledAction in this case)
+      $state
+	if called from the structure
+	  has the name of the structure-item (left of prio)
+	if called via >>calledAction
+	  has the value of the first arg ($F[0] in the example)
+	if called via >> calledAction
+	  has the value of the action-name (calledAction in this case)
+      $_
+      @F
+    >
+	>:$calledAction:$state:$_:@F
+    -
+	-:$calledAction:$state:$_:@F
+    <
+	<:$calledAction:$state:$_:@F
+  trigger
+    Demonstrates the (stacked) calling of an action
+    >
+	going to call calledAction
+      >>calledAction	$F[0]	$F[1]
+	after call calledAction
+    -
+	depth of trigger
+    <
+	out of trigger
+  style2
+    >
+      # the following two calls are equivalent
+      >>		calledAction	$F[0]	$F[1]
+      >>calledAction	calledAction	$F[0]	$F[1]
+  inner
+    >
+	$inner
+structure
+	redirection example 1	=	redirection example 1
+	  redirectedAction	= calledAction
+	redirection example 2	=	redirection example 2
+	  [style1]	*	= calledAction	style
+	    inner	*
+	redirection example 3	=	redirection example 3
+	  trigger		=	trigger
+	    inner	*
+	redirection example 4	=	redirection example 4
+	  [style2]	*	=		style
+	    inner	*

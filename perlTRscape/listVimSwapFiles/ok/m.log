@@ -1,0 +1,15 @@
+building listVimSwapFiles
+perl_tru listVimSwapFiles.plTR >listVimSwapFiles
+GOOD	listVimSwapFiles
+chmod +x listVimSwapFiles
+perl_tru -vimPlug listVimSwapFiles.plTR >listVimSwapFiles.vim
+GOOD	listVimSwapFiles.vim
+touch docs/README.txt;rm docs/README.txt # I want the tests to pass
+echo "listVimSwapFiles\n  as a perlscript\n    code" >> docs/README.txt
+./listVimSwapFiles -? 2>&1 | i -it 1                 >> docs/README.txt
+echo "  as a vim-plugin\n    code"                   >> docs/README.txt
+isel -f 1 -nh README listVimSwapFiles.plTR | i -i 6  >> docs/README.txt
+GOOD	docs/README.txt
+html_tru docs/README.txt >docs/README.html
+GOOD	docs/README.html
+testing listVimSwapFiles

@@ -1,0 +1,15 @@
+VERSION	3.0
+actions
+  outer
+    >
+	$indent$outer
+    <
+	$indent$outer
+  inner
+    >
+	$indent$inner
+    <
+	$indent$inner
+structure
+	outer
+	  inner

@@ -1,0 +1,16 @@
+*QuickView.txt*   quick-view local settings
+
+COMMANDS FOR QuickView                                                            *QuickView-commands*
+
+                                                                                  *QuickView-<leader>Qv*
+  <leader>Qv : quick view for vars and options of all windows~
+
+    This command can also be found in the menu under :
+      Strux -> QuickView -> QuickviewAll
+                                                                                  *QuickView-<leader>qv*
+  <leader>qv : quick view for vars and options of current winow~
+
+    This command can also be found in the menu under :
+      Strux -> QuickView -> Quickview
+==============================================================================
+vim:ft=help

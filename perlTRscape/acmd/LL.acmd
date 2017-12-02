@@ -1,0 +1,9 @@
+a
+  o	echo T				echo "doing something(T) with $f"
+a
+b
+  o	cmd 1	echo
+  p	cmd 2	print "$f\n";
+    if (1) {
+      print "and more to do\n"
+    }

@@ -1,0 +1,6 @@
+fulltest.javaTR	java_tru -GenerateDebugInfo fulltest.javaTR > fulltest.java
+test.javaTR	./java_tru test.javaTR > test.java
+tru		tru.jar ./java_tru fulltest.javaTR
+tru		tru.jar ./java_tru test.javaTR
+test.java
+trudev		a tru

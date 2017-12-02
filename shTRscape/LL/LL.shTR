@@ -1,0 +1,17 @@
+VERSION	3.0
+usage	LL [<file>]
+	opens a powerful directory-browser.
+
+	file can be a directory or a path to a real file.
+	  in the latter case the cursor is positioned on the corresponding entry.
+	If no file is given, then the current dir is used.
+
+	You must have vim7 (or later) installed.
+	Note:
+	  This may fail if you have a vim-setup that interferes with this LL.
+	  In this case try LLfs (the fail-save version of LL). 
+	  LLfs does the same but does not use  your .vimrc and plugins.
+main
+  #vim +"LL $@" +only
+  # above does not work for dir\ with\ spaces
+  vim -N +'perl LL("'"$@"'")' +only

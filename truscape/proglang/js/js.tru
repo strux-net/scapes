@@ -1,0 +1,416 @@
+VERSION	3.0
+# USAGE is in jscoll.tru
+BEGIN
+  $cc = "//";	# Comment Character specific to this language - not used do to languageType="c"
+  $plang = "js";
+  $true = "1";
+  sub errout($) {
+    local ($txt) = @_;
+    $txt =~ s/"/\\"/g;
+    if ($opt_languageType eq "c") {
+	fputs("$txt\\n",stderr);
+    } else {
+	std::cerr << "$txt" << std::endl;
+    }
+  }
+actions
+  VERSION	version
+    continued
+      the version is just put as a comment into the output-file and otherwise ignored.
+      Example :	js_tru -noIntro
+	VERSION	2.0
+	function foo
+	  'hello world'
+    >
+	// based on $ARGV , version : $version
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+	log(statement);
+	So do NOT close the line with ;
+      A useful function in your script can be
+	function log(x) { console.log(x); }
+      Note : you should generally use single quoted strings in all other places anyway.
+
+      Example :	js_tru -noIntro
+	"this string will be logged"
+	'this string is nothing special'
+    -
+      if ($statement =~ /^"/) {
+	log($statement);$comment
+      } else {
+	$statement$statementdel$comment
+      }
+  jdoc
+    continued
+      tbd
+  vars
+    continued
+      Example :	js_tru -noIntro
+	vars
+	  count = 1		count the items
+	  sizes = [..]		in different units
+	    1			inch
+	    2.54		cm
+	  j			uninitialized
+	  o = {..}
+	    p1	v1		property p1 has value v1
+	    p2	v2		property p2 has value v2
+	  int i = 0
+    >
+      $vars =~ s/.$/ /; # vars -> var , lets -> let (each followed by a space)
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  var	comment
+    continued
+    >
+      $comment = "\t$cc $comment" if $comment ne "";
+	$vars$var;$comment
+  fproperty	function	args
+    a property of an object that stands for a function
+      Parameters :
+        fproperty	mandatory	.+	the name of the property
+        function	indicator	function
+        args		optional	.+	the args of the function
+      Example :	js_tru -noIntro
+	vars
+	  obj = {..}
+	    a		7
+	    add	function	a,b
+	      return	a+b
+	    get	b
+	      return this.a ++
+	    set	c	x
+	      this.a = x / 2
+	    get	[expr]
+	      return 10 * this.a
+	    set	[expr]	x
+	      this.a = x * 2
+	    get	notifier
+	      delete this.notifier
+	      return this.notifier = document.getElementById("bookmarked-notification-anchor")
+    >
+      $comment = "\t$cc $comment" if $comment ne "";
+      setmark("mark_autodoc");
+	$fproperty : function($args) {
+    <
+      if ($parent eq "wantListOrObject" and $isLast )
+	}
+      else
+	},
+  get	name	comment
+    a getter for name
+      Parameters :
+        get		indicator	getter
+        name		mandatory	.+	the name of the getter
+        comment		optional	.*	a comment for this getter
+      Example :	js_tru -noIntro
+        see	fproperty
+    >
+      $comment = "\t$cc $comment" if $comment ne "";
+      setmark("mark_autodoc");
+	get $name() {$comment
+    <
+      $parent = $tru::actions[-2][1];
+      if ($isLast or $parent eq "class")
+	}
+      else
+	},
+  set	name	arg	comment
+    a setter for name
+      Parameters :
+        set		indicator	getter
+        name		mandatory	.+	the name of the setter
+        arg		mandatory	.+	the arg for the setter
+        comment		optional	.*	a comment for this getter
+      Example :	js_tru -noIntro
+        see	fproperty
+    >
+      $comment = "\t$cc $comment" if $comment ne "";
+      setmark("mark_autodoc");
+	set $name($arg) {$comment
+    <
+      $parent = $tru::actions[-2][1];
+      if ($isLast or $parent eq "class")
+	}
+      else
+	},
+  try
+    continued
+      Example :	js_tru -noIntro
+	try
+	    foo()
+	  finally
+	    bar()
+  RangeFor	exp	statement
+    a range-based for-loop
+      Parameters :
+        RangeFor	indicator	.*
+        exp		mandatory	.+	an range-expression
+        statement	optional	.+	a statement
+      Example :	js_tru -noIntro
+	F	var i in {a:1, b:2, c:3}	log(i);
+	F	var v of [10, 20, 30]		log(v);
+    >
+      >>For	F	$exp	$statement
+  function	args
+    a function
+      Parameters :
+        function	mandatory	.+	the function name
+        args		optional	.+	the args of the functin
+
+      A function is only treatet as such if it appears on the far left.
+
+      Example :	js_tru -noIntro
+	function foo
+	  "bar"
+	function square	x
+	  return x*x
+	function motor_step
+	  x++
+    l	terminator
+    >
+      setmark("mark_autodoc");
+    -
+      (local $start) = ($function =~ /(.*?)\s*function(\s+\w+)?$/);
+      $parent = $tru::actions[-2][1];
+      if ($parent eq "wantListOrObject") {
+        $terminator = $isLast ? '' : ',';
+      } elsif  ($function =~ /^function\b/) {
+        $terminator = ''; # it's an expression function
+      } else {
+        $terminator = ";";
+      }
+       |
+	$function($args) {
+    <
+	}$terminator
+  class	baseclass
+    a class
+      Parameters :
+	class	mandatory		.+	the class decrlaring expression rsp. statement
+	baseclass	optional	.+	the name of the base class
+
+      Example :	js_tru -noIntro
+	class A
+	  constructor	a1
+	    this.a1 = a1
+	  toString
+	    return "A : "+this.a1
+	  static
+	    sum	a,b
+	      return a+b
+	    neg	a
+	      return -a
+	class B	A
+	  constructor	b1
+	var Polygon = class Polygon
+	  constructor	height, width
+	    this.height = height
+	    this.width = width
+	class Bar	calculatorMixin(randomizerMixin(Foo))
+	  constructor
+    >
+      if ($baseclass)
+	$class extends $baseclass {
+      else
+	$class {
+    <
+      if ($class =~ /=/)
+	};
+      else
+	}
+  static
+    introducing static methods
+      Parameters :
+	static		indicator	static
+      Example :
+        see	class
+    >
+      $offset-=2;
+    <
+      $offset+=2;
+  staticMethod	args
+    a static method
+      Parameters :
+	staticMethod	mandatory	.+	the method
+	args		optional	.+	the arguments
+      Example :
+        see	class
+    >
+      >>method	static $staticMethod	$args
+  method	args
+    a method
+      Parameters :
+	method	mandatory	.+	the method
+	args	optional	.+	the arguments
+      Example :
+        see	class
+    >
+      setmark("mark_autodoc");
+	$method($args) {
+    <
+	}
+  IIFE	invocation
+    An IIFE (Immediately-invoked function expression)
+      Parameters :
+	IIFE		mandatory	.+	the function with args
+	invocation	mandatory	.+	the invocation
+
+      both forms are accepted
+	  )()
+	  ())  // Douglas Crockford's style
+
+      Example :	js_tru -noIntro
+	var foo = (function()	)()
+	  return "foo"
+	var sum = (function(x,y)	)(10,12)
+	  return x + x
+    >
+	$IIFE {
+    <
+	}$invocation;
+
+  wantListOrObject	c_or_i		comment2
+    an object, an Array or a argument-list follows
+
+      It comes in two forms
+        Form 1) for outside of an object
+      Parameters :
+        wantListOrObject		mandatory	.*[\{\[\(]\.\.[\)\]\}]	a line containing {..} or [..] or (..)
+        c_or_i				optional	.+			a comment
+        comment2			unused		unused			unused
+
+      2) for inside an object
+      Parameters :
+        wantListOrObject		mandatory	.*			a property-name
+        c_or_i				mandatory	[\{\[\(]\.\.[\)\]\}]	one of {..} or [..] or (..)
+        comment2			optional	.+			a comment
+
+      Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
+
+      Example :	js_tru -noIntro
+	function foo
+	  var s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
+	  var a = {..}			here comes an object
+	    answer	42		you know why
+	    p3		[..]		objects can contain arrays
+	      'joo'
+	      'nee'
+	      {..}		arrays can contain objects
+		k1	'Right'
+		k2	'Left'
+	      [..]		arrays can contain arrays
+		'green'
+		'blue'
+	    // objects and arrays can contain functions
+	    sum		function	a,b
+	      return a+b
+	  var myDraw = new Drawing(ctx,[{..}])
+	    x	"red"
+	    y	"green"
+	  var controller=myApp.controller("nice",..)
+	    ctx
+	    function	r
+	      return r*r
+    l	closer
+    >
+      unless ($wantListOrObject =~ s/\.\.([\}\]\)].*)//) {
+        $wantListOrObject = "$wantListOrObject : $c_or_i";
+        $comment = $comment2;
+        $wantListOrObject =~ s/\.\.([\}\]\)].*)//;
+        $closer = $1;
+      } else {
+        $comment = $c_or_i;
+        $closer = $1;
+      }
+      $comment = "\t$cc $comment" if $comment ne "";
+      $pre = ($tru::actions[-2][1] eq "vars") ? $vars : '';
+	$pre$wantListOrObject$comment
+    <
+      $parent = $tru::actions[-2][1];
+      $post = ';';
+      $post = ',' if  $parent eq "wantListOrObject";
+      $post = ''  if $parent eq "wantListOrObject" and $isLast or $parent eq "statement";
+	$closer$post
+  arrayelem	comment
+    an element of a array variable
+      Parameters :
+        arrayelem	mandatory	.+	the element
+        comment		optional	.+	a comment for this element
+      Example :	js_tru -noIntro
+	var a = [..]
+	  'one'
+	  'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      if ($isLast)
+	$arrayelem$comment
+      else
+	$arrayelem,$comment
+  property	value	comment
+    a property and its value
+      Parameters :
+        property	mandatory	.+	the property
+        value		mandatory	.+	the value of the property
+        comment	optional		.+	a comment
+      Example :	js_tru -noIntro
+	var a = {..}
+	  uno	'one'
+	  duo	'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      $terminator = $isLast ? '' : ',';
+	$property : $value$terminator$comment
+group
+  ListOrObject
+	want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  function	[args]							=o				/\bfunction(\*?\s+\$?\w+)?$/
+	    autodoc								=g
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
+	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  fproperty	function	[args]	comment				=o		.+		function
+	    autodoc								=g
+	  get	name	[comment]						=o		get
+	    autodoc								=g
+	  set	name	args	[comment]					=o		set
+	    autodoc								=g
+	  wantObject	{..}		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
+	  wantArray	[..]		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
+	  property	value		[comment]				=
+	wantArray			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\{\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\[\.\.\]/
+	  function	[args]							=o		/function(\*?\s+\$?\w+)?$/
+	    autodoc								=g
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
+  js
+	comment	*								=2		\/\/.*
+	native code								=2		js code<?
+	  nativeCodeLine	*						>>t*
+	vars									>2		vars|lets
+	  ListOrObject								=g
+	  var			[comment]					>0
+	F	inclusion check		[stmt]					>2 RangeFor	F	/\b(in|of)\b/
+	IIFE	)(args)								=2		.*	(\(\)\))|(\)\(.*\)).*
+	function	[args]							>o2		/\bfunction(\*?\s+\$?\w+)?$/
+	  autodoc								=g
+	class	[baseclass]							>o2		/\bclass(\s+\w+)?$/	.+
+	  get	name	[comment]						=o		get
+	    autodoc								=g
+	  set	name	args	[comment]					=o		set
+	    autodoc								=g
+	  static								=		static
+	    method	[args]							=o staticMethod
+	      autodoc								=g
+	  method	[args]							=o
+	    autodoc								=g
+	try catch clause							=g
+	ListOrObject								=g
+	statement								=g

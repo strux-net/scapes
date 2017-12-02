@@ -1,0 +1,80 @@
+building java_tru
+tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru java.tru java_sql.tru ../c_like_vars.tru javacoll.tru ../../lib/basicUSAGE.tru >java_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'function' was defined but never used
+chmod +x java_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s java java_tru >java_tru.tmp
+mv java_tru.tmp java_tru
+chmod +x java_tru
+GOOD	statistics.out
+GOOD	java_tru
+{ echo "java_tru\n  convert .javaTR to .java\n    usage"; ./java_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .javaTR to .java" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru ./java_tru >docs/java_tru.html
+GOOD	docs/java_tru.html
+testing java_tru
+perl java_tru                    TestGui.javaTR >TestGui.java
+java_tru - No match for TestGui.javaTR @ 88 : 	      "InnerInner1"	JPanel		Border
+java_tru - No match for TestGui.javaTR @ 89 : 	      "InnerInner2"	JPanel		Border
+GOOD	TestGui.java
+perl java_tru                    Queries.javaTR >Queries.java
+GOOD	Queries.java
+perl java_tru                    test.javaTR >test.java
+java_tru : some text was never output (due to unset marks) when processing test.javaTR
+  For mark mark_version
+	      System.out.println("  test.javaTR	3.0");
+GOOD	test.java
+perl java_tru -GenerateDebugInfo test.javaTR >test_with_debug.java
+java_tru : some text was never output (due to unset marks) when processing test.javaTR
+  For mark mark_version
+	      System.out.println("  test.javaTR	3.0");
+GOOD	test_with_debug.java
+perl java_tru -GenerateDebugInfo fulltest.javaTR >fulltest.java
+GOOD	fulltest.java
+perl java_tru --help
+usage : java_tru [Options] [<file> ....]
+
+produces a java-file
+
+find details in
+    ~/strux/doc/java_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/java_tru.html
+
+per convention the input files have the extension .javaTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noAutoSemicolon		Do not autmatically append ; to one-line-statements
+       -GenerateDebugInfo	produce code for debugging the program
+		This produces code at the start of each method which tells the methodname and the args to stderr
+
+		You must enable this when running the program with -Dtru_deb=1
+		In addition to tru_deb, enable the output of the arguments with -Dtru_deb_args=1
+		Also, tru_deb_fullstack=1 can be given to show the fullstack for each method-call
+		  these lines are prefixed with * for a normal method and ! for a native method
+
+       -vhelp shows more options
+makefile:37: recipe for target 'test_java_tru' failed
+make[1]: [test_java_tru] Error 1 (ignored)

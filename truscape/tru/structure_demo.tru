@@ -1,0 +1,638 @@
+VERSION	3.0
+#
+# read and understand this .tru-file and you know everything about the tru-structure.
+# 
+# in fact you may not only read it but also play with it.
+# it is a valid .tru-file and an input file is also already prepared for you.
+#
+# first you have to make a truer out of this file. In your shell do
+#   tru -q structure_demo.tru > structure_demo_tru && chmod +x structure_demo_tru
+# if you omit the -q you'll see some warnings.
+#   you can study them.
+#   they are here on purpose to show what happens in such cases.
+#
+# with this truer you can now for example do
+#
+#   structure_demo_tru structure_demo.in
+#	no actions are defined yet.
+#	hence it prints nothing but warnings
+#
+#   structure_demo_tru -debug -debStructure structure_demo.in
+#	prints for each line of structure_demo.in what structure item matches
+#
+#   structure_demo_tru -debug -debAll structure_demo.in 2>/dev/null
+#	prints for each line in structure_demo.in what actions would trigger (in the order executed)
+#
+#   tru.jar structure_demo_tru structure_demo.in
+#	debug with gui-support
+USAGE	tru.jar structure_demo_tru
+	Shows in examples how tru works.
+	There are several categories of examples.
+	Each starts with a tab and the word demo
+
+	with structure_demo.tru you can also
+	  grep -n  "^##"                                                            structure_demo.tru	# list the headings
+	  perl -ne 'if ($seq = /^# glossary:/../^$/ and $seq > 1) { s/#/ /;print }' structure_demo.tru	# emit the glossaries
+
+#
+# lines like this, that start with # (without leading whites) are comments and otherwise ignored
+# also blank lines, like the next are ignored
+
+# ===============================================================================================
+##	 structure section
+# ===============================================================================================
+#
+# every truer has at least one structure-section
+# the structure-section:
+#   starts with a line that has only 'structure' in it.
+#   extends to the first (non-comment or non-empty) line that does not start with a whitespace or the end of file.
+#   empty lines in the structure-section are ignored.
+structure
+
+# ===============================================================================================
+##	 indent and path
+# ===============================================================================================
+#
+# lines in the structure-section that start with a tab define structure-items
+#
+# two structure items are defined in this very first example.
+# the first accepts the line "demo showing indent and path".
+# the second accepts the line "  a line inside this demo" (the two leading spaces make the indent).
+#   the second item is only accepted if the first item was present.
+# Both items can be matched many times.
+#
+	demo showing indent and path	=	demo showing indent and path
+	  a line inside this demo	=	a line inside this demo
+# glossary:
+#   indent:
+#     This is the leading whitespace (and can be empty).
+#     It starts with any number of tabs and ends with any number of spaces.
+#     From this indent a value is calculated.
+#       The tabs count 8, the spaces count 1 each.
+#       This summed up gives the indentvalue.
+#       The relative indent is calculated by subtracting from this indentvalue the indentvalue of the last line before this one that has a smaller indent.
+#     indent is '' for empty lines.
+#     
+#   path:
+#     the items form a path.
+#     the root of all paths is DOC.
+#       you don't have to define DOC in the structure (and in fact you even can't).
+#     lines in input either have at least one matching path or they are treated as UNMATCHED.
+#
+
+# ===============================================================================================
+##	 regexp
+# ===============================================================================================
+#
+# the previous example showed fixed items - the lines had to be exact copies of the structure item.
+# now most of the time you want more flexibility.
+# you can do so by specifying to what regexp the line must match.
+# if the regexp is missing then it defaults to .* (meaning : match anything)
+# 
+# in this example the regexp is separated from the structure-item with <tab>=<tab>
+#   the = (and its variants) are described in more detail later (under separator).
+	demo showing regexp		=	demo showing regexp
+	  a line inside this demo	=	a.+
+# glossary:
+#   regexp:
+#     specifies regular expressions that match the fields of this structure-item.
+#     The n-th expression corresponds to the n-th field.
+#     The regexes may be missing, they default to .*
+#     They are as in perl and are automatically anchored between ^ and $ so the whole field must match.
+#     If an expression starts with a / then this expression is not treated specially:
+#       You must supply the terminating /
+#       you may also supply the modifiers (like /i or /o)
+#       These expressions are not anchored.
+#     An error is issued if an expression is invalid.
+
+# ===============================================================================================
+##	   difference between .+ and .*
+# ===============================================================================================
+#
+# regexes .* and .+ differ if exactly one field is required
+# if more than one field is required they are equivalent,
+#   since then the number of fields is checked independent of the regexp given
+#
+# a .* accepts empty lines (as you might have guessed), while
+# a .+ accepts only non-empty lines
+#
+# Note that .* happens to be the default for the regexp if noe is given.
+# So if you want to only accept non-empty lines you'd have to specify .+ as regexp
+#
+	demo showing dot-star vs dot-plus	=	demo showing dot-star vs dot-plus
+	  accepting dot-star			=	accepting dot-star
+	    possible empty line			=	.*
+	  accepting dot-plus			=	accepting dot-plus
+	    not empty line			=	.+
+# ===============================================================================================
+##	 fields
+# ===============================================================================================
+#
+# items can consist of many fields.
+#
+# separate the fields with (at least one) tab.
+# the first field is also the name of the action to be performed.
+# tabs are a central concept in tru.
+# they serve to delimit the fields.
+#
+# here in the structure as well as in the input one tab is as good as any number greater then one.
+# if you have 4 fields you also have 4 (tab-separated) regexes.
+	demo showing fields				=	demo showing fields
+	  item	field1	field2	comment			=		a.+	.+	\..+
+
+# ===============================================================================================
+##	 optional fields
+# ===============================================================================================
+#
+# a field can be marked as optional by enclosing it in [ and ].
+# all fields after an optional field are also optional.
+# in this example the fields "field2" and "comment" are optional.
+#
+# see further down for the special case, where the first field is optional
+	demo showing optional fields	=	demo showing optional fields
+	  item	field1	[field2]	comment		=		a.+	.+	\..+
+
+# ===============================================================================================
+##	 variable number of fields
+# ===============================================================================================
+# a field with the name * stands for any (including zero) number of fields.
+# no regexes can be supplied for them
+	demo showing variable number of fields	=	demo showing variable number of fields
+	  item	field1	*			=	.+	.+
+
+# ===============================================================================================
+##	 separator (tells where and when a match occurs)
+# ===============================================================================================
+#
+# up to here always '=' was used to separate the fields from the regexes
+# this separator has the general form
+#   prio[t][star][explicit][ state][(condition)]
+# the following examples deal with these components in detail.
+#
+# here a first overview
+# glossary:
+#   separator
+#     prio[o][t][star][explicit][ state][(condition)]
+#
+#     as table
+#	item		possible values		note
+#	----		---------------		-------
+#	prio		> = >>			low to high
+#	g		g			item is the name of a group
+#	o		o			opens block for creeping
+#	t		t			tabaligned
+#	star		*			dangling
+#	explicit	a number		0 : position fixed, >0 : creepy
+#	state		an action-name		redirection
+#	condition	(perl-expr)		filtering
+# 
+
+# In the following the component(s) described are underlined like in the next two lines
+#  prio[o][t][star][explicit][ state][(condition)]
+#  ----
+#
+
+# ===============================================================================================
+##	   prio
+# ===============================================================================================
+#
+# tru knows the 3 priorities >, = and >>
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#  ----
+#
+	demo showing the priorities			=	demo showing the priorities
+	  item at =					=	item at =
+	    line					=		.+
+	  item at >					=	item at >
+	    line					>		.+
+	  item at >>					=	item at >>
+	    line					>		.+
+	  comparing the priorities			=	comparing the priorities
+	    fixed line at =				=		fixed line at =.*
+	    line					>		.+
+	    never chosen				>		.+
+	    line at >>					>>		line at >>.*
+#     creepy vs. fixed
+#       The position where a structure item matches
+#       fixed  : exactly at the indicated position
+#       creepy : anywhere below the indicated position
+#     prio:
+#       starts the separator.
+#       default is '='
+#       three possibilities
+#         >	lowest prio				creepy
+#         =	fixed position				not creepy
+#         >>	highest prio (matches immediately)	creepy
+
+# ===============================================================================================
+##	   explicit
+# ===============================================================================================
+##	     fixing position
+# ===============================================================================================
+#
+# > and >> loose their ability to creep when used in the form >0 rsp. >>0
+# hence they match at the exact path position
+# they differ from = in the priority
+# 
+# 'example 1' shows the three working together
+# 'example 2' shows an alterative to specify the same block (swapping two items and using = for all)
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#                   --------
+	demo showing low-prio fixed position		=	demo showing low-prio fixed position
+	  example 1					=	example 1
+	    any line					>0	.*
+	    Mixed Mode Mine				=	.*[A-Z].*
+	    ALL CAPS LINE				>>0	[A-Z ']*
+	  example 2					=	example 2
+	    ALL CAPS LINE				=	[A-Z ']*
+	    Mixed Mode Mine				=	.*[A-Z].*
+	    any line					=	.*
+
+# ===============================================================================================
+##	     making prio = creepy
+# ===============================================================================================
+#
+# an item with zero indent and a non-zero explicit is creepy.
+# that is it matches in DOC and anywhere with the explicit indent
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#                   --------
+	demo for explicit at far left			=2		demo for explicit at far left			=2
+	  line						>		.+
+# glossary:
+#     explicit:
+#       0	applicable to > and >>
+#         item is at fixed position
+#       1,2,..	applicable to leftaligned
+#         item is creepy
+
+# ===============================================================================================
+##	   o		open block for creeping
+# ===============================================================================================
+#
+#  an item that has subitems (a block) is locked on the first level against creeping.
+#  this lock can be disabled with the o after the prio
+#
+#  'example 1' forms a block in which only 'red' and 'green' are allowed.
+#    'line' cannot creep directly in the first level.
+#    'red' and 'green' are still open for creeping.
+#  Note : items with prio >> are still accepted (even in creeplocked blocks)
+#
+#  'example 2' forms the same block, this time open for creeping
+#  'example 3' is basically identical to 'example 1'
+#     it is open for creeping but the UNMATCHED rule kind of closes it again
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#       -
+# 
+        demo showing creeplocked blocks	=	demo showing creeplocked blocks
+          creeps never the less		>>	xx:.*
+          line				>	.*
+          example 1			=	example 1
+            red				=	red
+            green			=	green
+          example 2			=o	example 2
+            red				=	red
+            green			=	green
+          example 3			=o	example 3
+            red				=	red
+            green			=	green
+           UNMATCHED	*		>*0	.+
+
+# ===============================================================================================
+##	   star		dangling
+# ===============================================================================================
+#
+# a star indicates, that the indent may be any number greater than or equal to the implicit indent
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#             ----
+	demo for dangling				=	demo for dangling
+	  dangling at =					=	dangling at =
+	    fixed line					=	fixed line.*
+	    line					=*	.+
+	  dangling at >					=	dangling at >
+	    fixed line					=	fixed line.*
+	    line					>*	.+
+	  dangling at >>				=	dangling at >>
+	    fixed line					=	fixed line.*
+	    line					>>*	.+
+
+# ===============================================================================================
+##	   condition	filtering
+# ===============================================================================================
+#
+# a condition may be given at the end of the separator.
+# It must be enclosed in ( and ).
+# It is a native perl expression (as can be used in an if-statement) that evaluates to true or false.
+# The item only matches if this expression is true.
+#
+# inside 'simple condition' the line1 is only accepted if it is the first line in the block
+# $rnr stands for relative line number
+#
+# 'combined condition' shows that all conditions in the path to 'triggering line' must be true.
+#
+# 'caveats' demonstrates, that 'case 1' and 'case 2' are NOT equivalent
+#  though they look so at first glance, since subitem can never be reached.
+#  But the containing 'item' is creepLocked nonetheless.
+#
+#  'accessing fields' demonstrates how to use fields of the structure-item
+#
+#  prio[o][t][star][explicit][ state][(condition)]
+#                                      ---------
+	demo for condition	=	demo for condition
+	  simple condition	=	simple condition
+	    line1					=($rnr==1)	.+
+	    another line				=		.+
+	  combined condition	=	combined condition
+	    [line1]					=($rnr%2==0)	.+
+	      triggering line				=($rnr>=3)	.+
+	  caveats	=	caveats
+	    triestocreep				>		triestocreep.*
+	    case 1	=	case 1
+	      item					=		.*
+	       subitem					>*(0)		.*
+	    case 2	=	case 2
+	      item					=		.*
+	  accessing fields
+	    special_comment	[comment]		=($F[1] eq "special")		.*
+	    does_not_work	[comment]		=($comment eq "not special")	.*
+	    rest		[comment]		=		.*
+# ===============================================================================================
+##	   t		tabaligned
+# ===============================================================================================
+# 
+# tabaligned items match at the next position that
+#    has at least implicit indent and
+#    is at a tab-position (multiple of 8)
+# 
+# this allows for nicely aligned blocks
+#
+# the actions for tabaligned items see the two special variables
+#   $rindent : the relative indent (as string) to the required tab-position, derived from the found indent.
+#   $rlevel  : the relative indent (as number) to the required tab-position
+#
+# Note: tabaligned items are not allowed in optional blocks
+# 
+#  prio[o][t][star][explicit][ state][(condition)]
+#          -
+
+	demo for tabaligned				=	demo for tabaligned
+	  fixed						>>*	fixed
+	  table						>	table
+	    tabaligned line				=t*	.*
+
+# ===============================================================================================
+##	 longest path
+# ===============================================================================================
+#
+# tru chooses the longest path for a hit
+#
+# items with prio >> are special.
+# as soon as such an item matches it is chosen immediately - no other items are checked
+#
+	demo showing longest path			=	demo showing longest path
+	  highest prio item				>>		.*highest prio item.*
+	  line						>		.*
+	  fixed line at =				=		'fixed line' at =.*
+	    deeper line					>		.*
+	  Highest Prio Line				>>		.*Highest Prio Line.*
+
+# ===============================================================================================
+##	 optional structure items
+# ===============================================================================================
+# not to be confused with optional fields described above
+#
+# if the first field is enclosed in [ and ], then the whole item is optional.
+# a line for an optional structure item may be missing in input.
+# it is triggered automatically by any line that would be accepted if the optional was given at the implicit indent.
+#
+	demo for optional at = position			=	demo for optional at = position
+	  item						=		.+
+	    [doc]					=*		doc
+	      docline					=*		.*
+	    subitem					>		.+
+
+	demo for optional at > position			=	demo for optional at > position
+	  item						=		.+
+	    [doc]					>*		doc
+	      docline					=*		.*
+	    subitem					>		.+
+
+	demo for optional field in an optional action	=	demo for optional field in an optional action
+	  item						=		.+
+	    [doc]	[comment]			>*		doc	.+
+	      docline					=*		.*
+	    subitem					>		.+
+# ===============================================================================================
+##	   pos indicator
+# ===============================================================================================
+#
+# the pos-indicator [] can be used in optional structure-items
+# it indicates the match-position for a triggering line.
+#
+# see the example
+#   inside item a line with indent 5 (2+3) triggers block
+#   this line then again must match as if 'block' was given at the indicated position.
+#   in other words, the matching item needs indent 3 (which holds for subitem)
+#
+# no priority or regexp should be given for the pos-indicator.
+#
+	demo for optional with position indicator	=	demo for optional with position indicator
+	  item						=		.+
+	     subitem					>		.+
+	    [block]					>		block
+	       []
+
+
+#
+# this feature is also valid for optional structure-items
+	[demo for optional with explicit at far left]	=2	demo for optional with explicit at far left
+	  demoline				=	demoline
+	hline						>2		hline
+	[enum]						>2		enum
+	    enumline	text				=		[\d]+\)		.+
+	    emptyenumline				=		.{0}
+
+# ===============================================================================================
+##	 redirecting an action
+# ===============================================================================================
+#  prio[o][t][star][explicit][ state][(condition)]
+#                              -----
+	demo for redirecting an action	=	demo for redirecting an action
+	  redirected item		> target	.+
+
+
+# ===============================================================================================
+##	 handling of empty lines
+# ===============================================================================================
+#
+# Empty lines
+#   are lines matching /^$/
+#   contain nothing (but the end-of-line). A line that only has blanks or tabs is not empty (in this perspective)
+# The level is calculated by
+#   looking back for the last non-empty line
+#   looking forward for the next non-empty line
+#   the one with the higher level is chosen
+#
+# Some notes about the regexes
+#   .*		matches empty as well as non empty lines
+#   .{0}	matches only empty lines (does not trigger an optional)
+#   ^$		matches only empty lines
+#   /.{0}/	matches only empty lines
+#
+# Triggering optionals by empty lines:
+#   You have control over the rule when an empty line can trigger an optional
+#     If you specify the regexp as .{0} (exactly these four characters), then triggering is disabled.
+#     All other specifications (such as /.{0}/ (six characters) or ^$) enable the triggering.
+#
+	demo for empty lines	=	demo for empty lines
+	  example1	=	example1
+	    possible empty line				=	.*
+	  example2					=o	example2
+	    non empty line				=	.+
+	  example3	=	example3
+	    non empty line				=	.+
+	    empty inside example3			=	.{0}
+	  example for triggering an optional		=	example for triggering an optional
+	    line					=	.*
+	    [list]					>	list
+	      listline					=	.+
+	      emptylistline				=	/.{0}/
+	  example for not triggering an optional	=o	example for not triggering an optional
+	    line					=	.*
+	    [list]					>	list
+	      listline					=	.+
+	      emptylistline				=	.{0}
+	  last example					=	last example
+	  empty line inside demo			=	.{0}
+	 empty						>*	.{0}
+
+# ===============================================================================================
+##	 resetting the structure
+# ===============================================================================================
+#
+# 'structure' can be found many times in a truer
+# items after 'structure' begin again in DOC
+#
+# this example demonstrates it.
+# without the 'structure' the 'Loop' would be part of 'another path'
+# but the 'structure' frees it from 'another path'. It now matches anywhere (with indent 2)
+	demo for resetting structure			=	demo for resetting structure
+	another path					=	another path
+structure
+	  Loop	*					>	Loop
+
+# ===============================================================================================
+##	grouping structure items
+# ===============================================================================================
+# 
+# the group-section:
+#   starts with a line that has only 'group' in it.
+#   extends to the first (non-comment or non-empty) line that does not start with a whitespace or the end of file.
+#   empty lines in the group-section are ignored.
+#
+#   a string starting with 2 spaces makes a group-name
+#     a group-name can contain any character except tab and nul
+#     group-names and action-names are in different namespaces
+#
+#   lines in the group-section that start with a tab define structure-items
+#
+#   if you want to see the equivalent structure w/o group use
+#     structure_demo_tru -structure -groupExpand
+group
+  loopStatement
+	W	cond	[stmt]	>	W	.*	.*
+	  stmt	[cmd]		=	.*	.*
+	F	cond	[stmt]	>	F	.*	.*
+  unusedGroup
+	whatever		=	.*
+#   you can recursively reference groups in groups
+#   the referenced group can be defined later
+#     in the expample : printStatement
+  anyStatement			can be anything
+	loopStatement	=g
+	printStatement	=g
+	undefinedGroup	=g
+#   you can give a comment to the group-name
+#     a comment-name can contain any character except tab and nul
+#     separate the comment from the groupname with one or more tabs
+  printStatement		all statements that print something to somewhere
+	print	what		>	print	.*
+	str			>	".*"
+
+# '    untie' can be found many times in a group
+# this unties a part of the represented structure (much like described above under "resetting the structure")
+# items after '    untie' begin again in the containing structure element
+#
+# this example demonstrates it.
+# without the '    untie' the 'autodoc' would be part of 'object'
+# but the '    untie' frees it from 'object'.
+# It now matches anywhere underneath the referencing structure item (with indent 4)
+# In the example in the structure below this is "my language code"
+#
+# Also look at "his language code", which has a substructure identical to the result of expanding "my language code"
+# Note :
+#   the =o after "his language code" is needed (in this example)
+#   else the first occurance of it would creeplock this structure-subtree.
+#   and the second occurance cannot reopen it.
+# 
+  mylang
+	object			>	.*
+    untie
+	    autodoc		>	.*
+structure
+	demo for structure groups	=	demo for structure groups
+	  class			=	.*
+	    method		=	.*
+	      anyStatement	=g
+	      my language code	=o	my language code
+		mylang		=g
+	      his language code	=o	his language code
+		object		>	.*
+	      his language code	=o	his language code
+		  autodoc	>	.*
+	      Forever		=	Forever
+	        stmt		=	.*
+# ===============================================================================================
+#
+#
+# syntax errors are severe.
+# The error is reported and generation of the truer is stopped.
+# The truer will not work at all.
+#
+# examples for syntax errors in the structure
+#	structure
+#		pos-indicator not in an optional
+#		  []
+#		
+#		  explicit not at indent 0		=*4		.+
+#		
+#		[optional]
+#		  tabaligened in an optional		>t
+#		groupname	superfluos field	=g
+#	
+# examples for syntax errors in the group section
+#	group
+#	  groupname
+#	  groupname	same name as before
+#
+# other errors are not severe.
+# a warning is issued (unless tru is invoked with -q)
+# the truer will work and may or may not do what you really intended.
+#
+# here examples for these cases
+#
+group
+  never used group
+structure
+	demo for erraneous lines	=	demo for erraneous lines
+	  too many regexes				=	.+	.+
+	  too many regexes	*			=	.+	.+
+	  too may stars		*	*		=	too may stars
+	  field after star	*	field		=	field after star
+	  [giving priority to a pos-indicator]		=	giving priority to a pos-indicator
+	    []						>
+	  undefined group				=g

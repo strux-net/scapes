@@ -1,0 +1,68 @@
+Datastructures
+  in addition to the keys handled by disp, the following keys are used for /strux/LL
+    time	the time of the last update
+    dir		the pwd of this view
+    type	"dir" or "filelist"
+    sort	optional, for fixed sort settings
+    currentSort	the currently applied sorting
+    ft		the current filetype
+    showdesc	(boolean) indicates, how the header-line looks
+
+  each Array-Element consist of an array [ name , flags , lstat ]
+    where eg.
+      name : "file.c"
+      flags :
+	_ll_     = n
+	x_tagged = >
+
+  %LL::Dirs holds all visited dirs
+    $LL::Dirs{'/tmp'} refers to the entry for directory /tmp
+    $LL::Dirs{'Lst : /tmp'} refers to the entry for L-Listing with root-directory /tmp
+      so if $LL::Dirs{x]{type} equals 'filelist' then x starts with 'Lst : '
+      Note : you cannot have two L-Listings with the same root-dir
+
+  @LL::Dirstack is the back/forward array
+  $LL::dirstackposition points into @LL::Dirstack
+
+  @LL::AC holds the infos of ~/strux/LL.dirsettings 
+    each entry is again an Arry
+      [ dir-pattern1 , { P => parsestring , Xf => 'xstring for files', Xd => 'xstring for directories' } ],
+    see details above RereadNewViewAutocommands
+  %LL::P
+    the local parsestrings
+      $LL::P{dir} holds the parsestring for dir
+  %XPE::
+    namespace for X per Entry
+Debugging hints
+  first do this, remember to start as "LL 2>/dev/pts/<n>"  or  "LL 2>>/tmp/x"
+    :perl $\="\n"
+  everywhere
+    :perl while (($key,$value) = each %$disp::H) { print STDERR "$key=$value"; }	# hash unfolded
+  in /strux/LL
+    :perl print STDERR $$disp::H{Array}[0][0]					# filename in line 1
+    :perl print STDERR $$disp::H{Array}[1][0]					# filename in line 2
+
+    :perl while (($key,$value) = each %{$$disp::H{Array}[0][1]}) { print STDERR "$key=$value"; }	# flags in line 1
+    :perl while (($key,$value) = each %{$$disp::H{Array}[1][1]}) { print STDERR "$key=$value"; }	# flags in line 2
+
+    :perl use Data::Dumper
+    :perl print STDERR Dumper(\%LL::Dirs)
+    :perl print STDERR Dumper(\%XPE::)
+    :perl VIM::Msg(XPE::initRules())
+  in /strux/INSPECT
+    :perl print STDERR $$disp::H{Array}[0][0]					# filename
+
+Idea for Dirsettings (not yet finished)
+  after the two lines
+    dt		&View.technical &Info						Show technical info for this dir						:perl showTechInfo<CR>
+      this is intended for debugging reasons
+    dD		&View.Dir&settings						Show the dirsettings								:perl Dirsettings<CR>
+      this is not yet fully implemented
+
+here the perl-function so far
+  Dirsettings
+    my $dir=getcwd
+    disp	/strux/Dirsettings
+      in_function	sub {$curbuf->Append(0,"Choose anchor for $dir")}
+      Array		\@LL::AC
+      item_function	sub { return "@{@$disp::A[$i]}[0]" }

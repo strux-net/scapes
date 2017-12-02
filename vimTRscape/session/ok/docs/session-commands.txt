@@ -1,0 +1,52 @@
+*session.txt*   maintain vim-sessions
+
+COMMANDS FOR session                                                              *session-commands*
+
+                                                                                  *session-<M-f>S*
+  <M-f>S : Save this session~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Save
+                                                                                  *session-<M-f>s*
+  <M-f>s : Load a new session~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Load
+                                                                                  *session-<M-f>r*
+  <M-f>r : Reload current session~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Reload
+                                                                                  *session-<M-f>c*
+  <M-f>c : Close this session~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Close
+                                                                                  *session-<M-f>C*
+  <M-f>C : Close and save this session~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Close and Save
+                                                                                  *session-<M-f>z*
+  <M-f>z : zoom/unzoom window~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Zoom
+                                                                                  *session-<M-f>Z*
+  <M-f>Z : zoom window into a new tab~
+
+    This command can also be found in the menu under :
+      Strux -> Session -> Zoom into new tab
+
+COMMANDS FOR VIEW SESSIONS                                                        *sessions-commands*
+
+                                                                                  *sessions-<CR>*
+  <CR> : use this session~
+    This is an |interactive-command|.
+    Press enter to use file under cursor
+                                                                                  *sessions-<C-C>*
+  <C-C> : cancel~
+                                                                                  *sessions-i*
+  i : enter the name~
+==============================================================================
+vim:ft=help

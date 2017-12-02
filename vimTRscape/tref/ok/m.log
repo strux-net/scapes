@@ -1,0 +1,10 @@
+building tref.vim
+vim_tru tref.vimTR >tref.vim
+GOOD	tref.vim
+{ echo "tref.vim\n  provide context view (indent related)\n    usage"; < tref.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tprovide context view (indent related)" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+Title="*tref.txt*   provide context view (indent related)" vimInterface2Help_tru tref.vimTR >docs/tref-commands.txt
+GOOD	docs/tref-commands.txt
+testing tref.vim

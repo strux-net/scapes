@@ -1,0 +1,137 @@
+/*
+trudoc.css
+*/
+
+signatureDiv				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#E0FFE0; border:4px solid #EEEEEE; padding:0px;}
+listing.structure			{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#E0FFFF; border:4px solid #EEEEEE; padding:0px; white-space:pre; }
+listing.Example				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#FFFFE0; border:4px solid #EEEEEE; padding:0px; white-space:pre; }
+listing.gives				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#FFE0FF; border:4px solid #EEEEEE; padding:0px; white-space:pre; }
+listing.Usage				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#F0F0F0; border:4px solid #EEEEEE; padding:0px; white-space:pre; }
+td listing				{ margin-left:40px;border-style:none; padding:0; }
+table.overview				{ font-size:13.4px; color:#000000; background-color:#F0F0F0; border:4px solid #FFFFFF; padding:10px; }
+table.parameters			{ margin-left:40px; }
+table.Options				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#E0FFFF; border:4px solid #EEEEEE; padding:0px;  }
+table.structure				{ margin-left:40px;font-family:"Courier New",Courier,monospace; font-size:13.4px; color:#000000; background-color:#E0FFFF; border:4px solid #EEEEEE; padding:0px;  }
+table.howToReadTable			{ background-color:silver;border:1px;padding:1em;margin-top:1em;margin-bottom:1em; }
+table.statements			{ padding:0px; background-color:silver; border-color:transparent; }
+kbd,tr.structure			{ white-space:pre; }
+tr.hit					{ white-space:pre; background-color:lightgreen}
+desc					{ text-decoration:none;  white-space:pre; }
+mainpart,annotation			{ font-weight:bolder; white-space:pre; margin-left:10px; }
+filename				{ font-size:12px;text-align:right; }
+xcommand,completeStructure,howToRead	{ text-decoration:none;font-size:10px;text-align:right; }
+part					{ font-size:16px;font-weight:bold; margin-left:10px;}
+ping					{ color:green; }
+pong					{ color:black; }
+shortText				{ color:brown; }
+a.structureInd				{ color:orange; }
+a.tabSep				{ color:orange; }
+div.tellgenerator			{ font-size:x-small;text-align:right; }
+div					{ padding-left:1ex; }
+table					{ padding:1ex; }
+/*
+body                                 { color:black; background-color:white; }
+table                                { padding:10px; }
+a                                    { text-decoration:none; color:blue; }
+a:active                             { color:#000000; }
+a:hover                              { color:green; }
+kbd                                 { font-family:"Courier New",Courier,monospace; color:blue; }
+#dianz, #granz,  #tour { background-color:#EEEEEE; }
+
+body,h1,h2,h3,h4,p,ul,ol,li,dl,dt,dd,div,td,th,address,blockquote { font-family:Arial,sans-serif; }
+
+h1 { font-size:26px; margin-bottom:18px; }
+
+h1.ph1 { font-size:21px; margin-bottom:18px; }
+
+h2 { font-size:21px; margin-bottom:18px; }
+
+h3 { font-size:16px; }
+
+h4 { font-size:13.4px; }
+
+p,ul,ol,li,dl,dt,dd,div,td,th,address,blockquote { font-size:13.4px; }
+
+li,dt { margin-top:3px; }
+
+
+code,kbd,tt { font-family:"Courier New",Courier,monospace; color:#0000C0; }
+
+var { font-style:normal; color:#0000C0; }
+
+blockquote,cite { font-style:italic; }
+
+.xmpcode { border-width:10px; border-style:solid; border-color:#EEEEEE; background-color:#FFFFE0; }
+
+.reftable { border:1px solid #C0C0C0; border-collapse:collapse; background-color:#FFFFFF; }
+
+.reftable th { background-color:#EEEEEE; text-align:left; vertical-align:top; }
+
+.reftable td { border:1px solid #C0C0C0; }
+
+.code { background-color:#FFFFE0; vertical-align:top; }
+
+.codemh40 { background-color:#FFFFE0; height:40px; vertical-align:middle; }
+
+.tabxpl { background-color:#E4EEFF; vertical-align:top; }
+
+.tabxplm { background-color:#E4EEFF; vertical-align:middle; }
+
+.doc, .doctop, .docbot, .form, .impr { background-color:#EEEEEE; }
+
+.doc { vertical-align:middle; }
+
+p.doc { padding:5px 8px; border:none; margin:0; }
+
+.doctop { vertical-align:top; text-align:center; }
+
+.doctop h2 { text-align:left; margin-top:1.5em; }
+
+.docbot { vertical-align:bottom; width:100%; }
+
+.nav { background-color:#FFEEDD; }
+
+.qbar { background-color:#FFFFE0; font-size:13.4px; font-family:Arial,sans-serif; }
+
+.blue { color:#0000C0; }
+
+pre.normal { color:#000000; }
+
+a:link { color:#AA5522; font-weight:bold; text-decoration:underline; }
+
+a:visited { color:#772200; font-weight:bold; text-decoration:underline; }
+
+a:active { color:#000000; font-weight:bold; text-decoration:none; }
+
+a.an { text-decoration:none; }
+
+.unicode { font-size:15px; font-family:"Arial Unicode MS",Arial,sans-serif; }
+
+ins { color:#009900; font-weight:bold; text-decoration:none; }
+
+del { color:#990000; font-weight:bold; text-decoration:line-through; }
+
+a.navh { font-weight:normal; }
+
+#mirror-impressum {
+       margin-top:0.75em;
+       margin-bottom:0.75em;
+       padding:0.5em;
+       background-color:#EEEEEE;
+       text-align:right;
+}
+
+#originaladresse {
+       margin-bottom:0.5em;
+       padding:0.5em;
+       background-color:#EEEEEE;
+}
+
+#mirror-impressum a:link, #mirror-impressum a:visited, #mirror-impressum a:active,
+#originaladresse a:link, #originaladresse a:visited, #originaladresse a:active
+{
+       color:#000000;
+       font-weight:bold;
+       text-decoration:underline;
+}
+*/

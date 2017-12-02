@@ -1,0 +1,41 @@
+VERSION	3.0
+##	here text
+##	  Here named arrays that can be filled with constant text are defined.
+#
+# the following example demonstrates, how to use it.
+#
+# Numbers and States are the names of two Arrays
+# they are filled with the following text, where the first leading tab is stripped.
+#
+# The Example for States demonstrates, that the leading spaces survive.
+#
+# You can have as many Arrays as you like and each Array can contain any number of elements
+# The names for the arrays must be formed to be a legal perl-var
+#
+# it is just a nicer and cleaner way than to write
+#
+# BEGIN
+#   @Numbers = (
+#     'zero',
+#     'one',
+#     'two',
+#     'three'
+#   );
+
+here text
+  Numbers
+	zero
+	one
+	two
+	three
+  States
+	France
+	  Paris
+	Italy
+	  Rome
+actions
+  DOC
+    >
+	$Numbers[1]
+	$States[0]
+	$States[1]

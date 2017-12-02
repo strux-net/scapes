@@ -1,0 +1,30 @@
+building js_tru
+tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru js.tru ../c_like_vars.tru jscoll.tru ../../lib/basicUSAGE.tru >js_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'function' was defined but never used
+tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
+	the group 'main' was defined but never used
+chmod +x js_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s js js_tru >js_tru.tmp
+mv js_tru.tmp js_tru
+chmod +x js_tru
+GOOD	statistics.out
+GOOD	js_tru
+{ echo "js_tru\n  convert .jsTR to .js\n    usage"; ./js_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .jsTR to .js" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru ./js_tru >docs/js_tru.html
+'gives' is empty for action 'enum' in file ../common.tru line 73
+warning see for link 'Option' does not resolve
+warning see for link 'enum' does not resolve
+GOOD	docs/js_tru.html
+testing js_tru
+./js_tru -allowP jstest.jsTR >jstest.js
+GOOD	jstest.js
+GOOD	statistics.out
+GOOD	js_tru

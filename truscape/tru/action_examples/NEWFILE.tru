@@ -1,0 +1,23 @@
+VERSION	3.0
+##	NEWFILE
+##	  Whenever an input-file is completely read and the truer is going to switch to the next input-file.
+##
+##	  $ARGV holds the name of the now to be closed and completely read file.
+##	  $ARGV[0] holds the name of the next file to be opened.
+##
+##	  the default action here is to set $. (the line-number) to 0.
+##	  if you do not wish this behaviour but instead want your truer to continue counting when crossing file-boundaries, then simply put as a last statement:
+##	      return 0;
+NEWFILE
+	closing $ARGV
+  if (@ARGV)
+	switching to $ARGV[0]
+  else
+	no more files to process
+  return 0; # this skips setting $. to 0
+actions
+  line
+    >
+	$. : $line
+structure
+	line

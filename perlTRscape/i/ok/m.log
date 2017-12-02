@@ -1,0 +1,74 @@
+building i
+perl_tru i.plTR >i
+GOOD	i
+chmod +x i
+{ echo "i\n  $Title\n    usage"; ./i -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing i
+./i testfile
+      line 1
+        line 2
+
+        line 3
+      line 4
+	  line 5
+	    line 6
+		  line 7
+./i -i 2 testfile
+      line 1
+        line 2
+
+        line 3
+      line 4
+	  line 5
+	    line 6
+		  line 7
+./i -o 2 testfile
+  line 1
+    line 2
+
+    line 3
+  line 4
+      line 5
+	line 6
+	      line 7
+./i -o 6 testfile
+line 1
+line 2
+
+line 3
+line 4
+  line 5
+    line 6
+	  line 7
+./i -o 12 testfile
+line 1
+line 2
+
+line 3
+line 4
+line 5
+line 6
+    line 7
+./i -help
+Unknown option: help
+usage : i [<Option>] [<file>]
+indents or outdents a file by a given amount.
+tabs are assumed to count for 8 spaces.
+
+care is taken not to simply prepend spaces to lines that start with a tab.
+
+reads stdin if no file is given.
+
+only one option can be given.
+without any option it defaults to -i 2
+
+OPTIONS:
+  -i:<number>	indent in  (by space)
+  -o:<number>	indent out (by space)
+  -it:<number>	indent in  (by tab)
+  -version	show version information
+makefile:30: recipe for target 'test_i' failed
+make[1]: [test_i] Error 1 (ignored)

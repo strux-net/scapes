@@ -1,0 +1,138 @@
+VERSION	3.0
+usage	session.vim
+	maintain vim-sessions.
+	the sessions have names.
+	If guitablabel is not set, then it will be set so that is shows the tabnumber and the session-name.
+
+	It requires vim with +perl.
+
+	The sessions are saved in the directory ~/vimsessions.
+
+	You can create this directory from within vim with
+	  :!mkdir ~/vimsessions
+
+	to install this plugin put this file into ~/.vim/plugin/
+main
+  !	has("perl")	finish
+  ?	&guitablabel == ''	set guitablabel=%N\ %{exists('t:tn')?(t:tn):'not\ set'}
+com! -nargs=1	CreateSessionTab	call CreateSessionTab('<args>')		Create a tab for a particular session
+Interface
+  <M-f>S	&Strux.&Session.&Save			Save this session		:call SaveSession()<CR>
+  <M-f>s	&Strux.&Session.&Load			Load a new session		:call OpenSession()<CR>
+  <M-f>r	&Strux.&Session.&Reload			Reload current session		:exe "silent so ". expand('~').'/vimsessions/'.t:tn<CR>
+  <M-f>c	&Strux.&Session.&Close			Close this session		:tabc<CR>
+  <M-f>C	&Strux.&Session.Close and S&ave		Close and save this session	:if !SaveSession()\|tabc\|endif<CR>
+  <M-f>z	&Strux.&Session.&Zoom			zoom/unzoom window		:call ZoomSession()<CR>
+  <M-f>Z	&Strux.&Session.Z&oom into new tab	zoom window into a new tab	:call NewTabForCurrentBuffer()<cr>
+
+SaveSession
+    returns 0 on success, 1 if cancelled
+  call inputsave()
+  ?	!exists("t:tn") || t:tn == '<noName>'	t:tn=''
+  s:ts=input("Save this session as  : ",t:tn)
+  ?	s:ts!=''
+    ?	stridx(s:ts,"/") == -1	of = expand('~').'/vimsessions/'.s:ts	of=s:ts
+    ?	!filereadable(of) || s:ts == t:tn || input('overwrite existing '.of.' ? ') == 'y'
+      let t:cwd=getcwd()
+      exe  "mksession! ".of
+      call CorrectSessionFile(of)
+      silent call AddTabVars(of)
+      echo "\rSession" of 'saved'
+      t:tn = s:ts
+      &guitablabel=&guitablabel	this trick leads to a redraw of the tabline ( needed in case the name changed )
+      call inputrestore()
+      return 0
+  call inputrestore()
+  'session save cancelled'
+  return 1
+CorrectSessionFile	of
+    remove lines starting with
+      args			superfluous and disrupting
+      set nocompatible		no need for this
+      badd			vim produces too many items
+    add a badd back to each edit
+  call system("perl -i -n -e 'next if /^args / or /^set nocompatible/ or /^badd/;s/^edit (.*)/badd $1\nedit $1/;print' ".a:of)
+AddTabVars	of
+    add the tablocal-vars to the session-file (but skip the session-internal-vars)
+  exe 'redir >> ' . a:of
+  doc	skip (session-) internal vars
+  F	var in keys(t:)
+    ??	var == '	' | continue
+      tn
+      cwd
+    'let t:'. var . '=' . string(t:{var}). ''
+  redir END
+OpenSession
+  perl getFileList
+  ?	exists("*winrestcmd")
+    s:winrestcmd=winrestcmd()
+    wincmd _	session select window as high as possible
+    wincmd |	session select window as wide as possible
+  hide
+    ?	s:ns=='?'
+      ?	expand("%") != ""
+	'current file is in:'
+	!grep -l "^badd +.*%:t$" ~/vimsessions/*
+    -	break
+ProcessInput
+  ?	exists("*winrestcmd")	exe s:winrestcmd
+  bdelete	close the session select window
+  call CreateSessionTab(s:ns)
+CreateSessionTab	ns
+  ?	a:ns!=''
+    ?	stridx(a:ns,"/") == -1	nsf = expand('~').'/vimsessions/'.a:ns	nsf=a:ns
+    ?	filereadable(nsf)
+      !	exists('t:tn')	t:tn='<noName>' " the current (old) tab does not yet have t:tn set
+      tabe
+      t:tn=a:ns	may be overwritten by sourced file
+      exe "silent so ".nsf
+      t:cwd=getcwd()		store the cwd
+    -
+      echo 'File not found : '.nsf
+Interface	/strux/sessions
+  <CR>	use this session	:call UseThisSessionFile()<CR>
+    Interactive
+    Press enter to use file under cursor
+  <C-C>	cancel			:call Cancel()<CR>
+  i	enter the name		:call EnterNameDirectly()<CR>
+perl
+  getFileList
+    @disp::A=()
+    !	opendir(dirhandle,"$ENV{HOME}/vimsessions")
+      VIM::Msg("cannot open dir $file : $!","Error")
+      return
+    W	$_=readdir dirhandle
+      ?	$_ ne "." and $_ ne ".."	push @disp::A,$_
+    @disp::A=sort @disp::A
+    closedir dirhandle
+    disp	/strux/sessions
+      Array	\@disp::A
+    "choose session to open"
+    VIM::DoCommand("call feedkeys('/\cU','n')")		the \cU (<c-u>) is needed to have the /strux/sessions visible (strange as it is)
+UseThisSessionFile
+  perl VIM::DoCommand('let s:ns="'.@$disp::A[($curwin->Cursor())[0]-1].'"')
+  call histadd("@",s:ns)
+  call ProcessInput()
+Cancel
+  s:ns=''
+  call ProcessInput()
+EnterNameDirectly
+  s:ns=input("Load session : ")
+  call ProcessInput()
+ZoomSession
+  ?	exists('t:zoomed')
+    exe "so ".t:zoomed
+    unlet t:zoomed
+  -
+    t:zoomed = tempname()
+    exe "mksession! ".t:zoomed
+    wincmd o
+NewTabForCurrentBuffer
+    a simple
+      tabe %
+    could trigger some autocommands.
+  bn = bufnr("%")
+  tn = t:tn
+  tabnew
+  exe "bu ".bn
+  t:tn = 'zoomed:'.tn

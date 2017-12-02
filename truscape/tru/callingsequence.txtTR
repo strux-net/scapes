@@ -1,0 +1,244 @@
+The calling sequence demonstrated on this short truer
+  line	flag
+	  in $line
+  |-
+	  in_depth $line
+  |
+	  out $line
+  ==structure
+  line	>*2	.*
+run against this input
+  1
+    1.1
+  2
+with these commands
+  perl -d:DProf flscompress.pl -depth in
+  dprofpp  -t|sed  's/   /  /g'
+  then i removed all calls to debout and stripped the beginning
+run with -depth yields
+  tru::main
+    tru::setopt
+    AutoLoader::AUTOLOAD
+    Getopt::Long::GetOptions
+      AutoLoader::AUTOLOAD
+      Getopt::Long::FindOption (2x)
+    tru::begin
+    tru::pa
+    tru::macroin				DOC
+      tru::localvarsin
+      tru::premacro
+      tru::macro_in_depth
+	tru::umacro
+    tru::read
+    tru::indentval				1
+    tru::splitapply				1
+    tru::check					1
+      tru::CheckStatesPath			1
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_depth
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_depth
+    tru::read					1.1
+    tru::indentval				1.1
+    tru::splitapply				1.1
+    tru::check					1.1
+      tru::CheckStatesPath
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_depth
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_depth
+    tru::read					2
+    tru::indentval				2
+    tru::macroout				1.1
+      tru::macro_out_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+      tru::localvarsout
+    tru::macroout				1
+      tru::macro_out_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+      tru::localvarsout
+    tru::splitapply				2
+    tru::check					2
+      tru::CheckStatesPath
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_depth
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_depth
+    tru::macroout				2
+      tru::macro_out_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+      tru::localvarsout
+    tru::macroout				DOC
+      tru::macro_out_depth
+	tru::umacro (2x)
+      tru::localvarsout
+    tru::write_out
+the same without -depth
+  tru::main
+    tru::setopt
+    AutoLoader::AUTOLOAD
+    Getopt::Long::GetOptions
+      AutoLoader::AUTOLOAD
+      Getopt::Long::FindOption
+    tru::begin
+    tru::pa
+    tru::macroin
+      tru::localvarsin
+      tru::premacro
+      tru::macro_in_seq
+	tru::umacro (2x)
+    tru::read
+    tru::indentval
+    tru::splitapply
+    tru::check
+      tru::CheckStatesPath
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+    tru::read
+    tru::indentval
+    tru::splitapply
+    tru::check
+      tru::CheckStatesPath
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+    tru::read
+    tru::indentval
+    tru::macroout
+      tru::macro_out_seq
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_seq
+      tru::localvarsout
+    tru::macroout
+      tru::macro_out_seq
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_seq
+      tru::localvarsout
+    tru::splitapply
+    tru::check
+      tru::CheckStatesPath
+	tru::csp
+	  tru::csp
+      tru::macroin
+	tru::localvarsin
+	tru::premacro
+	tru::macro_in_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+	  tru::umacro
+	    main::__ANON__
+	      tru::parse
+		tru::write_seq
+    tru::macroout
+      tru::macro_out_seq
+	tru::umacro
+	  main::__ANON__
+	    tru::parse
+	      tru::write_seq
+      tru::localvarsout
+    tru::macroout
+      tru::macro_out_seq
+	tru::umacro
+      tru::localvarsout
+    tru::write_out
+difference between depth and seq
+  in
+    tru::read                                tru::read
+    tru::indentval                           tru::indentval
+    tru::splitapply                          tru::splitapply
+    tru::check                               tru::check
+      tru::CheckStatesPath                     tru::CheckStatesPath
+	tru::csp                                tru::csp
+	  tru::csp                                tru::csp
+      tru::macroin                             tru::macroin
+	tru::localvarsin                        tru::localvarsin
+	tru::premacro                           tru::premacro
+	tru::macro_in_depth                     tru::macro_in_seq
+	  tru::umacro                             tru::umacro
+	    main::__ANON__                          main::__ANON__
+	      tru::parse                              tru::parse
+		tru::write_depth                        tru::write_seq
+                                                  tru::umacro
+                                                    main::__ANON__
+                                                      tru::parse
+                                                        tru::write_seq
+  out
+    tru::macroout                             tru::macroout            
+      tru::macro_out_depth                      tru::macro_out_seq     
+	tru::umacro                               tru::umacro          
+	  main::__ANON__                            main::__ANON__     
+	    tru::parse                                tru::parse       
+	      tru::write_depth                          tru::write_seq 
+	tru::umacro                                    tru::localvarsout      
+	  main::__ANON__
+	    tru::parse
+	      tru::write_depth
+      tru::localvarsout

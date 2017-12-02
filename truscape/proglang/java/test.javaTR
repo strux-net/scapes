@@ -1,0 +1,337 @@
+VERSION	3.0
+package	relativity
+imports
+  java.awt.*
+  java.awt.event.*
+  javax.swing.*			a comment for this import
+  com.borland.jbcl.layout.*
+  javax.swing.event.*
+  org.jdesktop.application.Action
+  org.jdesktop.application.Application
+public class MainFrame extends JFrame
+  innerdoc
+    this is the main frame of the whole application
+      one
+      two
+	two.one
+    mt		vv
+    author	hudini
+  {	class constructor
+    x.register(this)
+    F	int i=0...x.length	"ok1"
+    F	i=0...x.length	"ok2"
+    F	i=0...x.length
+      "ok3"
+  }
+  vars
+    JPanel contentPane
+    JMenuBar jMenuBar1              = new JMenuBar()
+    JMenu jMenuFile                 = new JMenu()
+    JMenuItem jMenuFileExit         = new JMenuItem()
+    JMenu jMenuHelp                 = new JMenu()
+    JMenuItem jMenuHelpAbout        = new JMenuItem()
+    JToolBar jToolBar               = new JToolBar()
+    JButton FileOpenButton          = new JButton()
+    JButton FileCloseButton         = new JButton()
+    JButton HelpButton              = new JButton()
+    JPanel MainPanel                = new JPanel()
+    XYLayout xYLayout1              = new XYLayout()
+    JPanel Sliders                  = new JPanel()
+    JPanel AnimationSpeed           = new JPanel()
+    JLabel AnimationSpeedLabel      = new JLabel()
+    JSlider AnimationSpeedSlider    = new JSlider()
+    XYLayout xYLayout2              = new XYLayout()
+    XYLayout xYLayout3              = new XYLayout()
+    JLabel SpeedControlLabel        = new JLabel()
+    XYLayout xYLayout4              = new XYLayout()
+    JLabel RocketSpeedLabel         = new JLabel()
+    JPanel RocketSpeed              = new JPanel()
+    JSlider RocketSpeedSlider       = new JSlider()
+    XYLayout xYLayout5              = new XYLayout()
+    JLabel statusBar                = new JLabel()
+    JTextField AnimationSpeedAsText = new JTextField()
+    JTextField RocketSpeedAsText    = new JTextField()
+    ether ether1                    = new ether()
+    int OldRocketSpeed              = 0
+    ImageIcon image1
+    ImageIcon image2
+    ImageIcon image3
+
+
+  java code<
+	Timer animtimer = new Timer(10,new ActionListener() {
+	  public void actionPerformed(ActionEvent e) {
+	    ether1.incxy();
+	  }
+	});
+  // more native code
+  java code
+	Timer xyz = new Timer(20,new ActionListener() {
+	  public void actionPerformed(ActionEvent e) {
+	    ether2.incxy();
+	  }
+	});
+
+  //Construct the frame
+  public MainFrame
+    autodoc
+      one
+       two
+    Di	"Mainframe"
+    D	"i+j"
+    enableEvents(AWTEvent.WINDOW_EVENT_MASK)
+    try
+      block
+        jbInit()
+      Exception e
+        e.printStackTrace()
+  //Component initialization
+  @Override
+  private void jbInit	 	throws Exception
+    image1 = new ImageIcon(relativity.MainFrame.class.getResource("openFile.png"))
+    image2 = new ImageIcon(relativity.MainFrame.class.getResource("closeFile.png"))
+    image3 = new ImageIcon(relativity.MainFrame.class.getResource("help.png"))
+    contentPane = (JPanel) this.getContentPane()
+    contentPane.setLayout(xYLayout5)
+    this.setSize(new Dimension(800, 600))
+    this.setTitle("Relativity")
+    jMenuFile.setText("File")
+    jMenuFileExit.setText("Exit")
+    jMenuFileExit.addActionListener(new MainFrame_jMenuFileExit_ActionAdapter(this))
+    jMenuHelp.setText("Help")
+    jMenuHelpAbout.setText("About")
+    jMenuHelpAbout.addActionListener(new MainFrame_jMenuHelpAbout_ActionAdapter(this))
+    FileOpenButton.setIcon(image1)
+    FileOpenButton.setToolTipText("Open File")
+    FileCloseButton.setIcon(image2)
+    FileCloseButton.setToolTipText("Close File")
+    HelpButton.setIcon(image3)
+    HelpButton.setToolTipText("Help")
+    MainPanel.setLayout(xYLayout1)
+    MainPanel.setBackground(Color.pink)
+    MainPanel.setBorder(BorderFactory.createLoweredBevelBorder())
+    AnimationSpeedLabel.setText("Animation Speed")
+    Sliders.setLayout(xYLayout2)
+    AnimationSpeed.setLayout(xYLayout3)
+    SpeedControlLabel.setFont(new java.awt.Font("Dialog", 1, 14))
+    SpeedControlLabel.setText("Speed Control")
+    RocketSpeedLabel.setText("Rocket Speed")
+    RocketSpeed.setLayout(xYLayout4)
+    statusBar.setBorder(BorderFactory.createEtchedBorder())
+    statusBar.setOpaque(true)
+    statusBar.setText(" waiting for start")
+    AnimationSpeedAsText.setText("50")
+    AnimationSpeedAsText.addActionListener(new MainFrame_AnimationSpeedAsText_actionAdapter(this))
+    AnimationSpeedSlider.addChangeListener(new MainFrame_AnimationSpeedSlider_changeAdapter(this))
+    AnimationSpeedSlider.setMajorTickSpacing(10)
+    AnimationSpeedSlider.setMaximum(1000)
+    AnimationSpeedSlider.setValue(0)
+    RocketSpeedSlider.setMajorTickSpacing(10)
+    RocketSpeedSlider.setMinorTickSpacing(5)
+    RocketSpeedSlider.setPaintLabels(false)
+    RocketSpeedSlider.setPaintTicks(true)
+    RocketSpeedSlider.setName("rs")
+    RocketSpeedSlider.setValue(0)
+    RocketSpeedSlider.addChangeListener(new MainFrame_RocketSpeedSlider_changeAdapter(this))
+    RocketSpeedAsText.addActionListener(new MainFrame_RocketSpeedAsText_actionAdapter(this))
+    RocketSpeedAsText.setText("50")
+    RocketSpeedAsText.addActionListener(new MainFrame_RocketSpeedAsText_actionAdapter(this))
+    ether1.setBackground(new Color(159, 255, 255))
+    jToolBar.add(FileOpenButton)
+    jToolBar.add(FileCloseButton)
+    jToolBar.add(HelpButton)
+    jMenuFile.add(jMenuFileExit)
+    jMenuHelp.add(jMenuHelpAbout)
+    jMenuBar1.add(jMenuFile)
+    jMenuBar1.add(jMenuHelp)
+    this.setJMenuBar(jMenuBar1)
+    contentPane.add(jToolBar,new XYConstraints(0, 0, 800, -1))
+    contentPane.add(MainPanel,new XYConstraints(0, 31, 802, 570))
+    AnimationSpeed.add(AnimationSpeedLabel,new XYConstraints(3, 3, -1, -1))
+    AnimationSpeed.add(AnimationSpeedSlider,new XYConstraints(119, 2, 588, -1))
+    AnimationSpeed.add(AnimationSpeedAsText,new XYConstraints(715, 2, 58, -1))
+    MainPanel.add(ether1,new XYConstraints(6, 2, 624, 390))
+    Sliders.add(RocketSpeed,new XYConstraints(2, 58, 786, -1))
+    MainPanel.add(statusBar,new XYConstraints(3, 494, 793, 23))
+    RocketSpeed.add(RocketSpeedLabel,new XYConstraints(3, 3, -1, -1))
+    RocketSpeed.add(RocketSpeedSlider,new XYConstraints(119, 2, 586, 36))
+    RocketSpeed.add(RocketSpeedAsText,new XYConstraints(715, 0, 58, -1))
+    MainPanel.add(Sliders,new XYConstraints(6, 394, 791, 102))
+    Sliders.add(SpeedControlLabel,new XYConstraints(6, 7, 177, 20))
+    Sliders.add(AnimationSpeed,new XYConstraints(2, 29, 786, -1))
+  //File | Exit action performed
+  @ClassPreamble
+    author		"John Doe"
+    date		"3/17/2002"
+    currentRevision	6
+    lastModified	"4/12/2004"
+    lastModifiedBy	"Jane Doe"
+    reviewers		{"Alice", "Bob", "Cindy"}	Note array notation
+  public void jMenuFileExit_actionPerformed	ActionEvent e
+    System.exit(0)
+  //Help | About action performed
+  public void jMenuHelpAbout_actionPerformed	ActionEvent e
+    MainFrame_AboutBox dlg = new MainFrame_AboutBox(this)
+    Dimension dlgSize = dlg.getPreferredSize()
+    Dimension frmSize = getSize()
+    Point loc = getLocation()
+    dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y)
+    dlg.setModal(true)
+    dlg.pack()
+    dlg.show()
+  //Overridden so we can exit when window is closed
+  protected void processWindowEvent	WindowEvent e
+    super.processWindowEvent(e)
+    ?	e.getID() == WindowEvent.WINDOW_CLOSING
+      jMenuFileExit_actionPerformed(null)
+    ?-	e.getID() == WindowEvent.WINDOW_xxx
+      jMenuFileExit_actionPerformed(xxx)
+  void AnimationSpeedSlider_stateChanged	ChangeEvent e
+    super(this)
+    AnimationSpeedAsText.setText(""+AnimationSpeedSlider.getValue())
+    ?	AnimationSpeedSlider.getValue() == 0
+      statusBar.setText("Animation stopped")
+      animtimer.stop()
+    -
+      statusBar.setText("Animation started")
+      animtimer.setDelay(1000-AnimationSpeedSlider.getValue())
+      animtimer.start()
+  void AnimationSpeedAsText_actionPerformed	ActionEvent e
+    AnimationSpeedSlider.setValue(Integer.parseInt(AnimationSpeedAsText.getText()))
+  void RocketSpeedSlider_stateChanged	ChangeEvent e
+    RocketSpeedAsText.setText(""+RocketSpeedSlider.getValue())
+    ?	RocketSpeedSlider.getValue() == 0
+      statusBar.setText("Rocket stopped")
+      OldRocketSpeed=0
+    -
+      ?	OldRocketSpeed == 0
+        jdoc
+          a deeper nested jdoc
+            1
+            2
+            2.1
+          t1	v1
+          t2	v2
+            more for t2
+        statusBar.setText("Rocket launched ")
+        OldRocketSpeed = RocketSpeedSlider.getValue()
+  void selectDemo
+    using	connection
+      SELECT
+        f1
+	from tab1
+	where cond1
+      into
+        f1	STRING
+    return f1
+  void cursorDemo
+    cursor using	connection
+      SELECT
+        f1
+	from tab1
+	where cond1
+      into
+        f1	STRING
+      loop
+        ?	f1.equals("none")
+          rval=true
+          break
+    return rval
+  jdoc	doc in the jdoc-line mit Umlauten äöüÄÖÜß&
+    and more to come mit Umlauten äöüÄÖÜß&
+  void RocketSpeedAsText_actionPerformed	ActionEvent e
+    RocketSpeedSlider.setValue(Integer.parseInt(RocketSpeedAsText.getText()))
+  foo	int a, boolean flag
+    FOREVER
+      bla()
+abstract class MainFrame_jMenuFileExit_ActionAdapter implements ActionListener
+    some docu
+     some more docu
+  vars
+    MainFrame adaptee
+
+  jdoc
+    here we have an apdaptor
+      een
+      twee
+        twee.een
+    tag1	value1
+    tag2	value2
+      more about value2
+        eins
+        zwei
+          zwei.eins
+  MainFrame_jMenuFileExit_ActionAdapter	MainFrame adaptee
+    this.adaptee = adaptee
+  public void actionPerformed	ActionEvent e
+    adaptee.jMenuFileExit_actionPerformed(e)
+  public abstract void adjust	int i
+      doc for the abstract function
+class MainFrame_jMenuHelpAbout_ActionAdapter implements ActionListener
+  vars
+    MainFrame adaptee
+
+  MainFrame_jMenuHelpAbout_ActionAdapter	MainFrame adaptee
+    this.adaptee = adaptee
+  public void actionPerformed	ActionEvent e
+    adaptee.jMenuHelpAbout_actionPerformed(e)
+  class inner
+      docu for inner
+      author	hudini
+class MainFrame_AnimationSpeedSlider_changeAdapter implements javax.swing.event.ChangeListener
+  vars
+    MainFrame adaptee
+
+  MainFrame_AnimationSpeedSlider_changeAdapter	MainFrame adaptee
+      docu for MainFrame_AnimationSpeedSlider_changeAdapter
+       some more docu
+    this.adaptee = adaptee
+  public void stateChanged	ChangeEvent e
+    adaptee.AnimationSpeedSlider_stateChanged(e)
+class MainFrame_AnimationSpeedAsText_actionAdapter implements java.awt.event.ActionListener
+  vars
+    MainFrame adaptee
+
+  MainFrame_AnimationSpeedAsText_actionAdapter	MainFrame adaptee
+    this.adaptee = adaptee
+  public void actionPerformed	ActionEvent e
+    adaptee.AnimationSpeedAsText_actionPerformed(e)
+class MainFrame_RocketSpeedSlider_changeAdapter implements javax.swing.event.ChangeListener
+  vars
+    MainFrame adaptee
+
+  MainFrame_RocketSpeedSlider_changeAdapter	MainFrame adaptee
+    this.adaptee = adaptee
+  public void stateChanged	ChangeEvent e
+    adaptee.RocketSpeedSlider_stateChanged(e)
+    F	int c : table.getSelectedRows()	output.append(String.format(" %d", c))
+class MainFrame_RocketSpeedAsText_actionAdapter implements java.awt.event.ActionListener
+  vars
+    MainFrame adaptee
+
+  MainFrame_RocketSpeedAsText_actionAdapter	MainFrame adaptee
+    this.adaptee = adaptee
+  public void actionPerformed	ActionEvent e
+    synchronized	that	adaptee.RocketSpeedAsText_actionPerformed(e)
+    synchronized	this
+      try
+	  wait()
+	InterruptedException e
+	  throw new RuntimeException(e)
+    // needed for menuBar to work
+    // import
+    //   org.jdesktop.application.Action
+    //   org.jdesktop.application.Application
+    menuBar	menuBar
+      fileMenu
+	jMenuItem1	"newFile"
+	jMenuItem2	"open"
+	jMenuItem3	"save"
+	runMenuItem	runButtonActionPerformed(evt)
+	closeMenuItem	closeMenuItemActionPerformed(evt)
+      editMenu
+	jMenuItem4	"copy"
+	jMenuItem5	"cut"
+	jMenuItem6	"paste"
+	jMenuItem7	"delete"
+	xMenu		xMenu(evt)

@@ -1,0 +1,137 @@
+intro_tru
+  build
+    perl ../tru intro.tru						intro_tru
+  test
+    perl intro_tru intro.in
+  helpers
+    tru.jar ./intro_tru intro.in
+OPTIONSandUSAGE_tru
+  build
+    perl ../tru OPTIONSandUSAGE.tru						OPTIONSandUSAGE_tru
+  test
+    echo "sentinel" | perl OPTIONSandUSAGE_tru
+    echo "sentinel" | perl OPTIONSandUSAGE_tru -a -b /tmp/x -c /tmp/y -longName
+    -echo "sentinel" | perl OPTIONSandUSAGE_tru -z
+    perl OPTIONSandUSAGE_tru -version
+OPTIONSandUSAGE_part2_tru
+  build
+    perl ../tru OPTIONSandUSAGE.tru OPTIONSandUSAGEpart2.tru			OPTIONSandUSAGEpart2_tru
+  test
+    echo "sentinel" | perl OPTIONSandUSAGEpart2_tru
+    echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -a -b /tmp/x -c /tmp/y
+    -echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -z
+    perl OPTIONSandUSAGEpart2_tru -version
+CLEAR_tru
+  build
+    perl ../tru CLEAR.tru							CLEAR_tru
+  test
+    echo "overwrittenAction" | perl CLEAR_tru
+outstatements_tru
+  build
+    perl ../tru outstatements.tru						outstatements_tru
+  test
+    echo "demoAction" | perl outstatements_tru
+callingActions_tru
+  build
+    perl ../tru callingActions.tru						callingActions_tru
+  test
+    perl callingActions_tru callingActions.in
+  helpers
+    tru.jar ./callingActions_tru callingActions.in
+redirectingActions_tru
+  build
+    perl ../tru redirectingActions.tru						redirectingActions_tru
+  test
+    perl redirectingActions_tru redirectingActions.in
+  helpers
+    tru.jar ./redirectingActions_tru redirectingActions.in
+arguments_tru
+  build
+    perl ../tru arguments.tru							arguments_tru
+  test
+    perl arguments_tru arguments.in
+  helpers
+    tru.jar ./arguments_tru arguments.in
+perl_code_tru
+  build
+    perl ../tru perl_code.tru							perl_code_tru
+  test
+    perl perl_code_tru perl_code.in
+  helpers
+    tru.jar ./perl_code_tru perl_code.in
+marks_tru
+  build
+    perl ../tru marks.tru							marks_tru
+  test
+    perl marks_tru marks.in
+  helpers
+    tru.jar ./marks_tru marks.in
+DOC_tru
+  build
+    perl ../tru DOC.tru								DOC_tru
+  test
+    perl DOC_tru DOC.in1 DOC.in2
+  helpers
+    # tru.jar is not (yet) able to process more than one input-file
+    tru.jar ./DOC_tru DOC.in1
+UNMATCHED_default_tru
+  build
+    perl ../tru UNMATCHED_default.tru						UNMATCHED_default_tru
+  test
+    perl UNMATCHED_default_tru UNMATCHED.in
+  helpers
+    tru.jar ./UNMATCHED_default_tru UNMATCHED.in
+UNMATCHED_tru
+  build
+    perl ../tru UNMATCHED_default.tru UNMATCHED.tru				UNMATCHED_tru
+  test
+    perl UNMATCHED_tru UNMATCHED.in
+  helpers
+    tru.jar ./UNMATCHED_tru UNMATCHED.in
+READ_tru
+  build
+    perl ../tru READ.tru							READ_tru
+  test
+    perl READ_tru READ.in
+  helpers
+    tru.jar ./READ_tru READ.in
+ATTICREAD_tru
+  build
+    perl ../tru ATTICREAD.tru							ATTICREAD_tru
+  test
+    perl ATTICREAD_tru ATTICREAD.in
+  helpers
+    tru.jar ./ATTICREAD_tru ATTICREAD.in
+READempty_tru
+  build
+    perl ../tru READempty.tru							READempty_tru
+  test
+    perl READempty_tru READempty.in
+  helpers
+    tru.jar ./READempty_tru READempty.in
+WRITE_tru
+  build
+    perl ../tru WRITE.tru							WRITE_tru
+  test
+    echo "anything" | perl WRITE_tru -stream
+    echo "anything" | perl WRITE_tru
+FLUSH_tru
+  build
+    perl ../tru FLUSH.tru							FLUSH_tru
+  test
+    echo "anything" | perl FLUSH_tru
+NEWFILE_tru
+  build
+    perl ../tru NEWFILE.tru							NEWFILE_tru
+  test
+    perl NEWFILE_tru NEWFILE1.in NEWFILE2.in
+BEGIN_tru
+  build
+    perl ../tru BEGIN.tru							BEGIN_tru
+  test
+    echo "anything" | perl BEGIN_tru
+HereText_tru
+  build
+    perl ../tru HereText.tru							HereText_tru
+  test
+    echo "anything" | perl HereText_tru

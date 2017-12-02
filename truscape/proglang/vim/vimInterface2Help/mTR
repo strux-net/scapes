@@ -1,0 +1,17 @@
+title	make documentation for the mappings and commands
+vimInterface2Help_tru
+  build
+    vim_tru -structure | tru -- - vimInterface2Help.tru vimInterface2Help_common.tru ../../../lib/basicUSAGE.tru	vimInterface2Help_tru
+    chmod +x vimInterface2Help_tru
+  test
+    Title='*test.vim*       A text for test.vim' ./vimInterface2Help_tru test.in	test.out
+  install
+    2struxbin
+vimInterface2Help_terse_tru
+  build
+    vim_tru -structure | tru -- - vimInterface2Help_terse.tru vimInterface2Help_common.tru ../../../lib/basicUSAGE.tru	vimInterface2Help_terse_tru
+    chmod +x vimInterface2Help_terse_tru
+  test
+    ./vimInterface2Help_terse_tru test.in	test_terse.out
+  install
+    2struxbin

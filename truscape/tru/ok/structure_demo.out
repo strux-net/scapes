@@ -1,0 +1,284 @@
+demo showing indent and path	demo showing indent and path
+a line inside this demo	  a line inside this demo
+a line inside this demo	  a line inside this demo
+UNMATCHED	  no path to this line
+demo showing dot-star vs dot-plus	demo showing dot-star vs dot-plus
+accepting dot-star	  accepting dot-star
+possible empty line	    this line has text
+possible empty line	    next line is empty and will be accepted
+possible empty line	
+possible empty line	    previous line was empty
+accepting dot-plus	  accepting dot-plus
+not empty line	    this line has text
+not empty line	    next line is empty and will be UNMATCHED
+UNMATCHED	
+not empty line	    previous line was empty
+demo showing regexp	demo showing regexp
+a line inside this demo	  an accepted line
+UNMATCHED	    a not accepted line (wrong indent)
+UNMATCHED	  not accepted (does not start with a)
+a line inside this demo	  another accepted line
+demo showing fields	demo showing fields
+item	  argentina	Buenos Aires	.ar	one tab to separate the fields
+item	  australia	Canberra	.au	one tab to separate the fields
+item	  argentina		Buenos Aires	.ar	two tabs to separate the fields are as good as one (also 3,4 and so on)
+item	  australia		Canberra	.au	two tabs to separate the fields are as good as one (also 3,4 and so on)
+UNMATCHED	  australia		Canberra	.au	not accepted, too many fields	additional field
+UNMATCHED	  australia		not accepted, not enough fields
+demo showing optional fields	demo showing optional fields
+item	  argentina	Buenos Aires	.ar	one tab to separate the fields
+item	  australia	accepted, only two fields are required
+demo showing variable number of fields	demo showing variable number of fields
+item	  accepted line	with two fields
+item	  accepted line	with three fields	third field
+item	  accepted line	with five fields	third field	fourth field	fifth field
+demo showing the priorities	demo showing the priorities
+item at =	  item at =
+line	    a line is accepted exactly here at indent 2
+UNMATCHED	      this line is unmatched
+item at >	  item at >
+line	    a line is accepted at indent 2 anywhere in this path
+line	      hence this line is also accepted (it creeps into the previous)
+item at >>	  item at >>
+line	    a line is accepted at indent 2 anywhere in this path
+line	      hence this line is also accepted (it also creeps)
+line	      >> differs from > in priority (>> is chosen immediately)
+comparing the priorities	  comparing the priorities
+line	    a line is accepted at indent 2
+line	      this line is also accepted
+line	        also this line
+UNMATCHED	            this line is unmatched (wrong indent)
+line	    the "never chosen" structure-item is never chosen since "line" already matched with the same priority.
+line	    In such a case the first hit is chosen.
+fixed line at =	    fixed line at = takes precedence over a > line
+line	      this is accepted due to > in line
+line at >>	      line at >> can nest into other actions (With highest prio)
+line at >>	    line at >> matched (With highest prio)
+line	      this is accepted due to > in line
+line at >>	      line at >> can nest into other actions (With highest prio)
+demo showing low-prio fixed position	demo showing low-prio fixed position
+example 1	  example 1
+any line	    matched by 'any line'
+UNMATCHED	      this line is not matched. >0 disables the anywhere-mode
+Mixed Mode Mine	    matched by 'Mixed Mode Line'
+ALL CAPS LINE	    MATCHED BY 'ALL CAPS LINE'
+UNMATCHED	      NOT MATCHED
+example 2	  example 2
+any line	    matched by 'any line'
+Mixed Mode Mine	    matched by 'Mixed Mode Line'
+ALL CAPS LINE	    MATCHED BY 'ALL CAPS LINE'
+demo showing creeplocked blocks	demo showing creeplocked blocks
+example 1	  example 1
+red	    red
+line	      open for creeping
+red	    red
+green	    green
+UNMATCHED	    this is not matched by 'line' since 'example 1' is creeplocked (by default)
+creeps never the less	    xx:accpepted
+example 2	  example 2
+red	    red
+line	      open for creeping
+red	    red
+green	    green
+line	    this is matched by 'lines' since 'example 2' is open for creeping
+example 3	  example 3
+red	    red
+line	      open for creeping
+red	    red
+green	    green
+UNMATCHED	    this is not matched by 'line' since 'example 3' is creeplocked (explicitely)
+demo showing longest path	demo showing longest path
+fixed line at =	  'fixed line' at = takes precedence over 'line' at >
+deeper line	    'deeper line' takes precedence over line because:
+deeper line	      if two rules match at the same priority then the one with the longest path is used
+highest prio item	      a highest prio item (one with >>) is always accepted immedately. No other checks are performed.
+Highest Prio Line	      also an item for a 'Highest Prio Line' can be defined after other items
+demo for dangling	demo for dangling
+dangling at =	  dangling at =
+line	     any line with indent >=2 is matched
+line	    this line is matched
+line	     this line also - the indent from the enclosing item ("dangling at =") is considered.
+line	    the same rules apply for =* >* and >>*
+fixed line	    fixed line
+UNMATCHED	      not matched
+dangling at >	  dangling at >
+line	     any line with indent >=2 is matched
+line	    this line is matched
+line	     this line also - the indent from the enclosing item ("dangling at >") is considered.
+line	    the same rules apply for =* >* and >>*
+fixed line	    fixed line
+line	      matched
+dangling at >>	  dangling at >>
+line	     any line with indent >=2 is matched
+line	    this line is matched
+line	     this line also - the indent from the enclosing item ("dangling at >>") is considered.
+line	    the same rules apply for =* >* and >>*
+line	    fixed line (matched by line due to the >>)
+line	      matched
+demo for condition	demo for condition
+simple condition	  simple condition
+line1	    matched by line1
+another line	    matched by another line
+combined condition	  combined condition
+UNMATCHED	      here $rnr is 1, it is not matched
+UNMATCHED	      here $rnr is 2, it is not matched
+UNMATCHED	      here $rnr is 3, it is not matched
+triggering line	      here $rnr is 4. this condition holds for ($rnr>=3) as well as ($rnr%2==0). Hence a match
+caveats	  caveats
+case 1	    case 1
+item	      item
+UNMATCHED		triestocreep but does not succeed since 'case 1' is creeplocked
+case 2	    case 2
+item	      item
+triestocreep		triestocreep succeeds here
+accessing fields	  accessing fields
+rest	    fields cannot be accessed by name	not special
+special_comment	    you can access them via @F though	special
+demo for tabaligned	demo for tabaligned
+table	  table
+tabaligned line		Here a poem:
+tabaligned line				   this line
+tabaligned line				 and this line
+tabaligned line			     are here by intention
+tabaligned line			    and are my own invention
+tabaligned line		table
+tabaligned line			this line is at a tab position 1
+tabaligned line			 this line is after a tab position 2
+tabaligned line			  this line is after a tab position 3
+tabaligned line			   this line is after a tab position 4
+demo for optional at = position	demo for optional at = position
+item	  Example for triggering automatically
+docline	      automatical triggering only happens at the implicit indent (4 in this case)
+docline	      the first line at indent 4 exactly triggers the doc
+docline	       the next line can be at any indent >= 4 (due to the * for docline)
+docline	      the doc is triggered only once for each block
+item	  Example for invalid trigger
+UNMATCHED	        this line is at a too high indent and therefore not matched
+item	  Example for an explicit doc
+doc	       doc
+docline	         For an explicit doc the dangling is possible.
+doc	    doc
+docline	        here a line with any relative indent >= 2 is acceptable
+item	  Example for doc deeper in the path
+subitem	    Example for autodoc
+UNMATCHED	        this is unmatched due to the = for item
+demo for optional at > position	demo for optional at > position
+item	  Example for triggering automatically
+docline	      the first line at indent 4 exactly triggers the doc
+docline	        the next line can be at any indent >= 4 (due to the *)
+docline	      the doc is triggered only once for each block
+item	  Example for invalid trigger
+UNMATCHED	       this line is at a too high indent and therefore not matched
+item	  Example for an explicit doc
+doc	    doc
+docline	        here a line with any relative indent >= 2 is acceptable
+item	  Example for optional deeper in the path
+subitem	    Example for autodoc 
+docline	        the first line at indent 4 exactly triggers the doc
+docline	          the next line can be at any indent >= 4 (due to the *)
+docline	        the doc is triggered only once for each block
+demo for optional field in an optional action	demo for optional field in an optional action
+item	  Example for triggering automatically
+docline	      triggers doc, just as in above example
+item	  Example for an explicit doc
+doc	    doc
+docline	        this block has no comment
+doc	    doc		for your eyes only
+docline	        your lucky number is 42
+demo for optional with position indicator	demo for optional with position indicator
+item	  Example for triggering automatically
+subitem	       first triggers block, then accepted by 'subitem'
+demo for explicit at far left	demo for explicit at far left
+demo for explicit at far left	  demo for explicit at far left
+UNMATCHED	   no match
+line	  line
+demo for explicit at far left	    demo for explicit at far left
+demo for empty lines	demo for empty lines
+example1	  example1
+possible empty line	
+possible empty line	    .* matches a string of any length (including zero)
+possible empty line	
+possible empty line	    The level of the three empty lines has been calculated to 5.
+possible empty line	
+example2	  example2
+empty	
+non empty line	    .+ matches strings with at least one character.
+empty	
+non empty line	    The level of the three empty lines has been calculated to 5.
+empty	
+example3	  example3
+non empty line	    the next line is really empty. The level is calculated to 5.
+empty inside example3	
+non empty line	    the next line consists of two spaces. The level is not recalculated - it remains at 3. The truer will issue a warning for this line.
+empty line inside demo	  
+example for triggering an optional	  example for triggering an optional
+line	    an explicit list
+list	      list
+emptylistline	
+listline	        matched
+emptylistline	
+listline	        matched
+emptylistline	
+line	    an implicit list
+emptylistline	
+listline	        the previous empty line triggered list
+emptylistline	
+example for not triggering an optional	  example for not triggering an optional
+line	    an explicit list
+list	      list
+emptylistline	
+listline	        matched
+emptylistline	
+listline	        matched
+emptylistline	
+line	    another implicit list
+empty	
+listline	        the previous empty line triggered 'list' and is an 'emptylistline'
+listline	        the next line is also an 'emptylistline'
+emptylistline	
+last example	  last example
+empty line inside demo	
+demo for optional with explicit at far left	demo for optional with explicit at far left
+demoline	  demoline
+hline	hline
+demoline	    demoline
+demo for optional with explicit at far left	  demo for optional with explicit at far left
+demoline	    demoline
+hline	hline
+hline	  hline
+enumline	        1)	eins
+enumline	        2)	zwei
+demo for resetting structure	demo for resetting structure
+Loop	  Loop	a
+demo for redirecting an action	demo for redirecting an action
+target	  this item is matched by "redirected item" but processed by action "target"
+target	  the action sees in $state the string "redirected item" and can act accordingly.
+demo for structure groups	demo for structure groups
+class	  mainclass
+method	    foo
+method	    bar
+W	      W	a<b	"yes"
+stmt	        jubel
+my language code	      my language code
+autodoc		  this line is documentation for what is going to happen
+object		a funny object
+autodoc		    this line is documentation for this funny object
+F		  F	cond
+autodoc		      this line is documentation for this codeblock
+print		    print	x
+his language code	      his language code
+autodoc		  this line is documentation for what is going to happen
+object		a funny object
+autodoc		    this line is documentation for this funny object
+F		  F	cond
+autodoc		      this line is documentation for this codeblock
+print		    print	x
+print	      print	works too
+UNMATCHED	        should be unmatched
+Forever	      Forever
+stmt	        call home
+F	      F	cond
+demo for erraneous lines	demo for erraneous lines
+too many regexes	  these structure items have some minor flaws.
+too many regexes	  a warning is issued for them.
+too many regexes	  the truer works as if the flaw was not made.

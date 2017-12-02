@@ -1,0 +1,14 @@
+title			indents or outdents a file by a given amount.
+i	i.plTR
+  doc
+    { echo "i\n  $Title\n    usage"; ./i -? 2>&1 | i -it 1 ; }	docs/README.txt
+    { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru	docs/README.html
+  test
+    ./i testfile
+    ./i -i 2 testfile
+    ./i -o 2 testfile
+    ./i -o 6 testfile
+    ./i -o 12 testfile
+    -./i -help
+  install
+    2struxbin

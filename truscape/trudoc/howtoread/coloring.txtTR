@@ -1,0 +1,6 @@
+style
+  Title	coloring (How To Read)
+How to read the coloring.
+  Lines are split at tabs into fields.
+  The fields are colored differently so that you have a clear indication of whether the white-space between the fields is one or more tabs rather than spaces.
+  Since tabs are a very important concept for truers, you should use an editor that is able to indicate them.

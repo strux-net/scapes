@@ -1,0 +1,32 @@
+VERSION	3.0
+actions
+  a
+    >
+	a : $a
+  b
+    >
+	b : $b
+  d
+    >
+	d : $d
+  c
+    >
+	c : $c
+  e
+    >
+	e : $e
+  f
+    >
+	f : $f
+  code
+    >
+	code : $code
+structure
+	  code		>*	code.+
+	a
+	  a
+	    b		>
+	      c		=	vier.*
+	        d	>
+	      e		>
+	        f	>

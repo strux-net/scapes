@@ -1,0 +1,6 @@
+title			show the other screen
+xterm.vim	xterm.vimTR
+  install
+    m_copy xterm.vim ~/.vim/plugin/
+  doc
+    vimdefault	txt html

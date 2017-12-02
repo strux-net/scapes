@@ -1,0 +1,178 @@
+VERSION	3.0
+actions
+  fancyFor	expr	statement
+    continued
+      You can also have type declarations in this statement, as in
+          F	int i=0...10
+      Example :	classtruer -noIntro -noConfigCheck -noProtos
+	foo
+	  F	i=10...20	bar(i)
+  jdoc
+    continued
+    >
+      $jdocu=" $jdocu" if $jdocu;
+	/**$jdocu
+    <
+	*/
+  jdocu
+    continued
+      an empty line means : new paragraph
+    >
+      if ($_)
+	*@{[" "x$relindent]}$_
+      else
+       |
+	*
+  initialisation	comment
+    continued
+    >
+      if ($opt_languageType eq "c")
+	$initialisation,@{[do{"\t/*$doxy $comment */" if "$comment"}]}
+        else
+	$initialisation,@{[do{"\t$cc$doxy " if "$comment"}]}$comment
+  For	cond	stmt
+    continued
+      Results in a for-loop where cond is surrounded by ().
+      Example :	classtruer -noIntro -noConfigCheck -noProtos
+	foo
+	  F	i=1;i<10;i++
+	    bar(i)
+	  doc	same as above
+	  F	i=1;i<10;i++	bar(i)
+    >
+	for ($cond) {
+      stmt($stmt);
+    <
+	}
+  W	cond	stmt
+    continued
+    >
+	while ($cond) {
+      stmt($stmt);
+    <
+	}
+  U	cond	stmt
+    continued
+    >
+	do {
+      stmt($stmt);
+    <
+	} while (!($cond));
+  S	expr	comment
+    l	switchBreaks
+    continued
+      Translates directly into the native c-style switch/case code.
+      If indicator is S all cases are terminated by break.
+        This can be individually superseded with nobreak.
+      If indicator is  S*  no break is generated.
+      Example :	classtruer -noConfigCheck -noProtos -noIntro
+	foo
+	  S	i	with implicit breaks
+	    0		"zero"
+	    1		"one"
+	    2	
+	      "two"
+	      nobreak
+	    default	"something else"
+	  S*	i	no implicit breaks
+	    a	"a"
+	    b
+	      "b"
+	      break	an explicit break here
+	    c	"c"
+    >
+      $switchBreaks=($S eq "S");
+      $comment =~ s|.*|\t/* $comment */| if $comment;
+	switch ($expr) {$comment
+    <
+	}
+  nobreak
+    continued
+    >
+      $noBreak=1
+  case	statement	comment
+    l	noBreak
+    continued
+    -
+      $comment =~ s|.*|\t/* $comment */| if $comment;
+	case $case :$comment
+      if ($NrOfLinesFollowing || $statement)
+	{
+      stmt($statement);
+    <
+      if ($NrOfLinesFollowing || $statement) {
+        if (!$noBreak) {
+          if ($switchBreaks) {
+	  break;
+          }
+        } else {
+	  /* no break */
+        }
+	}
+      }
+  default	statement	comment
+    l	noBreak
+    continued
+    >
+      $comment =~ s|.*|\t/* $comment */| if $comment;
+	default :$comment
+	{
+        stmt($statement);
+    <
+      if ($NrOfLinesFollowing || $statement) {
+        if (!$noBreak) {
+          if ($switchBreaks) {
+	  break;
+          }
+        } else {
+	  /* no break */
+        }
+      }
+	}
+  enum	name
+    continued
+    >
+	${vars}enum $name {
+    <
+	};
+  enumline	comment
+    continued
+    >
+	$enumline,
+  negate	cond
+    internal
+    >
+      $cond = "!($cond)";
+  simple_if	cond
+    internal
+    >
+	if ($cond) {
+    <
+	}
+  simple_else
+    internal
+    >
+	} else {
+  simple_elseif	cond
+    internal
+    >
+	} else if ($cond) {
+  try	statement
+    continued
+    >
+	try {
+      stmt($statement);
+      $offset-=2;
+    <
+	  }
+      $offset+=2;
+  catch	statement
+    continued
+    >
+	} catch ($catch) {
+      stmt($statement);
+  finally	statement
+    continued
+    >
+	} finally {
+      stmt($statement);

@@ -1,0 +1,24 @@
+VERSION	3.0
+##	$state
+##	  contains the name of the currently processing action.
+##	  for a called Action it has the value of the first arg.
+actions
+  chapter	name
+    >
+	$state : $_
+  section	name
+    >
+	$state : $_
+  any line
+    >
+	$state : $_
+      >>calledAction	name for the action	$_
+  table
+    >
+	$state : $_
+  tabaligned line
+    >
+	$state : $_
+  calledAction
+    >
+	$state : $_

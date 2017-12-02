@@ -1,0 +1,27 @@
+DOC
+  file	testdoc1.tru
+    programming language
+      applies to all supported proglangs
+      more desc
+
+      Parameters : none
+        name	indicator
+        name	mandatory	desc
+        name	optional	desc
+      Example :
+	foo
+	  xxxx
+      gives :
+  file	testdoc2.tru
+    any special programming language
+      applies to my special proglang
+statement
+  file	testdoc1.tru
+    a generic statent
+      no semicolon at end needed
+      one line, one statement
+block	comment
+  file	testdoc2.tru
+    a generic block
+      only valid in my special proglang
+switch

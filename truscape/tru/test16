@@ -1,0 +1,42 @@
+lust
+      lustline
+class another
+  private
+    x
+    y
+  doc1
+    more
+class anyclass
+  vars
+     wrong line 1 for testing
+    a
+      b
+  doc1
+    one
+      one,one
+    two
+  foo
+      p		p1
+      free text
+       more free text
+  main
+      one	two	three
+      four	five	six
+    table
+      eins	zwei	drei
+      vier	fünf	sechs
+    now comes a autolist
+	rom
+	berlin
+    try
+	anything
+	something
+	F
+    code
+	    a lustline
+      more code
+	      also a lustline
+      F
+      fancy
+        do this and that
+     wrong line 2 for testing

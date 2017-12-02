@@ -1,0 +1,14 @@
+VERSION	3.0
+##	UNMATCHED
+##	  used if a line is not otherwise matched
+##	  If you do not supply one, tru will provide one for you which prints to STDERR a string indicating the line-number and the contents of the line which does not match.
+##	  It is not necessarily a fault to have unmatched lines.
+#	  There is no switch for suppressing the default behaviour.
+#	  If you are sure that UNMATCHED lines are tolerable do:
+#	  actions
+#	    UNMATCHED
+#	      >
+actions
+  UNMATCHED
+    >
+	this line is not matched : $_

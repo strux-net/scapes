@@ -1,0 +1,38 @@
+VERSION	3.0
+##	output statements
+##	  lines starting with a tab are output statements.
+##	  they are valid in all actions as well as the special-actions ATTICREAD,READ,NEWFILE,SPLITAPPLY,WRITE and BEGIN
+##	  But beware that for BEGIN some restrictions apply.
+actions
+  demoAction
+    >
+	Here come some output lines.
+	They all start with a tab (NOT 8 spaces).
+	They can contain tabs	like here or		here.
+		They can also be continued with a second tab.
+	They are subject to backslash interpretation and variable interpolation like (\x23 $. or $ARGV).
+	  Perl calls this "Interpolative context"
+	If you want an empty line in the output you can represent it with a line that only consists "       |", like the following
+       |
+	A deprecated way to the same is with a line that only consists of a tab, like the following
+	
+	tru will print the warning "tru : warning : stray blanks in an empty line at .... " in this case.
+	All subsequent output-lines form an implicit code-block looking like
+	  {
+	    tru::parse( <a list of all subsequent output-lines> );
+	  }
+	An empty line inside such a block of output statements ends the current tru::parse() block.
+
+	This line starts a second block (since the previous line is really empty)
+	This has no consequences if you do not have any perl statements in your action.
+	This forming of blocks has the consequence, that you can easily have 'dangling' conditions like:
+      if (0)
+	This line will never be output.
+	This line belongs to the same block as the one above and will also not be output.
+	The next line is not really empty but consists of a single tab-character
+	
+	So the complete ignored block consists of 5 five lines.
+
+	The previous line was really empty. Hence this line starts a new block and will be visible.
+structure
+	demoAction	=	demoAction

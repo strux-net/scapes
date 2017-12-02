@@ -1,0 +1,8 @@
+title			for LL.vim
+XPE.vim
+  doc
+    html_tru docs/README.txtTR	docs/README.html
+  build
+    perl_tru -vimPlug -noProtos XPE.plTR	XPE.vim
+  install
+    m_copy XPE.vim ~/.vim/plugin

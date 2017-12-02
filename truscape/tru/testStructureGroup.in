@@ -1,0 +1,25 @@
+demo for structure groups
+  mainclass
+    foo
+    bar
+      W	a<b	"yes"
+        jubel
+      my language code
+	  this line is documentation for what is going to happen
+	a funny object
+	    this line is documentation for this funny object
+	  F	cond
+	      this line is documentation for this codeblock
+	    print	x
+      his language code
+	  this line is documentation for what is going to happen
+	a funny object
+	    this line is documentation for this funny object
+	  F	cond
+	      this line is documentation for this codeblock
+	    print	x
+      print	works too
+        should be unmatched
+      Forever
+        call home
+      F	cond

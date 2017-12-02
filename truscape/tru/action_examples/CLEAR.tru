@@ -1,0 +1,25 @@
+VERSION	3.0
+##	pit CLEAR
+##	  usually if you repeat actions the resulting action has the code of all occurences in the given order.
+##	  with the CLEAR flag to the pit you can start with an ampty action.
+##	  This is useful in constructs like
+##	  code
+##		html_tru -source | tru -- - specialized_html.tru
+actions
+  overwrittenAction
+    >
+	text from the first action-definition (in-action)
+    -
+	text from the first action-definition (depth-action)
+    <
+	text from the first action-definition (out-action)
+actions
+  overwrittenAction
+    >	CLEAR
+	text from the second action-definition (in-action)
+    -
+	text from the second action-definition (depth-action) - added to the text from the first definition
+    <	CLEAR
+	text from the second action-definition (out-action)
+structure
+	overwrittenAction	=	overwrittenAction

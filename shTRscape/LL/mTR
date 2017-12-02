@@ -1,0 +1,10 @@
+title		A vim/perl based filebrowser with nice features
+L	L.shTR
+  install
+    2struxbin
+LLfs	LLfs.shTR
+  install
+    2struxbin
+LL	LL.shTR
+  install
+    2struxbin

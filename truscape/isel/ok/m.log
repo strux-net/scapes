@@ -1,0 +1,102 @@
+building isel
+tru -s statistics.out isel.tru >isel
+GOOD	isel
+GOOD	statistics.out
+chmod +x isel
+{ echo "isel\n  select lines of structured text\n    usage"; ./isel -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tselect lines of structured text" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing isel
+./isel /ba/i   -h                  test.in test1.in
+>>> Line 5 File test.in
+    aba
+>>> Line 8 File test.in
+  ba
+    baa
+>>> Line 4 File test1.in
+      BA
+>>> Line 5 File test1.in
+    ba
+      AB
+./isel ^a$     -n 1                test.in
+a
+  aa		aa
+
+  ab		cd
+    aba
+  ac
+./isel ^ba$    -n 1                test.in
+  ba
+    baa
+./isel b -l 3  -n 1                test.in
+  ab		cd
+    aba
+./isel b -l 3                      test.in
+  ab		cd
+    aba
+  ba
+    baa
+  bb
+  cb
+./isel b -l 3       -nh            test.in
+    aba
+    baa
+./isel b -l 3       -ni            test.in
+ab		cd
+  aba
+ba
+  baa
+bb
+cb
+./isel b -l 3           -indicate  test.in
+a
+  ab		cd
+    aba
+b
+  ba
+    baa
+b
+  bb
+c
+  cb
+./isel ba      -n 1 -w             test.in
+  ba
+    baa
+./isel /ba/i                       test.in
+    aba
+  ba
+    baa
+./isel baa              -tree      test.in
+b
+  ba
+    baa
+./isel -f 1 cd          -tree      test.in
+a
+  ab		cd
+    aba
+./isel -invalid
+Unknown option: invalid
+usage : isel [Options] <regexp> [<file>]
+search for a subtree beginning with a line where the n-th (default first) field matches a given regexp.
+The regexp may be explicitly delimited with / like /regexp/,
+  in this case it may be followed by the usual switches.
+  E.G. useful for /i
+You can not use -w together with anchored strings.
+
+OPTIONS:
+       -l:number	level where to look, default : any
+       -n:number	stop after n matches, default : show all
+       -f:number[0]	field to match. Counting starts at 0.
+       -nh		no header, i.e the found line itself doesn't output
+       -ni		remove all indent relative to header
+       -w		whole field must match.  Equivalent to ^regexp$
+       -h		print a header for each match
+		The form of this header is
+		  >>> Line n File f
+       -indicate	show the /-separated tree
+       -tree		show the tree
+
+       -vhelp shows more options
+makefile:31: recipe for target 'test_isel' failed
+make[1]: [test_isel] Error 1 (ignored)

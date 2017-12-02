@@ -1,0 +1,5 @@
+style
+  Title	pos Indicator (How To Read)
+How to read the pos Indicator.
+  the pos-indicator [] can be used in optional structure-items
+  it indicates the match-position for a triggering line.

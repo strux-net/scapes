@@ -1,0 +1,20 @@
+VERSION	3.0
+##	$level
+##	  contains the absolute indent as a number (starting at 1).
+##	  leading tabs count as much as 8 spaces each.
+actions
+  chapter	name
+    >
+	$level : $_
+  section	name
+    >
+	$level : $_
+  any line
+    >
+	$level : $_
+  table
+    >
+	$level : $_
+  tabaligned line
+    >
+	$level : $_

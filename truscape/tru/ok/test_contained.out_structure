@@ -1,0 +1,6 @@
+structure
+	main		=	main
+	  ?	cond	>	\?
+	  ?-	cond	>	\?-
+	  -		> else	\-
+	  stmt		>

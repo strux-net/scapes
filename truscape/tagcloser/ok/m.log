@@ -1,0 +1,92 @@
+building tagcloser_tru
+tru -s statistics.out ../proglang/common.tru ../proglang/statementDelimiter.tru ../proglang/plainvar.tru ../proglang/js/js.tru ../proglang/c_like_vars.tru tagcloser.tru ../lib/basicUSAGE.tru >tagcloser_tru
+tru : Warning 'arg-name problematic' in ../proglang/common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../proglang/common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+tru : Warning 'group never used' in ../lib/basicUSAGE.tru @ 0
+	the group 'function' was defined but never used
+tru : Warning 'group never used' in ../lib/basicUSAGE.tru @ 0
+	the group 'main' was defined but never used
+GOOD	tagcloser_tru
+GOOD	statistics.out
+chmod +x tagcloser_tru
+{ echo "tagcloser_tru\n  a simple filter to close html-tags\n    usage"; ./tagcloser_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\ta simple filter to close html-tags" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing tagcloser_tru
+./tagcloser_tru test.in >test.out
+GOOD	test.out
+./tagcloser_tru -invalid
+Unknown option: invalid
+usage : tagcloser_tru [options] [<file> ....]
+reads xml-input and produces xml-output, where
+the unclosed tags are automatically closed, except for
+  tags starting with <!
+  all void html tags
+    <area> <base> <br> <col> <embed> <hr> <img> <input> <link> <menuitem> <meta> <param> <source> <track> <wbr>
+Example:
+  <H1> This tag will be automatically closed
+  <H1> This tag will not be closed, because it already is </H1>
+  <span>
+    This span will be automatically closed
+  <span>
+    This span will not be closed
+  </span>
+  <span>
+    Attention : This is wrongly indented. This tag will be automatically closed and end up closed twice.
+    </span>
+
+two special tags are introduced
+  <jsTR>
+    for jsTR code
+    Example:
+    <jsTR>
+      function square	a
+	return a*a
+  <css>
+    for style sheets
+    Example
+      <css>
+	h1
+	  color	blue
+	h2	color	red
+    at-rules are supported (also nested)
+    Example:
+      <css>
+	@charset "UTF-8"
+	@media print
+	  #navigation
+	    display	none
+	  @media (max-width: 12cm)
+	    .note
+	      float	none
+
+the input-file must be properly indented.
+
+All Options are purely <jsTR>-related.
+For pure html you won't need any of them.
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noAutoSemicolon		Do not autmatically append ; to one-line-statements
+
+       -vhelp shows more options
+makefile:32: recipe for target 'test_tagcloser_tru' failed
+make[1]: [test_tagcloser_tru] Error 1 (ignored)

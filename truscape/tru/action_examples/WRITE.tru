@@ -1,0 +1,21 @@
+VERSION	3.0
+##	WRITE
+##	  When a line is due to be output.
+##	  performed in order of production.
+##	  $_ holds the line to be written.
+##	  In stream-mode it is executed just before a line is written.
+##	  In the default (no-stream-mode) it does not yet do the write. It rather inserts the line in @tru::O for later use by FLUSH.
+##	  use return 1 if you want to suppress a line.
+##	  a return 0 is supplied automatically as last statement
+WRITE
+  /one/ and return 1;	# skip lines containing the string 'one'
+  s/o/O/;		# do whatever you want with the line
+  return 0;		# this is not needed, it is supplied automatically
+actions
+  DOC
+    >
+	one
+	two
+	three
+	four
+	five

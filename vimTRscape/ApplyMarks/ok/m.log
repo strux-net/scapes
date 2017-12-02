@@ -1,0 +1,8 @@
+building ApplyMarks.vim
+vim_tru ApplyMarks.vimTR >ApplyMarks.vim
+GOOD	ApplyMarks.vim
+{ echo "ApplyMarks.vim\n  apply text-marks\n    usage"; < ApplyMarks.vim perl -na -e 'if ($seq = (/^"usage for / .. /"--/) and $seq !~ /E0/ and $seq>1) { s/.//;s/^\s+$/\n/;print }' ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tapply text-marks" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing ApplyMarks.vim

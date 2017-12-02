@@ -1,0 +1,11 @@
+VERSION	3.0
+usage	L [<file>]
+	opens a powerful directory-browser for a given set of files.
+
+	if no file is given then STDIN is read.
+	file should contain nothing but filenames.
+	Each on a line of it's own.
+main
+  ?	[ $# -eq 0 ]	vim -N +"set nomodified" +"L" -  +only
+  ?-	[ $# -eq 1 ]	vim -N +"set nomodified" +"L" $1 +only
+  -	usage

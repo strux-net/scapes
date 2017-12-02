@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="generator" content="trudoc_tru, see www.strux.net"/>
+    <link rel="stylesheet" type="text/css" href="trudoc.css"/>
+    <title>tex_tru Reference Card</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+    <h1>tex_tru - A tru text processor</h1>
+    <div align="right"><filename>../common.tru</filename></div>
+    <desc>This is one of a family of textproc-truers.</desc><br/>
+    <desc>Current members are</desc><br/>
+    <desc>    html_tru	for html</desc><br/>
+    <desc>    tex_tru	for tex/latex/pdf</desc><br/>
+    <desc>Both share the same syntax-idea.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>The Earth
+<a title = "Indent : 2">  </a>The Earth is the reservation of a species that calls itself mankind.
+<a title = "Indent : 2">  </a>Nearly nothing is known about them - except that they divided their reservation into continents and oceans.
+<a title = "Indent : 2">  </a>The continents
+<a title = "Indent : 4">    </a>Currently 5 continents are known.
+<a title = "Indent : 4">    </a>The following table shows the name of the brightest member of the mankind brought to birth in this continent.
+<a title = "Indent : 8">        </a>Asia<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Ku Li Wuan</ping>
+<a title = "Indent : 8">        </a>America<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Gregor Mac Doo-rado</ping>
+<a title = "Indent : 8">        </a>Africa<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Mguabe Ntchagu</ping>
+<a title = "Indent : 8">        </a>Europe<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Cura Don Kley</ping>
+<a title = "Indent : 8">        </a>Australia<ping><a title="here is a Tab">	</a>Gustwin Argentless</ping>
+<a title = "Indent : 2">  </a>The oceans
+<a title = "Indent : 4">    </a>They are mostly full of a very peculiar liquid.
+<a title = "Indent : 0"></a>The Moon
+<a title = "Indent : 2">  </a>The Moon is one of roughly 2^32.5 natural satellites of the earth.
+<a title = "Indent : 2">  </a>Mankind thinks that he moon is the only satellite surrounding their reservation.
+<a title = "Indent : 0"></a>The Sun
+<a title = "Indent : 2">  </a>The sun is surrounded by 17 Planets.
+<a title = "Indent : 2">  </a>8 of them are currently known to mankind and they name them as follows:
+<a title = "Indent : 6">      </a>Mercury
+<a title = "Indent : 6">      </a>Venus
+<a title = "Indent : 6">      </a>Earth
+<a title = "Indent : 6">      </a>Mars
+<a title = "Indent : 6">      </a>Jupiter
+<a title = "Indent : 6">      </a>Saturn
+<a title = "Indent : 6">      </a>Uranus
+<a title = "Indent : 6">      </a>Neptune
+</listing>
+    <br/>
+    <desc>Some style-vars can be set to modify the output.</desc><br/>
+    <desc>option -show_vars shows the compiled in settings.</desc><br/>
+    <desc></desc><br/>
+    <desc>Your document may consist of more than one input-file.</desc><br/>
+    <desc>Also the style-settings can be in a separate file.</desc><br/>
+    <desc></desc><br/>
+    <desc>See <A href="#A_style">style</a> for more details.</desc><br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>The created output is valid tex.</desc><br/>
+    <desc>The simplest sequence of commands is:</desc><br/>
+    <desc>    tex_tru mydoc.txtTR &gt;mydoc.tex</desc><br/>
+    <desc>    latex mydoc.tex</desc><br/>
+    <desc>Another sequence may look like</desc><br/>
+    <desc>    tex_tru style intro chapter1 chapter2 chapter3 &gt;mybook.tex</desc><br/>
+    <desc>    pdflatex mybook.tex</desc><br/>
+    <h1> </h1>
+    <mainpart>Usage:</mainpart>
+      <howToRead>[
+	<a href="howtoread/options.html" title="how to read the options">help</a>
+      ]</howToRead>
+      <br/><br/>
+    <listing class="Usage">
+usage : tex_tru [Options] [&lt;file&gt; ....]
+
+produces a tex-file
+
+find details in
+    ~/strux/doc/tex_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/tex_tru.html
+
+per convention the input files have the extension .txtTR
+
+The input
+  consists of one or more input files.
+    If no &lt;file&gt; is given or if &lt;file&gt; is &lsquo;-&lsquo; (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use &lsquo;-o filename&lsquo; to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -show_vars		show style-vars
+
+       -vhelp shows more options
+    </listing>
+    <a name="L_Structure"></a>
+    <mainpart>complete Structure :</mainpart>
+      <howToRead>[
+	<a href="howtoread/structure.html" title="how to read the structure">help</a>
+      ]</howToRead>
+      <br/><br/>
+      <table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style">style</a></td><td>=</td><td>style</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_stylecomment">stylecomment</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>#.*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_stylevar">stylevar</a><ping><a title="here is a Tab">	</a>[value]</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_value">value</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignore">ignore</a></td><td>&gt;</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_meta">meta</a></td><td>=</td><td>meta</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_metaname">metaname</a><ping><a title="here is a Tab">	</a>content</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignore">ignore</a></td><td>&gt;</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style_controlled">verbatim</a></td><td>&gt;2 style_controlled</td><td>verbatim</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_verbatimLine">verbatimLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_code">code</a></td><td>&gt;2</td><td>code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_coderow">coderow</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style_controlled">definitions</a></td><td>&gt;2 style_controlled</td><td>definitions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_defitem">defitem</a><ping><a title="here is a Tab">	</a>[text]</ping></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_picture">picture</a><ping><a title="here is a Tab">	</a>[caption]</ping></td><td>&gt;o2</td><td>picture</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_url">url</a><ping><a title="here is a Tab">	</a>urlname</ping></td><td>=</td><td>url</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ascii2dart">ascii-art</a></td><td>=</td><td>ascii-art</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_artline">artline</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">enum]</a></td><td>&gt;2 style_controlled</td><td>enum</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_enumitem">enumitem</a><ping><a title="here is a Tab">	</a>text</ping></td><td>=</td><td>[\d]+\)</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptyenumitem</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">list]</a></td><td>&gt;2 style_controlled</td><td>list</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_listline">listline</a></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptylistline</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">table]</a></td><td>&gt;2 style_controlled</td><td>table</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_tabrow">tabrow</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptytabrow</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_label">label</a><ping><a title="here is a Tab">	</a>labelname</ping></td><td>&gt;2</td><td>label</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_other20code">other code</a></td><td>&gt;2</td><td>\w+ code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignored">ignored</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_freetextOrSection">freetextOrSection</a></td><td>&gt;2</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_emptyfreetextline">emptyfreetextline</a></td><td>&gt;*</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="tex.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_tex20code">tex code</a></td><td>&gt;&gt;2</td><td>tex code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_nativeLangCode">nativeLangCode</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+      </table>
+    <mainpart>Overview:</mainpart>
+      <howToRead>[
+	<a href="howtoread/overview.html" title="how to read the overview">help</a>
+      ]</howToRead>
+      <br/><br/>
+      <table class="overview">
+	<tr>
+	  <td>
+	    <A href="#A_style">style</a>
+	  </td>
+	  <td>
+	    introduces the style section
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_stylevar">stylevar</a>
+	  </td>
+	  <td>
+	    a style var
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_value">value</a>
+	  </td>
+	  <td>
+	    part of the value for a style-var
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_ignore">ignore</a>
+	  </td>
+	  <td>
+	    ignored empty line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_stylecomment">stylecomment</a>
+	  </td>
+	  <td>
+	    a comment in the style-section
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_listline">listline</a>
+	  </td>
+	  <td>
+	    a list-line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_enumitem">enumitem</a>
+	  </td>
+	  <td>
+	    an enum-line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_freetextOrSection">freetextOrSection</a>
+	  </td>
+	  <td>
+	    any line or a new section
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_style_controlled_simple">style_controlled_simple</a>
+	  </td>
+	  <td>
+	    a simple style-var controlled action
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_style_controlled">style_controlled</a>
+	  </td>
+	  <td>
+	    a complex style-var controlled action
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_code">code</a>
+	  </td>
+	  <td>
+	    a code block
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_coderow">coderow</a>
+	  </td>
+	  <td>
+	    a comment line of code
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_meta">meta</a>
+	  </td>
+	  <td>
+	    a block of metas
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_metaname">metaname</a>
+	  </td>
+	  <td>
+	    a meta and and its content
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_picture">picture</a>
+	  </td>
+	  <td>
+	    inserting a picture
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_url">url</a>
+	  </td>
+	  <td>
+	    the url of the picture
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_emptyfreetextline">emptyfreetextline</a>
+	  </td>
+	  <td>
+	    an empty Line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_tabrow">tabrow</a>
+	  </td>
+	  <td>
+	    a table row
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_defitem">defitem</a>
+	  </td>
+	  <td>
+	    an item and it&lsquo;s definition
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_ascii2dart">ascii-art</a>
+	  </td>
+	  <td>
+	    a picture drawn in ascii
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_artline">artline</a>
+	  </td>
+	  <td>
+	    a line inside ascii-art
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_verbatimLine">verbatimLine</a>
+	  </td>
+	  <td>
+	    a line that is output as typed with a typewriter
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_label">label</a>
+	  </td>
+	  <td>
+	    setting a label
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_other20code">other code</a>
+	  </td>
+	  <td>
+	    a block of native code for a not supported language
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_nativeLangCode">nativeLangCode</a>
+	  </td>
+	  <td>
+	    a native code-line which is copied unchanged
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_ignored">ignored</a>
+	  </td>
+	  <td>
+	    an ignored line
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_tex20code">tex code</a>
+	  </td>
+	  <td>
+	    a block of native tex-code which is copied unchanged
+	  </td>
+	</tr>
+      </table>
+    <a name="A_style"></a>
+    <h1>style       <shortText>introduces the style section</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>style</td><td>=</td><td>style</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_stylecomment">stylecomment</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>#.*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_stylevar">stylevar</a><ping><a title="here is a Tab">	</a>[value]</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_value">value</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignore">ignore</a></td><td>&gt;</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../../lib/style.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>style
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>style</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <desc>In this section some style-vars can be set.</desc><br/>
+    <desc>Two types of vars are supported</desc><br/>
+    <desc>    string vars ( can consist of multiple lines )</desc><br/>
+    <desc>    array vars  ( they look like name[] )</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>style
+<a title = "Indent : 2">  </a># this is a comment
+<a title = "Indent : 2">  </a>#
+
+<a title = "Indent : 2">  </a># variable border with value 2
+<a title = "Indent : 2">  </a>border<ping><a title="here is a Tab">	</a>2</ping>
+
+<a title = "Indent : 2">  </a># variable intro (contains three lines, the second is empty)
+<a title = "Indent : 2">  </a>intro
+<a title = "Indent : 8">        </a>The rainbow
+
+<a title = "Indent : 8">        </a>and it&lsquo;s colors
+
+<a title = "Indent : 2">  </a># variable colors (array with 4 elements, the second is empty)
+<a title = "Indent : 2">  </a>colors[]
+<a title = "Indent : 8">        </a>red
+
+<a title = "Indent : 8">        </a>green
+<a title = "Indent : 8">        </a>blue
+</listing>
+    <br/>
+    <a name="A_stylevar"></a>
+    <h1>stylevar       <shortText>a style var</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style">style</a></td><td>=</td><td>style</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>stylevar<ping><a title="here is a Tab">	</a>[value]</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_value">value</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../../lib/style.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>stylevar<ping><a title="here is a Tab">	</a>value</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>stylevar</td><td>mandatory</td><td>.+</td><td>the name of the var</td></tr>
+      <tr><td>value</td><td>optional</td><td>.+</td><td>the value for this var</td></tr>
+    </table>
+    <br/>
+    <desc>if the var ends in [] it is considered an array var.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style">style</a>
+</listing>
+    <br/>
+    <a name="A_value"></a>
+    <h1>value       <shortText>part of the value for a style-var</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style">style</a></td><td>=</td><td>style</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_stylevar">stylevar</a><ping><a title="here is a Tab">	</a>[value]</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>value<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../../lib/style.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>value
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>value</td><td>mandatory</td><td>.+</td><td>the value</td></tr>
+    </table>
+    <br/>
+    <desc>if the var is of type string then the value is appended as a new line to the string.</desc><br/>
+    <desc>if the var is of type array then the value is pushed onto the array.</desc><br/>
+    <desc>In both cases value can be empty (meaning an empty line or an empty array element respectively).</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style">style</a>
+</listing>
+    <br/>
+    <a name="A_ignore"></a>
+    <h1>ignore       <shortText>ignored empty line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style">style</a></td><td>=</td><td>style</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>ignore</td><td>&gt;</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_meta">meta</a></td><td>=</td><td>meta</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>ignore</td><td>&gt;</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../../lib/style.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>ignore
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>ignore</td><td>mandatory</td><td>.*</td><td>an ignored line</td></tr>
+    </table>
+    <br/>
+    <desc>This line is silently ignored</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style">style</a>
+</listing>
+    <br/>
+    <a name="A_stylecomment"></a>
+    <h1>stylecomment       <shortText>a comment in the style-section</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../../lib/style.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style">style</a></td><td>=</td><td>style</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>stylecomment<ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>#.*</td></tr>
+</table>
+    <div align="right"><filename>../../lib/style.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>stylecomment
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>stylecomment</td><td>mandatory</td><td>.*</td><td>the comment</td></tr>
+    </table>
+    <br/>
+    <desc>The comment is silently ignored</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style">style</a>
+</listing>
+    <br/>
+    <a name="A_listline"></a>
+    <h1>listline       <shortText>a list-line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">list]</a></td><td>&gt;2 style_controlled</td><td>list</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>listline</td><td>=</td><td>.+</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>listline
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>listline</td><td>mandatory</td><td>.+</td><td>represents the line</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style_controlled">style_controlled</a>
+</listing>
+    <br/>
+    <a name="A_enumitem"></a>
+    <h1>enumitem       <shortText>an enum-line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">enum]</a></td><td>&gt;2 style_controlled</td><td>enum</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>enumitem<ping><a title="here is a Tab">	</a>text</ping></td><td>=</td><td>[\d]+\)</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>enumitem<ping><a title="here is a Tab">	</a>text</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>enumitem</td><td>mandatory</td><td>.+</td><td>the item-nr</td></tr>
+      <tr><td>text</td><td>mandatory</td><td>.+</td><td>the item</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_style_controlled_simple">style_controlled_simple</a>
+</listing>
+    <br/>
+    <a name="A_freetextOrSection"></a>
+    <h1>freetextOrSection       <shortText>any line or a new section</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>freetextOrSection</td><td>&gt;2</td><td>.+</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>freetextOrSection
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>freetextOrSection</td><td>mandatory</td><td>.+</td><td>represents the line</td></tr>
+    </table>
+    <br/>
+    <desc>If this line introduces a new block, then it is considered a section.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>this is new section
+<a title = "Indent : 2">  </a>this is a line inside the section
+<a title = "Indent : 2">  </a>this is a new section
+<a title = "Indent : 4">    </a>this is a line inside the new section
+</listing>
+    <br/>
+    <desc>In case of a section:</desc><br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>  The style-var Sections is an array containing the strings for the corresponding level.</desc><br/>
+    <desc>  If more levels are present than entries in this array, then the last entry is used for these.</desc><br/>
+    <desc>  Say the chosen entry is &lsquo;\chapter&lsquo;, then it results in</desc><br/>
+    <desc>    \chapter{whatever the section is}</desc><br/>
+    <desc>  A label is set after this statement, so you can refer to this chapter by naming it.</desc><br/>
+    <desc>  The content of this chapter is additionally surrounded by the style-vars sectionStart and sectionEnd.</desc><br/>
+    <desc>  </desc><br/>
+    <desc>  The complete sequence is:</desc><br/>
+    <desc>      1	\chapter{whatever the section is}</desc><br/>
+    <desc>      2	\label{internal representation of &quot;whatever the section is&quot;}</desc><br/>
+    <desc>      3	sectionStart</desc><br/>
+    <desc>      4	content of the section (chapter, paragraph or whatever)</desc><br/>
+    <desc>      5	sectionEnd</desc><br/>
+    <a name="A_style_controlled_simple"></a>
+    <h1>style_controlled_simple       <shortText>a simple style-var controlled action</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">enum]</a></td><td>&gt;2 style_controlled</td><td>enum</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>emptyenumitem</td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">list]</a></td><td>&gt;2 style_controlled</td><td>list</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>emptylistline</td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">table]</a></td><td>&gt;2 style_controlled</td><td>table</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>emptytabrow</td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>style_controlled_simple
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>style_controlled_simple</td><td>mandatory</td><td>.+</td><td>represents the line</td></tr>
+    </table>
+    <br/>
+    <desc>What such an action does is:</desc><br/>
+    <desc>  take the name of the structure-item, append Simple and take this as the name of the style-var to be used.</desc><br/>
+    <desc>  e.G emptyenumitem is controlled by emptyenumitemSimple.</desc><br/>
+    <desc>  Nothing is output if this var is undefined.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>enum
+<a title = "Indent : 4">    </a>1<ping><a title="here is a Tab">	</a>first item</ping>
+
+<a title = "Indent : 4">    </a>2<ping><a title="here is a Tab">	</a>second item (item above is an emptyenumitem)</ping>
+</listing>
+    <br/>
+    <a name="A_style_controlled"></a>
+    <h1>style_controlled       <shortText>a complex style-var controlled action</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>verbatim</td><td>&gt;2 style_controlled</td><td>verbatim</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_verbatimLine">verbatimLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>definitions</td><td>&gt;2 style_controlled</td><td>definitions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_defitem">defitem</a><ping><a title="here is a Tab">	</a>[text]</ping></td><td>=</td><td>.+</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[enum]</td><td>&gt;2 style_controlled</td><td>enum</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_enumitem">enumitem</a><ping><a title="here is a Tab">	</a>text</ping></td><td>=</td><td>[\d]+\)</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptyenumitem</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[list]</td><td>&gt;2 style_controlled</td><td>list</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_listline">listline</a></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptylistline</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[table]</td><td>&gt;2 style_controlled</td><td>table</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_tabrow">tabrow</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_style_controlled_simple">emptytabrow</a></td><td>= style_controlled_simple</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>style_controlled
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>style_controlled</td><td>mandatory</td><td>.+</td><td>represents the line</td></tr>
+    </table>
+    <br/>
+    <desc>What such an action does is:</desc><br/>
+    <desc>  take the name of the structure-item, append Start and take this as the name of the style-var to be used at the start.</desc><br/>
+    <desc>  take the name of the structure-item, append End   and take this as the name of the style-var to be used at the end.</desc><br/>
+    <desc>  e.G list is controlled by listStart and listEnd.</desc><br/>
+    <desc>  Nothing is output if this var is undefined.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>list
+<a title = "Indent : 4">    </a>first item
+<a title = "Indent : 4">    </a>second item
+</listing>
+    <br/>
+    <a name="A_code"></a>
+    <h1>code       <shortText>a code block</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>code</td><td>&gt;2</td><td>code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_coderow">coderow</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>code
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>code</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <desc>this is controlled by the style-vars codeStart and codeEnd.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>look at the following coding:
+<a title = "Indent : 0"></a>code
+<a title = "Indent : 8">        </a>stmt1<ping><a title="here is a Tab">	</a>comment1</ping>
+<a title = "Indent : 10">          </a>stmt2<ping><a title="here is a Tab">	</a>comment2</ping>
+<a title = "Indent : 10">          </a>an empty line follows
+
+<a title = "Indent : 8">        </a>stmt3
+</listing>
+    <br/>
+    <a name="A_coderow"></a>
+    <h1>coderow       <shortText>a comment line of code</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_code">code</a></td><td>&gt;2</td><td>code</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>coderow<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>coderow<ping><a title="here is a Tab">	</a>comment</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>coderow</td><td>mandatory</td><td>.+</td><td>the code</td></tr>
+      <tr><td>comment</td><td>optional</td><td>.+</td><td>the comment</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_code">code</a>
+</listing>
+    <br/>
+    <desc>The code is output in a table with 3 columns</desc><br/>
+    <desc>    the line-number (starting at 1)</desc><br/>
+    <desc>    the coderow</desc><br/>
+    <desc>    the comment</desc><br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>and has the form</desc><br/>
+    <desc>  line-number &amp; {\tt coderow}</desc><br/>
+    <a name="A_meta"></a>
+    <h1>meta       <shortText>a block of metas</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>meta</td><td>=</td><td>meta</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_metaname">metaname</a><ping><a title="here is a Tab">	</a>content</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignore">ignore</a></td><td>&gt;</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>meta<ping><a title="here is a Tab">	</a>name</ping><pong><a title="here is a Tab">	</a>content</pong>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>meta</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>name</td><td>optional</td><td>.+</td><td>the name of the meta</td></tr>
+      <tr><td>content</td><td>optional</td><td>.+</td><td>the content of the meta</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>meta<ping><a title="here is a Tab">	</a>theme</ping><pong><a title="here is a Tab">	</a>blue</pong>
+<a title = "Indent : 0"></a>meta
+<a title = "Indent : 2">  </a>status<ping><a title="here is a Tab">	</a>internal</ping>
+<a title = "Indent : 2">  </a>reviewed<ping><a title="here is a Tab">	</a>12.12.12</ping>
+</listing>
+    <br/>
+    <a name="A_metaname"></a>
+    <h1>metaname       <shortText>a meta and and its content</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_meta">meta</a></td><td>=</td><td>meta</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>metaname<ping><a title="here is a Tab">	</a>content</ping></td><td>=</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>metaname<ping><a title="here is a Tab">	</a>content</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>metaname</td><td>mandatory</td><td>.+</td><td>the name of the meta</td></tr>
+      <tr><td>content</td><td>mandatory</td><td>.+</td><td>the content of the meta</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_meta">meta</a>
+</listing>
+    <br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>It is simply put as a comment into the tex-file and has no special meaning.</desc><br/>
+    <a name="A_picture"></a>
+    <h1>picture       <shortText>inserting a picture</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>picture<ping><a title="here is a Tab">	</a>[caption]</ping></td><td>&gt;o2</td><td>picture</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_url">url</a><ping><a title="here is a Tab">	</a>urlname</ping></td><td>=</td><td>url</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ascii2dart">ascii-art</a></td><td>=</td><td>ascii-art</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_artline">artline</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>picture<ping><a title="here is a Tab">	</a>caption</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>picture</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>caption</td><td>optional</td><td>.+</td><td>the caption for the picture</td></tr>
+    </table>
+    <br/>
+    <desc>this is controlled by several style-vars</desc><br/>
+    <desc>    1	pictureStart</desc><br/>
+    <desc>    2	statement according to url</desc><br/>
+    <desc>    3	Precaption</desc><br/>
+    <desc>    4	the caption</desc><br/>
+    <desc>    5	Postcaption</desc><br/>
+    <desc>    6	pictureEnd</desc><br/>
+    <desc>  3,4 and 5 only if a caption was given</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="truer">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>here a picture
+<a title = "Indent : 2">  </a>picture<ping><a title="here is a Tab">	</a>key figures</ping>
+<a title = "Indent : 4">    </a>url<ping><a title="here is a Tab">	</a>http://server/path/kf.jpg</ping>
+</listing>
+    <br/>
+    <a name="A_url"></a>
+    <h1>url       <shortText>the url of the picture</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_picture">picture</a><ping><a title="here is a Tab">	</a>[caption]</ping></td><td>&gt;o2</td><td>picture</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>url<ping><a title="here is a Tab">	</a>urlname</ping></td><td>=</td><td>url</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>url<ping><a title="here is a Tab">	</a>urlname</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>url</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>urlname</td><td>mandatory</td><td>.+</td><td>the URL</td></tr>
+    </table>
+    <br/>
+    <desc>this is controlled by the style-vars urlStart and urlEnd.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_picture">picture</a>
+</listing>
+    <br/>
+    <a name="A_emptyfreetextline"></a>
+    <h1>emptyfreetextline       <shortText>an empty Line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>emptyfreetextline</td><td>&gt;*</td><td>.{0}</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>emptyfreetextline
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>emptyfreetextline</td><td>mandatory</td><td>.+</td><td>an empty line</td></tr>
+    </table>
+    <br/>
+    <desc>What an empty line produces is controlled by the style-var emptyfreetextlineSimple.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>line 1 of my theses (an empty line follows)
+
+<a title = "Indent : 0"></a>line 2 of my theses
+</listing>
+    <br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <a name="A_tabrow"></a>
+    <h1>tabrow       <shortText>a table row</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>[<A href="#A_style_controlled">table]</a></td><td>&gt;2 style_controlled</td><td>table</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>tabrow<ping><a title="here is a Tab">	</a>*</ping></td><td>=</td><td>.+</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>tabrow
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>*</td><td>mandatory</td><td>.+</td><td>the fields</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>here a table:
+<a title = "Indent : 4">    </a>capital<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>country</ping>
+<a title = "Indent : 4">    </a>-------<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>-------</ping>
+<a title = "Indent : 4">    </a>Abu Dhabi<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>United Arab Emirates</ping>
+<a title = "Indent : 4">    </a>Abuja<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Nigeria</ping>
+<a title = "Indent : 4">    </a>Accra<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Ghana</ping>
+<a title = "Indent : 4">    </a>Adamstown<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Pitcairn Islands</ping>
+<a title = "Indent : 4">    </a>Addis Ababa<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Ethiopia</ping>
+<a title = "Indent : 4">    </a>Algiers<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Algeria</ping>
+<a title = "Indent : 4">    </a>Alofi<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Niue</ping>
+<a title = "Indent : 4">    </a>Amman<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Jordan</ping>
+<a title = "Indent : 4">    </a>Amsterdam<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Netherlands</ping>
+<a title = "Indent : 4">    </a>Andorra la Vella<ping><a title="here is a Tab">	</a>Andorra</ping>
+
+</listing>
+    <br/>
+    <desc>The style-var tabRowSep is used if the tabrow looks like:</desc><br/>
+    <desc>    --------- ---------</desc><br/>
+    <desc>In all other cases:</desc><br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>    1	emit style-var tabRowStart directly followed by the first field.</desc><br/>
+    <desc>    2	emit &quot;&amp; field&quot; for all remaining fields</desc><br/>
+    <desc>    3	emit style-var tabRowEnd</desc><br/>
+    <a name="A_defitem"></a>
+    <h1>defitem       <shortText>an item and it&lsquo;s definition</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style_controlled">definitions</a></td><td>&gt;2 style_controlled</td><td>definitions</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>defitem<ping><a title="here is a Tab">	</a>[text]</ping></td><td>=</td><td>.+</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>defitem<ping><a title="here is a Tab">	</a>text</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>defitem</td><td>mandatory</td><td>.+</td><td>the item</td></tr>
+      <tr><td>text</td><td>optional</td><td>.+</td><td>the definition</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>Here a overview :
+<a title = "Indent : 0"></a>definitions
+<a title = "Indent : 2">  </a>a rectangle<ping><a title="here is a Tab">	</a>A circle with corners</ping>
+<a title = "Indent : 2">  </a>a cube<ping><a title="here is a Tab">	</a>A ball with edges</ping>
+</listing>
+    <br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>the defitem and text are output as</desc><br/>
+    <desc>  \item[defitem:]{text}</desc><br/>
+    <desc>Obey to this when fiddling with the style-vars definitionsStart and definitionsEnd</desc><br/>
+    <a name="A_ascii2dart"></a>
+    <h1>ascii-art       <shortText>a picture drawn in ascii</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_picture">picture</a><ping><a title="here is a Tab">	</a>[caption]</ping></td><td>&gt;o2</td><td>picture</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>ascii-art</td><td>=</td><td>ascii-art</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_artline">artline</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>ascii-art
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>ascii-art</td><td>Indicator</td><td>.+</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>picture<ping><a title="here is a Tab">	</a>This is the caption of the picture with a link to [ #3rd Chapter -&gt; #3rd Chapter ] here</ping>
+<a title = "Indent : 2">  </a>label<ping><a title="here is a Tab">	</a>This is the label of the picture</ping>
+<a title = "Indent : 2">  </a>url<ping><a title="here is a Tab">	</a>../testpic.jpg</ping>
+<a title = "Indent : 2">  </a>ascii-art
+
+<a title = "Indent : 10">          </a>+------------+     +------------+
+<a title = "Indent : 10">          </a>|            |     |            |
+<a title = "Indent : 10">          </a>|            |     |            |
+<a title = "Indent : 10">          </a>|    From    |----&gt;|     To     |
+<a title = "Indent : 10">          </a>|            |     |            |
+<a title = "Indent : 10">          </a>|            |     |            |
+<a title = "Indent : 10">          </a>+------------+     +------------+
+
+<a title = "Indent : 14">              </a>before<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>after</ping>
+</listing>
+    <br/>
+    <desc>This is for pure documentary purposes. Nothing of it will be put into the final document.</desc><br/>
+    <a name="A_artline"></a>
+    <h1>artline       <shortText>a line inside ascii-art</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_picture">picture</a><ping><a title="here is a Tab">	</a>[caption]</ping></td><td>&gt;o2</td><td>picture</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ascii2dart">ascii-art</a></td><td>=</td><td>ascii-art</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>artline<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>artline
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>artline</td><td>mandatory</td><td>.*</td><td>the line</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_ascii2dart">ascii-art</a>
+</listing>
+    <br/>
+    <desc>It will not be put into to the final document.</desc><br/>
+    <a name="A_verbatimLine"></a>
+    <h1>verbatimLine       <shortText>a line that is output as typed with a typewriter</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_style_controlled">verbatim</a></td><td>&gt;2 style_controlled</td><td>verbatim</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>verbatimLine<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>verbatimLine
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>verbatimLine</td><td>mandatory</td><td>.+</td><td>the line</td></tr>
+      <tr><td>*</td><td>optional</td><td>.+</td><td>more fields of the line</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>verbatim
+
+<a title = "Indent : 16">                </a>can start with a blank line
+<a title = "Indent : 8">        </a>must start at or after the next tab-position
+<a title = "Indent : 10">          </a>can continue with any blanks, eg. one
+<a title = "Indent : 12">            </a>or three
+<a title = "Indent : 8">        </a>can contain<ping><a title="here is a Tab">	</a>tabs</ping>
+<a title = "Indent : 10">          </a>1<ping><a title="here is a Tab">	</a>one</ping>
+<a title = "Indent : 10">          </a>22<ping><a title="here is a Tab">	</a>twenty two</ping>
+<a title = "Indent : 10">          </a>333<ping><a title="here is a Tab">	</a>threehundredandthirtythree</ping>
+<a title = "Indent : 8">        </a>but tabhandling is poor with tex_tru.
+<a title = "Indent : 8">        </a>html_tru will show them correctly.
+
+<a title = "Indent : 8">        </a>can contain blank lines (one before and two to follow).
+</listing>
+    <br/>
+    <a name="A_label"></a>
+    <h1>label       <shortText>setting a label</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>label<ping><a title="here is a Tab">	</a>labelname</ping></td><td>&gt;2</td><td>label</td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>label<ping><a title="here is a Tab">	</a>labelname</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>label</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>labelname</td><td>mandatory</td><td>.+</td><td>the name of the label</td></tr>
+    </table>
+    <br/>
+    <desc>This allows you to set a label anywhere in your document.</desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>...
+<a title = "Indent : 0"></a>...
+<a title = "Indent : 0"></a>label<ping><a title="here is a Tab">	</a>my personal conclusion</ping>
+<a title = "Indent : 0"></a>...
+<a title = "Indent : 0"></a>..
+<a title = "Indent : 0"></a>see [ my conclusion -&gt; #my personal conclusion ] if you are inclined to
+</listing>
+    <br/>
+    <div align="right"><filename>tex.tru</filename></div>
+    <desc>it results in</desc><br/>
+    <desc>  \label{labelname}</desc><br/>
+    <a name="A_other20code"></a>
+    <h1>other code       <shortText>a block of native code for a not supported language</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>other code</td><td>&gt;2</td><td>\w+ code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_ignored">ignored</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>other code
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>other code</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_nativeLangCode">nativeLangCode</a>
+</listing>
+    <br/>
+    <desc>The whole block is silently ignored.</desc><br/>
+    <a name="A_nativeLangCode"></a>
+    <h1>nativeLangCode       <shortText>a native code-line which is copied unchanged</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="tex.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_tex20code">tex code</a></td><td>&gt;&gt;2</td><td>tex code</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>nativeLangCode<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>nativeLangCode
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>nativeLangCode</td><td>.+</td><td>mandatory</td><td>the codeline</td></tr>
+      <tr><td>*</td><td>.+</td><td>optional</td><td>more fields of the codeline</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>some normal text
+<a title = "Indent : 0"></a>html code
+<a title = "Indent : 2">  </a>&lt;font color=&quot;blue&quot;&gt;what a beautiful sky&lt;/font&gt;
+<a title = "Indent : 0"></a>tex code
+<a title = "Indent : 2">  </a>{\sl laid back}
+</listing>
+    <br/>
+    <a name="A_ignored"></a>
+    <h1>ignored       <shortText>an ignored line</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="../common.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_other20code">other code</a></td><td>&gt;2</td><td>\w+ code</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>ignored<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../common.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>ignored
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>ignored</td><td>mandatory</td><td>.*</td><td>the line</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_nativeLangCode">nativeLangCode</a>
+</listing>
+    <br/>
+    <desc>This line is silently ignored</desc><br/>
+    <a name="A_tex20code"></a>
+    <h1>tex code       <shortText>a block of native tex-code which is copied unchanged</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./tex_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="tex.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>tex code</td><td>&gt;&gt;2</td><td>tex code</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_nativeLangCode">nativeLangCode</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
+</table>
+    <div align="right"><filename>tex.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>tex code
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>tex code</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_nativeLangCode">nativeLangCode</a>
+</listing>
+    <br/>
+    <br/>
+    <div class="tellgenerator">
+      <hr/>
+      This Page was generated using <a href="trudoc_tru.html">trudoc_tru</a>. Find more on <a href="http://www.strux.net">www.strux.net</a>
+    </div>
+  </body>
+</html>

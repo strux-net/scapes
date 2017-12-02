@@ -1,0 +1,16 @@
+<markup>
+<bold>
+text :   foo
+</bold>
+</markup>
+<bold>
+text :   bar
+</bold>
+<special>
+<markup>
+<bold>
+  this is special
+</bold>
+</markup>
+text :   baz
+</special>

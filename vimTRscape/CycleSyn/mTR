@@ -1,0 +1,6 @@
+title		cycle through syntax-settings
+CycleSyn.vim	CycleSyn.vimTR
+  install
+    m_copy CycleSyn.vim ~/.vim/plugin
+  doc
+    vimdefault	txt html

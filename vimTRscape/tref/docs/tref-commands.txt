@@ -1,0 +1,12 @@
+*tref.txt*   provide context view (indent related)
+
+COMMANDS FOR VIEW CONTEXT                                                         *Context-commands*
+
+                                                                                  *Context-<CR>*
+  <CR> : go to the line~
+    go to this line
+
+    This command can also be found in the menu under :
+      Strux -> Context -> go to line
+==============================================================================
+vim:ft=help

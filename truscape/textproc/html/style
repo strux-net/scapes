@@ -1,0 +1,30 @@
+style
+  Pre		1
+  Title		A sample for html_tru
+  Toc		1
+  Hierarchy		1
+  NotSupportedVar	1
+  lineNumbersForCode	1
+  tableStart		<br/><table bgcolor="silver" border="2">
+  tableEnd		</table><br/>
+
+  Precaption		<font color="green">
+  Postcaption		</font><br/>
+
+  pictureStart		<center>
+  pictureEnd		</center>
+
+  sectionStart		<div style="margin:15px">
+
+  head			<head><link rel="stylesheet" href="style.css"/>
+  bodyStart		<body bgcolor="#d5d2d5" marginwidth="50" topmargin="100" leftmargin="50" marginheight="100">
+  bodyEnd
+	<br/><hr/>
+	<hr/> This Page was generated using <a href="html_tru.html">html_tru</a>
+	</body>
+meta
+  charset	UTF-8
+  author	Michael Naumann
+  m1		cont for m1
+  m2		cont for m2
+

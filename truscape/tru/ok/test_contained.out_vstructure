@@ -1,0 +1,7 @@
+#file	test17.tru
+structure
+	main		=	main
+	  ?	cond	>	\?
+	  ?-	cond	>	\?-
+	  -		> else	\-
+	  stmt		>

@@ -1,0 +1,30 @@
+# comments are possible.
+# they do not find their way into the makefile
+# they start with a # as this line does
+title	this is a demo project
+simple_goal	simple_goal.plTR
+goal1
+  build	goal1.tru
+  test
+    command		outfile
+    : a comment
+    command w/o outfile
+    m_diff generated_file
+    m_copy a ok/
+  doc
+    vimdefault	commands
+    # inplace adjust docs/LL.txt
+    echo "docs are ready"
+  install
+    m_copy a $HOME/
+    2bin
+    2ok			another file
+    2struxbin
+# another comment
+goal2
+  build
+    command	goal2
+  install
+    2bin
+addr2nokia
+  build	addr2nokia.tru ../addr_desc.tru

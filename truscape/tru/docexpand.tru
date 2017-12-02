@@ -1,0 +1,24 @@
+VERSION	3.0
+##	any comment should look like this
+##	  the two hashes followed by a tab or a newline are the key
+READ
+  return 1 if /^#/;
+actions
+  line
+    >
+	$indent$_
+  see	link
+    >
+      open TRU,"<$link" or die "cannot open $link";
+      while (<TRU>) {
+        chomp;
+        if (s/^##\t(\t*)/$1$indent/ or s/^##$//)
+	$_
+      }
+      close TRU;
+	$indent  html code
+				Find details in <a href="examples/truscape/tru/$link">$link</a><br/>
+structure
+	see	link		>>*	see
+	line	*		>>*
+

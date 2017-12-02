@@ -1,0 +1,32 @@
+  H	>	-	<	d	s	name
+  0	0	0	0	0	1	<looks_like_html>
+  1	1	0	1	1	1	Action
+  1	1	0	0	1	1	Annotation :
+  1	1	0	1	1	0	DOC
+  1	1	1	1	1	0	DocAction
+  0	0	0	0	0	1	EMPTY
+  1	1	0	1	1	1	Example :
+  1	1	0	0	1	1	Indicator
+  1	0	0	0	1	1	P[<]![planname]{
+  1	1	0	1	1	1	Parameters :
+  1	1	0	0	1	1	Signature :
+  1	1	0	0	1	3	Testaction
+  1	1	0	0	2	0	Testaction1
+  1	1	0	0	1	0	Testaction2
+  0	0	0	0	0	1	Testaction3
+  1	1	0	0	1	0	UNMATCHED
+  0	0	0	0	0	1	[]
+  0	0	0	0	0	1	anotheraction
+  0	0	0	0	0	1	block
+  1	1	0	0	1	2	detail
+  1	1	0	0	1	1	exampleLine
+  1	1	0	0	1	1	file
+  1	1	1	1	1	1	gives :
+  1	1	0	0	1	1	givesLine
+  0	0	0	0	0	1	inside
+  1	1	1	0	1	0	nonDocAction
+  1	1	0	0	1	1	param
+  1	1	0	0	1	1	see
+  1	1	0	0	1	1	short
+  0	0	0	0	0	1	test action
+  0	0	0	0	0	1	try

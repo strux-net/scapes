@@ -1,0 +1,9 @@
+VERSION	3.0
+BEGIN
+  $delim="_?\t+";
+actions
+  any
+    >
+	@{[ join "\t",@F ]}
+structure
+	any	*

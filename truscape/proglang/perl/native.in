@@ -1,0 +1,13 @@
+function2	$a, $b
+  label1:
+  label2: F	expr;expr;expr
+  label3: F	expr;expr;expr	stmt
+  F		expr;expr;expr
+  F		expr;expr;expr	stmt
+  label4: F	(expr)		stmt
+  label5: W	expr		stmt
+  label6: U	expr		stmt
+
+  map	@Array	$i++
+    s/a/b/
+    s/c/d/g

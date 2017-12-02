@@ -1,0 +1,20 @@
+redirection example 1
+  this line is processed by action calledAction
+redirection example 2
+  style	goodstyle
+    three	drei
+    four	vier
+redirection example 3
+  trigger
+    one	eins
+    two	zwei
+redirection example 4
+    one	eins
+    two	zwei
+redirection example 4
+  style	goodstyle
+    three	drei
+    four	vier
+redirection example 2
+    one	eins
+    two	zwei

@@ -1,0 +1,65 @@
+VERSION	3.0
+##	calling actions
+##	  Actions can be called in two ways:
+##	    1)
+##	    code
+##		->action	arg1	arg2
+##	    2)
+##	    code
+##		-->action	arg1	arg2	{
+##		}
+#
+##	  compare this to "redirecting actions"
+#           as described in redirectingActions.tru
+##
+##	  the following line
+##	  code
+##	        ->calledAction	$F[0]	$F[1]
+##	  is just a shorter way to write the following two lines
+##	  code
+##	        -->calledAction	$F[0]	$F[1]	{
+##	        }
+actions
+  calledAction
+    >
+	>calledAction:$calledAction:$state:$_:@F
+    -
+	-calledAction:$calledAction:$state:$_:@F
+    <
+	<calledAction:$calledAction:$state:$_:@F
+  Example1
+    Demonstrates the calling of calledAction
+      in, depth and out-action of calledAction are processed in direct sequence
+    >
+	going to call calledAction
+      ->calledAction	arg1	arg2
+	after call calledAction
+    -
+	depth of caller
+    <
+	out of caller
+  Example2
+    Demonstrates the calling of calledAction and outputting "more Text" while calledAction is still on stack
+      The order (in time) of calling is
+	  inaction of calledAction
+	  output "more Text"
+	  depthaction of calledAction
+	  outaction of calledAction
+      The order (in output) of calling is
+	  inaction of calledAction
+	  depthaction of calledAction
+	  output "more Text"
+	  outaction of calledAction
+    >
+	going to call calledAction
+      -->calledAction	arg1	arg2	{
+	more Text
+      }
+	after call calledAction
+    -
+	depth of caller
+    <
+	out of caller
+structure
+	Example1	=	Example1
+	Example2	=	Example2

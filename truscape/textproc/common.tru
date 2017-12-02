@@ -1,0 +1,464 @@
+VERSION	3.0
+BEGIN
+  sub rcvar($) {
+    local $var = shift;
+    if (defined $$var) {
+	$$var
+    }
+  }
+  sub MakeValidUniqueURI($$) {
+    local $ret;
+    if ($InternalURIs{$ret=MakeValidURI(@_)}++) {
+      print STDERR "$0 - warning : dublicate internal link '$_[1]' in $ARGV @ $.\n";
+    }
+    return $ret
+  }
+here text
+  STYLE
+	style
+	  #
+	  # the following vars are common to html_tru and tex_tru
+	  #
+	  # Pre				the document is prestructured
+	  # Title			the title of the document
+	  # Toc				generate a table of contents
+	  #
+	  # documentStart		put at the very beginning
+	  # documentEnd			put at the very end
+	  # bodyStart			starts the body
+	  # bodyEnd			ends the body
+	  # sectionStart		put before each section
+	  # sectionEnd			put after each section
+	  # pictureStart		put before a picture
+	  # pictureEnd			put after a picture
+	  # tableStart			starts a table
+	  # tableEnd			ends a table
+	  # codeStart			put before a code-block
+	  # codeEnd			put after a code-block
+	  # listStart			start a list
+	  # listEnd			end a list
+	  # definitionsStart		start a definition
+	  # definitionsEnd		end a definition
+	  # enumStart			start an enum
+	  # enumEnd			end an enum
+	  # verbatimStart		start a verbatim
+	  # verbatimEnd			end a verbatim
+	  # emptylistlineSimple		used for an empty list-line
+	  # emptytabrowSimple		used for an empty table-line
+	  # emptyenumitemSimple		used for an empty enum-item
+	  # enumitemStart		start an enum-item
+	  # enumitemEnd			end an enum-item
+	  # tabRowStart			start a tab-line
+	  # tabRowEnd			end a tab-line
+	  # tabRowSep			used for a ---- separator
+	  # urlStart			start a url (for a picture)
+	  # urlEnd			end a url
+	  # Precaption			start a caption
+	  # Postcaption			end a caption
+	  # raw				treat input as valid in the target language (e.g don't convert < to &lt; rsp. $<$)
+
+	  Pre
+	  Title
+	  Toc
+	  raw
+actions
+  DOC
+    A tru text processor
+      This is one of a family of textproc-truers.
+      Current members are
+          html_tru	for html
+          tex_tru	for tex/latex/pdf
+      Both share the same syntax-idea.
+      Example :	truer
+	The Earth
+	  The Earth is the reservation of a species that calls itself mankind.
+	  Nearly nothing is known about them - except that they divided their reservation into continents and oceans.
+	  The continents
+	    Currently 5 continents are known.
+	    The following table shows the name of the brightest member of the mankind brought to birth in this continent.
+		Asia		Ku Li Wuan
+		America		Gregor Mac Doo-rado
+		Africa		Mguabe Ntchagu
+		Europe		Cura Don Kley
+		Australia	Gustwin Argentless
+	  The oceans
+	    They are mostly full of a very peculiar liquid.
+	The Moon
+	  The Moon is one of roughly 2^32.5 natural satellites of the earth.
+	  Mankind thinks that he moon is the only satellite surrounding their reservation.
+	The Sun
+	  The sun is surrounded by 17 Planets.
+	  8 of them are currently known to mankind and they name them as follows:
+	      Mercury
+	      Venus
+	      Earth
+	      Mars
+	      Jupiter
+	      Saturn
+	      Uranus
+	      Neptune
+      Some style-vars can be set to modify the output.
+      option -show_vars shows the compiled in settings.
+
+      Your document may consist of more than one input-file.
+      Also the style-settings can be in a separate file.
+
+      See |style| for more details.
+    >
+  listline
+    a list-line
+      Parameters :
+        listline	mandatory	.+	represents the line
+      Example :
+        see	style_controlled
+    >
+	$listlineStart$listline
+    -
+      if ($NrOfLinesFollowing and $Pre)
+	$LD
+    <
+	$listlineEnd
+  enumitem	text
+    an enum-line
+      Parameters :
+        enumitem	mandatory	.+	the item-nr
+        text	mandatory	.+	the item
+      Example :
+        see	style_controlled_simple
+    >
+	$enumitemStart$text
+    -
+      if ($NrOfLinesFollowing)
+	$LD
+    <
+	$enumitemEnd
+  freetextOrSection
+    l	freetextOrSectionUnescaped
+    any line or a new section
+      Parameters :
+        freetextOrSection	mandatory	.+	represents the line
+      If this line introduces a new block, then it is considered a section.
+      Example :	truer
+	this is new section
+	  this is a line inside the section
+	  this is a new section
+	    this is a line inside the new section
+      In case of a section:
+    >
+      $freetextOrSectionUnescaped = $Funescaped[0];
+    -
+      if ($NrOfChilds) {
+        >>section	$freetextOrSection	$freetextOrSectionUnescaped
+      } else {
+	$FTI$freetextOrSection$LD
+      }
+
+  style_controlled_simple
+    a simple style-var controlled action
+      Parameters :
+        style_controlled_simple	mandatory	.+	represents the line
+      What such an action does is:
+        take the name of the structure-item, append Simple and take this as the name of the style-var to be used.
+        e.G emptyenumitem is controlled by emptyenumitemSimple.
+        Nothing is output if this var is undefined.
+      Example :	truer
+	enum
+	    1	first item
+
+	    2	second item (item above is an emptyenumitem)
+    >
+        rcvar("${state}Simple");
+  style_controlled
+    a complex style-var controlled action
+      Parameters :
+        style_controlled	mandatory	.+	represents the line
+      What such an action does is:
+        take the name of the structure-item, append Start and take this as the name of the style-var to be used at the start.
+        take the name of the structure-item, append End   and take this as the name of the style-var to be used at the end.
+        e.G list is controlled by listStart and listEnd.
+        Nothing is output if this var is undefined.
+      Example :	truer
+	list
+	    first item
+	    second item
+    >
+        rcvar("${state}Start");
+    <
+        rcvar("${state}End");
+  code
+    a code block
+      Parameters :
+        code		indicator	.*
+      this is controlled by the style-vars codeStart and codeEnd.
+      Example :	truer
+	look at the following coding:
+	code
+		stmt1	comment1
+		  stmt2	comment2
+		  an empty line follows
+
+		stmt3
+    >
+      $linenr=0;
+      >>style_controlled	code
+  coderow	comment
+    a comment line of code
+      Parameters :
+        coderow	mandatory	.+	the code
+        comment	optional	.+	the comment
+      Example :
+        see	code
+      The code is output in a table with 3 columns
+          the line-number (starting at 1)
+          the coderow
+          the comment
+    >
+      $linenr++;
+  meta	name	content
+    a block of metas
+      Parameters :
+        meta		indicator	.*
+        name		optional	.+	the name of the meta
+        content		optional	.+	the content of the meta
+      Example :	truer
+	meta	theme	blue
+	meta
+	  status	internal
+	  reviewed	12.12.12
+    >
+      usemark("mark_Meta");
+    <
+      unusemark();
+  metaname	content
+    a meta and and its content
+      Parameters :
+        metaname	mandatory	.+	the name of the meta
+        content	mandatory	.+	the content of the meta
+      Example :
+        see	meta
+    >
+  picture	caption
+    inserting a picture
+      Parameters :
+        picture		indicator	.*
+        caption		optional	.+	the caption for the picture
+      this is controlled by several style-vars
+          1	pictureStart
+          2	statement according to url
+          3	Precaption
+          4	the caption
+          5	Postcaption
+          6	pictureEnd
+        3,4 and 5 only if a caption was given
+      Example :	truer
+	here a picture
+	  picture	key figures
+	    url	http://server/path/kf.jpg
+    >
+	$pictureStart
+    <
+      if ($caption ne "") {
+	$Precaption
+	$caption
+	$Postcaption
+      }
+	$pictureEnd
+  url	urlname
+    the url of the picture
+      Parameters :
+        url			indicator	.*
+        urlname		mandatory	.+	the URL
+      this is controlled by the style-vars urlStart and urlEnd.
+      Example :
+        see	picture
+    >
+	$urlStart$Funescaped[1]$urlEnd
+  emptyfreetextline
+    an empty Line
+      Parameters :
+        emptyfreetextline	mandatory	.+	an empty line
+      What an empty line produces is controlled by the style-var emptyfreetextlineSimple.
+      Example :
+	line 1 of my theses (an empty line follows)
+
+	line 2 of my theses
+    >
+  tabrow
+    a table row
+      Parameters :
+        *		mandatory	.+	the fields
+      Example :
+	here a table:
+	    capital		country
+	    -------		-------
+	    Abu Dhabi		United Arab Emirates
+	    Abuja		Nigeria
+	    Accra		Ghana
+	    Adamstown		Pitcairn Islands
+	    Addis Ababa		Ethiopia
+	    Algiers		Algeria
+	    Alofi		Niue
+	    Amman		Jordan
+	    Amsterdam		Netherlands
+	    Andorra la Vella	Andorra
+
+      The style-var tabRowSep is used if the tabrow looks like:
+          --------- ---------
+      In all other cases:
+    >
+      if (/^[-\t]+$/) {
+	$tabRowSep
+        return;
+      }
+  section	unescaped
+    a new section
+      Parameters :
+        section	mandatory	.+	the section-title
+        unescaped	mandatory	.+	the section-title (as given)
+      called in |freetextOrSection|
+
+      A new section is started, depending on the indent-level.
+
+      Example :
+        see	freetextOrSection
+    >
+      local $cleanText = MakeValidUniqueURI(1,$unescaped);  # 1 : internal link
+      $level = ($level-1)>>1;
+
+  defitem	text
+    an item and it's definition
+      Parameters :
+        defitem	mandatory	.+	the item
+        text	optional	.+	the definition
+      Example :
+	Here a overview :
+	definitions
+	  a rectangle	A circle with corners
+	  a cube	A ball with edges
+    >
+  ascii-art
+    a picture drawn in ascii
+      Parameters :
+        ascii-art	indicator	.+
+      Example :
+	picture	This is the caption of the picture with a link to [ #3rd Chapter -> #3rd Chapter ] here
+	  label	This is the label of the picture
+	  url	../testpic.jpg
+	  ascii-art
+
+		  +------------+     +------------+
+		  |            |     |            |
+		  |            |     |            |
+		  |    From    |---->|     To     |
+		  |            |     |            |
+		  |            |     |            |
+		  +------------+     +------------+
+
+		      before		after
+      This is for pure documentary purposes. Nothing of it will be put into the final document.
+    >
+  artline
+    a line inside ascii-art
+      Parameters :
+        artline	mandatory	.*	the line
+      Example :
+        see	ascii-art
+      It will not be put into to the final document.
+    >
+  verbatimLine
+    a line that is output as typed with a typewriter
+      Parameters :
+        verbatimLine	mandatory	.+	the line
+        *			optional	.+	more fields of the line
+      Example :
+	verbatim
+
+		        can start with a blank line
+		must start at or after the next tab-position
+		  can continue with any blanks, eg. one
+		    or three
+		can contain	tabs
+		  1	one
+		  22	twenty two
+		  333	threehundredandthirtythree
+		but tabhandling is poor with tex_tru.
+		html_tru will show them correctly.
+
+		can contain blank lines (one before and two to follow).
+    >
+  label	labelname
+    setting a label
+      Parameters :
+        label	indicator	.*
+        labelname	mandatory	.+	the name of the label
+      This allows you to set a label anywhere in your document.
+      Example :
+	...
+	...
+	label	my personal conclusion
+	...
+	..
+	see [ my conclusion -> #my personal conclusion ] if you are inclined to
+    >
+      $labelname = MakeValidUniqueURI(1,$Funescaped[1]);  # 1 : internal link
+  other code
+    a block of native code for a not supported language
+      Parameters :
+        other code		indicator	.*
+      Example :
+        see	nativeLangCode
+      The whole block is silently ignored.
+    >
+  nativeLangCode
+    a native code-line which is copied unchanged
+      Parameters :
+        nativeLangCode	.+	mandatory	the codeline
+        *			.+	optional	more fields of the codeline
+      Example :
+	some normal text
+	html code
+	  <font color="blue">what a beautiful sky</font>
+	tex code
+	  {\sl laid back}
+    >
+      if ($_ eq "") {
+       |
+      } else {
+	$findent$funescaped
+      }
+  ignored
+    an ignored line
+      Parameters :
+        ignored	mandatory	.*	the line
+      Example :
+        see	nativeLangCode
+      This line is silently ignored
+    >
+structure
+	meta	=	meta
+	  metaname	content
+	  ignore			>				.{0}
+	verbatim			>2 style_controlled		verbatim
+	  verbatimLine	*		=t*
+	code				>2				code
+	  coderow	*		=t*
+	definitions			>2 style_controlled		definitions
+	  defitem	[text]		=				.+
+	picture	[caption]		>o2				picture
+	  url	urlname			=				url
+	  ascii-art			=				ascii-art
+	    artline	*		=t*
+	[enum]				>2 style_controlled		enum
+	    enumitem	text		=				[\d]+\)
+	    emptyenumitem		= style_controlled_simple	.{0}
+	[list]				>2 style_controlled		list
+	    listline			=				.+
+	    emptylistline		= style_controlled_simple	.{0}
+	[table]				>2 style_controlled		table
+	    tabrow	*		=				.+
+	    emptytabrow			= style_controlled_simple	.{0}
+	label	labelname		>2				label
+	other code			>2				\w+ code
+	  ignored	*		>>t*
+	freetextOrSection		>2				.+
+	emptyfreetextline		>*				.{0}

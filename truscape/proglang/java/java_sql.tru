@@ -1,0 +1,166 @@
+VERSION	3.0
+actions
+  cursor using	connection
+    an sql cursor
+      Parameters :
+        cursor using	indicator	.*
+        connection		mandatory	.+	the connection
+      Example :	java_tru -noIntro
+	public class Foo
+	  static boolean foo	String str2	throws SQLException
+	    String str1=null
+	    boolean found=false
+
+	    cursor using	connection
+	      SELECT
+		f1
+		from tab1,tab2
+		where var1=tab1.f12
+		and f1 like $String:str2
+		and f2 is not NULL
+		and f3 like 'XYZ'
+	      into	status
+		str1	String
+	      loop
+		?	str1.substring(0,3).equals("FOO") || str1.substring(0,2).equals("MN")
+		  found=true
+		  break
+	    return found
+    >
+      >>using	cursor	$connection
+
+  using	connection
+    l	statcount
+    a select statement
+      Parameters :
+        using	indicator	.+
+        connection	mandatory	.+	the connection
+      Example :	java_tru -noIntro
+	public class Foo
+	  public static int Foo	long num1,long num2,long num3	throws SQLException,IOException
+	    int res=0
+	    using	connection
+	      SELECT
+		count(*)
+		from tab1,tab2,tab3
+		where
+		    tab1.f12=12
+		and tab2.f12=13
+		and f1=$Long:num1
+		and f2=$Long:num2
+		and f3=$Long:num3
+		and f4 like ' '
+	      into
+		res	Int
+	    return res
+    >
+      $statcount=++$statCount;
+	PreparedStatement stat$statcount = $connection.prepareStatement(
+    <
+      if ($using eq "cursor") {
+	}
+      }
+	stat$statcount.close();
+  SELECT
+    l	status
+    the select-clause
+      Parameters :
+        SELECT	indicator	.*
+      Example :
+        see	using
+    >
+      @HostVars=();
+	 "SELECT "
+    <
+	);
+      local $columnNr=1;
+	boolean status$statcount;
+      for (@HostVars) {
+        ($class,$name) = split(":");
+        if ($class eq "Char") {
+	stat$statcount.setString($columnNr,""+$name);
+        } else {
+	stat$statcount.set$class($columnNr,$name);
+        }
+        $columnNr++;
+      }
+	ResultSet rs$statcount = stat$statcount.executeQuery();
+        if ($using eq "cursor") {
+	while (status$statcount=rs$statcount.next()) {
+          $offset+=2;
+        } else {
+	status$statcount=rs$statcount.next();
+        }
+  loop
+    the loop-clause
+      Parameters :
+        loop	indicator	.*
+      Example :
+        see	cursor using
+    >
+      $offset-=2;
+  sqlstatement	comment
+    the sql-statement
+      Parameters :
+        sqlstatement	mandatory	.+	the statement
+        comment		optional	.+	a comment
+      Example :
+        see	cursor using
+        see	using
+    >
+      while ($sqlstatement =~ s/\$(\w+:\w+)/?/m) {
+        push @HostVars,$1;
+      }
+	+" $sqlstatement"
+  into	statusvar
+    the into-clause
+      Parameters :
+        into	indicator	.*
+        statusvar	optional	.+	a statusvar
+      Example :
+        see	cursor using
+        see	using
+    >
+	if (status$statcount) {
+    <
+	}
+      if ($statusvar) {
+	$statusvar=status$statcount;
+      }
+  field	class
+    the field-assignment
+      Parameters :
+        field	mandatory	.+	the varname
+        class	mandatory	.+	the class of the field
+      Example :
+        see	cursor using
+        see	using
+    >
+      if ($class eq "NarrowedLong") {
+	if (rs$statcount.getBigDecimal($rnr) != null) {
+	  $field = rs$statcount.getBigDecimal($rnr).longValue();
+	} else {
+	  $field = 0;
+	}
+      } elsif ($class eq "Char") {
+	if (rs$statcount.getString($rnr) != null) {
+	  $field = rs$statcount.getString($rnr).charAt(0);
+	} else {
+	  $field = ' ';
+	}
+      } else {
+	$field = rs$statcount.get$class($rnr);	
+      }
+group
+  java_sql
+	using	connection							>2	using
+	  SELECT								=	SELECT
+	    sqlstatement	[comment]					=*
+	  into	[statusvar]							=	into
+	    field	class
+	cursor using	connection						>2	cursor using
+	  SELECT								=	SELECT
+	    sqlstatement	[comment]					=*
+	  into	[statusvar]							=	into
+	    field	class
+	  loop									=	loop

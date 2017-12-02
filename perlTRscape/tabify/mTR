@@ -1,0 +1,13 @@
+title			tabalign text
+tabify	tabify.plTR
+  doc
+    { echo "tabify\n  $Title\n    usage"; ./tabify -? 2>&1 | i -it 1 ; }	docs/README.txt
+    { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru	docs/README.html
+  test	
+    ./tabify in
+    ./tabify -l in
+    ./tabify -c 2 in
+    ./tabify -delim "\t" in
+    ./tabify -m 8 in
+  install
+    2struxbin

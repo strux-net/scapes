@@ -1,0 +1,76 @@
+building c_tru
+tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru c.tru ../c_like_vars.tru ../../lib/basicUSAGE.tru ccoll.tru >c_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 939
+	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
+tru : Warning 'arg-name problematic' in ../common.tru @ 969
+	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
+chmod +x c_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
+PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s c c_tru >c_tru.tmp
+mv c_tru.tmp c_tru
+chmod +x c_tru
+GOOD	statistics.out
+GOOD	c_tru
+{ echo "c_tru\n  convert .cTR to .c\n    usage"; ./c_tru -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .cTR to .c" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+trudoc_tru ./c_tru >docs/c_tru.html
+GOOD	docs/c_tru.html
+testing c_tru
+./c_tru ctest.ccTR >ctest.cc
+GOOD	ctest.cc
+./c_tru  -languageType cpp -noMark  -intro ./intro -noProtos ctest.ccTR >ctest4.c
+GOOD	ctest4.c
+./c_tru  -languageType cpp -noIntro -use_printf            ctest.ccTR >ctest1.c
+GOOD	ctest1.c
+./c_tru  -noMark                                           ctest.ccTR >ctest2.c
+GOOD	ctest2.c
+./c_tru  -noMark                 -noProtos                 ctest.ccTR >ctest3.c
+GOOD	ctest3.c
+./c_tru  -noMark  -intro ./nofile intro
+cannot open intro ./nofile : No such file or directory
+#if	HAVE_CONFIG_H
+#include <config.h>
+#endif
+// These lines come from the intro
+// This file is copyright by hunini
+./c_tru  -invalid
+Unknown option: invalid
+usage : c_tru [Options] [<file> ....]
+
+produces a c-file
+
+find details in
+    ~/strux/doc/c_tru.html
+or if you do not have the strux-tools installed
+    http://www.strux.net/strux_zip/strux/doc/c_tru.html
+
+per convention the input files have the extension .cTR
+
+The input
+  consists of one or more input files.
+    If no <file> is given or if <file> is '-' (a dash), then STDIN is used.
+  must obey to the structure as can be seen with --structure.
+The output
+  is written to stdout.
+    you can use '-o filename' to write to filename.
+  is produced when the last line of the last file is seen.
+
+OPTIONS:
+       -allowP			enables the P (Plan) structure item
+		this must be allowed explicitely since this item is potentially insecure
+       -noIntro			Do not generate an intro
+       -noMark			Do not generate marks for Hand written stuff
+       -intro:file		use specified file for intro
+		This file will be copied unchanged.
+       -obeyD:string		define what D produces
+       -noAutoSemicolon		Do not autmatically append ; to one-line-statements
+       -noProtos		Do not generate prototypes
+       -noConfigCheck		Do not generate code to include <config.h>
+       -languageType:s[c]	can be c or cpp (not yet completely functional)
+       -use_printf		use printf instead of std::cout for auto print statements (c++)
+
+       -vhelp shows more options
+makefile:37: recipe for target 'test_c_tru' failed
+make[1]: [test_c_tru] Error 1 (ignored)
+doxygen > doxygen.log

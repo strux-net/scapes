@@ -1,0 +1,42 @@
+lust	lust
+lustline	      lustline
+class	class another
+private	  private
+privateVar	    x
+privateVar	    y
+doc	  doc1
+docline	    more
+class	class anyclass
+vars	  vars
+UNMATCHED	     wrong line 1 for testing
+var	    a
+initialisation	      b
+doc	  doc1
+docline	    one
+docline	      one,one
+docline	    two
+foo	  foo
+jdtag	      p		p1
+jdocu	      free text
+jdocu	       more free text
+main	  main
+tableline	      one	two	three
+tableline	      four	five	six
+table	    table
+tableline	      eins	zwei	drei
+tableline	      vier	fünf	sechs
+line	    now comes a autolist
+listline		rom
+listline		berlin
+try	    try
+line	        anything
+line		something
+For		F
+line	    code
+lustline		    a lustline
+line	      more code
+lustline		      also a lustline
+For	      F
+fancy	      fancy
+line	        do this and that
+UNMATCHED	     wrong line 2 for testing

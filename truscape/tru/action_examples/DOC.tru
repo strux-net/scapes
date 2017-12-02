@@ -1,0 +1,24 @@
+VERSION	3.0
+##	DOC
+##	  wraps around the whole document
+##	  receives ARGV as arguments
+##	  $_ is also set to ARGV
+##	  READ is not applied to this
+##	  you do not see it in the structure
+##	  at level 0
+##	  $DOC has no useful meaning.
+##	  Use $ARGV to access the currently processed file
+actions
+  DOC
+    >
+	start of the Document
+	\$DOC is '$DOC'
+	\@ARGV is '@ARGV'
+	\$_ is '$_'
+    <
+	end of the Document
+  line
+    >
+	$_ ($ARGV)
+structure
+	line	*	>>

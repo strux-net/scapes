@@ -1,0 +1,59 @@
+acmd
+  What acmd does
+    acmd provides a console tool for executing commands depending on the filename.
+    It reads a database (acmd.rc) in which the possible commands are stored.
+    It also has a smooth interface to [ LL ]( LL.html ), that allows you to use it from there directly.
+
+  What acmd requires
+    acmd is a perl-script, hence you need [ perl ]( http://www.perl.org ).
+
+    You may also want to install [ LL ]( LL.html ).
+  How to use acmd
+    Say, you have a file BobbyBrown.mp3 and you have no idea what to with this file.
+    You can now simply enter
+    code
+	acmd BobbyBrown.mp3
+    and you will be prompted a list of choices, looking like this example
+    picture	example
+      url	acmd.jpg
+      ascii-art
+	0       \.mp3$
+	1         G play using xmms
+	2         G play using gqmpeg
+	3         I play using mp3blaster (new)
+	4         I play using mp3blaster (old)
+	5         G play using freeamp
+	6         G play using x11amp
+	7         o info
+	8         o show parameters
+	9         o check for errors
+	10        o check for anomalies
+	11        o dump all headers
+	12        o dump all tags
+	choice : 
+    The first line shows which regexp matched your file.
+    The next lines give you a list of choices.
+    The last line accepts your choice.
+
+    You see three columns
+    definitions
+      a number
+	  enter this number to start the corresponding program.
+	  enter this number with a leading "-" to show the corresponding command.
+	  enter q to quit acmd without any further action.
+	  enter ? to redisplay this list
+      an indicator
+        the following table shows the meaning of the indicators
+	    Indicator	meaning		example
+	    I		interactive	gdb
+	    o		output		nm
+	    G		Gui		gv
+	    s		silent		cp
+      a description
+	A short descriptive text of what the associated program does
+  What files are related
+      strux/bin/acmd
+      strux/etc/acmd.rc
+  The tru source of acmd
+    Here's how acmd is produced:
+	[ perl_tru ]( perl_tru.html ) [ acmd.plTR ]( examples/perlTRscape/acmd/acmd.plTR ) > [ acmd ]( ../bin/acmd )

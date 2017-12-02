@@ -1,0 +1,10 @@
+?	a
+?-	a-
+  ?	b
+    in b
+  ?-	c
+    in c
+  -
+    in b-else
+-
+  in a-else

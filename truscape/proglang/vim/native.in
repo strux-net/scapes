@@ -1,0 +1,8 @@
+dummy
+  'peter'
+  $ENVVAR='new value'
+  @register='new value'
+  &option='new value'
+  @@='new value for unnamed register'
+  @/='new searchstring'
+  :put='this is NOT a let'

@@ -1,0 +1,17 @@
+title			A vim/perl based filebrowser with nice features
+LL.vim	LL.vimTR
+  install
+    m_copy LL.vim ~/.vim/plugin
+    m_copy docs/LL-commands.txt ~/.vim/doc/
+    m_copy docs/LL.txt          ~/.vim/doc/
+  helpers
+    tru.jar vim_tru LL.vimTR &
+  doc
+    vimdefault	commands
+    # inplace adjust docs/LL.txt
+    perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="==============================================================================" } if (/^$s/../$e/ ) { unless ($d++) { print "$s\n" ; print `vimInterface2Help_terse_tru LL.vimTR`; print "\n$e\n" }} else { print }' docs/LL.txt
+    m_diff docs/LL.txt
+    html_tru docs/README.txtTR	docs/README.html
+disp.vim	disp.vimTR
+  install
+    m_copy disp.vim ~/.vim/plugin

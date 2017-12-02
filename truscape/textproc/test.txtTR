@@ -1,0 +1,168 @@
+1st chapter
+  1st section of 1st chapter
+    1st line of 1st section of 1st chapter.
+        1st autolistline
+        2nd autolistline
+    2nd line of 1st section of 1st chapter.
+    3rd line of 1st section of 1st chapter.
+    Links are possible, as in:
+	es folgt ein [     langer link    ](    nach hier    ) und noch ein [ langer link ]( nach dort )
+	a link to an external page [ http://www.namsu.de/Extra/befehle/Umlaute.html ]( http://www.namsu.de/Extra/befehle/Umlaute.html ) here
+	a link to [ #3rd Chapter ]( #3rd Chapter ) here
+	a link to [ #explicit mark 1 ]( #explicit mark 1 ) here
+	a link to [ #an invalid local ref ]( #an invalid local ref ) here
+  2nd section of 1st chapter
+    1st line of 2nd section of 1st chapter.
+    2nd line of 2nd section of 1st chapter.
+    3rd line of 2nd section of 1st chapter.
+    4th line of 2nd section of 1st chapter very very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very  very long.
+
+    5th line of 2nd section (after an empty line).
+2nd chapter
+  1st line of 2nd chapter.
+  2nd line of 2nd chapter.
+  3rd line of 2nd chapter.
+  Characters survive : ^!"¶$%&/()=?`'@*+~'#<BR>|,;.:-_äöü{}[]\
+  1st section of 2nd chapter
+
+	1st autolistline
+	    1st inner autolistline
+	    2nd inner autolistline
+	2nd autolistline
+
+	3rd autolistline (with empty line before thisone)
+
+  2nd section of 2nd chapter (deals with explicit lists)
+    list
+	1st explicit listline (empty line follows)
+
+	2nd explicit listline
+	3rd explicit listline
+  3rd section
+    subsubsection
+      paragraph
+        subparagraph
+	      A table	at a deep indent
+	      with	2 lines
+	  subparagraph1 too deep
+	    subparagraph2 too deep
+	      tex cannot handle this deeply nests
+  4th section
+    introducing a verbatim part
+    verbatim
+
+	        can start with a blank line
+	must start at or after the next tab-position
+	  can continue with any blanks, eg. one
+	    or three
+	can contain	tabs
+	  1	one
+	  22	twenty two
+	  333	threehundredandthirtythree
+	but tabhandling is poor with tex_tru
+
+	can contain blank lines (one before and two to follow)
+
+
+3rd Chapter
+  An autotable within a list
+      1st autolistline
+        is extended
+      2nd autolistline
+          1st	autotableline
+	  2nd	autotableline
+      3rd autolistline
+  An autotable can jump to next page (since supertabular) with tex_tru if in pre-mode and $LD is \\\\. This is very annoying.
+  But since I changed \\\\ to \n this phenomenon is not longer there. Smile.
+      t		0
+      a1	a2
+      b1	b2	b3
+      c1	 	c3
+
+  explicit table
+  table
+      h1			h2
+      --			--
+      a1			a2
+      b1			b2						b3
+      c1
+
+  autoenum
+      1)	one
+      2)	two
+
+      3)	three (with empty line between 2 and 3 and an empty line after)
+
+      4)	another enum line
+	extended
+  explicit enum
+  enum
+      1)	one
+      2)	two
+
+      3)	three (with empty line between 2 and 3 and an empty line after)
+
+      4)	another enum line
+	extended
+  some code
+	mmm ....
+  some fancy code
+  code
+	stmt1	comment1
+	  stmt2	comment2
+	  an empty line follows
+
+	stmt3
+
+  label	explicit mark 1
+  some definitions
+  definitions
+    def1	is1
+    def2	is2
+      is3
+
+  tex code
+	{\sl this is a native
+	  tex-statement}
+  html code
+	<font color="blue">this is a native
+	  html-statement</font>
+  Two Pictures
+  picture	This is the caption of the picture with a link to [ #3rd Chapter ]( #3rd Chapter ) here
+    label	This is the label of the picture
+    url	../testpic.jpg
+    ascii-art
+
+	+------------+     +------------+
+	|            |     |            |
+	|            |     |            |
+	|    From    |---->|     To     |
+	|            |     |            |
+	|            |     |            |
+	+------------+     +------------+
+
+	     before		after
+		and an tab at the beginning
+
+  picture	The same picture, this time with linenumbers
+    label	This is the label of the picture
+    url	../testpic_with_lnr.jpg
+    ascii-art
+
+	+------------+     +------------+
+	|            |     |            |
+	|            |     |            |
+	|    From    |---->|     To     |
+	|            |     |            |
+	|            |     |            |
+	+------------+     +------------+
+
+	     before		after
+		and an tab at the beginning
+
+  Another Picture
+  picture	This picture cannot be generated, there are no : - lines
+    url	../anotherpic.jpg
+
+  Now a final section
+    a section with a final statement

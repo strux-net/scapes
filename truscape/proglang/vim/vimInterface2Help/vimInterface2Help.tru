@@ -1,0 +1,120 @@
+VERSION	3.0
+USAGE	vimInterface2Help_tru <file>
+	produces a vim help-file for the interfaces of <file>.
+	The result is a complete help-file for the mappings.
+	Use it together with vimInterface2Help_terse_tru.
+
+	per convention the input files have the extension .vimTR
+WRITE
+  s|^(?!"")|" "x($level-1-$Interactive)|e if $_;
+actions
+  DOC
+    >
+	$ENV{Title}
+    <
+	==============================================================================
+	vim:ft=help
+  Interface	buffer
+    >
+      $additional_help_seen=0;
+      local $scopeText;
+      if ($Interface =~ /^v/) {
+        $scopeText="VISUAL MODE ";
+        $scope="v_";
+      } else {
+        $scope="";
+      }
+      $buffer =~ s:^/strux/::;		# /strux/LL -> LL
+      local $s;
+      if ($buffer ne "") {
+        local $ucbuffer = uc($buffer);
+        $s="${scopeText}COMMANDS FOR VIEW $ucbuffer";
+      } else {
+        ($buffer = ($ARGV)) =~ s/\.[^\.]+//; # strip extension
+        $s="${scopeText}COMMANDS FOR $buffer";
+      }
+      $s.=(" "x(82-length($s)))."*$scope$buffer-commands*";
+       |
+	$s
+       |
+    <
+      setmark("mark_additional_help");
+      undef $tru::Marks{"mark_additional_help"};
+  smap	short	cmd
+    >
+      my $mapping=vimFriendlyName($smap);
+      local $s=(" "x80)."*$scope$buffer-$mapping*";
+	$s
+      $s="$smap : $short";
+	$s~
+  mmap	menu	short	cmd
+    >
+      >>smap	$mmap	$short	$cmd
+    <
+      $menu =~ s/\&//g;
+      $menu =~ s/\./ -> /g;
+       |
+	  This command can also be found in the menu under :
+	    $menu
+  Interactive	item
+    >
+      $Interactive = 2;
+    <
+      if ($item) {
+        local $item4vim=vimFriendlyName($item);
+	  see also |$buffer-$item4vim|.
+      }
+	  This is an |interactive-command|.
+      $Interactive = 0;
+  longhelp
+    >
+	$_
+  See also :
+    >
+      >>longhelp	$_
+  also
+    >
+      if ($_) {
+        local $mapping=vimFriendlyName($_);
+	$_	|$buffer-$mapping|
+      } else {
+       |
+      }
+  Example :
+    >
+      >>longhelp	$_ >
+       |
+    <
+      $level = 0;
+	<
+  exampleLine
+    >
+	$_
+  exampleDesc
+    >
+      s|^(?!"")|" "x($level-3-$Interactive)|e;
+      $level = 0;
+	< $_ >
+  help	item
+    >
+      local $item4vim=vimFriendlyName($item);
+      usemark("mark_additional_help");
+      unless ($additional_help_seen++) {
+        local $s="RELATED HELP";
+        $s.=(" "x(80-length($s)))."*$scope$buffer-related_help*";
+	$s
+      }
+      local $s=(" "x80)."*$scope$buffer-$item4vim*";
+	$s
+	  $item~
+      $Interactive-=2;
+    <
+      $Interactive+=2;
+      unusemark();
+  more at	item
+    >
+      local $item4vim=vimFriendlyName($item);
+	find more at |$buffer-$item4vim|.
+  helpline
+    >
+	  $_

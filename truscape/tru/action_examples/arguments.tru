@@ -1,0 +1,122 @@
+VERSION	3.0
+actions
+  country	city
+    Demonstrates the accessing of arguments.
+      This action has the two arguments 'country' and 'city'.
+      They are accessible by prepending a $ to them.
+    >
+	country : $country
+	city    : $city
+      # additionally, the whole input-line (w/o the leading whitespace) can be found in $_
+      # the leading whitespace can be found in $indent
+	$indent$_
+  name with blank	arg with (non) alpha letters
+    Demonstrates the naming of arguments
+      arguments can contain any character except:
+	  \t (tab)	for obvious reasons
+	  $sdel		per default : \x00 (a null byte)
+      for each arg a perl-var with the name of the arg is created.
+      perl imposes a limit of 255 characters per name. tru inherits this limit.
+      if the arg does not look like a valid perl-var you can access it like ${"arg"}.
+
+      Some names are not allowed, since they have a special meaning in Perl or tru.
+      tru will issue an error in this case.
+      These names have a special meaning in Perl:
+	  1,2,3 ....		all digit names
+	  ::
+	  F			also in tru
+	  INC
+	  +			plus
+	  -			minus
+	  _			underscore
+      These names have a special meaning in tru:
+          tru::			anything starting with these 5 characters
+	  ATTIC
+
+	  state
+	  stream
+	  delim
+	  indent
+	  level
+	  rindent
+	  rlevel
+	  rnr
+	  NrOfChilds
+	  NrOfLinesFollowing
+	  F
+      Some names are problematic, since they have a special meaning in Perl.
+      tru will issue a warning if you use such a name for an arg.
+      Do only use them if you really know what the consequences are.
+      If uncertain choose another name.
+    >
+	I want to have a ${"name with blank"}
+	Ok, I answer ${"arg with (non) alpha letters"}
+  live-time of an arg
+    Demonstrates how long an arg lives.
+    >
+	\$a1 will be set in the following block. Up to now it is undefined and evals to an empty string ('$a1')
+    <
+	\$a1 has now still the value '$a1'
+  a1	a2
+    Birth of an arg.
+      On first invocation of this action ('a1') the var $a1 and the array @a1 begin to exist.
+      $a1 has the value of the first field in the input.
+      all arguments can also be found in the array @F
+      These values are visible in all pits.
+    >
+	in-action    of a1
+	   \$a1 has the value '$a1'
+	   \$a2 has the value '$a2'
+	   the value \$a1 can also be found in \$F[0] : $F[0]
+      $a1 =~ s/(.*)/uc($1)/e; # this is to demonstrate that modifications on a1 will also be visible in depth-action and out-action
+      # @F holds an independent copy of the arguments, so the above modification does not affect $F[0]
+	   the value \$F[0] is still '$F[0]', whereas \$a1 is now '$a1'
+    -
+	depth-action of a1.
+	   \$a1 has the value '$a1'
+	   \$a2 has the value '$a2'
+    <
+	out-action   of a1.
+	   \$a1 has the value '$a1'
+	   \$a2 has the value '$a2'
+  a problematic name
+    Demonstrates the consequences of using problematic names.
+      I will use perls internal var $^V
+      If you use an arg of this name tru will kind of localize this var.
+      You can use it at will.
+      Though the original var $^V is read-only, the localized var is not.
+    >
+	PERL_VERSION : $^V
+    <
+	PERL_VERSION : $^V
+  
+    >
+	PERL_VERSION : $^V
+  coefficients
+    Demonstrates how to access the arguments if there is a variable number of them
+      As for all actions the arguments can be found in the array @F
+    >
+      $nrOfCoeefs = $#F+1;
+	Nr of coefficients : $nrOfCoeefs
+      for ($i=0; $i<@F; $i++) {
+	  coefficient[$i] = $F[$i]
+      }
+  location
+    Demonstrates how the arguments are stacked
+      not only the action-names (as shown here) but also all arguments are stacked in the same way.
+      The same holds for StackedLocalVars
+    >
+	$location is in the chain of @location
+structure
+	accessing arguments		=	accessing arguments
+	  country	city
+	naming the arguments		=	naming the arguments
+	  name with blank	arg with (non) alpha letters
+	live-time of an arg		=	live-time of an arg
+	  a1	a2			>
+	variable nr of arguments	=	variable nr of arguments
+	  coefficients	*
+	stack of arguments		=	stack of arguments
+	  location			>
+	a problematic name		=	a problematic name
+	  

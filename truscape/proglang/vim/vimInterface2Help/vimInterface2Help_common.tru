@@ -1,0 +1,11 @@
+VERSION	3.0
+BEGIN
+  $cc='"';
+  sub vimFriendlyName($)
+  {
+    local ($_) = @_;
+    s/\*/_star/g;
+    s/\"/_quote/g;
+    s/ /_/g;
+    $_;
+  }
