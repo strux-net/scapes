@@ -14,16 +14,46 @@ Cle in  mark_test : hit two
   inserted hit two
 2nd out mark_test 2 : hit two
 1st out mark_test 2 : hit two
+Cle in  mark_test : hit three
+1st depth mark_test 3 : hit three
+2nd depth mark_test 3 : hit three
+  inserted hit three
+2nd out mark_test 3 : hit three
+1st out mark_test 3 : hit three
 Cle in  mark_test : 
-1st depth mark_test 3 : 
-2nd depth mark_test 3 : 
+1st depth mark_test 4 : 
+2nd depth mark_test 4 : 
 mark_notused is not used (this line comes from the hook)
-2nd out mark_test 3 : 
-1st out mark_test 3 : 
+2nd out mark_test 4 : 
+1st out mark_test 4 : 
 2nd outer out mark_test 1 : hit one
 1st outer out mark_test 1 : hit one
+outer in mark_a 1 : a eins
+in mark_a 1 : a eins
+depth mark_a 1 : a eins
+  inserted a eins
+out mark_a 1 : a eins
+outer out mark_a 1 : a eins
 Body starts here
 ja
 here hit one
+an a : a eins
+again a mark_a (due to newmark)
+outer in mark_a 1 : a zwei
+in mark_a 1 : a zwei
+depth mark_a 1 : a zwei
+  inserted a zwei
+out mark_a 1 : a zwei
+in mark_a 2 : a drei
+depth mark_a 2 : a drei
+  inserted a drei
+out mark_a 2 : a drei
+outer out mark_a 1 : a zwei
 nein
 here hit two
+an a : a zwei
+vieleicht
+an a : a drei
+here hit three
+again a mark_a (due to newmark)
+mark_a is not used

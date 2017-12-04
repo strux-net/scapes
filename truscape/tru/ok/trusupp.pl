@@ -845,6 +845,7 @@ sub setmark($)
   my ($markName) = @_;
   tru::shiftMarks();
   $tru::Marks{$markName}[0]++;                     # setmark_count
+  $tru::Marks{$markName}[1] = 0;                   # usemark_count
   if ($tru::unsetMarkActive eq $markName) {
     undef $tru::unsetMarkActive;
   }

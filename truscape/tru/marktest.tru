@@ -5,20 +5,45 @@ actions
 	Doc starts here
       setmark("mark_notused");
       setmark("mark_test");
+      setmark("mark_a");
 	Body starts here
       atmark("mark_not_set") {
 	will never be seen
       }
   line
     >
+      if ($line eq 'newmark') {
+	again a mark_a (due to newmark)
+        setmark("mark_a");
+      } else {
 	$line
+      }
   hit
     >
 	here $hit
       atmark("mark_test") {
 	  inserted $hit
       }
+  a
+    >
+	an a : $a
+      atmark("mark_a") {
+	  inserted $a
+      }
 hooks
+  mark_a
+    {
+	in mark_a $count : $_
+    -
+	depth mark_a $count : $_
+    }
+	out mark_a $count : $_
+    [
+	outer in mark_a $count : $_
+    ]
+	outer out mark_a $count : $_
+    n
+	mark_a is not used
   mark_test
     {
 	1st in mark_test $count : $_
@@ -51,4 +76,5 @@ hooks
 	Cle in  mark_test : $_
 structure
 	hit	=	hit.*
+	a	=	a.*
 	line
