@@ -23,7 +23,7 @@ test test_ALL:\
   test_addr2nokia\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -33,7 +33,7 @@ install_simple_goal:
 	@echo  installing simple_goal
 	@${m_copy} simple_goal ok/simple_goal
 test_simple_goal: simple_goal
-	@echo  testing simple_goal
+	@echo  no test for goal1
 .PHONY: simple_goal
 simple_goal:
 	@echo  building simple_goal
@@ -75,7 +75,7 @@ install_goal2:
 	@${m_copy} goal2 ok/goal2
 	@${m_copy} goal2 ~/bin/goal2
 test_goal2: goal2
-	@echo  testing goal2
+	@echo  no test for addr2nokia
 .PHONY: goal2
 goal2:
 	@echo  building goal2
@@ -86,7 +86,7 @@ install_addr2nokia:
 	@${m_copy} addr2nokia ok/addr2nokia
 	@${m_copy} statistics.out1 ok/statistics.out1
 test_addr2nokia: addr2nokia
-	@echo  testing addr2nokia
+	@echo  no test for addr2nokia
 .PHONY: addr2nokia
 addr2nokia:
 	@echo  building addr2nokia

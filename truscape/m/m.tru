@@ -23,21 +23,19 @@ actions
        |
 	test test_ALL:\\
       setmark("mark_test_ALL");
-
        |
 	logged_build:
-		-\@\${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,\$\$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+		-\@\${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,\$\$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 		\@\${m_diff} m.log
 	confirmed_install: confirm install
 	confirm:
 		\@bash -c 'read -p "really install ? (^C) if not"'
   goal	source
     >
-	install_$goal:
-		\@echo  installing $goal
       setmark("mark_install");
 	test_$goal: $goal
-		\@echo  testing $goal
+      atmark("mark_test_ALL")
+	  test_$goal\\
       setmark("mark_test");
 	.PHONY: $goal
 	$goal:
@@ -49,8 +47,6 @@ actions
 	  $goal\\
       atmark("mark_install_ALL")
 	  install_$goal\\
-      atmark("mark_test_ALL")
-	  test_$goal\\
   test		testfile
     >
       usemark("mark_test");
@@ -233,6 +229,16 @@ actions
     sets the env-var $Title to $Title
     >
 	export Title=$Title
+hooks
+  mark_install
+    [
+	install_$goal:
+		\@echo  installing $goal
+  mark_test
+    n
+		\@echo  no test for $goal
+    [
+		\@echo  testing $goal
 structure
 	EMPTY				>*		.{0}
 	comment		*		=2		#.*

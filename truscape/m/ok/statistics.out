@@ -23,6 +23,8 @@
   0	0	0	0	0	1	ignored
   1	1	0	1	0	1	install
   1	1	0	0	0	1	installrule
+  1	0	0	0	0	0	mark_install
+  1	0	0	0	0	0	mark_test
   1	1	0	0	1	1	shdefault
   1	1	0	0	2	3	statement
   1	1	0	1	0	1	test
