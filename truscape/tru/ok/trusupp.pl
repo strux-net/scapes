@@ -844,6 +844,15 @@ sub setmark($)
 {
   my ($markName) = @_;
   tru::shiftMarks();
+  if (!$tru::Marks{$markName}[1] and $tru::Marks{$markName}[0]) {
+    #****************************************
+    # apply the n-hook for the previous not used mark
+    #****************************************
+    push @tru::Oi,$tru::Oi;
+    $tru::Oi=$tru::Marks{$markName}[2];            # Oi
+    tru::umacro("$markName",'n');                  # mark was not used, apply this hook
+    $tru::Oi=pop(@tru::Oi);
+  }
   $tru::Marks{$markName}[0]++;                     # setmark_count
   $tru::Marks{$markName}[1] = 0;                   # usemark_count
   if ($tru::unsetMarkActive eq $markName) {
