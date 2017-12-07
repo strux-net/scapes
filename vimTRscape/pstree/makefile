@@ -14,7 +14,7 @@ test test_ALL:\
   test_pstree.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -30,7 +30,7 @@ install_pstree.vim:
 	vim -u NONE -c 'helptags ~/.vim/doc' -c q
 	@${m_copy} docs/pstree.txt ok/docs/pstree.txt
 test_pstree.vim: pstree.vim
-	@echo  testing pstree.vim
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: pstree.vim
 pstree.vim:
 	@echo  building pstree.vim

@@ -7,4 +7,3 @@ GOOD	docs/README.txt
 GOOD	docs/README.html
 Title="*ZoomFont.txt*   (un-)zoom fontsize" vimInterface2Help_tru ZoomFont.vimTR >docs/ZoomFont-commands.txt
 GOOD	docs/ZoomFont-commands.txt
-testing ZoomFont.vim

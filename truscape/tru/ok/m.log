@@ -6,7 +6,6 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >trusupp.pl
   For mark mark_version
 	    print "  trusupp.plTR	3.0\n";
 GOOD	trusupp.pl
-testing trusupp.pl
 building trusubs.pl
 perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
 ~/strux/bin/perl_tru : some text was never output (due to unset marks) when processing trusubs.plTR
@@ -15,8 +14,6 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
   For mark mark_version
 	    print "  trusubs.plTR	3.0\n";
 GOOD	trusubs.pl
-testing trusubs.pl
-perl ./trusubs.pl -version
 building tru
 perl -I ~/strux/lib  ~/strux/bin/tru tru.tru ../lib/basicUSAGE.tru >tru_tmp
 GOOD	tru_tmp
@@ -28,26 +25,12 @@ chmod +x tru
 GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tA parser-generator for structured text" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
-testing tru
-./tru -version
-  tru.tru	3.0
 building marktest_tru
 perl ./tru marktest.tru >marktest_tru
 GOOD	marktest_tru
-testing marktest_tru
-perl ./marktest_tru marktest.in >marktest.out
-./marktest_tru : some text was never output (due to unset marks) when processing marktest.in
-  For mark mark_not_set
-	will never be seen
-GOOD	marktest.out
 building docexpand_tru
 perl ./tru docexpand.tru >docexpand_tru
 GOOD	docexpand_tru
-testing docexpand_tru
-perl ./docexpand_tru tru.doc.frame >docs/tru.txtTR
-GOOD	docs/tru.txtTR
-html_tru docs/tru.txtTR >docs/tru.html
-GOOD	docs/tru.html
 building testStructureGroup_tru
 perl ./tru testStructureGroup.tru >testStructureGroup_tru
 tru : Warning 'group not defined' in testStructureGroup.tru @ 64
@@ -55,6 +38,126 @@ tru : Warning 'group not defined' in testStructureGroup.tru @ 64
 tru : Warning 'group never used' in testStructureGroup.tru @ 0
 	the group 'unusedGroup' was defined but never used
 GOOD	testStructureGroup_tru
+building structure_demo_tru
+perl ./tru structure_demo.tru >structure_demo_tru
+tru : Warning 'group not defined' in structure_demo.tru @ 590
+	you try to use group 'undefinedGroup' which is not defined
+tru : Warning 'Too many regexps' in structure_demo.tru @ 632
+	you specified more regular expressions than fields in 'too many regexes'
+tru : Warning 'Too many regexps' in structure_demo.tru @ 633
+	you specified more regular expressions than fields in 'too many regexes'
+tru : Warning 'fields after star' in structure_demo.tru @ 634
+	the field '*' is pointless after the preceding *
+tru : Warning 'fields after star' in structure_demo.tru @ 635
+	the field 'field' is pointless after the preceding *
+tru : Warning 'Indicator for [] given' in structure_demo.tru @ 637
+	the indicator is ingored
+tru : Warning 'group not defined' in structure_demo.tru @ 638
+	you try to use group 'undefined group' which is not defined
+tru : Warning 'group never used' in structure_demo.tru @ 0
+	the group 'never used group' was defined but never used
+tru : Warning 'group never used' in structure_demo.tru @ 0
+	the group 'unusedGroup' was defined but never used
+GOOD	structure_demo_tru
+building test16_tru
+perl ./tru test16.tru >test16_tru
+GOOD	test16_tru
+building test17_tru
+perl ./tru -q test17.tru >test17_tru
+GOOD	test17_tru
+building test15_tru
+perl ./tru -q test15.tru tracemarks.tru >test15_tru
+GOOD	test15_tru
+building test_explicit_tru
+perl ./tru -q test_explicit.tru >test_explicit_tru
+GOOD	test_explicit_tru
+building test_unshiftREAD_tru
+perl ./tru -q test_unshiftREAD.tru >test_unshiftREAD_tru
+GOOD	test_unshiftREAD_tru
+building test1_tru
+perl ./tru -q -s statistics.out1 test1.tru test1a.tru >test1_tru
+GOOD	test1_tru
+GOOD	statistics.out1
+building test_rnr_tru
+perl ./tru -q test_rnr.tru >test_rnr_tru
+GOOD	test_rnr_tru
+building test2_tru
+perl ./tru -q test2.tru >test2_tru
+GOOD	test2_tru
+building test3_tru
+perl ./tru -q test3.tru >test3_tru
+GOOD	test3_tru
+building test4_tru
+perl ./tru -q test4.tru >test4_tru
+GOOD	test4_tru
+building test5_tru
+perl ./tru -q test5.tru >test5_tru
+GOOD	test5_tru
+building test6_tru
+perl ./tru -q test6.tru >test6_tru
+GOOD	test6_tru
+building test7s1_tru
+perl ./tru test7scommon.tru test7s1.tru unroll.tru >test7s1_tru
+tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
+	Exactly the first USAGE should have a short-description
+GOOD	test7s1_tru
+building test7s2_tru
+perl ./tru test7scommon.tru test7s2.tru unroll.tru >test7s2_tru
+tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
+	Exactly the first USAGE should have a short-description
+GOOD	test7s2_tru
+building test7s3_tru
+perl ./tru test7scommon.tru test7s3.tru unroll.tru >test7s3_tru
+tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
+	Exactly the first USAGE should have a short-description
+GOOD	test7s3_tru
+building test7_tru
+perl ./tru -q test7.tru unroll.tru >test7_tru
+GOOD	test7_tru
+building test8_tru
+perl ./tru -q test8.tru >test8_tru
+GOOD	test8_tru
+building test9_tru
+perl ./tru -q test9.tru >test9_tru
+GOOD	test9_tru
+building test10_tru
+perl ./tru -q test10.tru >test10_tru
+GOOD	test10_tru
+building test11_tru
+perl ./tru -q test11.tru >test11_tru
+GOOD	test11_tru
+building test12_tru
+perl ./tru -q test12.tru >test12_tru
+GOOD	test12_tru
+building test13_tru
+perl ./tru -q test13.tru >test13_tru
+GOOD	test13_tru
+building test14_tru
+perl ./tru -q test14.tru >test14_tru
+GOOD	test14_tru
+building testdoc_tru
+perl ./tru -s statistics.testdoc  testdoc1.tru testdoc2.tru >testdoc_tru
+GOOD	testdoc_tru
+GOOD	statistics.testdoc
+building testREAD_tru
+perl ./tru testREAD.tru >testREAD_tru
+GOOD	testREAD_tru
+testing trusubs.pl
+perl ./trusubs.pl -version
+testing tru
+./tru -version
+  tru.tru	3.0
+testing marktest_tru
+perl ./marktest_tru marktest.in >marktest.out
+./marktest_tru : some text was never output (due to unset marks) when processing marktest.in
+  For mark mark_not_set
+	will never be seen
+GOOD	marktest.out
+testing docexpand_tru
+perl ./docexpand_tru tru.doc.frame >docs/tru.txtTR
+GOOD	docs/tru.txtTR
+html_tru docs/tru.txtTR >docs/tru.html
+GOOD	docs/tru.html
 testing testStructureGroup_tru
 perl testStructureGroup_tru -debug -debStructure testStructureGroup.in >testStructureGroup.deb
 GOOD	testStructureGroup.deb
@@ -111,34 +214,10 @@ structure
 		  autodoc	>
 	      Forever		=	Forever
 	        stmt
-building structure_demo_tru
-perl ./tru structure_demo.tru >structure_demo_tru
-tru : Warning 'group not defined' in structure_demo.tru @ 590
-	you try to use group 'undefinedGroup' which is not defined
-tru : Warning 'Too many regexps' in structure_demo.tru @ 632
-	you specified more regular expressions than fields in 'too many regexes'
-tru : Warning 'Too many regexps' in structure_demo.tru @ 633
-	you specified more regular expressions than fields in 'too many regexes'
-tru : Warning 'fields after star' in structure_demo.tru @ 634
-	the field '*' is pointless after the preceding *
-tru : Warning 'fields after star' in structure_demo.tru @ 635
-	the field 'field' is pointless after the preceding *
-tru : Warning 'Indicator for [] given' in structure_demo.tru @ 637
-	the indicator is ingored
-tru : Warning 'group not defined' in structure_demo.tru @ 638
-	you try to use group 'undefined group' which is not defined
-tru : Warning 'group never used' in structure_demo.tru @ 0
-	the group 'never used group' was defined but never used
-tru : Warning 'group never used' in structure_demo.tru @ 0
-	the group 'unusedGroup' was defined but never used
-GOOD	structure_demo_tru
 testing structure_demo_tru
 perl structure_demo_tru -debug -debStructure structure_demo.in >structure_demo.out
 tru : warning : stray blanks in an empty line at structure_demo.in @ 213
 GOOD	structure_demo.out
-building test16_tru
-perl ./tru test16.tru >test16_tru
-GOOD	test16_tru
 testing test16_tru
 perl test16_tru test16 >test16.out
 test16_tru - No match for test16 @ 11 :      wrong line 1 for testing
@@ -162,9 +241,6 @@ test16_tru - No match for test16 @ 42 :      wrong line 2 for testing
 GOOD	test16all.deb
 perl test16_tru -debug -debStructure test16 >test16Structure.deb
 GOOD	test16Structure.deb
-building test17_tru
-perl ./tru -q test17.tru >test17_tru
-GOOD	test17_tru
 testing test17_tru
 perl test17_tru test17 >test17.out
 GOOD	test17.out
@@ -255,9 +331,6 @@ perl test17_tru -structure >test_contained.out_structure
 GOOD	test_contained.out_structure
 perl test17_tru -vstructure >test_contained.out_vstructure
 GOOD	test_contained.out_vstructure
-building test15_tru
-perl ./tru -q test15.tru tracemarks.tru >test15_tru
-GOOD	test15_tru
 testing test15_tru
 perl test15_tru -vhelp
 helps debugging
@@ -337,26 +410,16 @@ test15_tru : some text was never output (due to unset marks) when processing tes
   For mark mark_not_set
 	test15	0	<	 0	 DOC
 GOOD	test15rev.deb
-building test_explicit_tru
-perl ./tru -q test_explicit.tru >test_explicit_tru
-GOOD	test_explicit_tru
 testing test_explicit_tru
 perl test_explicit_tru -debug -deball test1 >test_explicit.out
 GOOD	test_explicit.out
 perl test_explicit_tru -debReverse 0 test1 >test_explicitrev.deb
 GOOD	test_explicitrev.deb
-building test_unshiftREAD_tru
-perl ./tru -q test_unshiftREAD.tru >test_unshiftREAD_tru
-GOOD	test_unshiftREAD_tru
 testing test_unshiftREAD_tru
 perl test_unshiftREAD_tru test_unshiftREAD >test_unshiftREAD.out
 GOOD	test_unshiftREAD.out
 perl test_unshiftREAD_tru -debReverse 0 test_unshiftREAD >test_unshiftREADrev.deb
 GOOD	test_unshiftREADrev.deb
-building test1_tru
-perl ./tru -q -s statistics.out1 test1.tru test1a.tru >test1_tru
-GOOD	test1_tru
-GOOD	statistics.out1
 testing test1_tru
 perl test1_tru         -stream test1 test1a >test1seq.out
 GOOD	test1seq.out
@@ -373,25 +436,11 @@ perl test1_tru -version
   test1a.tru	3.0
 perl test1_tru -debReverse 0 test1 test1a >test1depthrev.deb
 GOOD	test1depthrev.deb
-building test_rnr_tru
-perl ./tru -q test_rnr.tru >test_rnr_tru
-GOOD	test_rnr_tru
 testing test_rnr_tru
 perl test_rnr_tru               test11 >test_rnr.out
 GOOD	test_rnr.out
 perl test_rnr_tru -debReverse 0 test11 >test_rnrrev.deb
 GOOD	test_rnrrev.deb
-building test2_tru
-perl ./tru -q test2.tru >test2_tru
-GOOD	test2_tru
-testing test2_tru
-building test3_tru
-perl ./tru -q test3.tru >test3_tru
-GOOD	test3_tru
-testing test3_tru
-building test4_tru
-perl ./tru -q test4.tru >test4_tru
-GOOD	test4_tru
 testing test4_tru
 >|emptyfile
 perl test4_tru -c -b=foo    emptyfile >test4.out
@@ -418,9 +467,6 @@ OPTIONS:
 makefile:401: recipe for target 'test_test4_tru' failed
 make[1]: [test_test4_tru] Error 1 (ignored)
 GOOD	test4a.out
-building test5_tru
-perl ./tru -q test5.tru >test5_tru
-GOOD	test5_tru
 testing test5_tru
 perl test5_tru                                       test5 >test5depth.out
 GOOD	test5depth.out
@@ -444,9 +490,6 @@ perl test5_tru         -debReverse 0                 test5 >test5depthrev.deb
 GOOD	test5depthrev.deb
 perl test5_tru -stream -debReverse 0                 test5 >test5seqrev.deb
 GOOD	test5seqrev.deb
-building test6_tru
-perl ./tru -q test6.tru >test6_tru
-GOOD	test6_tru
 testing test6_tru
 perl test6_tru test6 >test6.out
 GOOD	test6.out
@@ -454,33 +497,15 @@ perl test6_tru -debug        test6 >test6.deb
 GOOD	test6.deb
 perl test6_tru test6 -debReverse 0 >test6rev.deb
 GOOD	test6rev.deb
-building test7s1_tru
-perl ./tru test7scommon.tru test7s1.tru unroll.tru >test7s1_tru
-tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
-	Exactly the first USAGE should have a short-description
-GOOD	test7s1_tru
 testing test7s1_tru
 perl test7s1_tru -unroll 0 test7s.in|tabify >test7s1.out
 GOOD	test7s1.out
-building test7s2_tru
-perl ./tru test7scommon.tru test7s2.tru unroll.tru >test7s2_tru
-tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
-	Exactly the first USAGE should have a short-description
-GOOD	test7s2_tru
 testing test7s2_tru
 perl test7s2_tru -unroll 0 test7s.in|tabify >test7s2.out
 GOOD	test7s2.out
-building test7s3_tru
-perl ./tru test7scommon.tru test7s3.tru unroll.tru >test7s3_tru
-tru : Warning 'first usage should have shortdesc' in test7scommon.tru @ 2
-	Exactly the first USAGE should have a short-description
-GOOD	test7s3_tru
 testing test7s3_tru
 perl test7s3_tru -unroll 0 test7s.in|tabify >test7s3.out
 GOOD	test7s3.out
-building test7_tru
-perl ./tru -q test7.tru unroll.tru >test7_tru
-GOOD	test7_tru
 testing test7_tru
 perl test7_tru                          -stream test7 >test7seq.out
 test7_tru - No match for test7 @ 4 :     this line should not match and an automatically generated UNMATCHED should catch this line
@@ -500,18 +525,12 @@ GOOD	test7seqrev.deb
 perl test7_tru           -debReverse 0          test7 >test7depthrev.deb
 test7_tru - No match for test7 @ 4 :     this line should not match and an automatically generated UNMATCHED should catch this line
 GOOD	test7depthrev.deb
-building test8_tru
-perl ./tru -q test8.tru >test8_tru
-GOOD	test8_tru
 testing test8_tru
 >|emptyfile
 perl test8_tru  -stream      emptyfile >test8seq.out
 GOOD	test8seq.out
 perl test8_tru               emptyfile >test8depth.out
 GOOD	test8depth.out
-building test9_tru
-perl ./tru -q test9.tru >test9_tru
-GOOD	test9_tru
 testing test9_tru
 perl test9_tru               -stream test9 >test9seq.out
 GOOD	test9seq.out
@@ -521,9 +540,6 @@ perl test9_tru -debReverse 0 -stream test9 >test9seqrev.deb
 GOOD	test9seqrev.deb
 perl test9_tru -debReverse 0         test9 >test9depthrev.deb
 GOOD	test9depthrev.deb
-building test10_tru
-perl ./tru -q test10.tru >test10_tru
-GOOD	test10_tru
 testing test10_tru
 perl test10_tru -stream test7 test9 >test10seq.out
 GOOD	test10seq.out
@@ -533,9 +549,6 @@ perl test10_tru -stream -debReverse 0 test7 test9 >test10rseqrev.deb
 GOOD	test10rseqrev.deb
 perl test10_tru         -debReverse 0 test7 test9 >test10rdepthrev.deb
 GOOD	test10rdepthrev.deb
-building test11_tru
-perl ./tru -q test11.tru >test11_tru
-GOOD	test11_tru
 testing test11_tru
 perl test11_tru                -stream test11 >test11.out
 GOOD	test11.out
@@ -549,9 +562,6 @@ perl test11_tru -debReverse 0          test11 >test11depthrev0.deb
 GOOD	test11depthrev0.deb
 perl test11_tru -debReverse 13         test11 >test11depthrev13.deb
 GOOD	test11depthrev13.deb
-building test12_tru
-perl ./tru -q test12.tru >test12_tru
-GOOD	test12_tru
 testing test12_tru
 perl test12_tru               test7 >test12.out
 test12_tru - No match for test7 @ 4 :     this line should not match and an automatically generated UNMATCHED should catch this line
@@ -559,9 +569,6 @@ GOOD	test12.out
 perl test12_tru -debReverse 0 test7 >test12rev.deb
 test12_tru - No match for test7 @ 4 :     this line should not match and an automatically generated UNMATCHED should catch this line
 GOOD	test12rev.deb
-building test13_tru
-perl ./tru -q test13.tru >test13_tru
-GOOD	test13_tru
 testing test13_tru
 perl test13_tru                       -stream test13 >test13seq.out
 GOOD	test13seq.out
@@ -571,14 +578,6 @@ perl test13_tru -debReverse 0         -stream test13 >test13seqrev.deb
 GOOD	test13seqrev.deb
 perl test13_tru -debReverse 0                 test13 >test13depthrev.deb
 GOOD	test13depthrev.deb
-building test14_tru
-perl ./tru -q test14.tru >test14_tru
-GOOD	test14_tru
-testing test14_tru
-building testdoc_tru
-perl ./tru -s statistics.testdoc  testdoc1.tru testdoc2.tru >testdoc_tru
-GOOD	testdoc_tru
-GOOD	statistics.testdoc
 testing testdoc_tru
 perl testdoc_tru -source >testdocFromSource.tru
 GOOD	testdocFromSource.tru
@@ -586,9 +585,6 @@ perl testdoc_tru -doc >testdoc.doc
 GOOD	testdoc.doc
 perl ./tru testdocFromSource.tru >testdocFromSource_tru
 GOOD	testdocFromSource_tru
-building testREAD_tru
-perl ./tru testREAD.tru >testREAD_tru
-GOOD	testREAD_tru
 testing testREAD_tru
 perl testREAD_tru testREAD.in >testREAD.out
 GOOD	testREAD.out

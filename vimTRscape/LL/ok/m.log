@@ -7,8 +7,6 @@ perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="=========================
 GOOD	docs/LL.txt
 html_tru docs/README.txtTR >docs/README.html
 GOOD	docs/README.html
-testing LL.vim
 building disp.vim
 vim_tru disp.vimTR >disp.vim
 GOOD	disp.vim
-testing disp.vim

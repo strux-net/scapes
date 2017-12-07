@@ -14,7 +14,7 @@ test test_ALL:\
   test_pst\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -27,7 +27,7 @@ install_pst:
 	@${m_copy} docs/README.html ok/docs/README.html
 	@${m_copy} pst ~/strux/bin/pst
 test_pst: pst
-	@echo  testing pst
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: pst
 pst:
 	@echo  building pst

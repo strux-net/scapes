@@ -14,7 +14,7 @@ test test_ALL:\
   test_QuickView.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -29,7 +29,7 @@ install_QuickView.vim:
 	@${m_copy} docs/QuickView-commands.txt ok/docs/QuickView-commands.txt
 	vim -u NONE -c 'helptags ~/.vim/doc' -c q
 test_QuickView.vim: QuickView.vim
-	@echo  testing QuickView.vim
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: QuickView.vim
 QuickView.vim:
 	@echo  building QuickView.vim

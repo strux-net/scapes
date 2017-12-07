@@ -1,32 +1,24 @@
 building coloring.html
 html_tru style coloring.txtTR >coloring.html
 GOOD	coloring.html
-testing coloring.html
 building options.html
 html_tru style options.txtTR >options.html
 GOOD	options.html
-testing options.html
 building overview.html
 html_tru style overview.txtTR >overview.html
 GOOD	overview.html
-testing overview.html
 building gives.html
 html_tru style gives.txtTR >gives.html
 GOOD	gives.html
-testing gives.html
 building Example.html
 html_tru style Example.txtTR >Example.html
 GOOD	Example.html
-testing Example.html
 building signature.html
 html_tru style signature.txtTR >signature.html
 GOOD	signature.html
-testing signature.html
 building structure.html
 html_tru style structure.txtTR >structure.html
 GOOD	structure.html
-testing structure.html
 building posIndicator.html
 html_tru style posIndicator.txtTR >posIndicator.html
 GOOD	posIndicator.html
-testing posIndicator.html

@@ -5,4 +5,3 @@ GOOD	xterm.vim
 GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tshow the other screen" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
-testing xterm.vim

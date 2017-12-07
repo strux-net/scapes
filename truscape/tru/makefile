@@ -107,7 +107,7 @@ test test_ALL:\
   test_testREAD_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -118,7 +118,7 @@ install_trusupp.pl:
 	@${m_copy} trusupp.pl ok/trusupp.pl
 	@${m_copy} trusupp.pl ~/strux/lib
 test_trusupp.pl: trusupp.pl
-	@echo  testing trusupp.pl
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: trusupp.pl
 trusupp.pl:
 	@echo  building trusupp.pl
@@ -376,7 +376,7 @@ install_test2_tru:
 	@echo  installing test2_tru
 	@${m_copy} test2_tru ok/test2_tru
 test_test2_tru: test2_tru
-	@echo  testing test2_tru
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: test2_tru
 test2_tru:
 	@echo  building test2_tru
@@ -386,7 +386,7 @@ install_test3_tru:
 	@echo  installing test3_tru
 	@${m_copy} test3_tru ok/test3_tru
 test_test3_tru: test3_tru
-	@echo  testing test3_tru
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: test3_tru
 test3_tru:
 	@echo  building test3_tru
@@ -664,7 +664,7 @@ install_test14_tru:
 	@echo  installing test14_tru
 	@${m_copy} test14_tru ok/test14_tru
 test_test14_tru: test14_tru
-	@echo  testing test14_tru
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: test14_tru
 test14_tru:
 	@echo  building test14_tru

@@ -6,4 +6,3 @@ chmod +x pst
 GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tinspect the process-tree (needs vim)" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
-testing pst

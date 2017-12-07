@@ -33,7 +33,7 @@ install_simple_goal:
 	@echo  installing simple_goal
 	@${m_copy} simple_goal ok/simple_goal
 test_simple_goal: simple_goal
-	@echo  no test for goal1
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: simple_goal
 simple_goal:
 	@echo  building simple_goal
@@ -75,7 +75,7 @@ install_goal2:
 	@${m_copy} goal2 ok/goal2
 	@${m_copy} goal2 ~/bin/goal2
 test_goal2: goal2
-	@echo  no test for addr2nokia
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: goal2
 goal2:
 	@echo  building goal2
@@ -86,7 +86,7 @@ install_addr2nokia:
 	@${m_copy} addr2nokia ok/addr2nokia
 	@${m_copy} statistics.out1 ok/statistics.out1
 test_addr2nokia: addr2nokia
-	@echo  no test for addr2nokia
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: addr2nokia
 addr2nokia:
 	@echo  building addr2nokia

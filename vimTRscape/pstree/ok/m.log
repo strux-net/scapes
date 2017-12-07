@@ -9,4 +9,3 @@ Title="*pstree.txt*   inspect the process-tree" vimInterface2Help_tru pstree.vim
 GOOD	docs/pstree-commands.txt
 perl -i -ne 'BEGIN{ $s="A quick overview follows"; $e="==============================================================================" } if (/^$s/../$e/ ) { unless ($d++) { print "$s\n" ; print `vimInterface2Help_terse_tru pstree.vimTR`; print "\n$e\n" }} else { print }' docs/pstree.txt
 GOOD	docs/pstree.txt
-testing pstree.vim

@@ -12,4 +12,3 @@ isel -f 1 -nh README listVimSwapFiles.plTR | i -i 6  >> docs/README.txt
 GOOD	docs/README.txt
 html_tru docs/README.txt >docs/README.html
 GOOD	docs/README.html
-testing listVimSwapFiles

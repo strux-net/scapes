@@ -7,4 +7,3 @@ GOOD	docs/README.txt
 GOOD	docs/README.html
 Title="*session.txt*   maintain vim-sessions" vimInterface2Help_tru session.vimTR >docs/session-commands.txt
 GOOD	docs/session-commands.txt
-testing session.vim

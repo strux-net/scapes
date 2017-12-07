@@ -5,7 +5,6 @@ perl_tru xtractStructure.plTR >xtractStructure.pl
 	  -version	show version information
 GOOD	xtractStructure.pl
 chmod +x xtractStructure.pl
-testing xtractStructure.pl
 building trudoc_tru
 tru -s statistics.out trudoc.tru ../lib/html.tru >trudoc_tru
 GOOD	trudoc_tru

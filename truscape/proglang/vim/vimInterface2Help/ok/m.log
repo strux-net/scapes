@@ -4,15 +4,15 @@ tru : Warning 'group never used' in ../../../lib/basicUSAGE.tru @ 0
 	the group 'function' was defined but never used
 GOOD	vimInterface2Help_tru
 chmod +x vimInterface2Help_tru
-testing vimInterface2Help_tru
-Title='*test.vim*       A text for test.vim' ./vimInterface2Help_tru test.in >test.out
-GOOD	test.out
 building vimInterface2Help_terse_tru
 vim_tru -structure | tru -- - vimInterface2Help_terse.tru vimInterface2Help_common.tru ../../../lib/basicUSAGE.tru >vimInterface2Help_terse_tru
 tru : Warning 'group never used' in ../../../lib/basicUSAGE.tru @ 0
 	the group 'function' was defined but never used
 GOOD	vimInterface2Help_terse_tru
 chmod +x vimInterface2Help_terse_tru
+testing vimInterface2Help_tru
+Title='*test.vim*       A text for test.vim' ./vimInterface2Help_tru test.in >test.out
+GOOD	test.out
 testing vimInterface2Help_terse_tru
 ./vimInterface2Help_terse_tru test.in >test_terse.out
 GOOD	test_terse.out

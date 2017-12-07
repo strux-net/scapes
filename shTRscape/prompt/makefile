@@ -14,7 +14,7 @@ test test_ALL:\
   test_prompt.sh\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -26,7 +26,7 @@ install_prompt.sh:
 	@${m_copy} docs/README.html ok/docs/README.html
 	@${m_copy} prompt.sh ~/strux/
 test_prompt.sh: prompt.sh
-	@echo  testing prompt.sh
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: prompt.sh
 prompt.sh:
 	@echo  building prompt.sh

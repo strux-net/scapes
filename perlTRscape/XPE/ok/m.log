@@ -8,4 +8,3 @@ perl_tru -vimPlug -noProtos XPE.plTR >XPE.vim
   For mark mark_version
 	    print "  XPE.plTR	3.0\n";
 GOOD	XPE.vim
-testing XPE.vim

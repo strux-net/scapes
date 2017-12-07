@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	m_tru mTR > makefile.
 	produces a makefile based on the content of mTR
 
@@ -236,7 +236,7 @@ hooks
 		\@echo  installing $goal
   mark_test
     n
-		\@echo  no test for $goal
+		\@: # an empty action. To avoid nothing to be done for test_whatever
     [
 		\@echo  testing $goal
 structure

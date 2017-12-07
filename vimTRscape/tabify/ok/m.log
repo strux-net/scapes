@@ -5,4 +5,3 @@ GOOD	tabify.vim
 GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\ttabalign a visual region" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
-testing tabify.vim

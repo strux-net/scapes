@@ -20,7 +20,7 @@ test test_ALL:\
   test_LL\
 
 logged_build:
-	-@${MAKE} --no-print-directory test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -31,7 +31,7 @@ install_L:
 	@${m_copy} L ok/L
 	@${m_copy} L ~/strux/bin/L
 test_L: L
-	@echo  testing L
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: L
 L:
 	@echo  building L
@@ -43,7 +43,7 @@ install_LLfs:
 	@${m_copy} LLfs ok/LLfs
 	@${m_copy} LLfs ~/strux/bin/LLfs
 test_LLfs: LLfs
-	@echo  testing LLfs
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: LLfs
 LLfs:
 	@echo  building LLfs
@@ -55,7 +55,7 @@ install_LL:
 	@${m_copy} LL ok/LL
 	@${m_copy} LL ~/strux/bin/LL
 test_LL: LL
-	@echo  testing LL
+	@: # an empty action. To avoid nothing to be done for test_whatever
 .PHONY: LL
 LL:
 	@echo  building LL

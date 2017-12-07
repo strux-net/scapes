@@ -1,6 +1,30 @@
 building state_tru
 perl ../tru state.tru structure.tru >state_tru
 GOOD	state_tru
+building indent_tru
+perl ../tru indent.tru structure.tru >indent_tru
+GOOD	indent_tru
+building level_tru
+perl ../tru level.tru structure.tru >level_tru
+GOOD	level_tru
+building rindent_and_rlevel_tru
+perl ../tru rindent_and_rlevel.tru structure.tru >rindent_and_rlevel_tru
+GOOD	rindent_and_rlevel_tru
+building rnr_tru
+perl ../tru rnr.tru structure.tru >rnr_tru
+GOOD	rnr_tru
+building NrOfChilds_tru
+perl ../tru NrOfChilds.tru structure.tru >NrOfChilds_tru
+GOOD	NrOfChilds_tru
+building NrOfLinesFollowing_tru
+perl ../tru NrOfLinesFollowing.tru structure.tru >NrOfLinesFollowing_tru
+GOOD	NrOfLinesFollowing_tru
+building isLast_tru
+perl ../tru isLast.tru structure.tru >isLast_tru
+GOOD	isLast_tru
+building ATTIC_tru
+perl ../tru ATTIC.tru structure.tru >ATTIC_tru
+GOOD	ATTIC_tru
 testing state_tru
 perl state_tru in
 chapter : chapter	From Genesis to Revelation
@@ -21,9 +45,6 @@ section : section	two
 chapter : chapter	Trespass
 chapter : chapter	Nursery Cryme
 section : section	the next line is empty
-building indent_tru
-perl ../tru indent.tru structure.tru >indent_tru
-GOOD	indent_tru
 testing indent_tru
 perl indent_tru in
 chapter	From Genesis to Revelation
@@ -42,9 +63,6 @@ chapter	From Genesis to Revelation
 chapter	Trespass
 chapter	Nursery Cryme
   section	the next line is empty
-building level_tru
-perl ../tru level.tru structure.tru >level_tru
-GOOD	level_tru
 testing level_tru
 perl level_tru in
 1 : chapter	From Genesis to Revelation
@@ -63,9 +81,6 @@ perl level_tru in
 1 : chapter	Trespass
 1 : chapter	Nursery Cryme
 3 : section	the next line is empty
-building rindent_and_rlevel_tru
-perl ../tru rindent_and_rlevel.tru structure.tru >rindent_and_rlevel_tru
-GOOD	rindent_and_rlevel_tru
 testing rindent_and_rlevel_tru
 perl rindent_and_rlevel_tru in
 ,'' : chapter	From Genesis to Revelation
@@ -94,9 +109,6 @@ perl rindent_and_rlevel_tru in
 ,'' : chapter	Trespass
 ,'' : chapter	Nursery Cryme
 ,'' : section	the next line is empty
-building rnr_tru
-perl ../tru rnr.tru structure.tru >rnr_tru
-GOOD	rnr_tru
 testing rnr_tru
 perl rnr_tru in
 0	1 : before having read any line
@@ -121,9 +133,6 @@ perl rnr_tru in
 14	2 : chapter	Trespass
 15	3 : chapter	Nursery Cryme
 16	1 : section	the next line is empty
-building NrOfChilds_tru
-perl ../tru NrOfChilds.tru structure.tru >NrOfChilds_tru
-GOOD	NrOfChilds_tru
 testing NrOfChilds_tru
 perl NrOfChilds_tru in
 2 : chapter	From Genesis to Revelation
@@ -142,9 +151,6 @@ perl NrOfChilds_tru in
 0 : chapter	Trespass
 1 : chapter	Nursery Cryme
 0 : section	the next line is empty
-building NrOfLinesFollowing_tru
-perl ../tru NrOfLinesFollowing.tru structure.tru >NrOfLinesFollowing_tru
-GOOD	NrOfLinesFollowing_tru
 testing NrOfLinesFollowing_tru
 perl NrOfLinesFollowing_tru in
 12 : chapter	From Genesis to Revelation
@@ -163,9 +169,6 @@ perl NrOfLinesFollowing_tru in
 0 : chapter	Trespass
 1 : chapter	Nursery Cryme
 0 : section	the next line is empty
-building isLast_tru
-perl ../tru isLast.tru structure.tru >isLast_tru
-GOOD	isLast_tru
 testing isLast_tru
 perl isLast_tru in
 0 : chapter	From Genesis to Revelation
@@ -184,9 +187,6 @@ perl isLast_tru in
 0 : chapter	Trespass
 1 : chapter	Nursery Cryme
 2 : section	the next line is empty
-building ATTIC_tru
-perl ../tru ATTIC.tru structure.tru >ATTIC_tru
-GOOD	ATTIC_tru
 testing ATTIC_tru
 perl ATTIC_tru in
 0 : chapter	fixed1

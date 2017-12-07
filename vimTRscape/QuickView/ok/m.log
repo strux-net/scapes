@@ -7,4 +7,3 @@ GOOD	docs/README.txt
 GOOD	docs/README.html
 Title="*QuickView.txt*   quick-view local settings" vimInterface2Help_tru QuickView.vimTR >docs/QuickView-commands.txt
 GOOD	docs/QuickView-commands.txt
-testing QuickView.vim

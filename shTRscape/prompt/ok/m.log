@@ -7,4 +7,3 @@ GOOD	prompt.sh
 chmod +x prompt.sh
 { cat docs/README.txtTR ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
-testing prompt.sh
