@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	html_tru [Options] [<file> ....]
 
 	produces a html-file
@@ -230,7 +230,7 @@ actions
 
 structure
 	html code			>>2	html code
-	  nativeLangCode	*	>>t*
+	  nativeLangCode	*	>>*
 	javascript	[stmt]		>>2	javascript
 	  common			=g
 	  js				=g

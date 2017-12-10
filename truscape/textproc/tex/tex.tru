@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	tex_tru [Options] [<file> ....]
 
 	produces a tex-file
@@ -185,4 +185,4 @@ actions
     >
 structure
 	tex code			>>2				tex code
-	  nativeLangCode	*	>>t*
+	  nativeLangCode	*	>>*
