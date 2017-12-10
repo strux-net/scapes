@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.1
+" based on LL.vimTR , version : 3.2
 "****************************************
 " README
 "****************************************
@@ -660,7 +660,7 @@
 "		  This is a comma-separeted list of files.
 "		  All files are read in the given order.
 "		  For details about this file see |LL-dirsettings|
-"	g:strux_LL_header : configure the header	(defaults to "%d%T%t%T%n Entries%T%s")
+"	g:strux_LL_header : configure the header	(defaults to "%d%T%g%T%t%T%n Entries%T%s")
 "	  (can be superseded with the environment-var $strux_LL_header)
 "		  The value of this var is used to configure how the header line lookes like
 "		  The formats:
@@ -670,6 +670,7 @@
 "		      t			the time, where the information was gathered
 "		      n			the number of entries
 "		      s			the sorting method
+"		      g			the git status, text is "[branch]" or empty
 "	g:strux_LL_grep : command for xg	(defaults to "grep -l")
 "	  (can be superseded with the environment-var $strux_LL_grep)
 "		  The value of this var defines the start of the command for xg.
@@ -1975,7 +1976,7 @@ if exists("$strux_LL_header")
   let g:strux_LL_header=$strux_LL_header
 endif
 if !exists("g:strux_LL_header")
-  let g:strux_LL_header="%d%T%t%T%n Entries%T%s"
+  let g:strux_LL_header="%d%T%g%T%t%T%n Entries%T%s"
 endif
 " command for xg
 if exists("$strux_LL_grep")
@@ -3068,6 +3069,7 @@ sub UpdateView($);
 sub OpenFile($);
 sub L;
 sub LL($);
+sub tellbranch;
 sub tellsort;
 sub LL_in_function;
 sub LL_out_function;
@@ -4700,6 +4702,15 @@ sub LL($)
   }
 }
 
+sub tellbranch
+{
+  local $branch = `git rev-parse --abbrev-ref HEAD 2>/dev/null`;
+  if (!($?)) {
+    chop $branch;
+    return "[$branch]";
+  }
+}
+
 sub tellsort
 {
   my $str;
@@ -4787,6 +4798,7 @@ sub LL_in_function
           if ($c eq 't') { $line.=xpand($$disp::H{time});last parse }
           if ($c eq 'n') { $line.=@{$$disp::H{Array}};last parse }
           if ($c eq 's') { $line.=tellsort;last parse }
+          if ($c eq 'g') { $line.=tellbranch;last parse }
           $line.="ERROR";
         } # parse:
       } else {

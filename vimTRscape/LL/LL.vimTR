@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.2
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -98,7 +98,7 @@ main
 	This is a comma-separeted list of files.
 	All files are read in the given order.
 	For details about this file see |LL-dirsettings|
-    strux_LL_header:string["%d%T%t%T%n Entries%T%s"]				configure the header
+    strux_LL_header:string["%d%T%g%T%t%T%n Entries%T%s"]				configure the header
 	The value of this var is used to configure how the header line lookes like
 	The formats:
 	    %			A single "%" - Character
@@ -107,6 +107,7 @@ main
 	    t			the time, where the information was gathered
 	    n			the number of entries
 	    s			the sorting method
+	    g			the git status, text is "[branch]" or empty
     strux_LL_grep:string["grep -l"]						command for xg
 	The value of this var defines the start of the command for xg.
 	on unix, "grep -l" is a good choice
@@ -1749,6 +1750,11 @@ perl
       pushDirstack
       redrawVisitedAndDirstack
     -	"cannot enter $ndir","Error"
+  tellbranch
+    local $branch = `git rev-parse --abbrev-ref HEAD 2>/dev/null`
+    !	$?
+      chop $branch
+      return "[$branch]"
   tellsort
     my $str
     my $currentSode = $$disp::H{currentSort}
@@ -1810,6 +1816,7 @@ perl
 			      t			xpand($$disp::H{time})
 			      n			@{$$disp::H{Array}}
 			      s			tellsort
+			      g			tellbranch
 	    $line.="ERROR"
 	-
 	  $line.="$c"
