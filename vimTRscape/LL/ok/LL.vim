@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.0
+" based on LL.vimTR , version : 3.1
 "****************************************
 " README
 "****************************************
@@ -292,6 +292,7 @@
 "	    pressing ff here brings you to /usr/bin with the cursor on the line for scp
 "	  Same for a file that has a / in its name
 "	    e.G. if you do "find . whatever | L"
+"	  This also follows .git - files to the gitdir
 "	<C-R>	Refresh the current view
 "	  Refresh the current view.
 "	  stat - information are updated and the !-flags are reset
@@ -1409,6 +1410,7 @@ function <sid>Help_n2f73747275782f4c4c_84()
   echo '  pressing ff here brings you to /usr/bin with the cursor on the line for scp'
   echo 'Same for a file that has a / in its name'
   echo '  e.G. if you do "find . whatever | L"'
+  echo 'This also follows .git - files to the gitdir'
 endfunction
 function <sid>Help_n2f73747275782f4c4c_85()
   echohl WarningMsg
@@ -4047,6 +4049,18 @@ sub followLink
       LL($f.readlink $LL::file);
     } else {
       LL(readlink $LL::file);
+    }
+  } elsif (isdir($LL::mode)) {
+    LL($LL::file);
+  } elsif ($LL::file eq ".git") {
+    local *GF;
+    if (open(GF,$LL::file)) {
+      while (<GF>) {
+        if (m/gitdir: (.*)/) {
+          LL($1);
+          last;
+        }
+      }
     }
   } else {
     VIM::Msg("File is neither a symbolic link nor is it in a subdir");

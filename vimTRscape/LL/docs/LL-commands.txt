@@ -617,6 +617,7 @@ COMMANDS FOR VIEW LL                                                            
       pressing ff here brings you to /usr/bin with the cursor on the line for scp
     Same for a file that has a / in its name
       e.G. if you do "find . whatever | L"
+    This also follows .git - files to the gitdir
 
     This command can also be found in the menu under :
       Navigate -> follow the link

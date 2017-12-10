@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -586,6 +586,7 @@ Interface	/strux/LL
       pressing ff here brings you to /usr/bin with the cursor on the line for scp
     Same for a file that has a / in its name
       e.G. if you do "find . whatever | L"
+    This also follows .git - files to the gitdir
   <C-R>		&View.R&efresh							Refresh the current view							:perl UpdateView 0;RefreshView 1<CR>
     Refresh the current view.
     stat - information are updated and the !-flags are reset
@@ -1386,6 +1387,15 @@ perl
 	LL($f.readlink $LL::file)
       -
 	LL(readlink $LL::file)
+    ?-	isdir($LL::mode)
+      LL($LL::file)
+    ?-	$LL::file eq ".git"
+      local *GF
+      ?	open(GF,$LL::file)
+        W	<GF>
+          ?	m/gitdir: (.*)/
+            LL($1)
+            last
     -
       "File is neither a symbolic link nor is it in a subdir"
   NameWithLink
