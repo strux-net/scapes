@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 ##	any comment should look like this
 ##	  the two hashes followed by a tab or a newline are the key
 READ
@@ -17,7 +17,7 @@ actions
       }
       close TRU;
 	$indent  html code
-				Find details in <a href="examples/truscape/tru/$link">$link</a><br/>
+	$indent    Find details in <a href="examples/truscape/tru/$link">$link</a><br/>
 structure
 	see	link		>>*	see
 	line	*		>>*

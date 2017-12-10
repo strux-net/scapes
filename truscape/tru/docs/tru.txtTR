@@ -116,7 +116,7 @@ General form of a .tru-file
       If the definition of an action occurs more than once, all subactions are performed in
       the given order except for the outactions which are performed in the reverse order
       html code
-			Find details in <a href="examples/truscape/tru/action_examples/intro.tru">action_examples/intro.tru</a><br/>
+        Find details in <a href="examples/truscape/tru/action_examples/intro.tru">action_examples/intro.tru</a><br/>
       as well as in [ perl_code.tru ]( examples/truscape/tru/action_examples/perl_code.tru ) and in [ outstatements.tru ]( examples/truscape/tru/action_examples/outstatements.tru )
 
       some actions are special:
@@ -130,55 +130,52 @@ General form of a .tru-file
 	    $DOC has no useful meaning.
 	    Use $ARGV to access the currently processed file
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/DOC.tru">action_examples/DOC.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/DOC.tru">action_examples/DOC.tru</a><br/>
 	  UNMATCHED
 	    used if a line is not otherwise matched
 	    If you do not supply one, tru will provide one for you which prints to STDERR a string indicating the line-number and the contents of the line which does not match.
 	    It is not necessarily a fault to have unmatched lines.
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED.tru">action_examples/UNMATCHED.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED.tru">action_examples/UNMATCHED.tru</a><br/>
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED_default.tru">action_examples/UNMATCHED_default.tru</a><br/>
-    VERSION
-      This defines the version of this file
-      It can be any string.
+	      Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED_default.tru">action_examples/UNMATCHED_default.tru</a><br/>
+	  VERSION
+	    This defines the version of this file
+	    It can be any string.
 
-      If you provide a VERSION, then the truer will have the additional option -version
+	    If you provide a VERSION, then the truer will have the additional option -version
 
-      As shown in the example for OPTIONSandUSAGEpart2, which is build from two input-files,
-      there can be many VERSION-Entries for one truer
-    OPTIONS
-      Here you can define the options a truer accepts.
-      Options
-          are case sensitive     (-a and -A are different Options)
-          cannot be concatenated (-a -b cannot be said as -ab)
-          can be toggle (on/off) or they can accept an argument.
+	    As shown in the example for OPTIONSandUSAGEpart2, which is build from two input-files,
+	    there can be many VERSION-Entries for one truer
+	  OPTIONS
+	    Here you can define the options a truer accepts.
+	    Options
+	        are case sensitive     (-a and -A are different Options)
+	        cannot be concatenated (-a -b cannot be said as -ab)
+	        can be toggle (on/off) or they can accept an argument.
 
-      for an option with name 'Name' a perl-var with name $opt_Name is created.
+	    for an option with name 'Name' a perl-var with name $opt_Name is created.
 
-      technical note:
-          Options are parsed using the perl-module Getopt::Long
-          this module is used in it's default configuration with the exception of "no_ignore_case"
-    USAGE
-      Here you can define the usage text.
-      the text is defined by simply stripping one leading tab from each line.
-      this text is printed to stderr automatically whenever an invalid option is given.
-      you can also call usage() to print this text.
-      the truer is terminated, when the usage is output.
-      more than one USAGE can exist.
-      they all together make up the usage-text.
-      exactly the first USAGE should have a short text.
-      html code
-			Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGE.tru">action_examples/OPTIONSandUSAGE.tru</a><br/>
-      html code
-			Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGEpart2.tru">action_examples/OPTIONSandUSAGEpart2.tru</a><br/>
-    here text
-      Here named arrays that can be filled with constant text are defined.
-      html code
-			Find details in <a href="examples/truscape/tru/action_examples/HereText.tru">action_examples/HereText.tru</a><br/>
-    hooks
-      There is a class of sections, that act as hooks.
-      The code in these sections is executed if a certain event occurs.
+	    technical note:
+	        Options are parsed using the perl-module Getopt::Long
+	        this module is used in it's default configuration with the exception of "no_ignore_case"
+	  USAGE
+	    Here you can define the usage text.
+	    the text is defined by simply stripping one leading tab from each line.
+	    this text is printed to stderr automatically whenever an invalid option is given.
+	    you can also call usage() to print this text.
+	    the truer is terminated, when the usage is output.
+	    more than one USAGE can exist.
+	    they all together make up the usage-text.
+	    exactly the first USAGE should have a short text.
+	    html code
+	      Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGE.tru">action_examples/OPTIONSandUSAGE.tru</a><br/>
+	    html code
+	      Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGEpart2.tru">action_examples/OPTIONSandUSAGEpart2.tru</a><br/>
+	  here text
+	    Here named arrays that can be filled with constant text are defined.
+	    html code
+	      Find details in <a href="examples/truscape/tru/action_examples/HereText.tru">action_examples/HereText.tru</a><br/>
 	  BEGIN
 	    At the beginning, but after Options are parsed according to action OPTIONS.
 	      $_ and @F are set according to @ARGV.
@@ -189,7 +186,7 @@ General form of a .tru-file
 	        set $stream to 1 here instead of giving -stream to the generated truer.
 	        set the encoding
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/BEGIN.tru">action_examples/BEGIN.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/BEGIN.tru">action_examples/BEGIN.tru</a><br/>
 	  READ
 	    After a line is read and $level is calculated.
 	      not applied to
@@ -206,14 +203,14 @@ General form of a .tru-file
 	        2 to end processing
 	        0 for normal processing (supplied automatically)
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/READ.tru">action_examples/READ.tru</a><br/>
-	    READ and empty lines:
-	      READ is not applied to empty lines.
-	      Empty lines are not processed until the next non-empty line is read or the end of input is reached.
-	      This is so that the level for empty lines can be calculated.
-	      For the same reason READ has to be applied for this (non-empty) line.
-	      html code
-			Find details in <a href="examples/truscape/tru/action_examples/READempty.tru">action_examples/READempty.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/READ.tru">action_examples/READ.tru</a><br/>
+	  READ and empty lines:
+	    READ is not applied to empty lines.
+	    Empty lines are not processed until the next non-empty line is read or the end of input is reached.
+	    This is so that the level for empty lines can be calculated.
+	    For the same reason READ has to be applied for this (non-empty) line.
+	    html code
+	      Find details in <a href="examples/truscape/tru/action_examples/READempty.tru">action_examples/READempty.tru</a><br/>
 	  WRITE
 	    When a line is due to be output.
 	    performed in order of production.
@@ -223,7 +220,7 @@ General form of a .tru-file
 	    use return 1 if you want to suppress a line.
 	    a return 0 is supplied automatically as last statement
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/WRITE.tru">action_examples/WRITE.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/WRITE.tru">action_examples/WRITE.tru</a><br/>
 	  ATTICREAD
 	    After a line is unshifted from ATTIC and $level is calculated.
 	    not applied to
@@ -238,7 +235,7 @@ General form of a .tru-file
 	        2 to end processing
 	        0 for normal processing (supplied automatically)
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/ATTICREAD.tru">action_examples/ATTICREAD.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/ATTICREAD.tru">action_examples/ATTICREAD.tru</a><br/>
 	  NEWFILE
 	    Whenever an input-file is completely read and the truer is going to switch to the next input-file.
 
@@ -249,7 +246,7 @@ General form of a .tru-file
 	    if you do not wish this behaviour but instead want your truer to continue counting when crossing file-boundaries, then simply put as a last statement:
 	        return 0;
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/NEWFILE.tru">action_examples/NEWFILE.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/NEWFILE.tru">action_examples/NEWFILE.tru</a><br/>
 	  SPLITAPPLY
 	    After having read a line and split into fields. Applied to each field.
 	    for each line the local var $i is guaranteed to be initialized to 0
@@ -257,7 +254,7 @@ General form of a .tru-file
 	    the code given here is called for each field in sequence with $_ set to the field
 	    it does not affect $_ seen in the action
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/SPLITAPPLY.tru">action_examples/SPLITAPPLY.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/SPLITAPPLY.tru">action_examples/SPLITAPPLY.tru</a><br/>
 	  FLUSH
 	    When all buffered lines shall actually be written to STDOUT rsp. to the file given with -o.
 	    It is not processed in stream-mode.
@@ -266,7 +263,10 @@ General form of a .tru-file
 	    Here only perl-statements are allowed, no outstatements, actioncalls or mark using.
 	        Therefore a leading tab does not switch from perl to outstatement.
 	    html code
-			Find details in <a href="examples/truscape/tru/action_examples/FLUSH.tru">action_examples/FLUSH.tru</a><br/>
+	      Find details in <a href="examples/truscape/tru/action_examples/FLUSH.tru">action_examples/FLUSH.tru</a><br/>
+    hooks
+      You can have hooks, that are triggered when text is put at a mark.
+      This is described in detail below under [ mark hooks ](#mark hooks)
 flow control
   perl statements
     lines in any action pit that start with at least 3 spaces    and
@@ -285,24 +285,24 @@ flow control
 
     The above mentioned exceptions do not hold for FLUSH.
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/perl_code.tru">action_examples/perl_code.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/perl_code.tru">action_examples/perl_code.tru</a><br/>
   output statements
     lines starting with a tab are output statements.
     they are valid in all actions as well as the special-actions ATTICREAD,READ,NEWFILE,SPLITAPPLY,WRITE and BEGIN
     But beware that for BEGIN some restrictions apply.
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/outstatements.tru">action_examples/outstatements.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/outstatements.tru">action_examples/outstatements.tru</a><br/>
   predefined variables in perl-statements and output-statements.
     These variables are automatically filled:
 	$indent
 	  contains the indent (the leading whitespace) as found.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/indent.tru">var_examples/indent.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/indent.tru">var_examples/indent.tru</a><br/>
 	$level
 	  contains the absolute indent as a number (starting at 1).
 	  leading tabs count as much as 8 spaces each.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/level.tru">var_examples/level.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/level.tru">var_examples/level.tru</a><br/>
 	$rnr
 	  holds the relative linenumber, starting at 1.
 	  it is 1 in special action DOC.
@@ -316,32 +316,32 @@ flow control
 	  it is 0 in special action DOC.
 	  it starts at 1 for each input-file.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/rnr.tru">var_examples/rnr.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/rnr.tru">var_examples/rnr.tru</a><br/>
 	$rlevel and $rindent
 	  only valid for tabaligned structure items.
 	      $rindent	the relative indent (as string) to the required tab-position, derived from the found indent.
 	      $rlevel	the relative indent (as number) to the required tab-position, basically the length of $rindent if it contained only spaces.
 	  They are only valid in the in-action.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/rindent_and_rlevel.tru">var_examples/rindent_and_rlevel.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/rindent_and_rlevel.tru">var_examples/rindent_and_rlevel.tru</a><br/>
 	$NrOfChilds
 	  Number of (non-empty) items between inaction and outaction.
 	  independent of produced output.
 	  meaningless in stream-mode.
 	  valid in depthaction and outaction.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/NrOfChilds.tru">var_examples/NrOfChilds.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/NrOfChilds.tru">var_examples/NrOfChilds.tru</a><br/>
 	$NrOfLinesFollowing
 	  Number of lines generated between inaction and outaction.
 	  meaningless in stream-mode.
 	  valid in depthaction and outaction.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/NrOfLinesFollowing.tru">var_examples/NrOfLinesFollowing.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/NrOfLinesFollowing.tru">var_examples/NrOfLinesFollowing.tru</a><br/>
 	$state
 	  contains the name of the currently processing action.
 	  for a called Action it has the value of the first arg.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/state.tru">var_examples/state.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/state.tru">var_examples/state.tru</a><br/>
     This variable is not automatically filled, it can be filled by a perl-statement:
 	@ATTIC
 	  whenever something is found in the array @ATTIC this is used as input prior to getting the next line from the standard input rsp. input-file.
@@ -349,9 +349,9 @@ flow control
 	  hook ATTICREAD is applied to lines obtained from @ATTIC.
 	  hook READ is not applied to lines in @ATTIC.
 	  html code
-			Find details in <a href="examples/truscape/tru/var_examples/ATTIC.tru">var_examples/ATTIC.tru</a><br/>
+	    Find details in <a href="examples/truscape/tru/var_examples/ATTIC.tru">var_examples/ATTIC.tru</a><br/>
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/arguments.tru">action_examples/arguments.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/arguments.tru">action_examples/arguments.tru</a><br/>
   calling actions
     Actions can be called in two ways:
       1)
@@ -371,7 +371,7 @@ flow control
           -->calledAction	$F[0]	$F[1]	{
           }
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/callingActions.tru">action_examples/callingActions.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/callingActions.tru">action_examples/callingActions.tru</a><br/>
   redirecting actions
     Actions can be redirected in several ways:
         specified in the structure	redirection example 1 and 2
@@ -379,7 +379,7 @@ flow control
 
     compare this to "calling actions"
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
   marks
     marks can be used to place output at specified places.
 
@@ -445,9 +445,36 @@ flow control
     code
 	  undef $tru::Marks{"markname"}
     marks don't work in stream-mode.
-    they can be used before they are defined.
+    marks can be used before they are defined, in which case the text is buffered until the mark will be set.
+  mark hooks
+    in the structure-section 'hooks' you can define hooks for each mark
+      six kinds of hooks exist
+          [	(pre-)  surrounds each setmark completetly if the mark was used
+          ]	(post-) surrounds each setmark completetly if the mark was used
+          {	surrounds each usemark (pre-usemark)
+          -	surrounds each usemark (pre-usemark, depth)
+          }	surrounds each usemark (post-usemark)
+          n	used if the mark was never used
+      hooks and actions share the same name-space.
+      So don't give marks the name of an action.
+
+      the order is as follows, for every setmark()
+      code
+	  [
+	  {
+	  -
+	  usemark() or atmark()
+	  }
+	  {
+	  -
+	  usemark() or atmark()
+	  }
+	  ]
+
+      in  { , - and } $count holds the counter for usemark() rsp. atmark()
+      each hook has in $_ the same content that the calling action had when the mark was used *first*
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
   pit CLEAR
     usually if you repeat actions the resulting action has the code of all occurences in the given order.
     with the CLEAR flag to the pit you can start with an ampty action.
@@ -455,7 +482,7 @@ flow control
     code
 	  html_tru -source | tru -- - specialized_html.tru
     html code
-			Find details in <a href="examples/truscape/tru/action_examples/CLEAR.tru">action_examples/CLEAR.tru</a><br/>
+      Find details in <a href="examples/truscape/tru/action_examples/CLEAR.tru">action_examples/CLEAR.tru</a><br/>
 Limitations
   Besides the few limitations perl imposes there is :
     The namespace tru:: is reserved for tru.

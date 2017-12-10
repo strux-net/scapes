@@ -1,5 +1,4 @@
-VERSION	3.0
-##	actions
+VERSION	3.1
 ##	  Here the actions are defined.
 ##	  Actions are named pieces of code, that are executed if a corresponding structure-item matches or when they are called directly (see >> => ->)
 #

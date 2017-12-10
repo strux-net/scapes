@@ -87,6 +87,7 @@ General form of a .tru-file
       Additionally the graphical-debugger can help to understand the structure definition.
       code
 	[ tru.jar ]( tru_jar.html ) structure_demo_tru [ structure_demo.in ]( examples/truscape/tru/structure_demo.in )
+    actions
     see	action_examples/intro.tru
       as well as in [ perl_code.tru ]( examples/truscape/tru/action_examples/perl_code.tru ) and in [ outstatements.tru ]( examples/truscape/tru/action_examples/outstatements.tru )
 
@@ -94,20 +95,20 @@ General form of a .tru-file
 	  see	action_examples/DOC.tru
 	  see	action_examples/UNMATCHED.tru
 	  see	action_examples/UNMATCHED_default.tru
-    see	action_examples/OPTIONSandUSAGE.tru
-    see	action_examples/OPTIONSandUSAGEpart2.tru
-    see	action_examples/HereText.tru
-    hooks
-      There is a class of sections, that act as hooks.
-      The code in these sections is executed if a certain event occurs.
+	  see	action_examples/OPTIONSandUSAGE.tru
+	  see	action_examples/OPTIONSandUSAGEpart2.tru
+	  see	action_examples/HereText.tru
 	  see	action_examples/BEGIN.tru
 	  see	action_examples/READ.tru
-	    see	action_examples/READempty.tru
+	  see	action_examples/READempty.tru
 	  see	action_examples/WRITE.tru
 	  see	action_examples/ATTICREAD.tru
 	  see	action_examples/NEWFILE.tru
 	  see	action_examples/SPLITAPPLY.tru
 	  see	action_examples/FLUSH.tru
+    hooks
+      You can have hooks, that are triggered when text is put at a mark.
+      This is described in detail below under [ mark hooks ](#mark hooks)
 flow control
   see	action_examples/perl_code.tru
   see	action_examples/outstatements.tru

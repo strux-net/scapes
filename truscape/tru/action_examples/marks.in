@@ -18,3 +18,11 @@ example4
   meta4a	small 2
 example5
   meta5		three
+example6
+  any text here
+  meta6	first usage of mark_p1
+  any other text here
+  meta6	second usage of mark_p1
+  meta7	resets mark_p1
+  even more text here
+  meta6	third usage of mark_p1

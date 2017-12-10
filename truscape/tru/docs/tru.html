@@ -269,11 +269,8 @@ It is not necessarily a fault to have unmatched lines.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED.tru">action_examples/UNMATCHED.tru</a><br/>
 Find details in <a href="examples/truscape/tru/action_examples/UNMATCHED_default.tru">action_examples/UNMATCHED_default.tru</a><br/>
 </li>
-</ul>
-</div>
-<a name="VERSION"></a>
-<h3>VERSION</h3>
-<div>
+<li>VERSION
+<br/>
 This defines the version of this file<br/>
 It can be any string.<br/>
 <br/>
@@ -281,10 +278,9 @@ If you provide a VERSION, then the truer will have the additional option -versio
 <br/>
 As shown in the example for OPTIONSandUSAGEpart2, which is build from two input-files,<br/>
 there can be many VERSION-Entries for one truer<br/>
-</div>
-<a name="OPTIONS"></a>
-<h3>OPTIONS</h3>
-<div>
+</li>
+<li>OPTIONS
+<br/>
 Here you can define the options a truer accepts.<br/>
 Options<br/>
 <ul>
@@ -305,10 +301,9 @@ technical note:<br/>
 <li>this module is used in it's default configuration with the exception of "no_ignore_case"
 </li>
 </ul>
-</div>
-<a name="USAGE"></a>
-<h3>USAGE</h3>
-<div>
+</li>
+<li>USAGE
+<br/>
 Here you can define the usage text.<br/>
 the text is defined by simply stripping one leading tab from each line.<br/>
 this text is printed to stderr automatically whenever an invalid option is given.<br/>
@@ -319,19 +314,12 @@ they all together make up the usage-text.<br/>
 exactly the first USAGE should have a short text.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGE.tru">action_examples/OPTIONSandUSAGE.tru</a><br/>
 Find details in <a href="examples/truscape/tru/action_examples/OPTIONSandUSAGEpart2.tru">action_examples/OPTIONSandUSAGEpart2.tru</a><br/>
-</div>
-<a name="here20text"></a>
-<h3>here text</h3>
-<div>
+</li>
+<li>here text
+<br/>
 Here named arrays that can be filled with constant text are defined.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/HereText.tru">action_examples/HereText.tru</a><br/>
-</div>
-<a name="hooks"></a>
-<h3>hooks</h3>
-<div>
-There is a class of sections, that act as hooks.<br/>
-The code in these sections is executed if a certain event occurs.<br/>
-<ul>
+</li>
 <li>BEGIN
 <br/>
 <a name="At20the20beginning2c20but20after20Options20are20parsed20according20to20action20OPTIONS2e"></a>
@@ -388,15 +376,14 @@ Return<br/>
 </li>
 </ul>
 Find details in <a href="examples/truscape/tru/action_examples/READ.tru">action_examples/READ.tru</a><br/>
-<a name="READ20and20empty20lines3a"></a>
-<h7>READ and empty lines:</h7>
-<div>
+</li>
+<li>READ and empty lines:
+<br/>
 READ is not applied to empty lines.<br/>
 Empty lines are not processed until the next non-empty line is read or the end of input is reached.<br/>
 This is so that the level for empty lines can be calculated.<br/>
 For the same reason READ has to be applied for this (non-empty) line.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/READempty.tru">action_examples/READempty.tru</a><br/>
-</div>
 </li>
 <li>WRITE
 <br/>
@@ -476,6 +463,12 @@ Here only perl-statements are allowed, no outstatements, actioncalls or mark usi
 Find details in <a href="examples/truscape/tru/action_examples/FLUSH.tru">action_examples/FLUSH.tru</a><br/>
 </li>
 </ul>
+</div>
+<a name="hooks"></a>
+<h3>hooks</h3>
+<div>
+You can have hooks, that are triggered when text is put at a mark.<br/>
+This is described in detail below under <a href="#mark20hooks" >mark hooks</a><br/>
 </div>
 </div>
 </div>
@@ -829,7 +822,83 @@ to unset a mark use<br/>
 </tr>
 </table><br/>
 marks don't work in stream-mode.<br/>
-they can be used before they are defined.<br/>
+marks can be used before they are defined, in which case the text is buffered until the mark will be set.<br/>
+</div>
+<a name="mark20hooks"></a>
+<h2>mark hooks</h2>
+<div>
+<a name="in20the20structure2dsection2027hooks2720you20can20define20hooks20for20each20mark"></a>
+<h3>in the structure-section 'hooks' you can define hooks for each mark</h3>
+<div>
+six kinds of hooks exist<br/>
+<table>
+<tr>
+  <td>[</td>
+  <td>(pre-)  surrounds each setmark completetly if the mark was used</td>
+</tr>
+<tr>
+  <td>]</td>
+  <td>(post-) surrounds each setmark completetly if the mark was used</td>
+</tr>
+<tr>
+  <td>{</td>
+  <td>surrounds each usemark (pre-usemark)</td>
+</tr>
+<tr>
+  <td>-</td>
+  <td>surrounds each usemark (pre-usemark, depth)</td>
+</tr>
+<tr>
+  <td>}</td>
+  <td>surrounds each usemark (post-usemark)</td>
+</tr>
+<tr>
+  <td>n</td>
+  <td>used if the mark was never used</td>
+</tr>
+</table><br/>
+hooks and actions share the same name-space.<br/>
+So don't give marks the name of an action.<br/>
+<br/>
+the order is as follows, for every setmark()<br/>
+<br/><table summary="" class="statements">
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;[</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;{</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;-</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;usemark() or atmark()</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;}</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;{</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;-</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;usemark() or atmark()</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;}</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;]</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;</kbd></td>
+</tr>
+</table><br/>
+in  { , - and } $count holds the counter for usemark() rsp. atmark()<br/>
+each hook has in $_ the same content that the calling action had when the mark was used *first*<br/>
+</div>
 Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
 </div>
 <a name="pit20CLEAR"></a>
