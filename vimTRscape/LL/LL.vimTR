@@ -1,4 +1,4 @@
-VERSION	3.2
+VERSION	3.3
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -2033,6 +2033,7 @@ perl
       F='$F'					$F : name.ext
       r='$r'					$r : name
       e='$e'					$e : ext
+    $cmd =~ s/^\s*//				remove leading spaces
     ?	$mode eq 't'
       o	echo the command
 	?	1

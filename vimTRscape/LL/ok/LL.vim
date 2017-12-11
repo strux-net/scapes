@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.2
+" based on LL.vimTR , version : 3.3
 "****************************************
 " README
 "****************************************
@@ -5136,6 +5136,7 @@ sub WriteTmpScript($$$$)
   print FPC qq[F='$F'\n] ; #$F : name.ext
   print FPC qq[r='$r'\n] ; #$r : name
   print FPC qq[e='$e'\n] ; #$e : ext
+  $cmd =~ s/^\s*//;                                # remove leading spaces
   if ($mode eq 't') {
     # echo the command
       if (1) {
