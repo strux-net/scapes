@@ -6616,13 +6616,14 @@ OPTIONS:
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
     ]</howToRead>
     <xcommand>[
-      <a title="js_tru -noIntro">cmd</a>
+      <a title="perl_tru -noIntro">cmd</a>
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>local @a = [..]
-<a title = "Indent : 2">  </a>&lsquo;one&lsquo;
-<a title = "Indent : 2">  </a>&lsquo;two&lsquo;
+<a title = "Indent : 0"></a>foo
+<a title = "Indent : 2">  </a>local @a = [..]
+<a title = "Indent : 4">    </a>&lsquo;one&lsquo;
+<a title = "Indent : 4">    </a>&lsquo;two&lsquo;
 </listing>
     <br/>
     <part>gives :</part>
@@ -6631,10 +6632,17 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>local @a = [
-<a title = "Indent : 2">  </a>&lsquo;one&lsquo;,
-<a title = "Indent : 2">  </a>&lsquo;two&lsquo;
-<a title = "Indent : 0"></a>];
+<a title = "Indent : 0"></a>#!/usr/bin/perl
+<a title = "Indent : 0"></a>#  protos
+<a title = "Indent : 0"></a>sub foo;
+
+<a title = "Indent : 0"></a>sub foo
+<a title = "Indent : 0"></a>{
+<a title = "Indent : 2">  </a>local @a = [
+<a title = "Indent : 4">    </a>&lsquo;one&lsquo;,
+<a title = "Indent : 4">    </a>&lsquo;two&lsquo;
+<a title = "Indent : 2">  </a>];
+<a title = "Indent : 0"></a>}
 </listing>
     <br/>
     <a name="A_property"></a>
@@ -6677,13 +6685,14 @@ OPTIONS:
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
     ]</howToRead>
     <xcommand>[
-      <a title="js_tru -noIntro">cmd</a>
+      <a title="perl_tru -noIntro">cmd</a>
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>local $a = {..}
-<a title = "Indent : 2">  </a>uno<ping><a title="here is a Tab">	</a>&lsquo;one&lsquo;</ping>
-<a title = "Indent : 2">  </a>duo<ping><a title="here is a Tab">	</a>&lsquo;two&lsquo;</ping>
+<a title = "Indent : 0"></a>foo
+<a title = "Indent : 2">  </a>local $a = {..}
+<a title = "Indent : 4">    </a>uno<ping><a title="here is a Tab">	</a>&lsquo;one&lsquo;</ping>
+<a title = "Indent : 4">    </a>duo<ping><a title="here is a Tab">	</a>&lsquo;two&lsquo;</ping>
 </listing>
     <br/>
     <part>gives :</part>
@@ -6692,10 +6701,17 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>local $a = {
-<a title = "Indent : 2">  </a>uno : &lsquo;one&lsquo;,
-<a title = "Indent : 2">  </a>duo : &lsquo;two&lsquo;
-<a title = "Indent : 0"></a>};
+<a title = "Indent : 0"></a>#!/usr/bin/perl
+<a title = "Indent : 0"></a>#  protos
+<a title = "Indent : 0"></a>sub foo;
+
+<a title = "Indent : 0"></a>sub foo
+<a title = "Indent : 0"></a>{
+<a title = "Indent : 2">  </a>local $a = {
+<a title = "Indent : 4">    </a>uno =&gt; &lsquo;one&lsquo;,
+<a title = "Indent : 4">    </a>duo =&gt; &lsquo;two&lsquo;
+<a title = "Indent : 2">  </a>};
+<a title = "Indent : 0"></a>}
 </listing>
     <br/>
     <a name="A_global20code"></a>

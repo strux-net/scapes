@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	perl_tru [Options] [<file> ....]
 
 	produces a perl-script
@@ -804,10 +804,11 @@ actions
       Parameters :
         arrayelem	mandatory	.+	the element
         comment		optional	.+	a comment for this element
-      Example :	js_tru -noIntro
-	local @a = [..]
-	  'one'
-	  'two'
+      Example :	perl_tru -noIntro
+	foo
+	  local @a = [..]
+	    'one'
+	    'two'
     -
       $comment = "\t$cc $comment" if $comment ne "";
       if ($isLast)
@@ -820,10 +821,11 @@ actions
         property	mandatory	.+	the property
         value		mandatory	.+	the value of the property
         comment	optional		.+	a comment
-      Example :	js_tru -noIntro
-	local $a = {..}
-	  uno	'one'
-	  duo	'two'
+      Example :	perl_tru -noIntro
+	foo
+	  local $a = {..}
+	    uno	'one'
+	    duo	'two'
     -
       $comment = "\t$cc $comment" if $comment ne "";
       $terminator = $isLast ? '' : ',';
