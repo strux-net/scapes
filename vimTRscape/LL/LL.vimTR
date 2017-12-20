@@ -1,4 +1,4 @@
-VERSION	3.3
+VERSION	3.4
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -485,6 +485,8 @@ Interface	/strux/LL
     The inspect window has the name /strux/INSPECT and additional commands are available there.
   o		&Entry.Split &Open						Open the file in a split							:perl OpenFile "split"<CR>
     Edit the file under the cursor in a new window
+  O		&Entry.&Tabnew Open						Open the file in a new tab							:perl OpenFile "tabnew"<CR>
+    Edit the file under the cursor in a new tab
   p		&Entry.&Preview							Preview the file								:perl OpenFile "pedit"<CR>
     Edit the file under the cursor in the preview window
   xx		&Tags.&Tag							Tag the file									:perl TagFile ">"<CR>

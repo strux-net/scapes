@@ -228,6 +228,7 @@ A quick overview follows
     ENTRY~
       i               Inspect the file                                            |LL-i|
       o               Open the file in a split                                    |LL-o|
+      O               Open the file in a new tab                                  |LL-O|
       p               Preview the file                                            |LL-p|
 
     TAGS~

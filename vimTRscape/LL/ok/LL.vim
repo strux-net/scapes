@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.3
+" based on LL.vimTR , version : 3.4
 "****************************************
 " README
 "****************************************
@@ -201,6 +201,8 @@
 "	  The inspect window has the name /strux/INSPECT and additional commands are available there.
 "	o	Open the file in a split
 "	  Edit the file under the cursor in a new window
+"	O	Open the file in a new tab
+"	  Edit the file under the cursor in a new tab
 "	p	Preview the file
 "	  Edit the file under the cursor in the preview window
 "	xx	Tag the file
@@ -1188,40 +1190,47 @@ function <sid>Help_n2f73747275782f4c4c_57()
 endfunction
 function <sid>Help_n2f73747275782f4c4c_58()
   echohl WarningMsg
+  echo 'Open the file in a new tab (bound to O)'
+  echohl None
+  echo ''
+  echo 'Edit the file under the cursor in a new tab'
+endfunction
+function <sid>Help_n2f73747275782f4c4c_59()
+  echohl WarningMsg
   echo 'Preview the file (bound to p)'
   echohl None
   echo ''
   echo 'Edit the file under the cursor in the preview window'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_59()
+function <sid>Help_n2f73747275782f4c4c_60()
   echohl WarningMsg
   echo 'Tag the file (bound to xx)'
   echohl None
   echo ''
   echo 'Tag (mark) the file under the cursor.'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_60()
+function <sid>Help_n2f73747275782f4c4c_61()
   echohl WarningMsg
   echo 'Untag the file (bound to xX)'
   echohl None
   echo ''
   echo 'Untag (unmark) the file under the cursor.'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_61()
+function <sid>Help_n2f73747275782f4c4c_62()
   echohl WarningMsg
   echo 'Tag all (bound to xa)'
   echohl None
   echo ''
   echo 'Tag (mark) all files'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_62()
+function <sid>Help_n2f73747275782f4c4c_63()
   echohl WarningMsg
   echo 'Untag all (bound to xA)'
   echohl None
   echo ''
   echo 'Untag (unmark) all files'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_63()
+function <sid>Help_n2f73747275782f4c4c_64()
   echohl WarningMsg
   echo 'Toggle tags (bound to xT)'
   echohl None
@@ -1230,14 +1239,14 @@ function <sid>Help_n2f73747275782f4c4c_63()
   echo '    Untagged files become tagged, and'
   echo '    Tagged files become untagged'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_64()
+function <sid>Help_n2f73747275782f4c4c_65()
   echohl WarningMsg
   echo 'Toggle this (bound to xt)'
   echohl None
   echo ''
   echo 'Toggle the tag for this file'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_65()
+function <sid>Help_n2f73747275782f4c4c_66()
   echohl WarningMsg
   echo 'Tag by Pattern (bound to xp)'
   echohl None
@@ -1248,7 +1257,7 @@ function <sid>Help_n2f73747275782f4c4c_65()
   echo 'E.g to tag all c-files that start with the letter a, use:'
   echo '^a.*\.c$'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_66()
+function <sid>Help_n2f73747275782f4c4c_67()
   echohl WarningMsg
   echo 'Untag by Pattern (bound to xP)'
   echohl None
@@ -1256,7 +1265,7 @@ function <sid>Help_n2f73747275782f4c4c_66()
   echo 'Prompt for a regexp and untags all files matching this regexp.'
   echo 'The same rules as for xp apply here'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_67()
+function <sid>Help_n2f73747275782f4c4c_68()
   echohl WarningMsg
   echo 'Tag by file (bound to xf)'
   echohl None
@@ -1270,7 +1279,7 @@ function <sid>Help_n2f73747275782f4c4c_67()
   echo 'See also :'
   echo '    xF'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_68()
+function <sid>Help_n2f73747275782f4c4c_69()
   echohl WarningMsg
   echo 'Untag by file (bound to xF)'
   echohl None
@@ -1284,7 +1293,7 @@ function <sid>Help_n2f73747275782f4c4c_68()
   echo 'See also :'
   echo '    xf'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_69()
+function <sid>Help_n2f73747275782f4c4c_70()
   echohl WarningMsg
   echo 'Tag by grep (bound to xg)'
   echohl None
@@ -1302,7 +1311,7 @@ function <sid>Help_n2f73747275782f4c4c_69()
   echo 'Just press <C-L> to get rid of them.'
   echo 'Also see |g:strux_LL_grep|.'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_70()
+function <sid>Help_n2f73747275782f4c4c_71()
   echohl WarningMsg
   echo 'Untag by grep (bound to xG)'
   echohl None
@@ -1310,86 +1319,86 @@ function <sid>Help_n2f73747275782f4c4c_70()
   echo 'Prompts for grep-cmd and untags all files matched.'
   echo 'For details see xg above'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_71()
+function <sid>Help_n2f73747275782f4c4c_72()
   echohl WarningMsg
   echo 'Execute a command to tagged files (bound to x<F4>)'
   echohl None
   echo ''
   echo 'Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_72()
+function <sid>Help_n2f73747275782f4c4c_73()
   echohl WarningMsg
   echo 'Execute a command to tagged files in an xterm (bound to x1<F4>)'
   echohl None
   echo ''
   echo 'Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_73()
+function <sid>Help_n2f73747275782f4c4c_74()
   echohl WarningMsg
   echo 'Execute a command to tagged files in an background xterm (bound to x2<F4>)'
   echohl None
   echo ''
   echo 'Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_74()
+function <sid>Help_n2f73747275782f4c4c_75()
   echohl WarningMsg
   echo 'Execute a command to tagged files and read output into a new buffer (bound to x<S-F4>)'
   echohl None
   echo ''
   echo 'Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_75()
+function <sid>Help_n2f73747275782f4c4c_76()
   echohl WarningMsg
   echo 'In the shell issue a cd and focus the shell (bound to <c-x><c-x>)'
   echohl None
   echo ''
 endfunction
-function <sid>Help_n2f73747275782f4c4c_76()
+function <sid>Help_n2f73747275782f4c4c_77()
   echohl WarningMsg
   echo 'LL for the dir in the shell (bound to <c-x>c)'
   echohl None
   echo ''
 endfunction
-function <sid>Help_n2f73747275782f4c4c_77()
+function <sid>Help_n2f73747275782f4c4c_78()
   echohl WarningMsg
   echo 'open a shell (bound to <c-x>s)'
   echohl None
   echo ''
 endfunction
-function <sid>Help_n2f73747275782f4c4c_78()
+function <sid>Help_n2f73747275782f4c4c_79()
   echohl WarningMsg
   echo 'Go to the previously visited dir (bound to <BS>)'
   echohl None
   echo ''
 endfunction
-function <sid>Help_n2f73747275782f4c4c_79()
+function <sid>Help_n2f73747275782f4c4c_80()
   echohl WarningMsg
   echo 'Go to the next visited dir (bound to <tab>)'
   echohl None
   echo ''
 endfunction
-function <sid>Help_n2f73747275782f4c4c_80()
+function <sid>Help_n2f73747275782f4c4c_81()
   echohl WarningMsg
   echo 'Go to parent dir (bound to ..)'
   echohl None
   echo ''
   echo 'Enter parent directory of the currently viewed directory'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_81()
+function <sid>Help_n2f73747275782f4c4c_82()
   echohl WarningMsg
   echo 'Go to root dir (bound to ./)'
   echohl None
   echo ''
   echo 'Enter the root-directory /'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_82()
+function <sid>Help_n2f73747275782f4c4c_83()
   echohl WarningMsg
   echo 'Go to home dir (bound to .~)'
   echohl None
   echo ''
   echo 'Enter the home-directory ($HOME)'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_83()
+function <sid>Help_n2f73747275782f4c4c_84()
   echohl WarningMsg
   echo 'Go to any dir (bound to .:)'
   echohl None
@@ -1397,7 +1406,7 @@ function <sid>Help_n2f73747275782f4c4c_83()
   echo 'Prompts for a directory and enters this directory'
   echo 'filename-completen works here'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_84()
+function <sid>Help_n2f73747275782f4c4c_85()
   echohl WarningMsg
   echo 'Follow the link under the cursor (bound to ff)'
   echohl None
@@ -1413,7 +1422,7 @@ function <sid>Help_n2f73747275782f4c4c_84()
   echo '  e.G. if you do "find . whatever | L"'
   echo 'This also follows .git - files to the gitdir'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_85()
+function <sid>Help_n2f73747275782f4c4c_86()
   echohl WarningMsg
   echo 'Refresh the current view (bound to <C-R>)'
   echohl None
@@ -1426,7 +1435,7 @@ function <sid>Help_n2f73747275782f4c4c_85()
   echo '    u'
   echo '    U'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_86()
+function <sid>Help_n2f73747275782f4c4c_87()
   echohl WarningMsg
   echo 'Update the current view (bound to u)'
   echohl None
@@ -1445,7 +1454,7 @@ function <sid>Help_n2f73747275782f4c4c_86()
   echo '    U'
   echo '    <C-R>'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_87()
+function <sid>Help_n2f73747275782f4c4c_88()
   echohl WarningMsg
   echo 'Update the current view (keep deleted) (bound to U)'
   echohl None
@@ -1460,7 +1469,7 @@ function <sid>Help_n2f73747275782f4c4c_87()
   echo '    u'
   echo '    <C-R>'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_88()
+function <sid>Help_n2f73747275782f4c4c_89()
   echohl WarningMsg
   echo 'View the list of visited dirs (bound to .?)'
   echohl None
@@ -1469,7 +1478,7 @@ function <sid>Help_n2f73747275782f4c4c_88()
   echo 'This window has the name /strux/VISITED and additional commands are available there.'
   echo '  press <F1> in this window to get help on these mappings'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_89()
+function <sid>Help_n2f73747275782f4c4c_90()
   echohl WarningMsg
   echo 'View the back/forward stack (bound to .!)'
   echohl None
@@ -1497,7 +1506,7 @@ function <sid>Help_n2f73747275782f4c4c_7065722066696c6520636f6d6d616e64()
   echo 'It is not applied to directories. See cxdl rsp. cxdg for this.'
   :call <sid>Help_n2f73747275782f4c4c_70657220656e74727920636f6d6d616e64()
 endfunction
-function <sid>Help_n2f73747275782f4c4c_90()
+function <sid>Help_n2f73747275782f4c4c_91()
   echohl WarningMsg
   echo 'Configure the Global Per File Command (bound to cxfg)'
   echohl None
@@ -1525,7 +1534,7 @@ function <sid>Help_n2f73747275782f4c4c_90()
   echo '  cxfl'
   echo '  cxdl'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_91()
+function <sid>Help_n2f73747275782f4c4c_92()
   echohl WarningMsg
   echo 'Configure the Local Per File Command (bound to cxfl)'
   echohl None
@@ -1553,7 +1562,7 @@ function <sid>Help_n2f73747275782f4c4c_7065722064697220636f6d6d616e64()
   echo 'It is not applied to normal files. See cxfl rsp. cxfg for this.'
   :call <sid>Help_n2f73747275782f4c4c_70657220656e74727920636f6d6d616e64()
 endfunction
-function <sid>Help_n2f73747275782f4c4c_92()
+function <sid>Help_n2f73747275782f4c4c_93()
   echohl WarningMsg
   echo 'Configure the Global Per Dir Command (bound to cxdg)'
   echohl None
@@ -1576,7 +1585,7 @@ function <sid>Help_n2f73747275782f4c4c_92()
   echo '  cxfl'
   echo '  cxdl'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_93()
+function <sid>Help_n2f73747275782f4c4c_94()
   echohl WarningMsg
   echo 'Configure the Local Per Dir Command (bound to cxdl)'
   echohl None
@@ -1627,7 +1636,7 @@ function <sid>Help_n2f73747275782f4c4c_506172736520537472696e67()
   echo '    x	result of per file command, as defined by cxfl or cxfg'
   echo 'Any sequence of tabs will be shortened/prolonged to make all tab-seperated columns aligned.'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_94()
+function <sid>Help_n2f73747275782f4c4c_95()
   echohl WarningMsg
   echo 'Configure the global Parse String (bound to cpg)'
   echohl None
@@ -1639,7 +1648,7 @@ function <sid>Help_n2f73747275782f4c4c_94()
   echo 'See also :'
   echo '    cpl'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_95()
+function <sid>Help_n2f73747275782f4c4c_96()
   echohl WarningMsg
   echo 'Configure the local Parse String (bound to cpl)'
   echohl None
@@ -1650,21 +1659,21 @@ function <sid>Help_n2f73747275782f4c4c_95()
   echo '    cpg'
   echo '    dirsettings'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_96()
+function <sid>Help_n2f73747275782f4c4c_97()
   echohl WarningMsg
   echo 'Reread the LL-autocommands (bound to cpr)'
   echohl None
   echo ''
   echo 'Rereads the file ~/LL.dirsettings which holds the NewView Autocommands'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_97()
+function <sid>Help_n2f73747275782f4c4c_98()
   echohl WarningMsg
   echo 'Clear the dirsettings for the current dir (bound to cpc)'
   echohl None
   echo ''
   echo 'clears the dirsettings for the displayed directory'
 endfunction
-function <sid>Help_n2f73747275782f4c4c_98()
+function <sid>Help_n2f73747275782f4c4c_99()
   echohl WarningMsg
   echo 'Show technical info for this dir (bound to dt)'
   echohl None
@@ -2247,6 +2256,7 @@ function!InterfaceOFF_2f73747275782f4c4c()
     nunmenu S&ort.Direction\ and\ grouping.&fix\ the\ settings\ for\ this\ dir<tab>Sf
     nunmenu &Entry.&Inspect<tab>i
     nunmenu &Entry.Split\ &Open<tab>o
+    nunmenu &Entry.&Tabnew\ Open<tab>O
     nunmenu &Entry.&Preview<tab>p
     nunmenu &Tags.&Tag<tab>xx
     nunmenu &Tags.&Untag<tab>xX
@@ -2349,47 +2359,48 @@ function!<sid>Help_n2f73747275782f4c4c()
   echo '55	Sf	Fix the settings for this dir'
   echo '56	i	Inspect the file'
   echo '57	o	Open the file in a split'
-  echo '58	p	Preview the file'
-  echo '59	xx	Tag the file'
-  echo '60	xX	Untag the file'
-  echo '61	xa	Tag all'
-  echo '62	xA	Untag all'
-  echo '63	xT	Toggle tags'
-  echo '64	xt	Toggle this'
-  echo '65	xp	Tag by Pattern'
-  echo '66	xP	Untag by Pattern'
-  echo '67	xf	Tag by file'
-  echo '68	xF	Untag by file'
-  echo '69	xg	Tag by grep'
-  echo '70	xG	Untag by grep'
-  echo '71	x<F4>	Execute a command to tagged files'
-  echo '72	x1<F4>	Execute a command to tagged files in an xterm'
-  echo '73	x2<F4>	Execute a command to tagged files in an background xterm'
-  echo '74	x<S-F4>	Execute a command to tagged files and read output into a new buffer'
-  echo '75	<c-x><c-x>	In the shell issue a cd and focus the shell'
-  echo '76	<c-x>c	LL for the dir in the shell'
-  echo '77	<c-x>s	open a shell'
-  echo '78	<BS>	Go to the previously visited dir'
-  echo '79	<tab>	Go to the next visited dir'
-  echo '80	..	Go to parent dir'
-  echo '81	./	Go to root dir'
-  echo '82	.~	Go to home dir'
-  echo '83	.:	Go to any dir'
-  echo '84	ff	Follow the link under the cursor'
-  echo '85	<C-R>	Refresh the current view'
-  echo '86	u	Update the current view'
-  echo '87	U	Update the current view (keep deleted)'
-  echo '88	.?	View the list of visited dirs'
-  echo '89	.!	View the back/forward stack'
-  echo '90	cxfg	Configure the Global Per File Command'
-  echo '91	cxfl	Configure the Local Per File Command'
-  echo '92	cxdg	Configure the Global Per Dir Command'
-  echo '93	cxdl	Configure the Local Per Dir Command'
-  echo '94	cpg	Configure the global Parse String'
-  echo '95	cpl	Configure the local Parse String'
-  echo '96	cpr	Reread the LL-autocommands'
-  echo '97	cpc	Clear the dirsettings for the current dir'
-  echo '98	dt	Show technical info for this dir'
+  echo '58	O	Open the file in a new tab'
+  echo '59	p	Preview the file'
+  echo '60	xx	Tag the file'
+  echo '61	xX	Untag the file'
+  echo '62	xa	Tag all'
+  echo '63	xA	Untag all'
+  echo '64	xT	Toggle tags'
+  echo '65	xt	Toggle this'
+  echo '66	xp	Tag by Pattern'
+  echo '67	xP	Untag by Pattern'
+  echo '68	xf	Tag by file'
+  echo '69	xF	Untag by file'
+  echo '70	xg	Tag by grep'
+  echo '71	xG	Untag by grep'
+  echo '72	x<F4>	Execute a command to tagged files'
+  echo '73	x1<F4>	Execute a command to tagged files in an xterm'
+  echo '74	x2<F4>	Execute a command to tagged files in an background xterm'
+  echo '75	x<S-F4>	Execute a command to tagged files and read output into a new buffer'
+  echo '76	<c-x><c-x>	In the shell issue a cd and focus the shell'
+  echo '77	<c-x>c	LL for the dir in the shell'
+  echo '78	<c-x>s	open a shell'
+  echo '79	<BS>	Go to the previously visited dir'
+  echo '80	<tab>	Go to the next visited dir'
+  echo '81	..	Go to parent dir'
+  echo '82	./	Go to root dir'
+  echo '83	.~	Go to home dir'
+  echo '84	.:	Go to any dir'
+  echo '85	ff	Follow the link under the cursor'
+  echo '86	<C-R>	Refresh the current view'
+  echo '87	u	Update the current view'
+  echo '88	U	Update the current view (keep deleted)'
+  echo '89	.?	View the list of visited dirs'
+  echo '90	.!	View the back/forward stack'
+  echo '91	cxfg	Configure the Global Per File Command'
+  echo '92	cxfl	Configure the Local Per File Command'
+  echo '93	cxdg	Configure the Global Per Dir Command'
+  echo '94	cxdl	Configure the Local Per Dir Command'
+  echo '95	cpg	Configure the global Parse String'
+  echo '96	cpl	Configure the local Parse String'
+  echo '97	cpr	Reread the LL-autocommands'
+  echo '98	cpc	Clear the dirsettings for the current dir'
+  echo '99	dt	Show technical info for this dir'
   if exists('<SID>Help()')
     call <SID>Help()
   endif
@@ -2467,6 +2478,7 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremenu S&ort.Direction\ and\ grouping.&fix\ the\ settings\ for\ this\ dir<tab>Sf :perl fixSort<CR>
     nnoremenu &Entry.&Inspect<tab>i :perl Inspect<CR>
     nnoremenu &Entry.Split\ &Open<tab>o :perl OpenFile "split"<CR>
+    nnoremenu &Entry.&Tabnew\ Open<tab>O :perl OpenFile "tabnew"<CR>
     nnoremenu &Entry.&Preview<tab>p :perl OpenFile "pedit"<CR>
     nnoremenu &Tags.&Tag<tab>xx :perl TagFile ">"<CR>
     nnoremenu &Tags.&Untag<tab>xX :perl TagFile " "<CR>
@@ -2565,6 +2577,7 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremap <buffer> <silent> Sf :perl fixSort<CR>
     nnoremap <buffer> <silent> i :perl Inspect<CR>
     nnoremap <buffer> <silent> o :perl OpenFile "split"<CR>
+    nnoremap <buffer> <silent> O :perl OpenFile "tabnew"<CR>
     nnoremap <buffer> <silent> p :perl OpenFile "pedit"<CR>
     nnoremap <buffer> <silent> xx :perl TagFile ">"<CR>
     nnoremap <buffer> <silent> xX :perl TagFile " "<CR>
@@ -2572,16 +2585,16 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremap <buffer> <silent> xA :perl TagAll  " "<CR>
     nnoremap <buffer> <silent> xT :perl ToggleTags<CR>
     nnoremap <buffer> <silent> xt :perl TagFile "^"<CR>
-    nnoremap <buffer> xp :call <sid>Help_n2f73747275782f4c4c_65()<cr>:perl TagByPattern ">"<CR>
-    nnoremap <buffer> xP :call <sid>Help_n2f73747275782f4c4c_66()<cr>:perl TagByPattern " "<CR>
-    nnoremap <buffer> xf :call <sid>Help_n2f73747275782f4c4c_67()<cr>:perl TagByFile ">"<CR>
-    nnoremap <buffer> xF :call <sid>Help_n2f73747275782f4c4c_68()<cr>:perl TagByFile " "<CR>
-    nnoremap <buffer> xg :call <sid>Help_n2f73747275782f4c4c_69()<cr>:perl TagByGrep ">"<CR>
-    nnoremap <buffer> xG :call <sid>Help_n2f73747275782f4c4c_70()<cr>:perl TagByGrep " "<CR>
-    nnoremap <buffer> x<F4> :call <sid>Help_n2f73747275782f4c4c_71()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'t')<cr>
-    nnoremap <buffer> x1<F4> :call <sid>Help_n2f73747275782f4c4c_72()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'x')<cr>
-    nnoremap <buffer> x2<F4> :call <sid>Help_n2f73747275782f4c4c_73()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'xb')<cr>
-    nnoremap <buffer> x<S-F4> :call <sid>Help_n2f73747275782f4c4c_74()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'rb')<cr>
+    nnoremap <buffer> xp :call <sid>Help_n2f73747275782f4c4c_66()<cr>:perl TagByPattern ">"<CR>
+    nnoremap <buffer> xP :call <sid>Help_n2f73747275782f4c4c_67()<cr>:perl TagByPattern " "<CR>
+    nnoremap <buffer> xf :call <sid>Help_n2f73747275782f4c4c_68()<cr>:perl TagByFile ">"<CR>
+    nnoremap <buffer> xF :call <sid>Help_n2f73747275782f4c4c_69()<cr>:perl TagByFile " "<CR>
+    nnoremap <buffer> xg :call <sid>Help_n2f73747275782f4c4c_70()<cr>:perl TagByGrep ">"<CR>
+    nnoremap <buffer> xG :call <sid>Help_n2f73747275782f4c4c_71()<cr>:perl TagByGrep " "<CR>
+    nnoremap <buffer> x<F4> :call <sid>Help_n2f73747275782f4c4c_72()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'t')<cr>
+    nnoremap <buffer> x1<F4> :call <sid>Help_n2f73747275782f4c4c_73()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'x')<cr>
+    nnoremap <buffer> x2<F4> :call <sid>Help_n2f73747275782f4c4c_74()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'xb')<cr>
+    nnoremap <buffer> x<S-F4> :call <sid>Help_n2f73747275782f4c4c_75()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'rb')<cr>
     nnoremap <buffer> <silent> <c-x><c-x> :call Shell("cd ".getcwd())<cr>:LLShell<cr>
     nnoremap <buffer> <silent> <c-x>c :LT<cr>
     nnoremap <buffer> <silent> <c-x>s :LLShell<cr>
@@ -2590,19 +2603,19 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremap <buffer> <silent> .. :perl LL ".."<CR>
     nnoremap <buffer> <silent> ./ :perl LL "/"<CR>
     nnoremap <buffer> <silent> .~ :perl LL $ENV{HOME}<CR>
-    nnoremap <buffer> .: :call <sid>Help_n2f73747275782f4c4c_83()<cr>:perl EnterDir<CR>
+    nnoremap <buffer> .: :call <sid>Help_n2f73747275782f4c4c_84()<cr>:perl EnterDir<CR>
     nnoremap <buffer> <silent> ff :perl followLink<CR>
     nnoremap <buffer> <silent> <C-R> :perl UpdateView 0;RefreshView 1<CR>
     nnoremap <buffer> <silent> u :perl UpdateView 1<CR>
     nnoremap <buffer> <silent> U :perl RefreshView 0<CR>
     nnoremap <buffer> <silent> .? :perl VisitedDirs<CR>
     nnoremap <buffer> <silent> .! :perl ShowDirStack<CR>
-    nnoremap <buffer> cxfg :call <sid>Help_n2f73747275782f4c4c_90()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722066696c6520636f6d6d616e64()<cr>:perl SetxPerEntryCmd("g","file")<CR>
-    nnoremap <buffer> cxfl :call <sid>Help_n2f73747275782f4c4c_91()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722066696c6520636f6d6d616e64()<cr>:perl SetxPerEntryCmd("l","file")<CR>
-    nnoremap <buffer> cxdg :call <sid>Help_n2f73747275782f4c4c_92()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722064697220636f6d6d616e64()<cr>:perl SetxPerEntryCmd("g","dir")<CR>
-    nnoremap <buffer> cxdl :call <sid>Help_n2f73747275782f4c4c_93()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722064697220636f6d6d616e64()<cr>:perl SetxPerEntryCmd("l","dir")<CR>
-    nnoremap <buffer> cpg :call <sid>Help_n2f73747275782f4c4c_94()<cr>:call <sid>Help_n2f73747275782f4c4c_506172736520537472696e67()<cr>:perl SetParseString "g"<CR>
-    nnoremap <buffer> cpl :call <sid>Help_n2f73747275782f4c4c_95()<cr>:call <sid>Help_n2f73747275782f4c4c_506172736520537472696e67()<cr>:perl SetParseString "l"<CR>
+    nnoremap <buffer> cxfg :call <sid>Help_n2f73747275782f4c4c_91()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722066696c6520636f6d6d616e64()<cr>:perl SetxPerEntryCmd("g","file")<CR>
+    nnoremap <buffer> cxfl :call <sid>Help_n2f73747275782f4c4c_92()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722066696c6520636f6d6d616e64()<cr>:perl SetxPerEntryCmd("l","file")<CR>
+    nnoremap <buffer> cxdg :call <sid>Help_n2f73747275782f4c4c_93()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722064697220636f6d6d616e64()<cr>:perl SetxPerEntryCmd("g","dir")<CR>
+    nnoremap <buffer> cxdl :call <sid>Help_n2f73747275782f4c4c_94()<cr>:call <sid>Help_n2f73747275782f4c4c_7065722064697220636f6d6d616e64()<cr>:perl SetxPerEntryCmd("l","dir")<CR>
+    nnoremap <buffer> cpg :call <sid>Help_n2f73747275782f4c4c_95()<cr>:call <sid>Help_n2f73747275782f4c4c_506172736520537472696e67()<cr>:perl SetParseString "g"<CR>
+    nnoremap <buffer> cpl :call <sid>Help_n2f73747275782f4c4c_96()<cr>:call <sid>Help_n2f73747275782f4c4c_506172736520537472696e67()<cr>:perl SetParseString "l"<CR>
     nnoremap <buffer> <silent> cpr :perl RereadNewViewAutocommands(0)<cr>
     nnoremap <buffer> <silent> cpc :perl ClearNewViewAutocommands('verbose')<cr>
     nnoremap <buffer> <silent> dt :perl showTechInfo<CR>

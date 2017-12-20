@@ -404,6 +404,12 @@ COMMANDS FOR VIEW LL                                                            
 
     This command can also be found in the menu under :
       Entry -> Split Open
+                                                                                  *LL-O*
+  O : Open the file in a new tab~
+    Edit the file under the cursor in a new tab
+
+    This command can also be found in the menu under :
+      Entry -> Tabnew Open
                                                                                   *LL-p*
   p : Preview the file~
     Edit the file under the cursor in the preview window
