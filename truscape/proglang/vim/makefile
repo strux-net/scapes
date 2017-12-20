@@ -14,7 +14,7 @@ test test_ALL:\
   test_vim_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -37,7 +37,6 @@ test_vim_tru: vim_tru
 	./vim_tru -obeyBang test.vimTR >test1.vim
 	@${m_diff} test1.vim
 	-./vim_tru -invalid
-.PHONY: vim_tru
 vim_tru:
 	@echo  building vim_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../plainvar.tru vim.tru ../globalCode.tru vimcoll.tru  ../../lib/basicUSAGE.tru >vim_tru

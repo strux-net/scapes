@@ -14,7 +14,7 @@ test test_ALL:\
   test_acmd\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -37,7 +37,6 @@ test_acmd: acmd
 	echo  "9" | ./acmd -a LL.acmd    /MostLikelyNotADir/a ; echo
 	./acmd /MostLikelyNotAFile
 	-./acmd -invalid
-.PHONY: acmd
 acmd:
 	@echo  building acmd
 	perl_tru acmd.plTR >acmd

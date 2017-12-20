@@ -107,7 +107,7 @@ test test_ALL:\
   test_testREAD_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -119,7 +119,6 @@ install_trusupp.pl:
 	@${m_copy} trusupp.pl ~/strux/lib
 test_trusupp.pl: trusupp.pl
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: trusupp.pl
 trusupp.pl:
 	@echo  building trusupp.pl
 	perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >trusupp.pl
@@ -131,7 +130,6 @@ install_trusubs.pl:
 test_trusubs.pl: trusubs.pl
 	@echo  testing trusubs.pl
 	perl ./trusubs.pl -version
-.PHONY: trusubs.pl
 trusubs.pl:
 	@echo  building trusubs.pl
 	perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
@@ -147,7 +145,6 @@ install_tru:
 test_tru: tru
 	@echo  testing tru
 	./tru -version
-.PHONY: tru
 tru:
 	@echo  building tru
 	perl -I ~/strux/lib  ~/strux/bin/tru tru.tru ../lib/basicUSAGE.tru >tru_tmp
@@ -168,7 +165,6 @@ test_marktest_tru: marktest_tru
 	@echo  testing marktest_tru
 	perl ./marktest_tru marktest.in >marktest.out
 	@${m_diff} marktest.out
-.PHONY: marktest_tru
 marktest_tru:
 	@echo  building marktest_tru
 	perl ./tru marktest.tru >marktest_tru
@@ -184,7 +180,6 @@ test_docexpand_tru: docexpand_tru
 	@${m_diff} docs/tru.txtTR
 	html_tru docs/tru.txtTR >docs/tru.html
 	@${m_diff} docs/tru.html
-.PHONY: docexpand_tru
 docexpand_tru:
 	@echo  building docexpand_tru
 	perl ./tru docexpand.tru >docexpand_tru
@@ -199,7 +194,6 @@ test_testStructureGroup_tru: testStructureGroup_tru
 	@${m_diff} testStructureGroup.deb
 	perl testStructureGroup_tru -structure
 	perl testStructureGroup_tru -structure -groupExpand
-.PHONY: testStructureGroup_tru
 testStructureGroup_tru:
 	@echo  building testStructureGroup_tru
 	perl ./tru testStructureGroup.tru >testStructureGroup_tru
@@ -212,7 +206,6 @@ test_structure_demo_tru: structure_demo_tru
 	@echo  testing structure_demo_tru
 	perl structure_demo_tru -debug -debStructure structure_demo.in >structure_demo.out
 	@${m_diff} structure_demo.out
-.PHONY: structure_demo_tru
 structure_demo_tru:
 	@echo  building structure_demo_tru
 	perl ./tru structure_demo.tru >structure_demo_tru
@@ -237,7 +230,6 @@ test_test16_tru: test16_tru
 	@${m_diff} test16all.deb
 	perl test16_tru -debug -debStructure test16 >test16Structure.deb
 	@${m_diff} test16Structure.deb
-.PHONY: test16_tru
 test16_tru:
 	@echo  building test16_tru
 	perl ./tru test16.tru >test16_tru
@@ -266,7 +258,6 @@ test_test17_tru: test17_tru
 	@${m_diff} test_contained.out_structure
 	-perl test17_tru -vstructure >test_contained.out_vstructure
 	@${m_diff} test_contained.out_vstructure
-.PHONY: test17_tru
 test17_tru:
 	@echo  building test17_tru
 	perl ./tru -q test17.tru >test17_tru
@@ -288,7 +279,6 @@ test_test15_tru: test15_tru
 	@${m_diff} test15depth.deb
 	-perl test15_tru -debReverse 0 test15 >test15rev.deb
 	@${m_diff} test15rev.deb
-.PHONY: test15_tru
 test15_tru:
 	@echo  building test15_tru
 	perl ./tru -q test15.tru tracemarks.tru >test15_tru
@@ -304,7 +294,6 @@ test_test_explicit_tru: test_explicit_tru
 	@${m_diff} test_explicit.out
 	perl test_explicit_tru -debReverse 0 test1 >test_explicitrev.deb
 	@${m_diff} test_explicitrev.deb
-.PHONY: test_explicit_tru
 test_explicit_tru:
 	@echo  building test_explicit_tru
 	perl ./tru -q test_explicit.tru >test_explicit_tru
@@ -320,7 +309,6 @@ test_test_unshiftREAD_tru: test_unshiftREAD_tru
 	@${m_diff} test_unshiftREAD.out
 	perl test_unshiftREAD_tru -debReverse 0 test_unshiftREAD >test_unshiftREADrev.deb
 	@${m_diff} test_unshiftREADrev.deb
-.PHONY: test_unshiftREAD_tru
 test_unshiftREAD_tru:
 	@echo  building test_unshiftREAD_tru
 	perl ./tru -q test_unshiftREAD.tru >test_unshiftREAD_tru
@@ -350,7 +338,6 @@ test_test1_tru: test1_tru
 	perl test1_tru -version
 	perl test1_tru -debReverse 0 test1 test1a >test1depthrev.deb
 	@${m_diff} test1depthrev.deb
-.PHONY: test1_tru
 test1_tru:
 	@echo  building test1_tru
 	perl ./tru -q -s statistics.out1 test1.tru test1a.tru >test1_tru
@@ -367,7 +354,6 @@ test_test_rnr_tru: test_rnr_tru
 	@${m_diff} test_rnr.out
 	perl test_rnr_tru -debReverse 0 test11 >test_rnrrev.deb
 	@${m_diff} test_rnrrev.deb
-.PHONY: test_rnr_tru
 test_rnr_tru:
 	@echo  building test_rnr_tru
 	perl ./tru -q test_rnr.tru >test_rnr_tru
@@ -377,7 +363,6 @@ install_test2_tru:
 	@${m_copy} test2_tru ok/test2_tru
 test_test2_tru: test2_tru
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: test2_tru
 test2_tru:
 	@echo  building test2_tru
 	perl ./tru -q test2.tru >test2_tru
@@ -387,7 +372,6 @@ install_test3_tru:
 	@${m_copy} test3_tru ok/test3_tru
 test_test3_tru: test3_tru
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: test3_tru
 test3_tru:
 	@echo  building test3_tru
 	perl ./tru -q test3.tru >test3_tru
@@ -404,7 +388,6 @@ test_test4_tru: test4_tru
 	@${m_diff} test4.out
 	-perl test4_tru -x -b=foo    emptyfile >test4a.out
 	@${m_diff} test4a.out
-.PHONY: test4_tru
 test4_tru:
 	@echo  building test4_tru
 	perl ./tru -q test4.tru >test4_tru
@@ -442,7 +425,6 @@ test_test5_tru: test5_tru
 	@${m_diff} test5depthrev.deb
 	perl test5_tru -stream -debReverse 0                 test5 >test5seqrev.deb
 	@${m_diff} test5seqrev.deb
-.PHONY: test5_tru
 test5_tru:
 	@echo  building test5_tru
 	perl ./tru -q test5.tru >test5_tru
@@ -461,7 +443,6 @@ test_test6_tru: test6_tru
 	@${m_diff} test6.deb
 	perl test6_tru test6 -debReverse 0 >test6rev.deb
 	@${m_diff} test6rev.deb
-.PHONY: test6_tru
 test6_tru:
 	@echo  building test6_tru
 	perl ./tru -q test6.tru >test6_tru
@@ -474,7 +455,6 @@ test_test7s1_tru: test7s1_tru
 	@echo  testing test7s1_tru
 	perl test7s1_tru -unroll 0 test7s.in|tabify >test7s1.out
 	@${m_diff} test7s1.out
-.PHONY: test7s1_tru
 test7s1_tru:
 	@echo  building test7s1_tru
 	perl ./tru test7scommon.tru test7s1.tru unroll.tru >test7s1_tru
@@ -487,7 +467,6 @@ test_test7s2_tru: test7s2_tru
 	@echo  testing test7s2_tru
 	perl test7s2_tru -unroll 0 test7s.in|tabify >test7s2.out
 	@${m_diff} test7s2.out
-.PHONY: test7s2_tru
 test7s2_tru:
 	@echo  building test7s2_tru
 	perl ./tru test7scommon.tru test7s2.tru unroll.tru >test7s2_tru
@@ -500,7 +479,6 @@ test_test7s3_tru: test7s3_tru
 	@echo  testing test7s3_tru
 	perl test7s3_tru -unroll 0 test7s.in|tabify >test7s3.out
 	@${m_diff} test7s3.out
-.PHONY: test7s3_tru
 test7s3_tru:
 	@echo  building test7s3_tru
 	perl ./tru test7scommon.tru test7s3.tru unroll.tru >test7s3_tru
@@ -528,7 +506,6 @@ test_test7_tru: test7_tru
 	@${m_diff} test7seqrev.deb
 	perl test7_tru           -debReverse 0          test7 >test7depthrev.deb
 	@${m_diff} test7depthrev.deb
-.PHONY: test7_tru
 test7_tru:
 	@echo  building test7_tru
 	perl ./tru -q test7.tru unroll.tru >test7_tru
@@ -545,7 +522,6 @@ test_test8_tru: test8_tru
 	@${m_diff} test8seq.out
 	perl test8_tru               emptyfile >test8depth.out
 	@${m_diff} test8depth.out
-.PHONY: test8_tru
 test8_tru:
 	@echo  building test8_tru
 	perl ./tru -q test8.tru >test8_tru
@@ -567,7 +543,6 @@ test_test9_tru: test9_tru
 	@${m_diff} test9seqrev.deb
 	perl test9_tru -debReverse 0         test9 >test9depthrev.deb
 	@${m_diff} test9depthrev.deb
-.PHONY: test9_tru
 test9_tru:
 	@echo  building test9_tru
 	perl ./tru -q test9.tru >test9_tru
@@ -589,7 +564,6 @@ test_test10_tru: test10_tru
 	@${m_diff} test10rseqrev.deb
 	perl test10_tru         -debReverse 0 test7 test9 >test10rdepthrev.deb
 	@${m_diff} test10rdepthrev.deb
-.PHONY: test10_tru
 test10_tru:
 	@echo  building test10_tru
 	perl ./tru -q test10.tru >test10_tru
@@ -617,7 +591,6 @@ test_test11_tru: test11_tru
 	@${m_diff} test11depthrev0.deb
 	perl test11_tru -debReverse 13         test11 >test11depthrev13.deb
 	@${m_diff} test11depthrev13.deb
-.PHONY: test11_tru
 test11_tru:
 	@echo  building test11_tru
 	perl ./tru -q test11.tru >test11_tru
@@ -633,7 +606,6 @@ test_test12_tru: test12_tru
 	@${m_diff} test12.out
 	perl test12_tru -debReverse 0 test7 >test12rev.deb
 	@${m_diff} test12rev.deb
-.PHONY: test12_tru
 test12_tru:
 	@echo  building test12_tru
 	perl ./tru -q test12.tru >test12_tru
@@ -655,7 +627,6 @@ test_test13_tru: test13_tru
 	@${m_diff} test13seqrev.deb
 	perl test13_tru -debReverse 0                 test13 >test13depthrev.deb
 	@${m_diff} test13depthrev.deb
-.PHONY: test13_tru
 test13_tru:
 	@echo  building test13_tru
 	perl ./tru -q test13.tru >test13_tru
@@ -665,7 +636,6 @@ install_test14_tru:
 	@${m_copy} test14_tru ok/test14_tru
 test_test14_tru: test14_tru
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: test14_tru
 test14_tru:
 	@echo  building test14_tru
 	perl ./tru -q test14.tru >test14_tru
@@ -685,7 +655,6 @@ test_testdoc_tru: testdoc_tru
 	@${m_diff} testdoc.doc
 	perl ./tru testdocFromSource.tru >testdocFromSource_tru
 	@${m_diff} testdocFromSource_tru
-.PHONY: testdoc_tru
 testdoc_tru:
 	@echo  building testdoc_tru
 	perl ./tru -s statistics.testdoc  testdoc1.tru testdoc2.tru >testdoc_tru
@@ -699,7 +668,6 @@ test_testREAD_tru: testREAD_tru
 	@echo  testing testREAD_tru
 	perl testREAD_tru testREAD.in >testREAD.out
 	@${m_diff} testREAD.out
-.PHONY: testREAD_tru
 testREAD_tru:
 	@echo  building testREAD_tru
 	perl ./tru testREAD.tru >testREAD_tru

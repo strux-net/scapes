@@ -14,7 +14,7 @@ test test_ALL:\
   test_js_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -37,7 +37,6 @@ test_js_tru: js_tru
 	@${m_diff} jstest.js
 	@${m_diff} statistics.out
 	@${m_diff} js_tru
-.PHONY: js_tru
 js_tru:
 	@echo  building js_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru js.tru ../c_like_vars.tru jscoll.tru ../../lib/basicUSAGE.tru >js_tru

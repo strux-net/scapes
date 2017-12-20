@@ -14,7 +14,7 @@ test test_ALL:\
   test_ijoin\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -35,7 +35,6 @@ test_ijoin: ijoin
 	@${m_diff} nodel
 	./ijoin -j / test >delim
 	@${m_diff} delim
-.PHONY: ijoin
 ijoin:
 	@echo  building ijoin
 	tru -s statistics.out ijoin.tru >ijoin

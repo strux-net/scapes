@@ -23,7 +23,7 @@ test test_ALL:\
   test_addr2nokia\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -34,7 +34,6 @@ install_simple_goal:
 	@${m_copy} simple_goal ok/simple_goal
 test_simple_goal: simple_goal
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: simple_goal
 simple_goal:
 	@echo  building simple_goal
 	perl_tru simple_goal.plTR >simple_goal
@@ -60,7 +59,6 @@ test_goal1: goal1
 	command w/o outfile
 	@${m_diff} generated_file
 	@${m_copy} a ok/
-.PHONY: goal1
 goal1:
 	@echo  building goal1
 	tru -s statistics.out goal1.tru >goal1
@@ -76,7 +74,6 @@ install_goal2:
 	@${m_copy} goal2 ~/bin/goal2
 test_goal2: goal2
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: goal2
 goal2:
 	@echo  building goal2
 	command >goal2
@@ -87,7 +84,6 @@ install_addr2nokia:
 	@${m_copy} statistics.out1 ok/statistics.out1
 test_addr2nokia: addr2nokia
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: addr2nokia
 addr2nokia:
 	@echo  building addr2nokia
 	tru -s statistics.out1 addr2nokia.tru ../addr_desc.tru >addr2nokia

@@ -35,7 +35,7 @@ test test_ALL:\
   test_posIndicator.html\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -45,7 +45,6 @@ install_coloring.html:
 	@${m_copy} coloring.html ok/coloring.html
 test_coloring.html: coloring.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: coloring.html
 coloring.html:
 	@echo  building coloring.html
 	html_tru style coloring.txtTR >coloring.html
@@ -55,7 +54,6 @@ install_options.html:
 	@${m_copy} options.html ok/options.html
 test_options.html: options.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: options.html
 options.html:
 	@echo  building options.html
 	html_tru style options.txtTR >options.html
@@ -65,7 +63,6 @@ install_overview.html:
 	@${m_copy} overview.html ok/overview.html
 test_overview.html: overview.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: overview.html
 overview.html:
 	@echo  building overview.html
 	html_tru style overview.txtTR >overview.html
@@ -75,7 +72,6 @@ install_gives.html:
 	@${m_copy} gives.html ok/gives.html
 test_gives.html: gives.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: gives.html
 gives.html:
 	@echo  building gives.html
 	html_tru style gives.txtTR >gives.html
@@ -85,7 +81,6 @@ install_Example.html:
 	@${m_copy} Example.html ok/Example.html
 test_Example.html: Example.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: Example.html
 Example.html:
 	@echo  building Example.html
 	html_tru style Example.txtTR >Example.html
@@ -95,7 +90,6 @@ install_signature.html:
 	@${m_copy} signature.html ok/signature.html
 test_signature.html: signature.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: signature.html
 signature.html:
 	@echo  building signature.html
 	html_tru style signature.txtTR >signature.html
@@ -105,7 +99,6 @@ install_structure.html:
 	@${m_copy} structure.html ok/structure.html
 test_structure.html: structure.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: structure.html
 structure.html:
 	@echo  building structure.html
 	html_tru style structure.txtTR >structure.html
@@ -115,7 +108,6 @@ install_posIndicator.html:
 	@${m_copy} posIndicator.html ok/posIndicator.html
 test_posIndicator.html: posIndicator.html
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: posIndicator.html
 posIndicator.html:
 	@echo  building posIndicator.html
 	html_tru style posIndicator.txtTR >posIndicator.html

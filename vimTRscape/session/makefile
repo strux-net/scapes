@@ -14,7 +14,7 @@ test test_ALL:\
   test_session.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -30,7 +30,6 @@ install_session.vim:
 	vim -u NONE -c 'helptags ~/.vim/doc' -c q
 test_session.vim: session.vim
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: session.vim
 session.vim:
 	@echo  building session.vim
 	vim_tru session.vimTR >session.vim

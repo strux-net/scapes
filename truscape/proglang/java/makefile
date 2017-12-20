@@ -14,7 +14,7 @@ test test_ALL:\
   test_java_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -46,7 +46,6 @@ test_java_tru: java_tru
 	perl java_tru -GenerateDebugInfo fulltest.javaTR >fulltest.java
 	@${m_diff} fulltest.java
 	-perl java_tru --help
-.PHONY: java_tru
 java_tru:
 	@echo  building java_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru java.tru java_sql.tru ../c_like_vars.tru javacoll.tru ../../lib/basicUSAGE.tru >java_tru

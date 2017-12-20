@@ -14,7 +14,7 @@ test test_ALL:\
   test_i\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -34,7 +34,6 @@ test_i: i
 	./i -o 6 testfile
 	./i -o 12 testfile
 	-./i -help
-.PHONY: i
 i:
 	@echo  building i
 	perl_tru i.plTR >i

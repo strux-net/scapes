@@ -257,7 +257,7 @@ OPTIONS:
        -c:type[default]	text for option c
 
        -vhelp shows more options
-makefile:254: recipe for target 'test_test17_tru' failed
+makefile:246: recipe for target 'test_test17_tru' failed
 make[1]: [test_test17_tru] Error 1 (ignored)
 perl test17_tru -vhelp
 usage : shorttext
@@ -290,7 +290,7 @@ tru Options:
        -source			show source and exit
        -macros			show macros (no structure) and exit
        -doc			show the docs and exit
-makefile:254: recipe for target 'test_test17_tru' failed
+makefile:246: recipe for target 'test_test17_tru' failed
 make[1]: [test_test17_tru] Error 1 (ignored)
 perl test17_tru -ohelp
        -a		text for option a
@@ -299,7 +299,7 @@ perl test17_tru -ohelp
 		  and	can contain tabs
        -b:type		text for option b
        -c:type[default]	text for option c
-makefile:254: recipe for target 'test_test17_tru' failed
+makefile:246: recipe for target 'test_test17_tru' failed
 make[1]: [test_test17_tru] Error 1 (ignored)
 perl test17_tru -ovhelp
        -help			show help
@@ -321,7 +321,7 @@ perl test17_tru -ovhelp
        -source			show source and exit
        -macros			show macros (no structure) and exit
        -doc			show the docs and exit
-makefile:254: recipe for target 'test_test17_tru' failed
+makefile:246: recipe for target 'test_test17_tru' failed
 make[1]: [test_test17_tru] Error 1 (ignored)
 perl test17_tru -source >test_contained.out_source
 GOOD	test_contained.out_source
@@ -363,12 +363,12 @@ tru Options:
        -source			show source and exit
        -macros			show macros (no structure) and exit
        -doc			show the docs and exit
-makefile:281: recipe for target 'test_test15_tru' failed
+makefile:272: recipe for target 'test_test15_tru' failed
 make[1]: [test_test15_tru] Error 1 (ignored)
 perl test15_tru -ohelp
        -limit:number[0]	enable tracemarks, stop after n lines of output
 		use 0 for all lines
-makefile:281: recipe for target 'test_test15_tru' failed
+makefile:272: recipe for target 'test_test15_tru' failed
 make[1]: [test_test15_tru] Error 1 (ignored)
 perl test15_tru -ovhelp
        -help			show help
@@ -390,7 +390,7 @@ perl test15_tru -ovhelp
        -source			show source and exit
        -macros			show macros (no structure) and exit
        -doc			show the docs and exit
-makefile:281: recipe for target 'test_test15_tru' failed
+makefile:272: recipe for target 'test_test15_tru' failed
 make[1]: [test_test15_tru] Error 1 (ignored)
 perl test15_tru                         test15 >test15depth.out
 test15_tru - No match for test15 @ 1 : 
@@ -464,7 +464,7 @@ OPTIONS:
        -c	text for option c
 
        -vhelp shows more options
-makefile:401: recipe for target 'test_test4_tru' failed
+makefile:385: recipe for target 'test_test4_tru' failed
 make[1]: [test_test4_tru] Error 1 (ignored)
 GOOD	test4a.out
 testing test5_tru
@@ -484,7 +484,7 @@ perl test5_tru -stream -debug -debActionMap text     test5 >test5AcionMap.deb
 GOOD	test5AcionMap.deb
 perl test5_tru -stream -debug -debRange 22-25,-5,1.2 test5
 invald range specification : 1.2
-makefile:425: recipe for target 'test_test5_tru' failed
+makefile:408: recipe for target 'test_test5_tru' failed
 make[1]: [test_test5_tru] Error 1 (ignored)
 perl test5_tru         -debReverse 0                 test5 >test5depthrev.deb
 GOOD	test5depthrev.deb

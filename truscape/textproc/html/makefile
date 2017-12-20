@@ -14,7 +14,7 @@ test test_ALL:\
   test_html_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -42,7 +42,6 @@ test_html_tru: html_tru
 	@${m_diff} test1nostyle.html
 	./html_tru -show_vars
 	-./html_tru -invalid
-.PHONY: html_tru
 html_tru:
 	@echo  building html_tru
 	tru -s statistics.out ../../proglang/common.tru ../../proglang/statementDelimiter.tru ../../proglang/plainvar.tru ../../proglang/js/js.tru ../../proglang/c_like_vars.tru ../../lib/style.tru ../common.tru html.tru ../../lib/htmlREAD.tru ../../lib/basicUSAGE.tru >html_tru

@@ -14,7 +14,7 @@ test test_ALL:\
   test_tabify\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -33,7 +33,6 @@ test_tabify: tabify
 	./tabify -c 2 in
 	./tabify -delim "\t" in
 	./tabify -m 8 in
-.PHONY: tabify
 tabify:
 	@echo  building tabify
 	perl_tru tabify.plTR >tabify

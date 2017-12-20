@@ -17,7 +17,7 @@ test test_ALL:\
   test_disp.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -35,7 +35,6 @@ install_LL.vim:
 	@${m_copy} docs/README.html ok/docs/README.html
 test_LL.vim: LL.vim
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: LL.vim
 LL.vim:
 	@echo  building LL.vim
 	vim_tru LL.vimTR >LL.vim
@@ -52,7 +51,6 @@ install_disp.vim:
 	@${m_copy} disp.vim ~/.vim/plugin
 test_disp.vim: disp.vim
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: disp.vim
 disp.vim:
 	@echo  building disp.vim
 	vim_tru disp.vimTR >disp.vim

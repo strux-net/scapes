@@ -14,7 +14,7 @@ test test_ALL:\
   test_c_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -48,7 +48,6 @@ test_c_tru: c_tru
 	-./c_tru  -noMark  -intro ./nofile intro
 	-./c_tru  -invalid
 	doxygen > doxygen.log
-.PHONY: c_tru
 c_tru:
 	@echo  building c_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru c.tru ../c_like_vars.tru ../../lib/basicUSAGE.tru ccoll.tru >c_tru

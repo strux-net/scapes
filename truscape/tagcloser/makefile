@@ -14,7 +14,7 @@ test test_ALL:\
   test_tagcloser_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -33,7 +33,6 @@ test_tagcloser_tru: tagcloser_tru
 	./tagcloser_tru test.in >test.out
 	@${m_diff} test.out
 	-./tagcloser_tru -invalid
-.PHONY: tagcloser_tru
 tagcloser_tru:
 	@echo  building tagcloser_tru
 	tru -s statistics.out ../proglang/common.tru ../proglang/statementDelimiter.tru ../proglang/plainvar.tru ../proglang/js/js.tru ../proglang/c_like_vars.tru tagcloser.tru ../lib/basicUSAGE.tru >tagcloser_tru

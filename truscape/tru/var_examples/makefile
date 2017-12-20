@@ -38,7 +38,7 @@ test test_ALL:\
   test_ATTIC_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -49,7 +49,6 @@ install_state_tru:
 test_state_tru: state_tru
 	@echo  testing state_tru
 	perl state_tru in
-.PHONY: state_tru
 state_tru:
 	@echo  building state_tru
 	perl ../tru state.tru structure.tru >state_tru
@@ -60,7 +59,6 @@ install_indent_tru:
 test_indent_tru: indent_tru
 	@echo  testing indent_tru
 	perl indent_tru in
-.PHONY: indent_tru
 indent_tru:
 	@echo  building indent_tru
 	perl ../tru indent.tru structure.tru >indent_tru
@@ -71,7 +69,6 @@ install_level_tru:
 test_level_tru: level_tru
 	@echo  testing level_tru
 	perl level_tru in
-.PHONY: level_tru
 level_tru:
 	@echo  building level_tru
 	perl ../tru level.tru structure.tru >level_tru
@@ -82,7 +79,6 @@ install_rindent_and_rlevel_tru:
 test_rindent_and_rlevel_tru: rindent_and_rlevel_tru
 	@echo  testing rindent_and_rlevel_tru
 	perl rindent_and_rlevel_tru in
-.PHONY: rindent_and_rlevel_tru
 rindent_and_rlevel_tru:
 	@echo  building rindent_and_rlevel_tru
 	perl ../tru rindent_and_rlevel.tru structure.tru >rindent_and_rlevel_tru
@@ -93,7 +89,6 @@ install_rnr_tru:
 test_rnr_tru: rnr_tru
 	@echo  testing rnr_tru
 	perl rnr_tru in
-.PHONY: rnr_tru
 rnr_tru:
 	@echo  building rnr_tru
 	perl ../tru rnr.tru structure.tru >rnr_tru
@@ -104,7 +99,6 @@ install_NrOfChilds_tru:
 test_NrOfChilds_tru: NrOfChilds_tru
 	@echo  testing NrOfChilds_tru
 	perl NrOfChilds_tru in
-.PHONY: NrOfChilds_tru
 NrOfChilds_tru:
 	@echo  building NrOfChilds_tru
 	perl ../tru NrOfChilds.tru structure.tru >NrOfChilds_tru
@@ -115,7 +109,6 @@ install_NrOfLinesFollowing_tru:
 test_NrOfLinesFollowing_tru: NrOfLinesFollowing_tru
 	@echo  testing NrOfLinesFollowing_tru
 	perl NrOfLinesFollowing_tru in
-.PHONY: NrOfLinesFollowing_tru
 NrOfLinesFollowing_tru:
 	@echo  building NrOfLinesFollowing_tru
 	perl ../tru NrOfLinesFollowing.tru structure.tru >NrOfLinesFollowing_tru
@@ -126,7 +119,6 @@ install_isLast_tru:
 test_isLast_tru: isLast_tru
 	@echo  testing isLast_tru
 	perl isLast_tru in
-.PHONY: isLast_tru
 isLast_tru:
 	@echo  building isLast_tru
 	perl ../tru isLast.tru structure.tru >isLast_tru
@@ -137,7 +129,6 @@ install_ATTIC_tru:
 test_ATTIC_tru: ATTIC_tru
 	@echo  testing ATTIC_tru
 	perl ATTIC_tru in
-.PHONY: ATTIC_tru
 ATTIC_tru:
 	@echo  building ATTIC_tru
 	perl ../tru ATTIC.tru structure.tru >ATTIC_tru

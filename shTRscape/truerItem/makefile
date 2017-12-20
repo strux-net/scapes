@@ -14,7 +14,7 @@ test test_ALL:\
   test_truerItem\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -35,7 +35,6 @@ test_truerItem: truerItem
 	./truerItem -h sh_tru opt truerItem.shTR
 	./truerItem -a '$$.\t$$_' sh_tru opt truerItem.shTR
 	./truerItem -e -a '$$goal\t$$Title' m_tru goal mTR
-.PHONY: truerItem
 truerItem:
 	@echo  building truerItem
 	sh_tru truerItem.shTR >truerItem

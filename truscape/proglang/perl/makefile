@@ -14,7 +14,7 @@ test test_ALL:\
   test_perl_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -50,7 +50,6 @@ test_perl_tru: perl_tru
 	perl ./perl_tru -vim disptest.plTR >disptest.out2
 	@${m_diff} disptest.out2
 	-perl ./perl_tru -invalid
-.PHONY: perl_tru
 perl_tru:
 	@echo  building perl_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru perl.tru ../globalCode.tru perlcoll.tru ../../lib/basicUSAGE.tru >perl_tru

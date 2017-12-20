@@ -74,7 +74,7 @@ test test_ALL:\
   test_HereText_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -85,7 +85,6 @@ install_intro_tru:
 test_intro_tru: intro_tru
 	@echo  testing intro_tru
 	perl intro_tru intro.in
-.PHONY: intro_tru
 intro_tru:
 	@echo  building intro_tru
 	perl ../tru intro.tru >intro_tru
@@ -99,7 +98,6 @@ test_OPTIONSandUSAGE_tru: OPTIONSandUSAGE_tru
 	echo "sentinel" | perl OPTIONSandUSAGE_tru -a -b /tmp/x -c /tmp/y -longName
 	-echo "sentinel" | perl OPTIONSandUSAGE_tru -z
 	perl OPTIONSandUSAGE_tru -version
-.PHONY: OPTIONSandUSAGE_tru
 OPTIONSandUSAGE_tru:
 	@echo  building OPTIONSandUSAGE_tru
 	perl ../tru OPTIONSandUSAGE.tru >OPTIONSandUSAGE_tru
@@ -113,7 +111,6 @@ test_OPTIONSandUSAGE_part2_tru: OPTIONSandUSAGE_part2_tru
 	echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -a -b /tmp/x -c /tmp/y
 	-echo "sentinel" | perl OPTIONSandUSAGEpart2_tru -z
 	perl OPTIONSandUSAGEpart2_tru -version
-.PHONY: OPTIONSandUSAGE_part2_tru
 OPTIONSandUSAGE_part2_tru:
 	@echo  building OPTIONSandUSAGE_part2_tru
 	perl ../tru OPTIONSandUSAGE.tru OPTIONSandUSAGEpart2.tru >OPTIONSandUSAGEpart2_tru
@@ -124,7 +121,6 @@ install_CLEAR_tru:
 test_CLEAR_tru: CLEAR_tru
 	@echo  testing CLEAR_tru
 	echo "overwrittenAction" | perl CLEAR_tru
-.PHONY: CLEAR_tru
 CLEAR_tru:
 	@echo  building CLEAR_tru
 	perl ../tru CLEAR.tru >CLEAR_tru
@@ -135,7 +131,6 @@ install_outstatements_tru:
 test_outstatements_tru: outstatements_tru
 	@echo  testing outstatements_tru
 	echo "demoAction" | perl outstatements_tru
-.PHONY: outstatements_tru
 outstatements_tru:
 	@echo  building outstatements_tru
 	perl ../tru outstatements.tru >outstatements_tru
@@ -146,7 +141,6 @@ install_callingActions_tru:
 test_callingActions_tru: callingActions_tru
 	@echo  testing callingActions_tru
 	perl callingActions_tru callingActions.in
-.PHONY: callingActions_tru
 callingActions_tru:
 	@echo  building callingActions_tru
 	perl ../tru callingActions.tru >callingActions_tru
@@ -157,7 +151,6 @@ install_redirectingActions_tru:
 test_redirectingActions_tru: redirectingActions_tru
 	@echo  testing redirectingActions_tru
 	perl redirectingActions_tru redirectingActions.in
-.PHONY: redirectingActions_tru
 redirectingActions_tru:
 	@echo  building redirectingActions_tru
 	perl ../tru redirectingActions.tru >redirectingActions_tru
@@ -168,7 +161,6 @@ install_arguments_tru:
 test_arguments_tru: arguments_tru
 	@echo  testing arguments_tru
 	perl arguments_tru arguments.in
-.PHONY: arguments_tru
 arguments_tru:
 	@echo  building arguments_tru
 	perl ../tru arguments.tru >arguments_tru
@@ -179,7 +171,6 @@ install_perl_code_tru:
 test_perl_code_tru: perl_code_tru
 	@echo  testing perl_code_tru
 	perl perl_code_tru perl_code.in
-.PHONY: perl_code_tru
 perl_code_tru:
 	@echo  building perl_code_tru
 	perl ../tru perl_code.tru >perl_code_tru
@@ -190,7 +181,6 @@ install_marks_tru:
 test_marks_tru: marks_tru
 	@echo  testing marks_tru
 	perl marks_tru marks.in
-.PHONY: marks_tru
 marks_tru:
 	@echo  building marks_tru
 	perl ../tru marks.tru >marks_tru
@@ -201,7 +191,6 @@ install_DOC_tru:
 test_DOC_tru: DOC_tru
 	@echo  testing DOC_tru
 	perl DOC_tru DOC.in1 DOC.in2
-.PHONY: DOC_tru
 DOC_tru:
 	@echo  building DOC_tru
 	perl ../tru DOC.tru >DOC_tru
@@ -212,7 +201,6 @@ install_UNMATCHED_default_tru:
 test_UNMATCHED_default_tru: UNMATCHED_default_tru
 	@echo  testing UNMATCHED_default_tru
 	perl UNMATCHED_default_tru UNMATCHED.in
-.PHONY: UNMATCHED_default_tru
 UNMATCHED_default_tru:
 	@echo  building UNMATCHED_default_tru
 	perl ../tru UNMATCHED_default.tru >UNMATCHED_default_tru
@@ -223,7 +211,6 @@ install_UNMATCHED_tru:
 test_UNMATCHED_tru: UNMATCHED_tru
 	@echo  testing UNMATCHED_tru
 	perl UNMATCHED_tru UNMATCHED.in
-.PHONY: UNMATCHED_tru
 UNMATCHED_tru:
 	@echo  building UNMATCHED_tru
 	perl ../tru UNMATCHED_default.tru UNMATCHED.tru >UNMATCHED_tru
@@ -234,7 +221,6 @@ install_READ_tru:
 test_READ_tru: READ_tru
 	@echo  testing READ_tru
 	perl READ_tru READ.in
-.PHONY: READ_tru
 READ_tru:
 	@echo  building READ_tru
 	perl ../tru READ.tru >READ_tru
@@ -245,7 +231,6 @@ install_ATTICREAD_tru:
 test_ATTICREAD_tru: ATTICREAD_tru
 	@echo  testing ATTICREAD_tru
 	perl ATTICREAD_tru ATTICREAD.in
-.PHONY: ATTICREAD_tru
 ATTICREAD_tru:
 	@echo  building ATTICREAD_tru
 	perl ../tru ATTICREAD.tru >ATTICREAD_tru
@@ -256,7 +241,6 @@ install_READempty_tru:
 test_READempty_tru: READempty_tru
 	@echo  testing READempty_tru
 	perl READempty_tru READempty.in
-.PHONY: READempty_tru
 READempty_tru:
 	@echo  building READempty_tru
 	perl ../tru READempty.tru >READempty_tru
@@ -268,7 +252,6 @@ test_WRITE_tru: WRITE_tru
 	@echo  testing WRITE_tru
 	echo "anything" | perl WRITE_tru -stream
 	echo "anything" | perl WRITE_tru
-.PHONY: WRITE_tru
 WRITE_tru:
 	@echo  building WRITE_tru
 	perl ../tru WRITE.tru >WRITE_tru
@@ -279,7 +262,6 @@ install_FLUSH_tru:
 test_FLUSH_tru: FLUSH_tru
 	@echo  testing FLUSH_tru
 	echo "anything" | perl FLUSH_tru
-.PHONY: FLUSH_tru
 FLUSH_tru:
 	@echo  building FLUSH_tru
 	perl ../tru FLUSH.tru >FLUSH_tru
@@ -290,7 +272,6 @@ install_NEWFILE_tru:
 test_NEWFILE_tru: NEWFILE_tru
 	@echo  testing NEWFILE_tru
 	perl NEWFILE_tru NEWFILE1.in NEWFILE2.in
-.PHONY: NEWFILE_tru
 NEWFILE_tru:
 	@echo  building NEWFILE_tru
 	perl ../tru NEWFILE.tru >NEWFILE_tru
@@ -301,7 +282,6 @@ install_BEGIN_tru:
 test_BEGIN_tru: BEGIN_tru
 	@echo  testing BEGIN_tru
 	echo "anything" | perl BEGIN_tru
-.PHONY: BEGIN_tru
 BEGIN_tru:
 	@echo  building BEGIN_tru
 	perl ../tru BEGIN.tru >BEGIN_tru
@@ -312,7 +292,6 @@ install_HereText_tru:
 test_HereText_tru: HereText_tru
 	@echo  testing HereText_tru
 	echo "anything" | perl HereText_tru
-.PHONY: HereText_tru
 HereText_tru:
 	@echo  building HereText_tru
 	perl ../tru HereText.tru >HereText_tru

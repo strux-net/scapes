@@ -138,7 +138,7 @@ OPTIONS:
        -longName	short-text for option longName
 
        -vhelp shows more options
-makefile:97: recipe for target 'test_OPTIONSandUSAGE_tru' failed
+makefile:96: recipe for target 'test_OPTIONSandUSAGE_tru' failed
 make[1]: [test_OPTIONSandUSAGE_tru] Error 1 (ignored)
 perl OPTIONSandUSAGE_tru -version
   OPTIONSandUSAGE.tru	3.0
@@ -187,7 +187,7 @@ OPTIONS:
        -d		short-text for option d
 
        -vhelp shows more options
-makefile:111: recipe for target 'test_OPTIONSandUSAGE_part2_tru' failed
+makefile:109: recipe for target 'test_OPTIONSandUSAGE_part2_tru' failed
 make[1]: [test_OPTIONSandUSAGE_part2_tru] Error 1 (ignored)
 perl OPTIONSandUSAGEpart2_tru -version
   OPTIONSandUSAGE.tru	3.0

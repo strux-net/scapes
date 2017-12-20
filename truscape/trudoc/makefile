@@ -17,7 +17,7 @@ test test_ALL:\
   test_trudoc_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -30,7 +30,6 @@ install_xtractStructure.pl:
 	
 test_xtractStructure.pl: xtractStructure.pl
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: xtractStructure.pl
 xtractStructure.pl:
 	@echo  building xtractStructure.pl
 	perl_tru xtractStructure.plTR >xtractStructure.pl
@@ -56,7 +55,6 @@ test_trudoc_tru: trudoc_tru
 	@${m_diff} trudoc_tru
 	./trudoc_tru ./trudoc_tru >docs/trudoc_tru.html
 	@${m_diff} docs/trudoc_tru.html
-.PHONY: trudoc_tru
 trudoc_tru:
 	@echo  building trudoc_tru
 	tru -s statistics.out trudoc.tru ../lib/html.tru >trudoc_tru

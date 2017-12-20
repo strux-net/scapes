@@ -14,7 +14,7 @@ test test_ALL:\
   test_ApplyMarks.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -29,7 +29,6 @@ install_ApplyMarks.vim:
 	vim -u NONE -c 'helptags ~/.vim/doc' -c q
 test_ApplyMarks.vim: ApplyMarks.vim
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: ApplyMarks.vim
 ApplyMarks.vim:
 	@echo  building ApplyMarks.vim
 	vim_tru ApplyMarks.vimTR >ApplyMarks.vim

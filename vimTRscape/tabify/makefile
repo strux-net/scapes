@@ -14,7 +14,7 @@ test test_ALL:\
   test_tabify.vim\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -29,7 +29,6 @@ install_tabify.vim:
 	vim -u NONE -c 'helptags ~/.vim/doc' -c q
 test_tabify.vim: tabify.vim
 	@: # an empty action. To avoid nothing to be done for test_whatever
-.PHONY: tabify.vim
 tabify.vim:
 	@echo  building tabify.vim
 	vim_tru tabify.vimTR >tabify.vim

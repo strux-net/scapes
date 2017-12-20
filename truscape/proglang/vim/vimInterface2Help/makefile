@@ -17,7 +17,7 @@ test test_ALL:\
   test_vimInterface2Help_terse_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -32,7 +32,6 @@ test_vimInterface2Help_tru: vimInterface2Help_tru
 	@echo  testing vimInterface2Help_tru
 	Title='*test.vim*       A text for test.vim' ./vimInterface2Help_tru test.in >test.out
 	@${m_diff} test.out
-.PHONY: vimInterface2Help_tru
 vimInterface2Help_tru:
 	@echo  building vimInterface2Help_tru
 	vim_tru -structure | tru -- - vimInterface2Help.tru vimInterface2Help_common.tru ../../../lib/basicUSAGE.tru >vimInterface2Help_tru
@@ -47,7 +46,6 @@ test_vimInterface2Help_terse_tru: vimInterface2Help_terse_tru
 	@echo  testing vimInterface2Help_terse_tru
 	./vimInterface2Help_terse_tru test.in >test_terse.out
 	@${m_diff} test_terse.out
-.PHONY: vimInterface2Help_terse_tru
 vimInterface2Help_terse_tru:
 	@echo  building vimInterface2Help_terse_tru
 	vim_tru -structure | tru -- - vimInterface2Help_terse.tru vimInterface2Help_common.tru ../../../lib/basicUSAGE.tru >vimInterface2Help_terse_tru

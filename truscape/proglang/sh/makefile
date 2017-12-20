@@ -14,7 +14,7 @@ test test_ALL:\
   test_sh_tru\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -41,7 +41,6 @@ test_sh_tru: sh_tru
 	bash shtest.sh -version
 	-bash shtest.sh -x test file1 file2 >shtest_illegal_option.out
 	@${m_diff} shtest_illegal_option.out
-.PHONY: sh_tru
 sh_tru:
 	@echo  building sh_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru

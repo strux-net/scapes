@@ -14,7 +14,7 @@ test test_ALL:\
   test_isel\
 
 logged_build:
-	-@${MAKE} --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
+	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
 	@${m_diff} m.log
 confirmed_install: confirm install
 confirm:
@@ -42,7 +42,6 @@ test_isel: isel
 	./isel baa              -tree      test.in
 	./isel -f 1 cd          -tree      test.in
 	-./isel -invalid
-.PHONY: isel
 isel:
 	@echo  building isel
 	tru -s statistics.out isel.tru >isel
