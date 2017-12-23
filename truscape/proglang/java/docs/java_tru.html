@@ -2057,10 +2057,10 @@ OPTIONS:
     <listing class="Example">
 <a title = "Indent : 0"></a>class myclass
 <a title = "Indent : 2">  </a>foo
-<a title = "Indent : 4">    </a>U<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
+<a title = "Indent : 4">    </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping>
 <a title = "Indent : 6">      </a>bar(i)
 <a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 4">    </a>U<ping><a title="here is a Tab">	</a>i+&lt;10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 4">    </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -2073,13 +2073,13 @@ OPTIONS:
 <a title = "Indent : 2">  </a>foo() {
 <a title = "Indent : 4">    </a>do {
 <a title = "Indent : 6">      </a>bar(i);
-<a title = "Indent : 4">    </a>} while (!(i+&lt;10));
+<a title = "Indent : 4">    </a>} while (!(i++ &gt; 10));
 <a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// same as above
 <a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>do {
 <a title = "Indent : 6">      </a>bar(i);
-<a title = "Indent : 4">    </a>} while (!(i+&lt;10));
+<a title = "Indent : 4">    </a>} while (!(i++ &gt; 10));
 <a title = "Indent : 2">  </a>}
 <a title = "Indent : 0"></a>}
 </listing>
@@ -2132,7 +2132,7 @@ OPTIONS:
 <a title = "Indent : 4">    </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
 <a title = "Indent : 6">      </a>bar(i)
 <a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 4">    </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 4">    </a>W<ping><a title="here is a Tab">	</a>i++ &lt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -2149,7 +2149,7 @@ OPTIONS:
 <a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// same as above
 <a title = "Indent : 4">    </a>//****************************************
-<a title = "Indent : 4">    </a>while (i+&lt;10) {
+<a title = "Indent : 4">    </a>while (i++ &lt; 10) {
 <a title = "Indent : 6">      </a>bar(i);
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a>}

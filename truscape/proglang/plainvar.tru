@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 actions
   W	cond	stmt
     continued
@@ -7,12 +7,12 @@ actions
 	  W	i+<10
 	    bar(i)
 	  doc	same as above
-	  W	i+<10	bar(i)
+	  W	i++ < 10	bar(i)
   U	cond	stmt
     An Until Loop
       Example :	classtruer -noIntro -noConfigCheck -noProtos
 	foo
-	  U	i+<10
+	  U	i++ > 10
 	    bar(i)
 	  doc	same as above
-	  U	i+<10	bar(i)
+	  U	i++ > 10	bar(i)
