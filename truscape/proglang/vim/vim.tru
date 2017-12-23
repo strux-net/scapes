@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	vim_tru [Options] [<file> ....]
 
 	produces a vim-script
@@ -118,11 +118,17 @@ actions
 	  call setpos('.', save_cursor)
 	!FooBar
 	  return 'this function will have the ! independent of -obeyBang'
+	function! b.init() dict
+	    docu for b.init()
+	  'from b.init() '
+	  echo self
       Note :
         in above example a <space> is used as args for RemoveTrailingWhites
     >
       setmark("mark_autodoc");
-      if ($function =~ /^!/) {
+      if ($function =~ /^function/) {
+	$function
+      } elsif ($function =~ /^!/) {
 	function$function($args) $modifiers
       } else {
         if ($opt_obeyBang) {
@@ -260,13 +266,17 @@ actions
 	      1
 	      two
 	      3
-	      "four"
+	      'four'
 	    nestlist
 	      [11, 12]
 	      [21, 22]
 	      [31, 32]
-    >
+    -
+      if ($isLast) {
 	\\ $initialisation
+      } else {
+	\\ $initialisation,
+      }
   fancyFor	expr	statement
     continued
       Example :	vim_tru -noIntro
@@ -283,7 +293,7 @@ actions
 	let $var
     <
       if ($NrOfLinesFollowing)
-	\]
+	\\]
   au
     defining autocommands
       Parameters :
@@ -1320,22 +1330,127 @@ actions
     >
 	finally
       stmt($statement);
+  wantListOrObject	c_or_i		comment2
+    an object (vim calls it dictionary), an Array (vim calls it List) or a argument-list follows
+
+      It comes in two forms
+        Form 1) for outside of an object
+      Parameters :
+        wantListOrObject		mandatory	.*[\{\[\(]\.\.[\)\]\}]	a line containing {..} or [..] or (..)
+        c_or_i				optional	.+			a comment
+        comment2			unused		unused			unused
+
+      2) for inside an object
+      Parameters :
+        wantListOrObject		mandatory	.*			a property-name
+        c_or_i				mandatory	[\{\[\(]\.\.[\)\]\}]	one of {..} or [..] or (..)
+        comment2			optional	.+			a comment
+
+      Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
+
+      Example :	vim_tru -noIntro
+	foo
+	  var s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
+	  var a = {..}			here comes a dictionary
+	    answer	42		you know why
+	    p3		[..]		dictionaries can contain lists
+	      'joo'
+	      'nee'
+	      {..}		lists can contain directories
+		k1	'Right'
+		k2	'Left'
+	      [..]		lists can contain lists
+		'green'
+		'blue'
+    l	closer
+    >
+      unless ($wantListOrObject =~ s/\.\.([\}\]\)].*)//) {
+        $wantListOrObject = "'$wantListOrObject'"    unless $wantListOrObject    =~ /^['"]/;
+        $wantListOrObject = "$wantListOrObject : $c_or_i";
+        $wantListOrObject =~ s/\.\.([\}\]\)].*)//;
+        $closer = $1;
+      } else {
+        $closer = $1;
+      }
+      $parent = $tru::actions[-2][1];
+      local $pre;
+      $pre.= "let " if  $parent eq "vars";
+      $pre.= "\\"   if  $parent eq "wantListOrObject";
+      $pre.= ($tru::actions[-2][1] eq "vars") ? $vars : '';
+      # do not append comment. vim will complain
+	$pre$wantListOrObject
+    <
+      $parent = $tru::actions[-2][1];
+      local $post;
+      $post = ',' if  $parent eq "wantListOrObject";
+      $post = ''  if $parent eq "wantListOrObject" and $isLast or $parent eq "statement";
+	\\ $closer$post
+  arrayelem	comment
+    an element of a List
+      Parameters :
+        arrayelem	mandatory	.+	the element
+        comment		optional	.+	a comment for this element
+      Example :	vim_tru -noIntro
+	let a = [..]
+	  'one'			a comment can be given, but it will not be used
+	  'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      # do not append comment. vim will complain
+      if ($isLast)
+	\\ $arrayelem
+      else
+	\\ $arrayelem,
+  property	value	comment
+    a property and its value
+      Parameters :
+        property	mandatory	.+	the property
+        value		mandatory	.+	the value of the property
+        comment	optional		.+	a comment
+      Example :	vim_tru -noIntro
+	let a = {..}
+	  uno	'one'	you do not need to have the key quoted ...
+	  'duo'	'two'	... but you are allowed to
+    -
+      $terminator = $isLast ? '' : ',';
+      $property = "'$property'" unless $property =~ /^['"]/;
+      # do not append comment. vim will complain
+	\\ $property : $value$terminator
 hooks
   mark_com
     [
       local $offset=-1000;
 	"	commands
 group
+  ListOrObject
+	want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
+	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
+	  wantObject	{..}		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
+	  wantArray	[..]		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
+	  property	value		[comment]				=
+	wantArray			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\{\.\.\}/
+	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\[\.\.\]/
+	  arrayelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2copy
   vim
 	comment	*								=2	".*
 	native code								=2	vim code<?
 	  nativeCodeLine	*						>>t*
 	vars									=2		vars
+	  ListOrObject								=g
 	  enum		name							>0		enum
 	    enumline		[comment]					>0
 	  var			[comment]					>0
 	    initialisation	[comment]					>0
 	F	var in list	[stmt]						>2 nativeFor	F		\S.+ in .+
+	function	[args]							>o2		/^function!?\s/
+	  autodoc								=g
 	perl									=2	perl
 	  viminput	prompt	[default_answer]	completion		>>*	viminput	".*"	".*"	".*"
 	  perll		*							>>*
@@ -1373,3 +1488,4 @@ group
 	  event									>0
 	    pattern	[cmd]
 	      cmd								=	.+
+	ListOrObject								=g

@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.2
 usage	testfile
 	This file serves no special purpose
 
@@ -113,8 +113,19 @@ Counter	limit
   vars
     a=1
     b="be"
+    c={..}
+      1	'one'
+      2	'two'
+    d=[..]
+      10
+      20
+      {..}
+        a	"a"
+        b	"b"
+      30
     w
       one
+      'four'
       two
   ?	a:n==0	return 1
   return a:n*Fac(a:n-1)
@@ -182,6 +193,10 @@ main
   highlight	StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
   highlight
     StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
+function! b.init() dict
+    autodoc for b.init()
+  'from b.init() '
+  echo self
 main
   %d
   call Test1()
@@ -209,6 +224,17 @@ main
   M*	s/	/	/
 	a	b
 	c
+  b = {}
+  let c = {..}			c is a dictionary
+    k1		v1		key 'k1', value v1
+    k2		{..}		c.k2 is a dictionary
+      k2.1	v2.1		automatically quote key
+      k2.2	[ 1 , 2 , 3]	do not automatically quote the value here
+      k2.3	{ "a" : "A" }	do not automatically quote the value here
+    "k3"	"v3"		do not automatically quote if already quoted
+    k4		[..]
+      10
+      20
 perl
   foo
     M	$curbuf->Append($item++										);

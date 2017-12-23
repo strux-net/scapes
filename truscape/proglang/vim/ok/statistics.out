@@ -1,7 +1,7 @@
   H	>	-	<	d	s	name
   1	1	0	0	1	1	!
   1	1	0	0	1	1	!-
-  1	1	0	0	1	3	2copy
+  1	1	0	0	1	7	2copy
   1	1	0	0	1	1	?
   1	1	0	1	1	1	?-
   1	1	0	1	1	1	??
@@ -35,8 +35,9 @@
   0	0	0	0	0	1	[]
   1	1	0	1	1	1	ab
   1	1	0	0	1	1	also
+  1	0	1	0	1	4	arrayelem
   1	0	0	1	1	1	au
-  1	1	0	1	1	2	autodoc
+  1	1	0	1	1	3	autodoc
   1	0	0	0	1	1	block
   2	1	0	1	2	1	case
   2	1	0	0	2	1	catch
@@ -54,7 +55,7 @@
   1	1	0	0	1	1	exampleLine
   3	1	0	0	3	1	fancyFor
   2	1	0	0	2	1	finally
-  1	1	0	1	1	1	function
+  1	1	0	1	1	2	function
   1	1	0	1	1	1	global code
   1	1	0	1	1	1	help
   1	1	0	1	1	1	hide
@@ -62,11 +63,11 @@
   1	1	0	0	1	1	hlitem
   1	0	0	1	1	0	ifout
   1	0	0	0	1	1	ignored
-  2	1	0	0	2	1	initialisation
+  2	0	1	0	2	1	initialisation
   1	1	0	0	1	0	introcomment
   2	2	0	0	2	1	jdoc
-  2	2	0	0	2	5	jdocu
-  1	1	0	0	1	3	jdtag
+  2	2	0	0	2	7	jdocu
+  1	1	0	0	1	4	jdtag
   1	0	0	0	1	1	left
   1	1	0	0	1	3	longhelp
   1	1	0	0	1	1	magic
@@ -92,6 +93,7 @@
   1	1	0	1	1	1	pattern
   1	1	0	1	1	1	perl
   1	1	0	0	1	1	perll
+  1	0	1	0	1	2	property
   1	1	0	0	1	1	repeatedLine
   1	1	0	0	1	1	sequence
   1	1	0	1	1	1	set
@@ -108,3 +110,4 @@
   2	0	1	1	2	1	var
   2	1	0	1	2	1	vars
   1	1	0	0	1	1	viminput
+  1	1	0	1	1	20	wantListOrObject

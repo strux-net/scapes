@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on test.vimTR , version : 3.1
+" based on test.vimTR , version : 3.2
 "usage for testfile
 "	This file serves no special purpose
 "
@@ -386,10 +386,24 @@ function!Fac(n)
   " vars
   let a=1
   let b="be"
+  let c={
+    \ '1' : 'one',
+    \ '2' : 'two'
+  \ }
+  let d=[
+    \ 10,
+    \ 20,
+    \{
+      \ 'a' : "a",
+      \ 'b' : "b"
+    \ },
+    \ 30
+  \ ]
   let w = [
-    \ one
+    \ one,
+    \ 'four',
     \ two
-  ]
+  \]
   if a:n==0
     return 1
   endif
@@ -511,6 +525,12 @@ com! D d
 com! -nargs 1 E c
 highlight StatusLine term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
 highlight StatusLine term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
+"-- 
+"  autodoc for b.init()
+function! b.init() dict
+  echo 'from b.init() '
+  echo self
+endfunc
 %d
 call Test1()
 wq
@@ -536,6 +556,20 @@ endfor
 " wrong  : s/c/
 s/a/b/
 s/c//
+let b = {}
+let c = {
+  \ 'k1' : v1,
+  \'k2' : {
+    \ 'k2.1' : v2.1,
+    \ 'k2.2' : [ 1 , 2 , 3],
+    \ 'k2.3' : { "a" : "A" }
+  \ },
+  \ "k3" : "v3",
+  \'k4' : [
+    \ 10,
+    \ 20
+  \ ]
+\ }
 perl <<EOT
 #  protos
 sub foo;

@@ -157,11 +157,31 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_native20code">native code</a></td><td>=2</td><td>vim code&lt;?</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_nativeCodeLine">nativeCodeLine</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a>{..}</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\{\.\.\}/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\[\.\.\]/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_property">property</a><ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_enum">enum</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>name</ping></td><td>&gt;0</td><td>enum</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_enumline">enumline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_var">var</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_initialisation">initialisation</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_nativeFor">F</a><ping><a title="here is a Tab">	</a>var in list</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>&gt;2 nativeFor</td><td>F<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>\S.+ in .+</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_perl">perl</a></td><td>=2</td><td>perl</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_viminput">viminput</a><ping><a title="here is a Tab">	</a>prompt</ping><pong><a title="here is a Tab">	</a>[default_answer]</pong><ping><a title="here is a Tab">	</a>completion</ping></td><td>&gt;&gt;*</td><td>viminput<ping><a title="here is a Tab">	</a>".*"</ping><pong><a title="here is a Tab">	</a>".*"</pong><ping><a title="here is a Tab">	</a>".*"</ping></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_perll">perll</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;*</td><td></td></tr>
@@ -199,6 +219,21 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_event">event</a></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_pattern">pattern</a><ping><a title="here is a Tab">	</a>[cmd]</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_cmd">cmd</a></td><td>=</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a>{..}</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\{\.\.\}/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\[\.\.\]/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_property">property</a><ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;2</td><td>try</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
@@ -1009,6 +1044,30 @@ OPTIONS:
 	</tr>
 	<tr>
 	  <td>
+	    <A href="#A_wantListOrObject">wantListOrObject</a>
+	  </td>
+	  <td>
+	    an object (vim calls it dictionary), an Array (vim calls it List) or a argument-list follows
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_arrayelem">arrayelem</a>
+	  </td>
+	  <td>
+	    an element of a List
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_property">property</a>
+	  </td>
+	  <td>
+	    a property and its value
+	  </td>
+	</tr>
+	<tr>
+	  <td>
 	    <A href="#A_global20code">global code</a>
 	  </td>
 	  <td>
@@ -1088,6 +1147,21 @@ OPTIONS:
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>vars</td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a>{..}</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\{\.\.\}/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\[\.\.\]/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_property">property</a><ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_enum">enum</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>name</ping></td><td>&gt;0</td><td>enum</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_enumline">enumline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_var">var</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
@@ -1136,9 +1210,9 @@ OPTIONS:
 <a title = "Indent : 0"></a>let count = 1
 <a title = "Indent : 0"></a>&quot;in different units
 <a title = "Indent : 0"></a>let sizes = [
-<a title = "Indent : 2">  </a>\ 1
+<a title = "Indent : 2">  </a>\ 1,
 <a title = "Indent : 2">  </a>\ 2.54
-<a title = "Indent : 0"></a>]
+<a title = "Indent : 0"></a>\]
 <a title = "Indent : 0"></a>let i = 0
 </listing>
     <br/>
@@ -1865,10 +1939,10 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>Foo
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping>
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i+&lt;10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -1880,7 +1954,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>function!Foo() 
 <a title = "Indent : 2">  </a>while 1
 <a title = "Indent : 4">    </a>bar(i)
-<a title = "Indent : 4">    </a>if i+&lt;10
+<a title = "Indent : 4">    </a>if i++ &gt; 10
 <a title = "Indent : 6">      </a>break
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>endwhile
@@ -1889,7 +1963,7 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>while 1
 <a title = "Indent : 4">    </a>bar(i)
-<a title = "Indent : 4">    </a>if i+&lt;10
+<a title = "Indent : 4">    </a>if i++ &gt; 10
 <a title = "Indent : 6">      </a>break
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>endwhile
@@ -1943,7 +2017,7 @@ OPTIONS:
 <a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i++ &lt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -1959,7 +2033,7 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; same as above
 <a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>while i+&lt;10
+<a title = "Indent : 2">  </a>while i++ &lt; 10
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>endwhile
 <a title = "Indent : 0"></a>endfunc
@@ -2092,7 +2166,7 @@ OPTIONS:
 <a title = "Indent : 6">      </a>1
 <a title = "Indent : 6">      </a>two
 <a title = "Indent : 6">      </a>3
-<a title = "Indent : 6">      </a>&quot;four&quot;
+<a title = "Indent : 6">      </a>&lsquo;four&lsquo;
 <a title = "Indent : 4">    </a>nestlist
 <a title = "Indent : 6">      </a>[11, 12]
 <a title = "Indent : 6">      </a>[21, 22]
@@ -2108,16 +2182,16 @@ OPTIONS:
 <a title = "Indent : 0"></a>function!Foo() 
 <a title = "Indent : 2">  </a>&quot; vars
 <a title = "Indent : 2">  </a>let mylist = [
-<a title = "Indent : 4">    </a>\ 1
-<a title = "Indent : 4">    </a>\ two
-<a title = "Indent : 4">    </a>\ 3
-<a title = "Indent : 4">    </a>&quot;four&quot;
-<a title = "Indent : 2">  </a>]
+<a title = "Indent : 4">    </a>\ 1,
+<a title = "Indent : 4">    </a>\ two,
+<a title = "Indent : 4">    </a>\ 3,
+<a title = "Indent : 4">    </a>\ &lsquo;four&lsquo;
+<a title = "Indent : 2">  </a>\]
 <a title = "Indent : 2">  </a>let nestlist = [
-<a title = "Indent : 4">    </a>\ [11, 12]
-<a title = "Indent : 4">    </a>\ [21, 22]
+<a title = "Indent : 4">    </a>\ [11, 12],
+<a title = "Indent : 4">    </a>\ [21, 22],
 <a title = "Indent : 4">    </a>\ [31, 32]
-<a title = "Indent : 2">  </a>]
+<a title = "Indent : 2">  </a>\]
 <a title = "Indent : 0"></a>endfunc
 </listing>
     <br/>
@@ -2736,6 +2810,15 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_jdoc">jdoc</a><ping><a title="here is a Tab">	</a>[jdocu]</ping></td><td>=2</td><td>jdoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -2793,6 +2876,11 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_jdoc">jdoc</a><ping><a title="here is a Tab">	</a>[jdocu]</ping></td><td>=2</td><td>jdoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>&gt;&gt;</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -2838,6 +2926,12 @@ OPTIONS:
   ]</completeStructure>
   <br/><br/>
 <table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
@@ -3036,6 +3130,24 @@ OPTIONS:
   ]</completeStructure>
   <br/><br/>
 <table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a>continuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a>continuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a>continuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a>continuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>ending in {<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 2copy</td><td>.*\{</td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
@@ -5243,6 +5355,12 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -5287,6 +5405,10 @@ OPTIONS:
 <a title = "Indent : 2">  </a>call setpos(&lsquo;.&lsquo;, save_cursor)
 <a title = "Indent : 0"></a>!FooBar
 <a title = "Indent : 2">  </a>return &lsquo;this function will have the ! independent of -obeyBang&lsquo;
+<a title = "Indent : 0"></a>function! b.init() dict
+<a title = "Indent : 4">    </a>docu for b.init()
+<a title = "Indent : 2">  </a>&lsquo;from b.init() &lsquo;
+<a title = "Indent : 2">  </a>echo self
 </listing>
     <br/>
     <part>gives :</part>
@@ -5310,6 +5432,12 @@ OPTIONS:
 <a title = "Indent : 0"></a>endfunc
 <a title = "Indent : 0"></a>function!FooBar() 
 <a title = "Indent : 2">  </a>return &lsquo;this function will have the ! independent of -obeyBang&lsquo;
+<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>&quot;-- 
+<a title = "Indent : 0"></a>&quot;  docu for b.init()
+<a title = "Indent : 0"></a>function! b.init() dict
+<a title = "Indent : 2">  </a>echo &lsquo;from b.init() &lsquo;
+<a title = "Indent : 2">  </a>echo self
 <a title = "Indent : 0"></a>endfunc
 </listing>
     <br/>
@@ -7342,6 +7470,277 @@ OPTIONS:
 </listing>
     <br/>
     <desc>see also <A href="#A_For">For</a> and <A href="#A_fancyFor">fancyFor</a></desc><br/>
+    <a name="A_wantListOrObject"></a>
+    <h1>wantListOrObject       <shortText>an object (vim calls it dictionary), an Array (vim calls it List) or a argument-list follows</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./vim_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantObject<ping><a title="here is a Tab">	</a>{..}</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\{\.\.\}/</ping></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantArray<ping><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\[\.\.\]/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_property">property</a><ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a>{..}</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\{\.\.\}/</ping></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>.+<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>/\[\.\.\]/</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_property">property</a><ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+</table>
+    <div align="right"><filename>vim.tru</filename></div>
+    <desc></desc><br/>
+    <desc>It comes in two forms</desc><br/>
+    <desc>  Form 1) for outside of an object</desc><br/>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>wantListOrObject<ping><a title="here is a Tab">	</a>c_or_i</ping><pong><a title="here is a Tab">	</a>comment2</pong>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>wantListOrObject</td><td>mandatory</td><td>.*[\{\[\(]\.\.[\)\]\}]</td><td>a line containing {..} or [..] or (..)</td></tr>
+      <tr><td>c_or_i</td><td>optional</td><td>.+</td><td>a comment</td></tr>
+      <tr><td>comment2</td><td>unused</td><td>unused</td><td>unused</td></tr>
+    </table>
+    <br/>
+    <desc>2) for inside an object</desc><br/>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>wantListOrObject<ping><a title="here is a Tab">	</a>c_or_i</ping><pong><a title="here is a Tab">	</a>comment2</pong>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>wantListOrObject</td><td>mandatory</td><td>.*</td><td>a property-name</td></tr>
+      <tr><td>c_or_i</td><td>mandatory</td><td>[\{\[\(]\.\.[\)\]\}]</td><td>one of {..} or [..] or (..)</td></tr>
+      <tr><td>comment2</td><td>optional</td><td>.+</td><td>a comment</td></tr>
+    </table>
+    <br/>
+    <desc>Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment</desc><br/>
+    <desc></desc><br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="vim_tru -noIntro">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>var s = &quot;(..)&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>this is not treated by wantListOrObject because of the ##PURE## in here</ping>
+<a title = "Indent : 2">  </a>var a = {..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>here comes a dictionary</ping>
+<a title = "Indent : 4">    </a>answer<ping><a title="here is a Tab">	</a>42</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>you know why</pong>
+<a title = "Indent : 4">    </a>p3<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>dictionaries can contain lists</pong>
+<a title = "Indent : 6">      </a>&lsquo;joo&lsquo;
+<a title = "Indent : 6">      </a>&lsquo;nee&lsquo;
+<a title = "Indent : 6">      </a>{..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>lists can contain directories</ping>
+<a title = "Indent : 8">        </a>k1<ping><a title="here is a Tab">	</a>&lsquo;Right&lsquo;</ping>
+<a title = "Indent : 8">        </a>k2<ping><a title="here is a Tab">	</a>&lsquo;Left&lsquo;</ping>
+<a title = "Indent : 6">      </a>[..]<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>lists can contain lists</ping>
+<a title = "Indent : 8">        </a>&lsquo;green&lsquo;
+<a title = "Indent : 8">        </a>&lsquo;blue&lsquo;
+</listing>
+    <br/>
+    <part>gives :</part>
+    <howToRead>[
+      <a href="howtoread/gives.html" title="how to read the gives">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="gives">
+<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 2">  </a>&quot; this is not treated by wantListOrObject because of the ##PURE## in here
+<a title = "Indent : 2">  </a>var s = &quot;(..)&quot;
+<a title = "Indent : 2">  </a>var a = {
+<a title = "Indent : 4">    </a>\ &lsquo;answer&lsquo; : 42,
+<a title = "Indent : 4">    </a>\&lsquo;p3&lsquo; : [
+<a title = "Indent : 6">      </a>\ &lsquo;joo&lsquo;,
+<a title = "Indent : 6">      </a>\ &lsquo;nee&lsquo;,
+<a title = "Indent : 6">      </a>\{
+<a title = "Indent : 8">        </a>\ &lsquo;k1&lsquo; : &lsquo;Right&lsquo;,
+<a title = "Indent : 8">        </a>\ &lsquo;k2&lsquo; : &lsquo;Left&lsquo;
+<a title = "Indent : 6">      </a>\ },
+<a title = "Indent : 6">      </a>\[
+<a title = "Indent : 8">        </a>\ &lsquo;green&lsquo;,
+<a title = "Indent : 8">        </a>\ &lsquo;blue&lsquo;
+<a title = "Indent : 6">      </a>\ ]
+<a title = "Indent : 4">    </a>\ ]
+<a title = "Indent : 2">  </a>\ }
+<a title = "Indent : 0"></a>endfunc
+</listing>
+    <br/>
+    <a name="A_arrayelem"></a>
+    <h1>arrayelem       <shortText>an element of a List</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./vim_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>arrayelem<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>arrayelem<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>arrayelem<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>arrayelem<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2copy">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2copy</td><td></td></tr>
+</table>
+    <div align="right"><filename>vim.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>arrayelem<ping><a title="here is a Tab">	</a>comment</ping>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>arrayelem</td><td>mandatory</td><td>.+</td><td>the element</td></tr>
+      <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment for this element</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="vim_tru -noIntro">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>let a = [..]
+<a title = "Indent : 2">  </a>&lsquo;one&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>a comment can be given, but it will not be used</ping>
+<a title = "Indent : 2">  </a>&lsquo;two&lsquo;
+</listing>
+    <br/>
+    <part>gives :</part>
+    <howToRead>[
+      <a href="howtoread/gives.html" title="how to read the gives">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="gives">
+<a title = "Indent : 0"></a>let a = [
+<a title = "Indent : 2">  </a>\ &lsquo;one&lsquo;,
+<a title = "Indent : 2">  </a>\ &lsquo;two&lsquo;
+<a title = "Indent : 0"></a>\ ]
+</listing>
+    <br/>
+    <a name="A_property"></a>
+    <h1>property       <shortText>a property and its value</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./vim_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>property<ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>property<ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</pong></td><td>=</td><td></td></tr>
+</table>
+    <div align="right"><filename>vim.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>property<ping><a title="here is a Tab">	</a>value</ping><pong><a title="here is a Tab">	</a>comment</pong>
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>property</td><td>mandatory</td><td>.+</td><td>the property</td></tr>
+      <tr><td>value</td><td>mandatory</td><td>.+</td><td>the value of the property</td></tr>
+      <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment</td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <xcommand>[
+      <a title="vim_tru -noIntro">cmd</a>
+    ]</xcommand>
+    <br/><br/>
+    <listing class="Example">
+<a title = "Indent : 0"></a>let a = {..}
+<a title = "Indent : 2">  </a>uno<ping><a title="here is a Tab">	</a>&lsquo;one&lsquo;</ping><pong><a title="here is a Tab">	</a>you do not need to have the key quoted ...</pong>
+<a title = "Indent : 2">  </a>&lsquo;duo&lsquo;<ping><a title="here is a Tab">	</a>&lsquo;two&lsquo;</ping><pong><a title="here is a Tab">	</a>... but you are allowed to</pong>
+</listing>
+    <br/>
+    <part>gives :</part>
+    <howToRead>[
+      <a href="howtoread/gives.html" title="how to read the gives">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="gives">
+<a title = "Indent : 0"></a>let a = {
+<a title = "Indent : 2">  </a>\ &lsquo;uno&lsquo; : &lsquo;one&lsquo;,
+<a title = "Indent : 2">  </a>\ &lsquo;duo&lsquo; : &lsquo;two&lsquo;
+<a title = "Indent : 0"></a>\ }
+</listing>
+    <br/>
     <a name="A_global20code"></a>
     <h1>global code       <shortText>For code outside any function</shortText></h1>
 <part>Structure :</part>
