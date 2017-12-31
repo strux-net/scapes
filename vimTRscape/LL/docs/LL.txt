@@ -636,8 +636,8 @@ You can download the latest version from www.strux.net
 						*LL-requirement*
 6. Requirements~
 
-You need vim 7.2 (or later) with perl enabled.
-Check with :version that it has +perl.
+You need vim 8 (or later) with perl and terminal enabled.
+Check with :version that it has +perl and +terminal.
 It is only tested on Linux and Windows XP.
 Best support is for linux, in Windows XP only a subset may work as expected.
 
@@ -690,6 +690,10 @@ Not all features are available on systems other then unix-like systems.
   Now type ".." (two dots) to go the parent directory.
   Now type ".:" and at the prompt enter "/usr/bin" and press Enter.
   (You can use tab-completion. Try .:/u<tab>b<tab>)
+
+  Note how LL adds useful information to the listing (according to the manpages).
+  This is because of LL.dirsettings (discussed further down)
+
   Put the cursor on a line with a symbolic link (indicated by the -> ).
   Type "ff" to follow this link.
   Now type Backspace. This brings you back to the previous view.
@@ -786,9 +790,7 @@ Not all features are available on systems other then unix-like systems.
   Also try the syntax, plugin, ftplugin and compiler dir.
 
   Type ".:" and at the prompt enter "/usr/lib"
-  Type "/" and Enter "perl.so" and press Enter again.
-  You should be on line looking like this
-  libperl.so -> libperl.so.5.10
+  Navigate to one of of the .so files.
   Type "i".
   This opens a new window named INSPECT
   In this window type Enter on the second line (dev) and watch the statusline.

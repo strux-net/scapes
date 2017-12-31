@@ -1,4 +1,4 @@
-VERSION	3.4
+VERSION	3.4a
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -204,7 +204,10 @@ LLlikeTerm
   exe "LL ".resolve("/proc/".g:strux_shellpid."/cwd")
 LLShell			mods
   ?	bufname(s:termBufNr) != ''
+    switchbuf=&switchbuf
+    set switchbuf=useopen
     exe a:mods . ' sb '       . s:termBufNr
+    &switchbuf=switchbuf
   -
     exe a:mods . ' terminal ' . g:strux_LL_shell
     s:termBufNr = bufnr("$")
@@ -564,7 +567,7 @@ Interface	/strux/LL
   x<S-F4>	&Tags.Execute a command And Read Output into a &new buffer	Execute a command to tagged files and read output into a new buffer		:perl DoSpecified(1,'rb')<cr>
     Interactive		shell command
       Prompts for a shell-command and issues this command with the full filename appended. Use # as last character to turn this into a comment
-  <c-x><c-x>	&Xterm.Apply pwd in the &shell					In the shell issue a cd and focus the shell					:call Shell("cd ".getcwd())<cr>:LLShell<cr>
+  <c-x><c-x>	&Xterm.Apply pwd in the &shell					In the shell issue a cd and focus the shell					:call Shell("cd ".getcwd())<cr><c-w>:LLShell<cr>
   <c-x>c	&Xterm.&LL for dir in shell					LL for the dir in the shell							:LT<cr>
   <c-x>s	&Xterm.start &a shell						open a shell									:LLShell<cr>
   <BS>		&Navigate.&Back (Previous visited dir)				Go to the previously visited dir						:perl previousDir<CR>
