@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 package	XPE
 doc
   This file holds perl-functions used by LL.dirsettings
@@ -360,3 +360,20 @@ remmina
       ?	m/^name=(.*)/	$name=$1
       ?	m/^server=(.*)/	$server=$1
     return "$name\t$server"
+python
+    basically extract the first """-line
+    for a .pyc try the .py file
+    ''' is also accepted
+  ?	$F =~ s/\.pyc/.py/	return python()
+  !	$F =~ m/\.py$/		return ""
+  ?	open(local *I,"<$F")
+    W	<I>
+      ?	s/^r?("""|''')\s*//
+        chop
+        s/(""")|(''')$//
+        ?	$_ eq "" or $_ eq "\\"	
+	  $_=<I>
+	  chop
+	  s/(""")|(''')$//
+	  s/^\s*//
+        return $_

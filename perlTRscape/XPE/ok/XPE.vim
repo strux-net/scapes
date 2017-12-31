@@ -9,7 +9,7 @@ package XPE;
 # or you may loose all your changes and probably choose the wrong method.
 # goto http://www.strux.net to find more information.
 #
-# based on XPE.plTR , version : 3.0
+# based on XPE.plTR , version : 3.0a
 #****************************************
 # This file holds perl-functions used by LL.dirsettings
 # 
@@ -670,6 +670,35 @@ sub remmina
       }
     }
     return "$name\t$server";
+  }
+}
+### 
+#  basically extract the first """-line
+#  for a .pyc try the .py file
+#  ''' is also accepted
+
+sub python
+{
+  if ($F =~ s/\.pyc/.py/) {
+    return python();
+  }
+  if (!($F =~ m/\.py$/)) {
+    return "";
+  }
+  if (open(local *I,"<$F")) {
+    while (<I>) {
+      if (s/^r?("""|''')\s*//) {
+        chop;
+        s/(""")|(''')$//;
+        if ($_ eq "" or $_ eq "\\") {
+          $_=<I>;
+          chop;
+          s/(""")|(''')$//;
+          s/^\s*//;
+        }
+        return $_;
+      }
+    }
   }
 }
 EOT
