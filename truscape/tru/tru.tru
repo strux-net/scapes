@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	tru [Options] [<file> ....]
 
 	produces a perl-script based on the input-files.
@@ -247,7 +247,7 @@ actions
         usemark("mark_${pit}E_${Action}") if ($pit =~ /\]|\}|</);
 	};
 	# the previous assignment is overwritten (due to a CLEAR) here
-	\$tru::actioncode{'$pit'}{$sdel$Action$sdel}=sub {
+	\$tru::actioncode{'$pit'}{q$sdel$Action$sdel}=sub {
 	##    $pit	CLEAR
       }
     <
