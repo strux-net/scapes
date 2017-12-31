@@ -6,5 +6,5 @@ perl_tru -vimPlug -noProtos XPE.plTR >XPE.vim
   For mark mark_usage
 	  -version	show version information
   For mark mark_version
-	    print "  XPE.plTR	3.0\n";
+	    print "  XPE.plTR	3.0a\n";
 GOOD	XPE.vim

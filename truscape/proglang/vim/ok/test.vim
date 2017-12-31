@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on test.vimTR , version : 3.2
+" based on test.vimTR , version : 3.2a
 "usage for testfile
 "	This file serves no special purpose
 "
