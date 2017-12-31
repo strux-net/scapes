@@ -12,8 +12,6 @@ js_tru
     2struxbin
   test	
     ./js_tru -allowP jstest.jsTR				jstest.js
-    m_diff statistics.out
-    m_diff js_tru
   doc
     trudefault			txt html
     trudoc_tru ./js_tru		docs/js_tru.html

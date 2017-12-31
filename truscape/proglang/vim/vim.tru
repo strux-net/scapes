@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.1a
 USAGE	vim_tru [Options] [<file> ....]
 
 	produces a vim-script
@@ -1416,6 +1416,9 @@ actions
       $property = "'$property'" unless $property =~ /^['"]/;
       # do not append comment. vim will complain
 	\\ $property : $value$terminator
+  2continue	comment
+    >	CLEAR
+	\\$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
 hooks
   mark_com
     [
@@ -1428,7 +1431,7 @@ group
 	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
 	  want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
 	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
 	  wantObject	{..}		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
 	  wantArray	[..]		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
@@ -1437,7 +1440,7 @@ group
 	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\{\.\.\}/
 	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\[\.\.\]/
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
   vim
 	comment	*								=2	".*
 	native code								=2	vim code<?

@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 # USAGE is in jscoll.tru
 BEGIN
   $cc = "//";	# Comment Character specific to this language - not used do to languageType="c"
@@ -372,7 +372,7 @@ group
 	  function	[args]							=o				/\bfunction(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
 	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
 	  fproperty	function	[args]	comment				=o		.+		function
 	    autodoc								=g
@@ -389,7 +389,7 @@ group
 	  function	[args]							=o		/function(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
   js
 	comment	*								=2		\/\/.*
 	native code								=2		js code<?

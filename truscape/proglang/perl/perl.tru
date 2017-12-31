@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.1a
 USAGE	perl_tru [Options] [<file> ....]
 
 	produces a perl-script
@@ -839,7 +839,7 @@ group
 	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
 	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
 	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
@@ -852,7 +852,7 @@ group
 	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
-	   continuation			[comment]				>>* 2copy
+	   continuation			[comment]				>>* 2continue
   perl
 	comment	*								=2		#.*
 	native code								=2		perl code<?

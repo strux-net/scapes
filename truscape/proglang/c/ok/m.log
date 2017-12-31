@@ -1,8 +1,8 @@
 building c_tru
 tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru c.tru ../c_like_vars.tru ../../lib/basicUSAGE.tru ccoll.tru >c_tru
-tru : Warning 'arg-name problematic' in ../common.tru @ 939
+tru : Warning 'arg-name problematic' in ../common.tru @ 953
 	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
-tru : Warning 'arg-name problematic' in ../common.tru @ 969
+tru : Warning 'arg-name problematic' in ../common.tru @ 983
 	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
 chmod +x c_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
 PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s c c_tru >c_tru.tmp

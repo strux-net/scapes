@@ -1,4 +1,4 @@
-VERSION	3.2
+VERSION	3.2a
 usage	testfile
 	This file serves no special purpose
 
@@ -235,6 +235,8 @@ main
     k4		[..]
       10
       20
+  a="one
+    two"
 perl
   foo
     M	$curbuf->Append($item++										);

@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on QuickView.vimTR , version : 3.0
+" based on QuickView.vimTR , version : 3.0a
 "usage for QuickView
 "	Quick-View vim-commands.
 "
@@ -88,7 +88,7 @@ endfunc
 "  call this function with 'silent' to suppress unwanted output
 function!ShowSettings(qvFile) 
   exe "redir! > ".a:qvFile
-    call QvSettings()
+  call QvSettings()
   redir END
 endfunc
 function!QvDirMissing() 

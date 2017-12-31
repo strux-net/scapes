@@ -26,8 +26,6 @@ install_js_tru:
 	@${m_copy} js_tru ok/js_tru
 	@${m_copy} js_tru ~/strux/bin/js_tru
 	@${m_copy} jstest.js ok/jstest.js
-	@${m_copy} statistics.out ok/statistics.out
-	@${m_copy} js_tru ok/js_tru
 	@${m_copy} docs/README.txt ok/docs/README.txt
 	@${m_copy} docs/README.html ok/docs/README.html
 	@${m_copy} docs/js_tru.html ok/docs/js_tru.html
@@ -35,8 +33,6 @@ test_js_tru: js_tru
 	@echo  testing js_tru
 	./js_tru -allowP jstest.jsTR >jstest.js
 	@${m_diff} jstest.js
-	@${m_diff} statistics.out
-	@${m_diff} js_tru
 js_tru:
 	@echo  building js_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru js.tru ../c_like_vars.tru jscoll.tru ../../lib/basicUSAGE.tru >js_tru

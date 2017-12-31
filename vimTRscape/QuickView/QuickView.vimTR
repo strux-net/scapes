@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 usage	QuickView
 	Quick-View vim-commands.
 
@@ -47,7 +47,7 @@ QuickView
 ShowSettings	qvFile
     call this function with 'silent' to suppress unwanted output
   exe "redir! > ".a:qvFile
-    call QvSettings()
+  call QvSettings()
   redir END
 QvDirMissing
   ?	s:qvDirState == 0

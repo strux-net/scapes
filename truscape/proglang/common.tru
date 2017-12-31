@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -424,6 +424,20 @@ actions
 	  {
 	    stmt
 	  }
+    >
+	$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
+  2continue	comment
+    a continuation of a statement
+      Parameters :
+        2continue	mandatory	.+	represents the line
+        comment	optional	.+	a comment for this fragment
+      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
+	# comment with		tabs
+	foo
+	  a="one,
+	    two,
+	    three
+	    ";
     >
 	$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
   introcomment
@@ -1240,7 +1254,7 @@ group
 	ending in {			[comment]				>2 2copy	.*\{
 	}				[comment]				>2 2copy	\}.*
 	statement			[comment]				>2
-	 statementContinuation		[comment]				>>* 2copy
+	 statementContinuation		[comment]				>>* 2continue
   main
 	main									=o	main
 	  autodoc								=g

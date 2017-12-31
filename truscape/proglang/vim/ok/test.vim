@@ -570,6 +570,8 @@ let c = {
     \ 20
   \ ]
 \ }
+let a="one
+  \two"
 perl <<EOT
 #  protos
 sub foo;
