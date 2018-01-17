@@ -1,4 +1,4 @@
-VERSION	3.1a
+VERSION	3.2
 USAGE	vim_tru [Options] [<file> ....]
 
 	produces a vim-script
@@ -1417,8 +1417,10 @@ actions
       # do not append comment. vim will complain
 	\\ $property : $value$terminator
   2continue	comment
+    continued
+      comment is ignored. Vim has no inline comments.
     >	CLEAR
-	\\$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
+	\\$F[0]
 hooks
   mark_com
     [
