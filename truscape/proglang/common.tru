@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	3.1
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -118,20 +118,6 @@ actions
 	  doc	depending on the language statements starting with a string are treated as autoprint
 	  "a double quoted string"			sh, c, perl , java, js
 	  'a single quoted string'			vim
-
-      a codeblock inside a statement starts a new piece of code:
-      Example :	classtruer -noConfigCheck -noProtos -noIntro
-	foo
-	  a = pseudocode
-	    FOREVER	this is a simple statement continuation
-	    // but now a block is opened 
-	    {		and this opens a block and tru happily parses what's inside
-	      FOREVER	// here starts new code
-		?	expr	code
-	    }
-
-      The same holds for comment lines.
-      They open a block and tru happily parses what's inside
     >
       # from now on, $comment is suitable for direct usage
       $comment = "\t$cc $comment" if $comment ne "";
@@ -427,17 +413,12 @@ actions
     >
 	$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
   2continue	comment
-    a continuation of a statement
+    a continuation of a statement.
       Parameters :
         2continue	mandatory	.+	represents the line
         comment	optional	.+	a comment for this fragment
-      Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
-	# comment with		tabs
-	foo
-	  a="one,
-	    two,
-	    three
-	    ";
+      Example :
+        see	statement
     >
 	$F[0]@{[do{"\t$cc $comment" if "$comment"}]}
   introcomment
@@ -1254,7 +1235,7 @@ group
 	ending in {			[comment]				>2 2copy	.*\{
 	}				[comment]				>2 2copy	\}.*
 	statement			[comment]				>2
-	 statementContinuation		[comment]				>>* 2continue
+	 statementContinuation		[comment]	*			>>* 2continue
   main
 	main									=o	main
 	  autodoc								=g

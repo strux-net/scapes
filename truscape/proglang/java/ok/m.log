@@ -1,8 +1,8 @@
 building java_tru
 tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru java.tru java_sql.tru ../c_like_vars.tru javacoll.tru ../../lib/basicUSAGE.tru >java_tru
-tru : Warning 'arg-name problematic' in ../common.tru @ 953
+tru : Warning 'arg-name problematic' in ../common.tru @ 934
 	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
-tru : Warning 'arg-name problematic' in ../common.tru @ 983
+tru : Warning 'arg-name problematic' in ../common.tru @ 964
 	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
 tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
 	the group 'function' was defined but never used

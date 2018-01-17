@@ -118,6 +118,7 @@ var int i = 0;
 a contiued statement
   = whatever;
   // call function                                 // b
+  
 switch (expr) {
   case a :
   {
@@ -179,16 +180,19 @@ function whereami(elt) {
       pos.coords.accuracy + " meters of latitude " +
       pos.coords.latitude + " longitude " +
       pos.coords.longitude + ".";
+      
     // If our device returns altitude, add that information.
     if (pos.coords.altitude) {
       msg += " You are " + pos.coords.altitude + " ± " +
         pos.coords.altitudeAccuracy + "meters above sea level.";
+        
     }
     // if our device returns speed and heading, add that, too.
     if (pos.coords.speed) {
       msg += " You are travelling at " +
         pos.coords.speed + "m/s on heading " +
         pos.coords.heading + ".";
+        
     }
     elt.innerHTML = msg;                           // Display all the position information
   }
@@ -329,6 +333,7 @@ function example2() {
   }
   foo                                              // args
     // code for foob
+    
 
 function bar() {
   // start of plan shifted plan

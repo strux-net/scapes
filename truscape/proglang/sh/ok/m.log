@@ -1,8 +1,8 @@
 building sh_tru
 tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
-tru : Warning 'arg-name problematic' in ../common.tru @ 953
+tru : Warning 'arg-name problematic' in ../common.tru @ 934
 	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
-tru : Warning 'arg-name problematic' in ../common.tru @ 983
+tru : Warning 'arg-name problematic' in ../common.tru @ 964
 	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
 tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
 	the group 'try catch clause' was defined but never used

@@ -27,5 +27,6 @@ sub main
     item_function                                  # \&poss
     linenr                                         # 3
     illegal => entry
+    ill                                            # legal
 }
 main();
