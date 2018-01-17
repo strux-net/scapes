@@ -328,7 +328,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_2copy">ending in {</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 2copy</td><td>.*\{</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_2copy">}</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 2copy</td><td>\}.*</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_statement">statement</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">statementContinuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">statementContinuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping><pong><a title="here is a Tab">	</a>*</pong></td><td>&gt;&gt;* 2continue</td><td></td></tr>
       </table>
     <mainpart>Overview:</mainpart>
       <howToRead>[
@@ -541,7 +541,7 @@ OPTIONS:
 	    <A href="#A_2continue">2continue</a>
 	  </td>
 	  <td>
-	    a continuation of a statement
+	    a continuation of a statement.
 	  </td>
 	</tr>
 	<tr>
@@ -1362,7 +1362,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>statement<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">statementContinuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">statementContinuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping><pong><a title="here is a Tab">	</a>*</pong></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 </table>
     <div align="right"><filename>../../proglang/common.tru</filename></div>
     <part>Signature :</part>
@@ -1408,32 +1408,8 @@ OPTIONS:
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>depending on the language statements starting with a string are treated as autoprint</ping>
 <a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js</ping>
 <a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim</ping>
-
 </listing>
     <br/>
-    <desc>a codeblock inside a statement starts a new piece of code:</desc><br/>
-    <part>Example :</part>
-    <howToRead>[
-      <a href="howtoread/Example.html" title="how to read the Example">help</a>
-    ]</howToRead>
-    <xcommand>[
-      <a title="classtruer -noConfigCheck -noProtos -noIntro">cmd</a>
-    ]</xcommand>
-    <br/><br/>
-    <listing class="Example">
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>a = pseudocode
-<a title = "Indent : 4">    </a>FOREVER<ping><a title="here is a Tab">	</a>this is a simple statement continuation</ping>
-<a title = "Indent : 4">    </a>// but now a block is opened 
-<a title = "Indent : 4">    </a>{<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>and this opens a block and tru happily parses what&lsquo;s inside</ping>
-<a title = "Indent : 6">      </a>FOREVER<ping><a title="here is a Tab">	</a>// here starts new code</ping>
-<a title = "Indent : 8">        </a>?<ping><a title="here is a Tab">	</a>expr</ping><pong><a title="here is a Tab">	</a>code</pong>
-<a title = "Indent : 4">    </a>}
-
-</listing>
-    <br/>
-    <desc>The same holds for comment lines.</desc><br/>
-    <desc>They open a block and tru happily parses what&lsquo;s inside</desc><br/>
     <div align="right"><filename>../../proglang/statementDelimiter.tru</filename></div>
     <desc>The statement-delimiter is appended automatically if the statement</desc><br/>
     <desc>  is a single-line statement and</desc><br/>
@@ -2887,7 +2863,7 @@ OPTIONS:
 </listing>
     <br/>
     <a name="A_2continue"></a>
-    <h1>2continue       <shortText>a continuation of a statement</shortText></h1>
+    <h1>2continue       <shortText>a continuation of a statement.</shortText></h1>
 <part>Structure :</part>
   <howToRead>[
     <a href="howtoread/structure.html" title="how to read the structure">help</a>
@@ -2922,7 +2898,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_statement">statement</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a>statementContinuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a>statementContinuation<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping><pong><a title="here is a Tab">	</a>*</pong></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 </table>
     <div align="right"><filename>../../proglang/common.tru</filename></div>
     <part>Signature :</part>
@@ -2943,17 +2919,9 @@ OPTIONS:
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
     ]</howToRead>
-    <xcommand>[
-      <a title="classtruer -noIntro -noSharpBang -noProtos -noConfigCheck">cmd</a>
-    ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a># comment with<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs</ping>
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>a=&quot;one,
-<a title = "Indent : 4">    </a>two,
-<a title = "Indent : 4">    </a>three
-<a title = "Indent : 4">    </a>&quot;;
+    see <A href="#A_statement">statement</a>
 </listing>
     <br/>
     <a name="A_comment"></a>
