@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -285,6 +285,8 @@ tru::inRange
 tru::debug
   my ($action,$pit) = @_
   ?	$opt_debRange and !tru::inRange()	return
+  ?	$level == -1
+    return	processing !n at the end
   ?	$opt_debStructure
     ?	$pit eq '>' and $. != $tru::lastDot and !$tru::isTriggered
       "$action\t$indent$_\n"

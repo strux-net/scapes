@@ -39,7 +39,7 @@ sub tru::showTruOptions;
 sub setmark($);
 sub usemark($);
 sub unusemark;
-# based on trusupp.plTR , version : 3.0
+# based on trusupp.plTR , version : 3.1
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -520,6 +520,9 @@ sub tru::debug
   my ($action,$pit) = @_;
   if ($opt_debRange and !tru::inRange()) {
     return;
+  }
+  if ($level == -1) {
+    return;                                        # processing !n at the end
   }
   if ($opt_debStructure) {
     if ($pit eq '>' and $. != $tru::lastDot and !$tru::isTriggered) {
