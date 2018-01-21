@@ -2,7 +2,6 @@
                                Vim version 8
 Author: Michael Naumann
 URL : www.strux.net
-Last change: Novemer 2017			*LL*
 
 1. Overview					|LL-intro|
 2. Usage					|LL-using|

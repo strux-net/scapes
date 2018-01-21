@@ -1,4 +1,4 @@
-VERSION	3.4a
+VERSION	3.4b
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -39,20 +39,6 @@ main
 	    d1<F4>    d2<F4>       in view LL.
 	    x1<F4>    x2<F4>       in view LL.
 	    d.                     in view LL.
-    strux_LL_shell_setup:string[]						setting up shell-commands
-	The value of this var is used wherever strux_LL_shell is used.
-	This can be used to tell the shell to do additional initializations.
-	Examples :
-	  if you specified|g:strux_LL_shell|to be /bin/bash and want it to also obey your aliases, functions and other settings, you can do
-	    let g:strux_LL_shell_setup='shopt -s expand_aliases;source ~/.profile'
-	  if you want to set some shell options you can do
-	    let g:strux_LL_shell_setup='set -x'
-
-    strux_LL_cmd_prefix:string[]						a string to be prepended to the commands issued in the LLShell
-	The value of this var is used whenever a command is issued in the LLShell
-	Example:
-	  if you have "set -o vi" in your bash to use vi-mode, then this value will try to always be in an empty, input-ready, commandline
-	    let g:strux_LL_cmd_prefix="\<esc>cc"
     strux_LL_parsestring:string["%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/"]		configure how the output of LL looks like.
 	The formats:
 	    %			A single "%" - Character
@@ -216,6 +202,7 @@ LLShell			mods
     call Shell("clear")
     sleep 200m				give the shell a chance to create the file
     g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+    perl openPty()
     normal! 
 ReapplyDirsettings	pattern
   perl ClearNewViewAutocommands('silent')
@@ -252,8 +239,10 @@ ExecuteScript		mode
   perl CloseTmpScript()
   ??	a:mode == '	'
     t
-      call setfperm(g:strux_LL_scriptname,"r-x------")
-      call Shell( g:strux_LL_scriptname )
+      perl echoLastCmd()
+      doc	setfperm is only needed when not sourceing the script
+	call setfperm(g:strux_LL_scriptname,"r-x------")
+      call Shell("\<esc>cc\<c-u> source ".g:strux_LL_scriptname )
     n
       exe ":!" . g:strux_LL_shell ." ".g:strux_LL_scriptname
     x
@@ -298,7 +287,7 @@ DoCmd			mode
     echohl None
 Shell			cmd
   !	bufname(s:termBufNr) != ''	LLShell
-  call term_sendkeys(s:termBufNr, g:strux_LL_cmd_prefix.' '.a:cmd.'')
+  call term_sendkeys(s:termBufNr,' '.a:cmd.'')
 main
   &cpo = s:cpo_save
   unlet s:cpo_save
@@ -349,7 +338,7 @@ Interface	/strux/LL
     the full-filename is appended to the command (as "$f") if the command does not already contain $
     The command is NOT subject to vim's treating of some chars as % and #
 
-    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.
+    See |g:strux_LL_shell| for configuring how the command is started.
 
     The following vars are set for the command:
 	$f	filename with path		/path/to/file/name.ext
@@ -801,7 +790,7 @@ Interface	frequentCommands
 	$F	filename as given		name.ext
 	$r	filename without extension	name
 	$e	extension			ext
-    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+    See |g:strux_LL_shell| for configuring this command.
   5<F4>		&Cmd.Execute Ol&d				Execute this command						:call ExecuteCurrentLine('n')<cr>
     Execute the line under the cursor in your shell
     The command is executed as typed
@@ -812,7 +801,7 @@ Interface	frequentCommands
 	$F	filename as given		name.ext
 	$r	filename without extension	name
 	$e	extension			ext
-    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+    See |g:strux_LL_shell| for configuring this command.
   1<F4>		&Cmd.Execute in x&term				Execute this command in an xterm				:call ExecuteCurrentLine('x')<cr>
     same as <F4>, but the command is executed in an xterm.
     This is usefull if you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
@@ -2004,6 +1993,7 @@ perl
         is supposed to be something like "$F"
     my ($f,$p,$F,$r,$e)
 
+    $cmd =~ s/^\s*//				remove leading spaces
     !	$cmd =~ /\$/	$cmd.=$cmdarg
     $f = getFullname4shell($$LL::currentH{dir},$filename)
     ($p = $f) =~ s:/[^/]*$::
@@ -2017,35 +2007,30 @@ perl
 	"opening tempfile $$LL::tmpname for writing failed : $!","Error"
 	return
       $LL::tmpScriptIsOpen = 1
+      $LL::lastCmd = $cmd
       M	print FPC 	."\n" ; #
 			"# for the sake of 'binary' data in filenames. (to avoid 'cannot execute binary file')"
       ?	$mode eq 't'
-	o	reuse the scriptinvocation - line
+	o	clear the tmp-script invocation
 	  M	print FPC qq[	\n] ; #
 	    tput -S <<!
 	    \tcuu1				Cursor up
 	    \tel				clear to end of line
 	    !
-	    @{[ vimvar('g:strux_LL_shell_setup') ]}	additional initializations
 	o	handle cwd mismatch
-	  ?	readlink("/proc/".vimvar('g:strux_shellpid')."/cwd") ne getcwd()
+	  local $shellpid=vimvar('g:strux_shellpid')
+	  ?	$shellpid and readlink("/proc/$shellpid/cwd") ne getcwd()
+	    doc	if $shellpid is not set, then the LLShell is not yet open
+	      it will be opened automatically in the cwd
 	    M	print FPC qq[	\n] ; #
 	      cd '$p' >/dev/null
-	      tput rev;echo -n "running in : " ; pwd ;tput rmso
+	      tput rev;echo -n "changed cd to : " ; pwd ;tput rmso
     M	print FPC qq[	\n] ; #
       f='$f'					$f : /dir/name.ext
       p='$p'					$p : /dir
       F='$F'					$F : name.ext
       r='$r'					$r : name
       e='$e'					$e : ext
-    $cmd =~ s/^\s*//				remove leading spaces
-    ?	$mode eq 't'
-      o	echo the command
-	?	1
-	  M	print FPC qq[	\n] ; #
-	    cat <<-END
-	    \t$cmd
-	    END
     o	invoke the command
       M	print FPC qq[	\n] ; #
 	(
@@ -2053,10 +2038,16 @@ perl
 	)
   CloseTmpScript
     M	print FPC qq[	\n] ; #
-      rm -f $$LL::tmpname				removing the just executed script, doesn't semm to disturb bash
+      rm -f $$LL::tmpname			removing the just executed script, doesn't semm to disturb bash
     close FPC
     $LL::tmpScriptIsOpen = 0
     # I cannot delete the tmp-file here since an background xterm might still need it.
+  openPty
+    local $shellpid=vimvar('g:strux_shellpid')
+    !	open(PTY,">>/proc/$shellpid/fd/1")	"cannot open PTY"
+    autoflush PTY 1
+  echoLastCmd
+    print PTY "\e[7m$LL::lastCmd\e[27m\n"
   showTechInfo
     my @A
     push @A,"Tech Info"

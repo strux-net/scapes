@@ -852,7 +852,7 @@ COMMANDS FOR VIEW LL                                                            
       the full-filename is appended to the command (as "$f") if the command does not already contain $
       The command is NOT subject to vim's treating of some chars as % and #
 
-      See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.
+      See |g:strux_LL_shell| for configuring how the command is started.
 
       The following vars are set for the command:
           $f	filename with path		/path/to/file/name.ext
@@ -953,7 +953,7 @@ COMMANDS FOR VIEW FREQUENTCOMMANDS                                              
         $F	filename as given		name.ext
         $r	filename without extension	name
         $e	extension			ext
-    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+    See |g:strux_LL_shell| for configuring this command.
 
     This command can also be found in the menu under :
       Cmd -> Execute
@@ -968,7 +968,7 @@ COMMANDS FOR VIEW FREQUENTCOMMANDS                                              
         $F	filename as given		name.ext
         $r	filename without extension	name
         $e	extension			ext
-    See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+    See |g:strux_LL_shell| for configuring this command.
 
     This command can also be found in the menu under :
       Cmd -> Execute Old

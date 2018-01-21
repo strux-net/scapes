@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4a
+" based on LL.vimTR , version : 3.4b
 "****************************************
 " README
 "****************************************
@@ -66,7 +66,7 @@
 "	  the full-filename is appended to the command (as "$f") if the command does not already contain $
 "	  The command is NOT subject to vim's treating of some chars as % and #
 "
-"	  See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.
+"	  See |g:strux_LL_shell| for configuring how the command is started.
 "
 "	  The following vars are set for the command:
 "	      $f	filename with path		/path/to/file/name.ext
@@ -495,7 +495,7 @@
 "	      $F	filename as given		name.ext
 "	      $r	filename without extension	name
 "	      $e	extension			ext
-"	  See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+"	  See |g:strux_LL_shell| for configuring this command.
 "	5<F4>	Execute this command
 "	  Execute the line under the cursor in your shell
 "	  The command is executed as typed
@@ -506,7 +506,7 @@
 "	      $F	filename as given		name.ext
 "	      $r	filename without extension	name
 "	      $e	extension			ext
-"	  See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.
+"	  See |g:strux_LL_shell| for configuring this command.
 "	1<F4>	Execute this command in an xterm
 "	  same as <F4>, but the command is executed in an xterm.
 "	  This is usefull if you use gvim (as opposed to (term-)vim), where interactive programs don't work too well.
@@ -596,22 +596,6 @@
 "		      d1<F4>    d2<F4>       in view LL.
 "		      x1<F4>    x2<F4>       in view LL.
 "		      d.                     in view LL.
-"	g:strux_LL_shell_setup : setting up shell-commands	(defaults to )
-"	  (can be superseded with the environment-var $strux_LL_shell_setup)
-"		  The value of this var is used wherever strux_LL_shell is used.
-"		  This can be used to tell the shell to do additional initializations.
-"		  Examples :
-"		    if you specified|g:strux_LL_shell|to be /bin/bash and want it to also obey your aliases, functions and other settings, you can do
-"		      let g:strux_LL_shell_setup='shopt -s expand_aliases;source ~/.profile'
-"		    if you want to set some shell options you can do
-"		      let g:strux_LL_shell_setup='set -x'
-"	  
-"	g:strux_LL_cmd_prefix : a string to be prepended to the commands issued in the LLShell	(defaults to )
-"	  (can be superseded with the environment-var $strux_LL_cmd_prefix)
-"		  The value of this var is used whenever a command is issued in the LLShell
-"		  Example:
-"		    if you have "set -o vi" in your bash to use vi-mode, then this value will try to always be in an empty, input-ready, commandline
-"		      let g:strux_LL_cmd_prefix="\<esc>cc"
 "	g:strux_LL_parsestring : configure how the output of LL looks like.	(defaults to "%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/")
 "	  (can be superseded with the environment-var $strux_LL_parsestring)
 "		  The formats:
@@ -822,7 +806,7 @@ function <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()
   echo 'the full-filename is appended to the command (as "$f") if the command does not already contain $'
   echo 'The command is NOT subject to vim''s treating of some chars as % and #'
   echo ''
-  echo 'See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring how the command is started.'
+  echo 'See |g:strux_LL_shell| for configuring how the command is started.'
   echo ''
   echo 'The following vars are set for the command:'
   echo '    $f	filename with path		/path/to/file/name.ext'
@@ -1715,7 +1699,7 @@ function <sid>Help_n6672657175656e74436f6d6d616e6473_1()
   echo '    $F	filename as given		name.ext'
   echo '    $r	filename without extension	name'
   echo '    $e	extension			ext'
-  echo 'See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.'
+  echo 'See |g:strux_LL_shell| for configuring this command.'
 endfunction
 function <sid>Help_n6672657175656e74436f6d6d616e6473_2()
   echohl WarningMsg
@@ -1731,7 +1715,7 @@ function <sid>Help_n6672657175656e74436f6d6d616e6473_2()
   echo '    $F	filename as given		name.ext'
   echo '    $r	filename without extension	name'
   echo '    $e	extension			ext'
-  echo 'See |g:strux_LL_shell| and |g:strux_LL_shell_setup| for configuring this command.'
+  echo 'See |g:strux_LL_shell| for configuring this command.'
 endfunction
 function <sid>Help_n6672657175656e74436f6d6d616e6473_3()
   echohl WarningMsg
@@ -1931,20 +1915,6 @@ endif
 if !exists("g:strux_LL_xterm")
   let g:strux_LL_xterm="xterm -e"
 endif
-" setting up shell-commands
-if exists("$strux_LL_shell_setup")
-  let g:strux_LL_shell_setup=$strux_LL_shell_setup
-endif
-if !exists("g:strux_LL_shell_setup")
-  let g:strux_LL_shell_setup=""
-endif
-" a string to be prepended to the commands issued in the LLShell
-if exists("$strux_LL_cmd_prefix")
-  let g:strux_LL_cmd_prefix=$strux_LL_cmd_prefix
-endif
-if !exists("g:strux_LL_cmd_prefix")
-  let g:strux_LL_cmd_prefix=""
-endif
 " configure how the output of LL looks like.
 if exists("$strux_LL_parsestring")
   let g:strux_LL_parsestring=$strux_LL_parsestring
@@ -2084,6 +2054,7 @@ function!LLShell(mods)
     " give the shell a chance to create the file
     sleep 200m
     let g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+    perl openPty()
     normal! 
   endif
 endfunc
@@ -2138,8 +2109,13 @@ endfunc
 function!ExecuteScript(mode) 
   perl CloseTmpScript()
   if a:mode == 't'
-    call setfperm(g:strux_LL_scriptname,"r-x------")
-    call Shell( g:strux_LL_scriptname )
+    perl echoLastCmd()
+    "****************************************
+    " setfperm is only needed when not sourceing the script
+    "****************************************
+    " call setfperm(g:strux_LL_scriptname,"r-x------")
+    "****************************************
+    call Shell("\<esc>cc\<c-u> source ".g:strux_LL_scriptname )
   elseif a:mode == 'n'
     exe ":!" . g:strux_LL_shell ." ".g:strux_LL_scriptname
   elseif a:mode == 'x'
@@ -2195,7 +2171,7 @@ function!Shell(cmd)
   if !(bufname(s:termBufNr) != '')
     LLShell
   endif
-  call term_sendkeys(s:termBufNr, g:strux_LL_cmd_prefix.' '.a:cmd.'')
+  call term_sendkeys(s:termBufNr,' '.a:cmd.'')
 endfunc
 let &cpo = s:cpo_save
 unlet s:cpo_save
@@ -3100,6 +3076,8 @@ sub ExexNewViewAutocommandPost;
 sub hdisp($);
 sub WriteTmpScript($$$$);
 sub CloseTmpScript;
+sub openPty;
+sub echoLastCmd;
 sub showTechInfo;
 use POSIX qw(strftime floor);
 
@@ -5112,6 +5090,7 @@ sub WriteTmpScript($$$$)
 {
   local ($cmd,$filename,$cmdarg,$mode) = @_;
   my ($f,$p,$F,$r,$e);
+  $cmd =~ s/^\s*//;                                # remove leading spaces
   if (!($cmd =~ /\$/)) {
     $cmd.=$cmdarg;
   }
@@ -5132,18 +5111,24 @@ sub WriteTmpScript($$$$)
       return;
     }
     $LL::tmpScriptIsOpen = 1;
+    $LL::lastCmd = $cmd;
     print FPC "# for the sake of 'binary' data in filenames. (to avoid 'cannot execute binary file')"."\n" ; #
     if ($mode eq 't') {
-      # reuse the scriptinvocation - line
+      # clear the tmp-script invocation
         print FPC qq[tput -S <<!\n] ; #
         print FPC qq[\tcuu1\n] ; #Cursor up
         print FPC qq[\tel\n] ; #clear to end of line
         print FPC qq[!\n] ; #
-        print FPC qq[@{[ vimvar('g:strux_LL_shell_setup') ]}\n] ; #additional initializations
       # handle cwd mismatch
-        if (readlink("/proc/".vimvar('g:strux_shellpid')."/cwd") ne getcwd()) {
+        local $shellpid=vimvar('g:strux_shellpid');
+        if ($shellpid and readlink("/proc/$shellpid/cwd") ne getcwd()) {
+          #****************************************
+          # if $shellpid is not set, then the LLShell is not yet open
+          #****************************************
+          # it will be opened automatically in the cwd
+          #****************************************
           print FPC qq[cd '$p' >/dev/null\n] ; #
-          print FPC qq[tput rev;echo -n "running in : " ; pwd ;tput rmso\n] ; #
+          print FPC qq[tput rev;echo -n "changed cd to : " ; pwd ;tput rmso\n] ; #
         }
     }
   }
@@ -5152,15 +5137,6 @@ sub WriteTmpScript($$$$)
   print FPC qq[F='$F'\n] ; #$F : name.ext
   print FPC qq[r='$r'\n] ; #$r : name
   print FPC qq[e='$e'\n] ; #$e : ext
-  $cmd =~ s/^\s*//;                                # remove leading spaces
-  if ($mode eq 't') {
-    # echo the command
-      if (1) {
-        print FPC qq[cat <<-END\n] ; #
-        print FPC qq[\t$cmd\n] ; #
-        print FPC qq[END\n] ; #
-      }
-  }
   # invoke the command
     print FPC qq[(\n] ; #
     print FPC qq[$cmd\n] ; #the command
@@ -5173,6 +5149,20 @@ sub CloseTmpScript
   close FPC;
   $LL::tmpScriptIsOpen = 0;
   # I cannot delete the tmp-file here since an background xterm might still need it.
+}
+
+sub openPty
+{
+  local $shellpid=vimvar('g:strux_shellpid');
+  if (!(open(PTY,">>/proc/$shellpid/fd/1"))) {
+    VIM::Msg("cannot open PTY");
+  }
+  autoflush PTY 1;
+}
+
+sub echoLastCmd
+{
+  print PTY "\e[7m$LL::lastCmd\e[27m\n";
 }
 
 sub showTechInfo
