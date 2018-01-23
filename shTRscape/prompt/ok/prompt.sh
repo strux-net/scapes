@@ -5,7 +5,7 @@
 # or you may loose all your changes and probably choose the wrong method.
 # goto http://www.strux.net to find more information.
 #
-if [ "$1" == "-version" ] ; then
+if [ "$1" = "-version" ] ; then
   echo "Version :"
   echo "  prompt.shTR	3.0"
   exit 0

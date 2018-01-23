@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 USAGE	sh_tru [Options] [<file> ....]
 
 	produces a shell-script
@@ -64,7 +64,7 @@ actions
        atmark("mark_usage") {
 	  -version\tshow version information
        }
-	if [ "\$1" == "-version" ] ; then
+	if [ "\$1" = "-version" ] ; then
 	  echo "Version :"
        setmark("mark_version");
 	  exit 0

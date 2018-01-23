@@ -8,7 +8,7 @@
 opt_a=0
 opt_f='/tmp/schrott'
 opt_c=0
-if [ "$1" == "-version" ] ; then
+if [ "$1" = "-version" ] ; then
   echo "Version :"
   echo "  shtest.shTR	3.0"
   echo "  shtest.shTR	3.0a"

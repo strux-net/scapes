@@ -12,7 +12,7 @@ opt_e=0
 opt_v=0
 opt_c='set swb='
 opt_s=0
-if [ "$1" == "-version" ] ; then
+if [ "$1" = "-version" ] ; then
   echo "Version :"
   echo "  truerItem.shTR	3.0"
   exit 0
