@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	3.0b
 USAGE	sh_tru [Options] [<file> ....]
 
 	produces a shell-script
@@ -303,11 +303,6 @@ actions
 	  ??	(( opt_	))
 	    v	"running verbose"
 	    w	"warnings enabled"
-    >
-      atmark("mark_usage") {
-        local $level = 0;
-	OPTIONS:
-      }
     -
 	while getopts '@GetOpt' opt ; do @{[do{"\t# " if "$comment"}]}$comment
 	  # Checking the options
@@ -582,3 +577,8 @@ group
 	  continueLine		[comment]					>
 	secured									>2	secured
 	F				expr	[stmt]				>2 For	F		(?!.*\.\.\.).+
+hooks
+  mark_usage
+    [
+        local $level = 0;
+	OPTIONS:

@@ -2,6 +2,7 @@ building prompt.sh
 sh_tru prompt.shTR >prompt.sh
 ~/strux/bin/sh_tru : some text was never output (due to unset marks) when processing prompt.shTR
   For mark mark_usage
+	OPTIONS:
 	  -version	show version information
 GOOD	prompt.sh
 chmod +x prompt.sh

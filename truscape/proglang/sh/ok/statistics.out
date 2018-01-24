@@ -13,7 +13,7 @@
   1	1	0	0	1	1	FOREVER
   2	1	0	1	2	2	For
   1	1	0	0	1	1	M
-  2	2	1	1	2	1	Option
+  2	1	1	1	2	1	Option
   2	1	0	0	2	2	Optiondescription
   1	1	0	0	1	1	P!line
   1	1	0	1	1	1	P[<]![planname]
@@ -57,6 +57,7 @@
   1	0	0	0	1	1	left
   1	1	0	0	1	1	magic
   1	1	0	0	1	1	main
+  1	0	0	0	0	0	mark_usage
   1	1	0	0	1	1	middlepart
   1	1	0	0	1	1	middlepart_any
   1	1	0	1	1	1	native code
