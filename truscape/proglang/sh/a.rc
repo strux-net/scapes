@@ -1,0 +1,1 @@
+shtest.shTR	./sh_tru shtest.shTR >| shtest.sh
