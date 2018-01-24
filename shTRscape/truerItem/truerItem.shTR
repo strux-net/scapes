@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 usage	truerItem [Options] <truer> <action> files ....
 	Echo all lines of the files for which <truer> would execute <action>.
 
@@ -38,6 +38,7 @@ main
 	You can use "-c= " for an empty additional initialization 
     s	skip comment lines
 	Useful for truers that ignore lines starting with #
+  ?	[ $# -lt 2 ]	usage
   truer=$1;shift
   ?	[ -z $opt_f ]	action=$1;shift
   ?	(( opt_e ))

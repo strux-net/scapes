@@ -14,10 +14,10 @@ opt_c='set swb='
 opt_s=0
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  truerItem.shTR	3.0"
+  echo "  truerItem.shTR	3.0a"
   exit 0
 fi
-# based on truerItem.shTR , version : 3.0
+# based on truerItem.shTR , version : 3.0a
 
 usage()
 {
@@ -108,6 +108,9 @@ main()
   done # Checking the options
   shift $((OPTIND-1))
   [ "$1" = "--" ] && shift
+  if [ $# -lt 2 ] ; then
+    usage
+  fi
   truer=$1;shift
   if [ -z $opt_f ] ; then
     action=$1;shift
