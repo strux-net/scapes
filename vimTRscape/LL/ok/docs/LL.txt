@@ -49,7 +49,7 @@ LL can be started in different ways:
 
 < A lot of effort has been put into making this plugin run no matter how the users vimrc is set up.
   If you encounter any problems, you can replace LL in above examples (for shell usage) with LLfs
-  which is a "fail-save" version of LL that does not rely on your vimrc
+  which is a "fail-save" version of LL that does not rely on your .vimrc
   and should work in all circumstances. (LLfs is only available if you have one of the enriched installations)
 
 ==============================================================================
@@ -77,7 +77,7 @@ LL can be started in different ways:
 
   Probably the most suitable commands for this are "find" and "grep -l".
   Since these are so common, the commands :LLF and :LLG are provided, which
-  have nice predefined commandlines.
+  have nice predefined command-lines.
 
   Another thing you can try is >
     LLO locate *.conf
@@ -704,7 +704,7 @@ Not all features are available on systems other then unix-like systems.
   The first word is the last part of the path.
   On any line in this window press Enter to come back to this directory.
 
-  Now type ".!"
+  Back in the LL-view type ".!"
   This opens a new window named DIRSTACK
   It shows the information for Forward/Back navigation (Tab/Backspace)
   On any line in this window press Enter to come back to this directory.
@@ -751,7 +751,7 @@ Not all features are available on systems other then unix-like systems.
   Now the new directory is also listed (near the top)
   Observe the "n" after the rwx-flags.
   It indicates, that this file/dir is new since entering /tmp for the first
-  time (or since the last refresh)
+  time (or since the last refresh).
   You may also see some files or directories marked with a "c", indicating
   that they have changed in some way.
   On the line for "NewDir" type "fd" (for File Delete)
@@ -776,8 +776,7 @@ Not all features are available on systems other then unix-like systems.
   (I assume you have some files in this dir, else walk into another dir).
   Which information is calculated for %x is set with "cxfg" (for Configure-eXtra-File-Global)
   You can have a separate entry for directories with "cxdg" (for Configure-eXtra-Dir-Global)
-  Also you can have dir-local settings for these. And you can also make these
-  settings permanent.
+  Also you can have dir-local settings for these. And you can also make these settings permanent.
   Again reset the parsestring (Type "cpg", press ctrl-u and enter).
   Navigate to /proc (e.G type .:/proc) and observe how the output is now.
   LL has read the file ~/strux/LL.dirsettings to obtain the local settings. (|LL-dirsettings|)
@@ -805,18 +804,70 @@ Not all features are available on systems other then unix-like systems.
   You now have many windows open.
   Type ":LL" to go back to the LL-view.
   Type ":only" to make it the only window open.
-  You should still be on the line for libperl.
+  You should still be on the line for a .so file.
   Type "d<S-F4>". (this means : first press d, then Shift and F4 together)
   At the prompt type "strings" and press Enter.
   This opens a new window with the result of the command.
-  The filename was appended automatically to the command (strings in this case).
+  The filename was appended automatically to the command ("strings" in this case).
   Now go back to the LL-view (e.G type "ctrl-w p").
   Choose another library and type "d."
   The last command ("strings" in this case) is applied to this file now.
 
-  Again navigate back to LL.
-  Type "d?" on any of those lines.
-  This opens a new window named ACMD
+
+  Now we'll have a look at LL and shell.
+  In the LL-view type "cc"
+  This opens a new window holding the file ~/frequentCommands
+  In this file you can organize in your own preferred way the
+  commands you use frequently.  Structure this file at will.
+
+  Let's start with simply.
+  Insert the text "date" and press <F4>
+  This opens a new window containing a shell.
+  By default the shell is started as "bash -l" which makes it a login-shell.
+  Thus all your aliases, vars and functions should be available.
+  LL is now tightly connected to this shell.
+  Every time you press <F4> in frequentCommands, the command is executed in this shell.
+  The command is always exectuted in the directory that LL is showing.
+  If the directory differs from the directory in the shell, then the shell changes directory to the one in LL.
+  In the shell you can issue the command "LT" to adjust the LL-view to the current directory.
+  In the LL-view you can press "<c-x>c" to view the current directory of the shell.
+  Play a bit with all of shell, frequentCommands and LL to get a feeling.
+
+  An example content for frequentCommands here: >
+
+	date	# what time is it?
+	/path/to/my/pictures
+	  identify "$f"
+	  converting all .jpg in a directory to _small
+	    for i in *.jpg;do if [ "${i: -10}" != _small.jpg ]; then  j=${i%%.jpg};if ! [ -e ${j}_small.jpg ];then convert -scale 10% $i ${j}_small.jpg;fi;fi;done
+	  touch the directories according to the oldest .jpg within it
+	    for dir in */ ; do  refffile=$(/bin/ls -tr "$dir"/*.jpg|head -n 1);touch -r $refffile "$dir"; done
+	  convert 300dpi bmp-scans to 100dpi jpgs
+	    for i in *.bmp; do convert -resize 33% "$i" "${i%%.bmp}.jpg" ;done
+	  resize singe picture
+	    convert -resize 1024x768 "$F" "$F"
+	    convert -resize 20% "$F" "$F"
+	  resize picture-files in current dir
+	    for j in *.jpg;do echo "$j";convert -resize 1024x768 "$j" "$j";done
+	    for j in *.jpg;do echo "$j";convert -resize 20%      "$j" "$j";done
+	  rename UPPER to lower
+	    mmv "*" "#l1"
+
+< The first line is a command
+    With the cursor on this line press <F4> to execute it
+  The second line is just a pathname.
+    With the cursor on this line press <F3> to enter this directory
+  The third line is another command, ready for <F4>
+    Several vars are set for your convenience.
+    In the example, the $f holds the file-name of the file in the LL-view.
+  The fourth line is a comment
+    use them to structure your file at will
+    
+  Again navigate back to LL-view for /usr/lib in LL.
+  eG type :LL /usr/lib<CR>
+
+  Type "d?" on any of a .so file.
+  This opens a new window named ACMD.
   The top line holds the file-name.
   The second holds a regexp that matched the file-name.
   The following lines indicate some actions possible with this file.
@@ -827,7 +878,8 @@ Not all features are available on systems other then unix-like systems.
   The actions are configurable. LL comes with a configuration file that has
   entries for lots of extensions.
   You can also type "dd" (mnemonic : Do Defined) in the Dir-view to execute the first choice without query.
-  With the default configuration no commands that change any file will be triggered.
+  With the default configuration no commands that change any file will be triggered, so you can
+  happily play around.
 
   You can also press any of "de", "dv", "dc" and "dp" for edit, view, compose and print.
   These will execute programs via entries in the mailcap file.
@@ -853,46 +905,7 @@ Not all features are available on systems other then unix-like systems.
   :LLG works a bit like :LLF, but here you construct a view for all files
   containing some pattern.
 
-  Now we'll have a look at another feature.
-  In the LL-view type "cc"
-  This opens a new window holding the file ~/frequentCommands
-  In this file you can organize in your own preferred way the
-  commands you use frequently.
-  Structure this file at will.
-  An example here: >
-
-/path/to/my/pictures
-  identify "$f"
-  converting all .jpg in a directory to _small
-    for i in *.jpg;do if [ "${i: -10}" != _small.jpg ]; then  j=${i%%.jpg};if ! [ -e ${j}_small.jpg ];then convert -scale 10% $i ${j}_small.jpg;fi;fi;done
-  touch the directories according to the oldest .jpg within it
-    for dir in */ ; do  refffile=$(/bin/ls -tr "$dir"/*.jpg|head -n 1);touch -r $refffile "$dir"; done
-  convert 300dpi bmp-scans to 100dpi jpgs
-    for i in *.bmp; do convert -resize 33% "$i" "${i%%.bmp}.jpg" ;done
-  resize singe picture
-    convert -resize 1024x768 "$F" "$F"
-    convert -resize 20% "$F" "$F"
-  resize picture-files in current dir
-    for j in *.jpg;do echo "$j";convert -resize 1024x768 "$j" "$j";done
-    for j in *.jpg;do echo "$j";convert -resize 20%      "$j" "$j";done
-  rename UPPER to lower
-    mmv "*" "#l1"
-
-< The first line is just a pathname.
-    With the cursor on this line press <F3> to enter this directory
-  The second line is a command.
-    With the cursor on this line press <F4> to execute it
-    Several vars are set for your convenience.
-    In the example, the $f holds the file-name of the file in the LL-view.
-  The third line is a comment
-    use them to structure your file at will
-    
-  The file ~/frequentCommands is opened without (vim-)swap-file.
-  This is so, that you can start LL in different terminals w/o vim
-  moaning that the file frequentCommands is already open.
-
   There is a lot more to explore. Have fun.
-
 ==============================================================================
 						*LL-faq*
 8. FAQ~
