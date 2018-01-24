@@ -10,3 +10,7 @@ building LL
 sh_tru LL.shTR >LL
 GOOD	LL
 chmod +x LL
+building LT
+sh_tru LT.shTR >LT
+GOOD	LT
+chmod +x LT

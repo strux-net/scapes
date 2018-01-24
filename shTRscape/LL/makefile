@@ -8,16 +8,19 @@ ALL:\
   L\
   LLfs\
   LL\
+  LT\
 
 install install_ALL:\
   install_L\
   install_LLfs\
   install_LL\
+  install_LT\
 
 test test_ALL:\
   test_L\
   test_LLfs\
   test_LL\
+  test_LT\
 
 logged_build:
 	-@${MAKE} -B --no-print-directory ALL test_ALL 2>&1 | perl -pe 's,$$ENV{HOME}/,~/,g' >m.log # substitute /home/username with ~  (to avoid test-fails for trivial reasons)
@@ -59,3 +62,14 @@ LL:
 	sh_tru LL.shTR >LL
 	@${m_diff} LL
 	chmod +x LL
+install_LT:
+	@echo  installing LT
+	@${m_copy} LT ok/LT
+	@${m_copy} LT ~/strux/bin/LT
+test_LT: LT
+	@: # an empty action. To avoid nothing to be done for test_whatever
+LT:
+	@echo  building LT
+	sh_tru LT.shTR >LT
+	@${m_diff} LT
+	chmod +x LT

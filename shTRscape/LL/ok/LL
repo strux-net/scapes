@@ -27,6 +27,7 @@ Note:
   This may fail if you have a vim-setup that interferes with this LL.
   In this case try LLfs (the fail-save version of LL). 
   LLfs does the same but does not use  your .vimrc and plugins.
+OPTIONS:
   -version	show version information
 EOU
   exit 1

@@ -8,3 +8,6 @@ LLfs	LLfs.shTR
 LL	LL.shTR
   install
     2struxbin
+LT	LT.shTR
+  install
+    2struxbin
