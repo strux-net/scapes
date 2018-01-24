@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4b
+" based on LL.vimTR , version : 3.4c
 "****************************************
 " README
 "****************************************
@@ -580,7 +580,7 @@
 "	  The following vars can be set in your .vimrc or in your environment.
 "	  Settings in the environment have the highest precedence.
 "
-"	g:strux_LL_shell : the shell to be used	(defaults to "/bin/sh")
+"	g:strux_LL_shell : the shell to be used	(defaults to "bash -l")
 "	  (can be superseded with the environment-var $strux_LL_shell)
 "		  The value of this var is used for:
 "		      <F4>  and its variants in view frequentCommands.
@@ -1906,7 +1906,7 @@ if exists("$strux_LL_shell")
   let g:strux_LL_shell=$strux_LL_shell
 endif
 if !exists("g:strux_LL_shell")
-  let g:strux_LL_shell="/bin/sh"
+  let g:strux_LL_shell="bash -l"
 endif
 " the xterm to be used
 if exists("$strux_LL_xterm")
@@ -2051,9 +2051,16 @@ function!LLShell(mods)
     let vimpid=getpid()
     call Shell("echo $$ >|/tmp/".vimpid)
     call Shell("clear")
-    " give the shell a chance to create the file
-    sleep 200m
-    let g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+    while 1
+      try
+          let g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+          break
+        catch /^Vim\%((\a\+)\)\=:E/
+          " give the shell a chance to create the file
+          sleep 100m
+          echo 'retrying to access the term'
+      endtry
+    endwhile
     perl openPty()
     normal! 
   endif
@@ -2076,9 +2083,8 @@ function!ActivateCmdBuffer()
   else
     silent sp ~/frequentCommands
     let s:cmdBuf=bufnr("%")
+    " in case vim was started with -R.
     setlocal modifiable
-    " so that multiple LL instances don't get a swapfile-found message
-    setlocal noswapfile
     " buffer is newly created
     let ret = 0
   endif
@@ -5137,6 +5143,12 @@ sub WriteTmpScript($$$$)
   print FPC qq[F='$F'\n] ; #$F : name.ext
   print FPC qq[r='$r'\n] ; #$r : name
   print FPC qq[e='$e'\n] ; #$e : ext
+  if ($mode eq 't') {
+    # echo the command
+      print FPC qq[cat <<-END\n] ; #
+      print FPC qq[\t$cmd\n] ; #
+      print FPC qq[END\n] ; #
+  }
   # invoke the command
     print FPC qq[(\n] ; #
     print FPC qq[$cmd\n] ; #the command

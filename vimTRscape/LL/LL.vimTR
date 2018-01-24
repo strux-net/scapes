@@ -1,4 +1,4 @@
-VERSION	3.4b
+VERSION	3.4c
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -25,7 +25,7 @@ com!
   -n=0                      LT		call LLlikeTerm()			show LL for cd in terminal
 main
   Option
-    strux_LL_shell:string["/bin/sh"]						the shell to be used
+    strux_LL_shell:string["bash -l"]						the shell to be used
 	The value of this var is used for:
 	    <F4>  and its variants in view frequentCommands.
 	    <F4>  and its variants in view LL.
@@ -200,8 +200,13 @@ LLShell			mods
     vimpid=getpid()
     call Shell("echo $$ >|/tmp/".vimpid)
     call Shell("clear")
-    sleep 200m				give the shell a chance to create the file
-    g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+    FOREVER
+      try
+	  g:strux_shellpid = readfile("/tmp/".vimpid)[0]
+	  break
+	/^Vim\%((\a\+)\)\=:E/
+	  sleep 100m				give the shell a chance to create the file
+	  'retrying to access the term'
     perl openPty()
     normal! 
 ReapplyDirsettings	pattern
@@ -219,9 +224,7 @@ ActivateCmdBuffer
   -
     silent sp ~/frequentCommands
     s:cmdBuf=bufnr("%")
-    setlocal
-      modifiable
-      noswapfile	so that multiple LL instances don't get a swapfile-found message
+    setlocal modifiable		in case vim was started with -R.
     ret = 0	buffer is newly created
   ?	v:count	exe v:count.'wincmd _'
   return ret
@@ -2031,6 +2034,12 @@ perl
       F='$F'					$F : name.ext
       r='$r'					$r : name
       e='$e'					$e : ext
+    ?	$mode eq 't'
+      o	echo the command
+	M	print FPC qq[	\n] ; #
+	  cat <<-END
+	  \t$cmd
+	  END
     o	invoke the command
       M	print FPC qq[	\n] ; #
 	(
