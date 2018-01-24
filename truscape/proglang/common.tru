@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.1a
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -60,7 +60,7 @@ actions
       Allows you to pass options to your program
     >
       unless ($usage) {
-        print STDERR "You need to have a usage if you use Options";
+        print STDERR "You need to have a usage if you use Options\n";
       }
   opt:type[default]	shortdesc	statement
     l	opt	type	default
