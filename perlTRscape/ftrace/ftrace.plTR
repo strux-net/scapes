@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 usage	ftrace [options] [ -- strace-options ] [ command [ args ] ]
 
 	trace a process (and it's childs) and produces a tree-view summary.
@@ -95,7 +95,7 @@ main
       exec(@ARGV)	silently run the command untraced if we are already beeing traced
     -
       map	@ARGV	s/(.*)/"$1"/
-      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace")
+      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace")
     ?	$opt_p
       ?	open (FP,"/proc/$opt_p/cmdline")
 	map	@CMDLINE = split(/\x00/,<FP>)
@@ -130,14 +130,14 @@ main
 	  $Process{$pid}{initialCwd} = $Process{$pid}{cwd} = $Process{"root"}{cwd}
 	  $Process{$pid}{Fd}  = $Process{"root"}{Fd}
 	FOREVER
-	  R/syscall/	qw(open openat write dup dup2 dup3 fcntl clone)
+	  R/syscall/	qw(open openat write dup dup2 dup3 fcntl fcntl64 clone)
 	    if ($retval != -1 and $call eq "syscall") { xsyscall() ; last };
 	  R/syscall/	qw(chmod unlink unlinkat chdir fchdir rename rmdir mkdir execve symlink linkat link utimensat)
 	    if ($retval == 0  and $call eq "syscall") { xsyscall() ; last };
 	  R/syscall/	qw(vfork)
 	    if ($retval != 0  and $call eq "syscall") { xsyscall() ; last };
 	  last
-  doc	piping through tabify must not be done prior to the syste-call (strace)
+  doc	piping through tabify must not be done prior to the system-call (strace)
     or else ^C will also cancel strace
   ?	$opt_o
     !	open (OUTFP,"|tabify -m 120 -l >$opt_o")
@@ -318,6 +318,8 @@ xdup2
   xdup()
 xdup3
   xdup()
+xfcntl64
+  xfcntl()
 xfcntl
     only the F_DUPFD are of interest
     args look like

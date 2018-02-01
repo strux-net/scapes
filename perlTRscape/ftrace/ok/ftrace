@@ -32,6 +32,7 @@ sub xwrite;
 sub xdup;
 sub xdup2;
 sub xdup3;
+sub xfcntl64;
 sub xfcntl;
 sub xclone;
 sub xutimensat;
@@ -49,7 +50,7 @@ $opt_Pp = 0;
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on ftrace.plTR , version : 3.0
+# based on ftrace.plTR , version : 3.0a
 
 sub usage
 {
@@ -138,7 +139,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  ftrace.plTR	3.0\n";
+    print "  ftrace.plTR	3.0a\n";
     exit 0
   }
   use Getopt::Long;
@@ -189,7 +190,7 @@ sub main
       map {
         s/(.*)/"$1"/;
       } @ARGV;
-      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace");
+      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace");
     }
     if ($opt_p) {
       if (open (FP,"/proc/$opt_p/cmdline")) {
@@ -245,6 +246,7 @@ sub main
           if ($retval != -1 and $call eq "dup2") { xdup2() ; last };
           if ($retval != -1 and $call eq "dup3") { xdup3() ; last };
           if ($retval != -1 and $call eq "fcntl") { xfcntl() ; last };
+          if ($retval != -1 and $call eq "fcntl64") { xfcntl64() ; last };
           if ($retval != -1 and $call eq "clone") { xclone() ; last };
           if ($retval == 0  and $call eq "chmod") { xchmod() ; last };
           if ($retval == 0  and $call eq "unlink") { xunlink() ; last };
@@ -266,7 +268,7 @@ sub main
     }
   }
   #****************************************
-  # piping through tabify must not be done prior to the syste-call (strace)
+  # piping through tabify must not be done prior to the system-call (strace)
   #****************************************
   # or else ^C will also cancel strace
   #****************************************
@@ -578,6 +580,11 @@ sub xdup2
 sub xdup3
 {
   xdup();
+}
+
+sub xfcntl64
+{
+  xfcntl();
 }
 ### 
 #  only the F_DUPFD are of interest
