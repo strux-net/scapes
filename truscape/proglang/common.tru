@@ -1,4 +1,4 @@
-VERSION	3.1a
+VERSION	3.1b
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -1155,19 +1155,25 @@ actions
         push @Rlines,("$indent$_");
       }
   o	comment
-    structure your code
+    micro-structure your code
       Parameters :
-        o		indicator	.*
-        comment		optional	.+	a commant
+        o	indicator	.*
+        comment	optional	.+	a comment for this fragment
+      The comment can contain tags
       Example :	classtruer -noConfigCheck -noProtos -noIntro
 	doc	Note : This is pseudocode
 	foo
 	  o	init
 	    init()
+	  o	run	part1
+	    ....
+	  o	run	part2
+	    ....
 	  o	exit
 	    exit()
     >
-	$cc $comment
+      s/o/$cc/;
+	$_
 group
   autodoc
 	[autodoc]								=	autodoc
@@ -1218,7 +1224,7 @@ group
 # open 'case' for creeping
 	  case		[statement]	comment					>o0		.+
 	    nobreak								=	nobreak
-	o	[comment]							>2		o
+	o	*								>2		o
 	TAB			[pre]		post				>2		TAB
 	    TABline		*						=t*
 	  left	[right]

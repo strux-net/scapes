@@ -145,7 +145,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_nobreak">nobreak</a></td><td>=</td><td>nobreak</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_case">case</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping><pong><a title="here is a Tab">	</a>comment</pong></td><td>&gt;o0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_nobreak">nobreak</a></td><td>=</td><td>nobreak</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_o">o</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td>o</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_o">o</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>o</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_left">left</a><ping><a title="here is a Tab">	</a>[right]</ping></td><td>=</td><td></td></tr>
@@ -652,7 +652,7 @@ OPTIONS:
 	    <A href="#A_o">o</a>
 	  </td>
 	  <td>
-	    structure your code
+	    micro-structure your code
 	  </td>
 	</tr>
 	<tr>
@@ -4681,7 +4681,7 @@ OPTIONS:
 </listing>
     <br/>
     <a name="A_o"></a>
-    <h1>o       <shortText>structure your code</shortText></h1>
+    <h1>o       <shortText>micro-structure your code</shortText></h1>
 <part>Structure :</part>
   <howToRead>[
     <a href="howtoread/structure.html" title="how to read the structure">help</a>
@@ -4692,7 +4692,7 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="shcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>o<ping><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td>o</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>o<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>o</td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -4706,9 +4706,10 @@ OPTIONS:
     <br/><br/>
     <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
       <tr><td>o</td><td>Indicator</td><td>.*</td><td></td></tr>
-      <tr><td>comment</td><td>optional</td><td>.+</td><td>a commant</td></tr>
+      <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment for this fragment</td></tr>
     </table>
     <br/>
+    <desc>The comment can contain tags</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -4722,6 +4723,10 @@ OPTIONS:
 <a title = "Indent : 0"></a>foo
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>init</ping>
 <a title = "Indent : 4">    </a>init()
+<a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
+<a title = "Indent : 4">    </a>....
+<a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part2</pong>
+<a title = "Indent : 4">    </a>....
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>exit</ping>
 <a title = "Indent : 4">    </a>exit()
 </listing>
@@ -4738,9 +4743,13 @@ OPTIONS:
 <a title = "Indent : 0"></a>#****************************************
 <a title = "Indent : 0"></a>foo()
 <a title = "Indent : 0"></a>{
-<a title = "Indent : 2">  </a># init
+<a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>init</ping>
 <a title = "Indent : 4">    </a>init()
-<a title = "Indent : 2">  </a># exit
+<a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
+<a title = "Indent : 4">    </a>....
+<a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part2</pong>
+<a title = "Indent : 4">    </a>....
+<a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>exit</ping>
 <a title = "Indent : 4">    </a>exit()
 <a title = "Indent : 0"></a>}
 </listing>

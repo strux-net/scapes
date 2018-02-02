@@ -5120,12 +5120,12 @@ sub WriteTmpScript($$$$)
     $LL::lastCmd = $cmd;
     print FPC "# for the sake of 'binary' data in filenames. (to avoid 'cannot execute binary file')"."\n" ; #
     if ($mode eq 't') {
-      # clear the tmp-script invocation
+      #	clear the tmp-script invocation
         print FPC qq[tput -S <<!\n] ; #
         print FPC qq[\tcuu1\n] ; #Cursor up
         print FPC qq[\tel\n] ; #clear to end of line
         print FPC qq[!\n] ; #
-      # handle cwd mismatch
+      #	handle cwd mismatch
         local $shellpid=vimvar('g:strux_shellpid');
         if ($shellpid and readlink("/proc/$shellpid/cwd") ne getcwd()) {
           #****************************************
@@ -5144,12 +5144,12 @@ sub WriteTmpScript($$$$)
   print FPC qq[r='$r'\n] ; #$r : name
   print FPC qq[e='$e'\n] ; #$e : ext
   if ($mode eq 't') {
-    # echo the command
+    #	echo the command
       print FPC qq[cat <<-END\n] ; #
       print FPC qq[\t$cmd\n] ; #
       print FPC qq[END\n] ; #
   }
-  # invoke the command
+  #	invoke the command
     print FPC qq[(\n] ; #
     print FPC qq[$cmd\n] ; #the command
     print FPC qq[)\n] ; #
