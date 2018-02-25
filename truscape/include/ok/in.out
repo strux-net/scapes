@@ -1,0 +1,7 @@
+foo
+  bar		baz
+bar
+  l1
+    l2		l2a
+	  l3	l3a		l3b
+    recursed

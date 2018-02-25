@@ -1,0 +1,5 @@
+l1
+  l2		l2a
+	l3	l3a		l3b
+  INCLUDE	`echo recursed`
+  INCLUDE	`invalid, the line-nr should really not be 0 in the error-message`

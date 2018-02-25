@@ -1,0 +1,37 @@
+building include
+tru -s statistics.out include.tru >include
+GOOD	include
+GOOD	statistics.out
+chmod +x include
+{ echo "include\n  \n    usage"; ./include -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\t" ; } | html_tru >docs/README.html
+tru : warning : stray blanks in an empty line at - @ 2
+GOOD	docs/README.html
+testing include
+perl include in >in.out
+include error in in(0) : cannot exec 'invalid, the line-nr should really not be 0 in the error-message' : No such file or directory
+GOOD	in.out
+./include -invalid
+Unknown option: invalid
+usage : include [Options] [<file>]
+search for lines of the form "INCLUDE<tab>filename".
+it is particularly intended for structured text.
+Example:
+	foo
+	  bar
+	bar
+	  INCLUDE	file2include
+	  INCLUDE	`ls`
+if file has the form `command args` it is treated as a command.
+the file is indented according to the level of the INCLUDE-statement.
+The included file is again subject for further INCLUDE-statements.
+
+The tag "INCLUDE" can be changed with option -s
+
+OPTIONS:
+       -s:regexp[^INCLUDE$]	tag (instead of the default INCLUDE)
+
+       -vhelp shows more options
+makefile:31: recipe for target 'test_include' failed
+make[1]: [test_include] Error 1 (ignored)

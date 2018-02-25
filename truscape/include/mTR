@@ -1,0 +1,7 @@
+include	include.tru
+  test	in
+    -./include -invalid
+  install
+    2struxbin
+  doc
+    trudefault	txt html
