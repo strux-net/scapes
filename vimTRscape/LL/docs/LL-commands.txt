@@ -87,7 +87,7 @@ COMMANDS FOR VIEW LL                                                            
     Edit the file according to the mailcap file
 
     This command can also be found in the menu under :
-      Do -> edid
+      Do -> edit
                                                                                   *LL-dc*
   dc : Compose~
     Compose (create) the file according to the mailcap file

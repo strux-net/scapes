@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4c
+" based on LL.vimTR , version : 3.4d
 "****************************************
 " README
 "****************************************
@@ -2196,7 +2196,7 @@ function!InterfaceOFF_2f73747275782f4c4c()
     nunmenu &File.Clipboard.name\ with\ path\ to\ p&rimary<tab>fp*
     nunmenu &File.Clipboard.name\ with\ path\ to\ u&nnamed\ register<tab>fp"
     nunmenu &Do.&view<tab>dv
-    nunmenu &Do.&edid<tab>de
+    nunmenu &Do.&edit<tab>de
     nunmenu &Do.&compose<tab>dc
     nunmenu &Do.&print<tab>dp
     nunmenu &Do.E&xecute\ a\ command<tab>d\<F4>
@@ -2418,7 +2418,7 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremenu &File.Clipboard.name\ with\ path\ to\ p&rimary<tab>fp* :perl fileToClipboard('*','p')<CR>
     nnoremenu &File.Clipboard.name\ with\ path\ to\ u&nnamed\ register<tab>fp" :perl fileToClipboard('"','p')<CR>
     nnoremenu &Do.&view<tab>dv :perl MailCapCmd('view')<CR>
-    nnoremenu &Do.&edid<tab>de :perl MailCapCmd('edit')<CR>
+    nnoremenu &Do.&edit<tab>de :perl MailCapCmd('edit')<CR>
     nnoremenu &Do.&compose<tab>dc :perl MailCapCmd('compose')<CR>
     nnoremenu &Do.&print<tab>dp :perl MailCapCmd('print')<CR>
     nnoremenu &Do.E&xecute\ a\ command<tab>d\<F4> :perl DoSpecified(0,'t')<cr>

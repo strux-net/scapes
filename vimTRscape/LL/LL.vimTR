@@ -1,4 +1,4 @@
-VERSION	3.4c
+VERSION	3.4d
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
@@ -352,7 +352,7 @@ Interface	/strux/LL
     Cancel the action with Escape or Ctrl-C
   dv		&Do.&view							View										:perl MailCapCmd('view')<CR>
     View the file according to the mailcap file
-  de		&Do.&edid							Edit										:perl MailCapCmd('edit')<CR>
+  de		&Do.&edit							Edit										:perl MailCapCmd('edit')<CR>
     Edit the file according to the mailcap file
   dc		&Do.&compose							Compose										:perl MailCapCmd('compose')<CR>
     Compose (create) the file according to the mailcap file

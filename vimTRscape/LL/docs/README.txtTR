@@ -5,7 +5,7 @@ LL - A versatile filebrowser
 
     The default comes like this:
     picture
-      url	LL.png
+      url	LL.jpg
 
     invoking LL
       From your shell:
@@ -64,7 +64,7 @@ LL - A versatile filebrowser
     should be in the .vimrc to enable this feature
   The tru source of LL
     Here's how LL is produced:
-	[ vim_tru  ]( vim_tru.html  ) [ disp.vimTR ]( examples/vimTRscape/Pexplorer/disp.vimTR  ) > [ disp.vim      ]( ../.vim/plugin/disp.vim )
-	[ vim_tru  ]( vim_tru.html  ) [ LL.vimTR   ]( examples/vimTRscape/Pexplorer/LL.vimTR    ) > [ LL.vim        ]( ../.vim/plugin/LL.vim   )
+	[ vim_tru  ]( vim_tru.html  ) [ disp.vimTR ]( examples/vimTRscape/LL/disp.vimTR         ) > [ disp.vim      ]( ../.vim/plugin/disp.vim )
+	[ vim_tru  ]( vim_tru.html  ) [ LL.vimTR   ]( examples/vimTRscape/LL/LL.vimTR           ) > [ LL.vim        ]( ../.vim/plugin/LL.vim   )
 	[ perl_tru ]( perl_tru.html ) [ XPE.plTR   ]( examples/perlTRscape/XPE/XPE.plTR         ) > [ XPE.vim       ]( ../.vim/plugin/XPE.vim  )
 	[ perl_tru ]( perl_tru.html ) [ acmd.plTR  ]( examples/perlTRscape/acmd/acmd.plTR       ) > [ acmd.pl       ]( ../bin/acmd             )
