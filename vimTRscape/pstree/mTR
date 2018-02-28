@@ -2,6 +2,7 @@ title			inspect the process-tree
 pstree.vim	pstree.vimTR
   install
     m_copy pstree.vim ~/.vim/plugin
+    m_copy docs/pstree.txt ~/.vim/doc/
   doc
     vimdefault	txt html commands
 

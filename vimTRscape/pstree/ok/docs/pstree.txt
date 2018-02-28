@@ -1,8 +1,9 @@
-*pstree.txt*        An interactive pstree view
+*pstree.txt*	An interactive pstree view
                                Vim version 8
 Author: Michael Naumann
 URL : www.strux.net
-Last change: 30.10.2009				*pstree*
+
+An interactive pstree view
 
 1. Overview					|pstree-intro|
 2. Usage					|pstree-using|
@@ -114,9 +115,9 @@ You need vim 7.2
   from your shell type >
     pst
 < or inside a running vim type either of >
-    :e pstree		to start pstree in the current window
-    :sp pstree		to start pstree in a new (split) window
-    :tabnew pstree	to start pstree in it's own tab
+    :e /strux/pstree		to start pstree in the current window
+    :sp /strux/pstree		to start pstree in a new (split) window
+    :tabnew /strux/pstree	to start pstree in it's own tab
 
 < depending on the colorscheme you chose, you'll see >
     processname(nr)		where nr is the pid of the process
@@ -140,4 +141,3 @@ You need vim 7.2
     
 ==============================================================================
 vim:ft=LL-help
-

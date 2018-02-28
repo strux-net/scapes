@@ -24,6 +24,7 @@ install_pstree.vim:
 	@echo  installing pstree.vim
 	@${m_copy} pstree.vim ok/pstree.vim
 	@${m_copy} pstree.vim ~/.vim/plugin
+	@${m_copy} docs/pstree.txt ~/.vim/doc/
 	@${m_copy} docs/README.txt ok/docs/README.txt
 	@${m_copy} docs/README.html ok/docs/README.html
 	@${m_copy} docs/pstree-commands.txt ok/docs/pstree-commands.txt
