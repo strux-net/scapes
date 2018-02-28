@@ -1,4 +1,6 @@
 Prompt
+  picture	prompt
+    url	prompt.jpg
   How to use prompt.sh
     source this file from your .bashrc (rsp .zshrc) with
     code
@@ -57,10 +59,6 @@ Prompt
     Furthermore, it prevents you from exiting the shell with ^D if either
 	some background-jobs are still present, or
 	the directory-stack is not empty
-
-    A sample session:
-    picture	prompt
-      url	prompt.png
   Downloading prompt.sh
     Get [ prompt.sh ]( ../prompt.sh ) (1kB) here
   The tru source of prompt.sh
