@@ -2,6 +2,8 @@
                                Vim version 8
 Author: Michael Naumann
 URL : www.strux.net
+A very powerful dir-browser  (Intro)
+
 
 1. Overview					|LL-intro|
 2. Usage					|LL-using|

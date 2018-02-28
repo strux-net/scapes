@@ -1,4 +1,10 @@
 *LL-commands.txt* Commands for LL
+Author: Michael Naumann
+URL : www.strux.net
+                               Vim version 8
+LL Commands
+
+
 
 COMMANDS FOR VIEW LL                                                              *LL-commands*
 
