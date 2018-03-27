@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4d
+" based on LL.vimTR , version : 3.4e
 "****************************************
 " README
 "****************************************
@@ -2481,7 +2481,7 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremenu &Tags.Execute\ a\ command\ in\ xter&m<tab>x1\<F4> :perl DoSpecified(1,'x')<cr>
     nnoremenu &Tags.Execute\ a\ command\ in\ &background\ xterm<tab>x2\<F4> :perl DoSpecified(1,'xb')<cr>
     nnoremenu &Tags.Execute\ a\ command\ And\ Read\ Output\ into\ a\ &new\ buffer<tab>x\<S-F4> :perl DoSpecified(1,'rb')<cr>
-    nnoremenu &Xterm.Apply\ pwd\ in\ the\ &shell<tab>\<c-x>\<c-x> :call Shell("cd ".getcwd())<cr><c-w>:LLShell<cr>
+    nnoremenu &Xterm.Apply\ pwd\ in\ the\ &shell<tab>\<c-x>\<c-x> :call Shell("<c-v><esc>cc<c-v><c-u> cd ".getcwd())<cr><c-w>:LLShell<cr>
     nnoremenu &Xterm.&LL\ for\ dir\ in\ shell<tab>\<c-x>c :LT<cr>
     nnoremenu &Xterm.start\ &a\ shell<tab>\<c-x>s :LLShell<cr>
     nnoremenu &Navigate.&Back\ (Previous\ visited\ dir)<tab>\<BS> :perl previousDir<CR>
@@ -2580,7 +2580,7 @@ function!InterfaceON_2f73747275782f4c4c()
     nnoremap <buffer> x1<F4> :call <sid>Help_n2f73747275782f4c4c_73()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'x')<cr>
     nnoremap <buffer> x2<F4> :call <sid>Help_n2f73747275782f4c4c_74()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'xb')<cr>
     nnoremap <buffer> x<S-F4> :call <sid>Help_n2f73747275782f4c4c_75()<cr>:call <sid>Help_n2f73747275782f4c4c_7368656c6c20636f6d6d616e64()<cr>:perl DoSpecified(1,'rb')<cr>
-    nnoremap <buffer> <silent> <c-x><c-x> :call Shell("cd ".getcwd())<cr><c-w>:LLShell<cr>
+    nnoremap <buffer> <silent> <c-x><c-x> :call Shell("<c-v><esc>cc<c-v><c-u> cd ".getcwd())<cr><c-w>:LLShell<cr>
     nnoremap <buffer> <silent> <c-x>c :LT<cr>
     nnoremap <buffer> <silent> <c-x>s :LLShell<cr>
     nnoremap <buffer> <silent> <BS> :perl previousDir<CR>
