@@ -4,7 +4,10 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4e
+" based on LL.vimTR , version : 3.4f
+if !(has("perl"))
+  finish
+endif
 "****************************************
 " README
 "****************************************

@@ -1,4 +1,6 @@
-VERSION	3.4e
+VERSION	3.4f
+main
+  !	has("perl")		finish
 doc	README
   # installing
     this plugin requires some helpers as well as help- and conf-files.
