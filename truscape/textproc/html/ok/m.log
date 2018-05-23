@@ -88,7 +88,7 @@ style
   pictureEnd			<br/>
   tableStart			<table>
   tableEnd			</table><br/>
-  codeStart			<br/><table summary="" class="statements">
+  codeStart			<br/><table class="statements">
   codeEnd			</table><br/>
   listStart			<ul>
   listEnd			</ul>

@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.2
 USAGE	html_tru [Options] [<file> ....]
 
 	produces a html-file
@@ -24,7 +24,7 @@ here text
 	  pictureEnd			<br/>
 	  tableStart			<table>
 	  tableEnd			</table><br/>
-	  codeStart			<br/><table summary="" class="statements">
+	  codeStart			<br/><table class="statements">
 	  codeEnd			</table><br/>
 	  listStart			<ul>
 	  listEnd			</ul>
@@ -136,7 +136,7 @@ actions
     continued
         An anchor is set at the start, so you can refer to this chapter by naming it.
         The complete sequence is:
-            1	<a name="internal representation of "whatever the section is"></a>
+            1	<a id="internal representation of "whatever the section is"></a>
             2	<h1>whatever the section is</h1>
             3	sectionStart
             4	content of the section (chapter, paragraph or whatever)
@@ -154,7 +154,7 @@ actions
         $section="$hyr&nbsp;&nbsp;&nbsp;$section";
       }
       push @H,[$level,$section,$.,$cleanText];
-	<a name="$cleanText"></a>
+	<a id="$cleanText"></a>
 	<h@{[1+$level]}>$section</h@{[1+$level]}>
 	$sectionStart
     <
@@ -205,9 +205,9 @@ actions
   label	labelname
     continued
       it results in
-        <a name="labelname"></a>
+        <a id="labelname"></a>
     >
-	<a name="$labelname"></a>
+	<a id="$labelname"></a>
   verbatimLine
     >
 	@{[ " "x($rlevel)]}$_

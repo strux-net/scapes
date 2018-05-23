@@ -10,7 +10,7 @@
   <title>tru Reference Card</title>
 </head>
 <body>
-<a name="tru202d20parsing20structured20text"></a>
+<a id="tru202d20parsing20structured20text"></a>
 <h1>tru - parsing structured text</h1>
 <div>
 tru generates truers (or parsers) for a special kind of texts that are<br/>
@@ -21,7 +21,7 @@ tru generates truers (or parsers) for a special kind of texts that are<br/>
 </li>
 <br/>
 </ul>
-<a name="Using20a20truer"></a>
+<a id="Using20a20truer"></a>
 <h2>Using a truer</h2>
 <div>
 Two simples steps for a truer<br/>
@@ -36,7 +36,7 @@ The procedure may be as simple as:<br/>
 <ul>
 <li>Create parser
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>tru s.tru &gt; s_tru </kbd></td>
 </tr>
@@ -46,7 +46,7 @@ The parser s_tru is generated from the .tru-file s.tru.<br/>
 </li>
 <li>Run parser
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>s_tru input &gt; output</kbd></td>
 </tr>
@@ -54,7 +54,7 @@ The parser s_tru is generated from the .tru-file s.tru.<br/>
 Runs parser s_tru for one input-file.<br/>
 The parser reads it's input and produces it's output.<br/>
 this assumes that you did.<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>chmod +x s_tru</kbd></td>
 </tr>
@@ -65,7 +65,7 @@ or as complex as:<br/>
 <ul>
 <li>Create parser
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>tru s1.tru s2.tru s3.tru &gt; s_tru</kbd></td>
 </tr>
@@ -76,7 +76,7 @@ The order of the description files is very important.<br/>
 </li>
 <li>Run parser
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>s_tru file1 file2 file3 &gt; output</kbd></td>
 </tr>
@@ -89,7 +89,7 @@ or even more complex<br/>
 <ul>
 <li>extend an existing truer
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;html_tru -source | tru -- - special_html.tru &gt;special_html_tru</kbd></td>
 </tr>
@@ -100,7 +100,7 @@ The .tru-equivalent for html_tru is used together with special_html.tru<br/>
 </div>
 By default the parser reads from STDIN and writes to STDOUT<br/>
 <br/>
-<a name="Options20of20tru"></a>
+<a id="Options20of20tru"></a>
 <h2>Options of tru</h2>
 <div>
 <table>
@@ -154,27 +154,27 @@ The fields are:<br/>
 </table><br/>
 </div>
 </div>
-<a name="General20form20of20a202etru2dfile"></a>
+<a id="General20form20of20a202etru2dfile"></a>
 <h1>General form of a .tru-file</h1>
 <div>
-<a name="Comments"></a>
+<a id="Comments"></a>
 <h2>Comments</h2>
 <div>
 Lines that start with a # are comments and are otherwise ignored.<br/>
 The comment-character #  must be the very first character in a line, no leading white-space is allowed.<br/>
 </div>
-<a name="sections"></a>
+<a id="sections"></a>
 <h2>sections</h2>
 <div>
 a .tru file consists of severals sections, each introduced by a word on the very far left, followed by some indented lines defining the section.<br/>
 The sections are described here and an example is given for each section in a separate file<br/>
-<a name="structure"></a>
+<a id="structure"></a>
 <h3>structure</h3>
 <div>
 Here the structure of the text to be parsed is defined.<br/>
 This section is described in detail in the fully commented truer <a href="examples/truscape/tru/structure_demo.tru" >structure_demo.tru</a> and the inputfile <a href="examples/truscape/tru/structure_demo.in" >structure_demo.in</a><br/>
 The file <a href="examples/truscape/tru/structure_demo.out" >structure_demo.out</a> contains the results of running:<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>tru -q structure_demo.tru &gt; structure_demo_tru &amp;&amp; chmod +x structure_demo_tru</kbd></td>
 </tr>
@@ -183,13 +183,13 @@ The file <a href="examples/truscape/tru/structure_demo.out" >structure_demo.out<
 </tr>
 </table><br/>
 Additionally the graphical-debugger can help to understand the structure definition.<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd><a href="tru_jar.html" >tru.jar</a> structure_demo_tru <a href="examples/truscape/tru/structure_demo.in" >structure_demo.in</a></kbd></td>
 </tr>
 </table><br/>
 </div>
-<a name="actions"></a>
+<a id="actions"></a>
 <h3>actions</h3>
 <div>
 Here the actions are defined.<br/>
@@ -322,7 +322,7 @@ Find details in <a href="examples/truscape/tru/action_examples/HereText.tru">act
 </li>
 <li>BEGIN
 <br/>
-<a name="At20the20beginning2c20but20after20Options20are20parsed20according20to20action20OPTIONS2e"></a>
+<a id="At20the20beginning2c20but20after20Options20are20parsed20according20to20action20OPTIONS2e"></a>
 <h7>At the beginning, but after Options are parsed according to action OPTIONS.</h7>
 <div>
 $_ and @F are set according to @ARGV.<br/>
@@ -343,7 +343,7 @@ Find details in <a href="examples/truscape/tru/action_examples/BEGIN.tru">action
 </li>
 <li>READ
 <br/>
-<a name="After20a20line20is20read20and2024level20is20calculated2e"></a>
+<a id="After20a20line20is20read20and2024level20is20calculated2e"></a>
 <h7>After a line is read and $level is calculated.</h7>
 <div>
 not applied to<br/>
@@ -464,7 +464,7 @@ Find details in <a href="examples/truscape/tru/action_examples/FLUSH.tru">action
 </li>
 </ul>
 </div>
-<a name="hooks"></a>
+<a id="hooks"></a>
 <h3>hooks</h3>
 <div>
 You can have hooks, that are triggered when text is put at a mark.<br/>
@@ -472,10 +472,10 @@ This is described in detail below under <a href="#mark20hooks" >mark hooks</a><b
 </div>
 </div>
 </div>
-<a name="flow20control"></a>
+<a id="flow20control"></a>
 <h1>flow control</h1>
 <div>
-<a name="perl20statements"></a>
+<a id="perl20statements"></a>
 <h2>perl statements</h2>
 <div>
 lines in any action pit that start with at least 3 spaces    and<br/>
@@ -515,7 +515,7 @@ These are described in<br/>
 The above mentioned exceptions do not hold for FLUSH.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/perl_code.tru">action_examples/perl_code.tru</a><br/>
 </div>
-<a name="output20statements"></a>
+<a id="output20statements"></a>
 <h2>output statements</h2>
 <div>
 lines starting with a tab are output statements.<br/>
@@ -523,7 +523,7 @@ they are valid in all actions as well as the special-actions ATTICREAD,READ,NEWF
 But beware that for BEGIN some restrictions apply.<br/>
 Find details in <a href="examples/truscape/tru/action_examples/outstatements.tru">action_examples/outstatements.tru</a><br/>
 </div>
-<a name="predefined20variables20in20perl2dstatements20and20output2dstatements2e"></a>
+<a id="predefined20variables20in20perl2dstatements20and20output2dstatements2e"></a>
 <h2>predefined variables in perl-statements and output-statements.</h2>
 <div>
 These variables are automatically filled:<br/>
@@ -609,20 +609,20 @@ Find details in <a href="examples/truscape/tru/var_examples/ATTIC.tru">var_examp
 </ul>
 Find details in <a href="examples/truscape/tru/action_examples/arguments.tru">action_examples/arguments.tru</a><br/>
 </div>
-<a name="calling20actions"></a>
+<a id="calling20actions"></a>
 <h2>calling actions</h2>
 <div>
-<a name="Actions20can20be20called20in20two20ways3a"></a>
+<a id="Actions20can20be20called20in20two20ways3a"></a>
 <h3>Actions can be called in two ways:</h3>
 <div>
 1)<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;-&gt;action	arg1	arg2</kbd></td>
 </tr>
 </table><br/>
 2)<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;--&gt;action	arg1	arg2	{</kbd></td>
 </tr>
@@ -634,13 +634,13 @@ Find details in <a href="examples/truscape/tru/action_examples/arguments.tru">ac
 compare this to "redirecting actions"<br/>
 <br/>
 the following line<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;-&gt;calledAction	$F[0]	$F[1]</kbd></td>
 </tr>
 </table><br/>
 is just a shorter way to write the following two lines<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;--&gt;calledAction	$F[0]	$F[1]	{</kbd></td>
 </tr>
@@ -650,7 +650,7 @@ is just a shorter way to write the following two lines<br/>
 </table><br/>
 Find details in <a href="examples/truscape/tru/action_examples/callingActions.tru">action_examples/callingActions.tru</a><br/>
 </div>
-<a name="redirecting20actions"></a>
+<a id="redirecting20actions"></a>
 <h2>redirecting actions</h2>
 <div>
 Actions can be redirected in several ways:<br/>
@@ -668,31 +668,31 @@ Actions can be redirected in several ways:<br/>
 compare this to "calling actions"<br/>
 Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
 </div>
-<a name="marks"></a>
+<a id="marks"></a>
 <h2>marks</h2>
 <div>
 marks can be used to place output at specified places.<br/>
 <br/>
 To define a mark use<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;setmark("markname");</kbd></td>
 </tr>
 </table><br/>
 To use a mark use<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;usemark("markname");</kbd></td>
 </tr>
 </table><br/>
 and end the usage with<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;unusemark();</kbd></td>
 </tr>
 </table><br/>
 Another way to use a mark is<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;atmark("markname") {</kbd></td>
 </tr>
@@ -713,7 +713,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>must be the only statement in a line , as in
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;atmark("mark_help") {</kbd></td>
 </tr>
@@ -727,7 +727,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>not valid is
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;if (cond) { atmark("mark_help") {</kbd></td>
 </tr>
@@ -747,7 +747,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>also valid is
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;atmark("mark_help")</kbd></td>
 </tr>
@@ -764,7 +764,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>or even using the implicit forming of blocks for outstatements
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;atmark("mark_help")</kbd></td>
 </tr>
@@ -781,7 +781,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>The following block
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;atmark("markname") {</kbd></td>
 </tr>
@@ -795,7 +795,7 @@ atmark("markname") { ... }<br/>
 </li>
 <li>is equvialent to
 <br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;usemark("markname")</kbd></td>
 </tr>
@@ -808,7 +808,7 @@ atmark("markname") { ... }<br/>
 </table><br/>
 </li>
 </ul>
-<a name="the20order20of20setmark20is20relevant2e"></a>
+<a id="the20order20of20setmark20is20relevant2e"></a>
 <h3>the order of setmark is relevant.</h3>
 <div>
 If you have two (or more) setmark in direct succession then the order is preserved.<br/>
@@ -816,7 +816,7 @@ There is a limit of 1000 marks that can be in direct succession.<br/>
 <br/>
 </div>
 to unset a mark use<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;undef $tru::Marks{"markname"}</kbd></td>
 </tr>
@@ -824,10 +824,10 @@ to unset a mark use<br/>
 marks don't work in stream-mode.<br/>
 marks can be used before they are defined, in which case the text is buffered until the mark will be set.<br/>
 </div>
-<a name="mark20hooks"></a>
+<a id="mark20hooks"></a>
 <h2>mark hooks</h2>
 <div>
-<a name="in20the20structure2dsection2027hooks2720you20can20define20hooks20for20each20mark"></a>
+<a id="in20the20structure2dsection2027hooks2720you20can20define20hooks20for20each20mark"></a>
 <h3>in the structure-section 'hooks' you can define hooks for each mark</h3>
 <div>
 six kinds of hooks exist<br/>
@@ -861,7 +861,7 @@ hooks and actions share the same name-space.<br/>
 So don't give marks the name of an action.<br/>
 <br/>
 the order is as follows, for every setmark()<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;[</kbd></td>
 </tr>
@@ -901,13 +901,13 @@ each hook has in $_ the same content that the calling action had when the mark w
 </div>
 Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
 </div>
-<a name="pit20CLEAR"></a>
+<a id="pit20CLEAR"></a>
 <h2>pit CLEAR</h2>
 <div>
 usually if you repeat actions the resulting action has the code of all occurences in the given order.<br/>
 with the CLEAR flag to the pit you can start with an ampty action.<br/>
 This is useful in constructs like<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;html_tru -source | tru -- - specialized_html.tru</kbd></td>
 </tr>
@@ -915,32 +915,32 @@ This is useful in constructs like<br/>
 Find details in <a href="examples/truscape/tru/action_examples/CLEAR.tru">action_examples/CLEAR.tru</a><br/>
 </div>
 </div>
-<a name="Limitations"></a>
+<a id="Limitations"></a>
 <h1>Limitations</h1>
 <div>
-<a name="Besides20the20few20limitations20perl20imposes20there20is203a"></a>
+<a id="Besides20the20few20limitations20perl20imposes20there20is203a"></a>
 <h2>Besides the few limitations perl imposes there is :</h2>
 <div>
 The namespace tru:: is reserved for tru.<br/>
 </div>
 </div>
-<a name="Caveats"></a>
+<a id="Caveats"></a>
 <h1>Caveats</h1>
 <div>
 in the tru-file in the output (i.e tru::parse) part use two backslashes to get one in the output.<br/>
 </div>
-<a name="Warnings"></a>
+<a id="Warnings"></a>
 <h1>Warnings</h1>
 <div>
 do *NOT* think that just because an action is mentioned as unused on option -s you can delete it.<br/>
 The action may still be called via<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;&gt;&gt;action</kbd></td>
 </tr>
 </table><br/>
 Since it is allowed to call an action via a variable, as in<br/>
-<br/><table summary="" class="statements">
+<br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;&gt;&gt;$action</kbd></td>
 </tr>
