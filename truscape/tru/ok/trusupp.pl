@@ -210,15 +210,15 @@ sub tru::main
   while (@tru::actions && $level <= $tru::actions[-1][0]) {
     tru::macroout();
   }
-  for my $markName  (sort keys %tru::Marks) {
-    if (!($tru::Marks{$markName}[1])) {
+  for my $markName  (sort keys %tru::HMarks) {
+    if (!($tru::HMarks{$markName}[1])) {
       #****************************************
       # apply the n-hook for  not used marks
       #****************************************
       # we do not need to save the current Oi, it will no longer be used
       # we cannot use usemark($markName) here since this would trigger [ and ]
       #****************************************
-      $tru::Oi=$tru::Marks{$markName}[2];          # Oi
+      $tru::Oi=$tru::HMarks{$markName}[2];         # Oi
       tru::umacro("$markName",'n');                # mark was not used, apply this hook
     }
   }
@@ -474,7 +474,7 @@ sub tru::macro_out_depth
 
 sub tru::shiftMarks
 {
-  while ((my $key,my $ref) = each %tru::Marks) {
+  while ((my $key,my $ref) = each %tru::HMarks) {
     $$ref[2]  >= $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::setmarkcount;
   }
   map {
@@ -777,7 +777,7 @@ sub tru::write_depth
   if (defined($tru::unsetMarkActive)) {
     push @{ $tru::Saved{$tru::unsetMarkActive} },$_;
   } else {
-    while ((my $key,my $ref) = each %tru::Marks) {
+    while ((my $key,my $ref) = each %tru::HMarks) {
       $$ref[2]  >= $tru::Oi and $$ref[2]++;
     }
     map {
@@ -839,7 +839,7 @@ q(       -help			show help
 # $tru::unsetMarkActive				name of the not yet set mark, used for saving text
 # @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            , Oi shifted in shiftMarks and write_depth      if >= Oi
 # @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after >, needed for -, Oi shifted in shiftMarks, in write_depth only if >  Oi
-# %tru::Marks					$markName             -> [ setmark_count , usemark_count  , Oi ]
+# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]
 # %tru::Saved					$tru::unsetMarkActive -> [ text ]
 #****************************************
 
@@ -847,17 +847,17 @@ sub setmark($)
 {
   my ($markName) = @_;
   tru::shiftMarks();
-  if (!$tru::Marks{$markName}[1] and $tru::Marks{$markName}[0]) {
+  if (!$tru::HMarks{$markName}[1] and $tru::HMarks{$markName}[0]) {
     #****************************************
     # apply the n-hook for the previous not used mark
     #****************************************
     push @tru::AOi,$tru::Oi;
-    $tru::Oi=$tru::Marks{$markName}[2];            # Oi
+    $tru::Oi=$tru::HMarks{$markName}[2];           # Oi
     tru::umacro("$markName",'n');                  # mark was not used, apply this hook
     $tru::Oi=pop(@tru::AOi);
   }
-  $tru::Marks{$markName}[0]++;                     # setmark_count
-  $tru::Marks{$markName}[1] = 0;                   # usemark_count
+  $tru::HMarks{$markName}[0]++;                    # setmark_count
+  $tru::HMarks{$markName}[1] = 0;                  # usemark_count
   if ($tru::unsetMarkActive eq $markName) {
     undef $tru::unsetMarkActive;
   }
@@ -869,22 +869,22 @@ sub setmark($)
     $tru::processingSavedText = 0;
     delete $tru::Saved{$markName};
   }
-  $tru::Marks{$markName}[2] = $tru::Oi; $tru::Oi += $tru::setmarkcount; # Oi
+  $tru::HMarks{$markName}[2] = $tru::Oi; $tru::Oi += $tru::setmarkcount; # Oi
 }
 
 sub usemark($)
 {
   my ($markName) = @_;
-  $tru::Marks{$markName}[1]++;                     # usemark_count
+  $tru::HMarks{$markName}[1]++;                    # usemark_count
   push @tru::ActiveMark_name_Oi_unsetMarkActive,[ $markName,$tru::Oi,$tru::unsetMarkActive ];
-  if ($tru::Marks{$markName}[0]) {
+  if ($tru::HMarks{$markName}[0]) {
     # mark is set
-    $tru::Oi=$tru::Marks{$markName}[2];            # Oi
+    $tru::Oi=$tru::HMarks{$markName}[2];           # Oi
     undef $tru::unsetMarkActive;
   } else {
     $tru::unsetMarkActive = $markName;
   }
-  $count = $tru::Marks{$markName}[1];              # usemark_count
+  $count = $tru::HMarks{$markName}[1];             # usemark_count
   if ($count == 1) {
     tru::umacro("$markName",'[');
     push @tru::AOi,$tru::Oi;
@@ -900,7 +900,7 @@ sub unusemark
 {
   push @tru::AOi,$tru::Oi;
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi };
-  $count = $tru::Marks{$markName}[1];              # usemark_count
+  $count = $tru::HMarks{$markName}[1];             # usemark_count
   tru::umacro($markName,'-');
   $tru::Oi=pop(@tru::AOi);
   tru::umacro($markName,'}');

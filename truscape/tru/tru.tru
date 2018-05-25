@@ -240,7 +240,7 @@ actions
         setmark("mark_tmp");
 	};
         unusemark();
-        $tru::Marks{"mark_${pit}_${Action}"}[2] = $tru::Marks{"mark_tmp"}[2];
+        $tru::HMarks{"mark_${pit}_${Action}"}[2] = $tru::HMarks{"mark_tmp"}[2];
       }
       usemark("mark_${pit}_${Action}");
       if ($CLEAR) {
@@ -253,7 +253,7 @@ actions
     <
       # [ (whole) or { (part) opened the hookblocks, here they are closed
       if ($pit =~ /\]|\}|</) {
-        $tru::Marks{"mark_${pit}_${Action}"}[2] = $tru::Marks{"mark_${pit}start_${Action}"}[2]+0.01;
+        $tru::HMarks{"mark_${pit}_${Action}"}[2] = $tru::HMarks{"mark_${pit}start_${Action}"}[2]+0.01;
         setmark("mark_${pit}E_${Action}");
       }
       unusemark();
@@ -308,7 +308,7 @@ actions
         setmark("mark_tmp");
 	=cut
         unusemark();
-        $tru::Marks{"mark_d_${Action}"}[2] = $tru::Marks{"mark_tmp"}[2];
+        $tru::HMarks{"mark_d_${Action}"}[2] = $tru::HMarks{"mark_tmp"}[2];
       }
       usemark("mark_d_${Action}");
       ($ARGVtilded = $ARGV) =~ s:^$ENV{HOME}/:~/:;
