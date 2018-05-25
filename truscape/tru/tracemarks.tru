@@ -39,7 +39,7 @@ WRITE
     if (defined $tru::Marks{"mark3"}) { $line.= $tru::Marks{"mark3"}[2] } else { $line.="u" } ; $line.="," ;
     if (defined $tru::Marks{"mark4"}) { $line.= $tru::Marks{"mark4"}[2] } else { $line.="u" } ; $line.="," ;
     if (defined $tru::Marks{"mark5"}) { $line.= $tru::Marks{"mark5"}[2] } else { $line.="u" }
-    $_="  $seq\t\t @tru::Oi\t$line\t$tru::Oi/$xx\t$.\t$_";
+    $_="  $seq\t\t @tru::AOi\t$line\t$tru::Oi/$xx\t$.\t$_";
     if ($opt_limit and @tru::O >= $opt_limit-1) {
       return if $corrected++;
       s/./>/;

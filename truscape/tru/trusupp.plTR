@@ -242,17 +242,17 @@ tru::macro_in_seq
 tru::macro_out_seq
   tru::umacro($tru::action,'<')
 tru::macro_in_depth
-  push @tru::Oi,-1	correct value not yet known
-  my $Opos = $#tru::Oi
+  push @tru::AOi,-1	correct value not yet known
+  my $Opos = $#tru::AOi
   tru::umacro($tru::action,'>')
   # now the value for the Oi on the stack (for the depth-action) is known.
-  #   The correct stack-position in @tru::Oi is $Opos
+  #   The correct stack-position in @tru::AOi is $Opos
   # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
-  ?	$#tru::Oi-$Opos+1	tru::shiftMarks()
-  $tru::Oi[$Opos] = $tru::Oi; $tru::Oi += $tru::setmarkcount
+  ?	$#tru::AOi-$Opos+1	tru::shiftMarks()
+  $tru::AOi[$Opos] = $tru::Oi; $tru::Oi += $tru::setmarkcount
 tru::macro_out_depth
   push @tru::Or,$tru::Oi
-  $tru::Oi=pop(@tru::Oi)
+  $tru::Oi=pop(@tru::AOi)
   local $NrOfLinesFollowing = int($tru::Or[-1])-int($tru::Oi)	just output-lines
 
   my $rpos = @tru::actions
@@ -262,7 +262,7 @@ tru::macro_out_depth
   tru::umacro($tru::action,'<')
 tru::shiftMarks
   W	(my $key,my $ref) = each %tru::Marks				$$ref[2]  >= $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::setmarkcount
-  map	@tru::Oi, @tru::Or						$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount
+  map	@tru::AOi, @tru::Or						$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount
   map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]    >= $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::setmarkcount
 tru::inRange
   my $i
@@ -442,7 +442,7 @@ tru::write_depth
     push @{ $tru::Saved{$tru::unsetMarkActive} },$_
   -
     W	(my $key,my $ref) = each %tru::Marks		$$ref[2]  >= $tru::Oi and $$ref[2]++
-    map	@tru::Oi, @tru::Or				$_      >= $tru::Oi and $_++
+    map	@tru::AOi, @tru::Or				$_      >= $tru::Oi and $_++
     map	@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]  >= $tru::Oi and $$_[1]++
     map	@tru::Marks_name_Oi				$$_[1]  >  $tru::Oi and $$_[1]++                  # do not compare with ">=", here the Oi for the depth mark-hook is stored
     splice(@tru::O,$tru::Oi++,0,$_)
@@ -488,10 +488,10 @@ setmark			$
   tru::shiftMarks()
   ?	!$tru::Marks{$markName}[1] and $tru::Marks{$markName}[0]
     doc	apply the n-hook for the previous not used mark
-    push @tru::Oi,$tru::Oi
+    push @tru::AOi,$tru::Oi
     $tru::Oi=$tru::Marks{$markName}[2]						Oi
     tru::umacro("$markName",'n')	mark was not used, apply this hook
-    $tru::Oi=pop(@tru::Oi)
+    $tru::Oi=pop(@tru::AOi)
   $tru::Marks{$markName}[0]++	setmark_count
   $tru::Marks{$markName}[1] = 0	usemark_count
   ?	$tru::unsetMarkActive eq $markName	undef $tru::unsetMarkActive
@@ -514,18 +514,18 @@ usemark			$
   $count = $tru::Marks{$markName}[1]						usemark_count
   ?	$count == 1
     tru::umacro("$markName",'[')
-    push @tru::Oi,$tru::Oi
+    push @tru::AOi,$tru::Oi
     $tru::Oi += $tru::setmarkcount
     tru::umacro("$markName",']')
-    $tru::Oi=pop(@tru::Oi)
+    $tru::Oi=pop(@tru::AOi)
   tru::umacro($markName,'{')
   push @tru::Marks_name_Oi, [ $markName , $tru::Oi ]
 unusemark
-  push @tru::Oi,$tru::Oi
+  push @tru::AOi,$tru::Oi
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }
   $count = $tru::Marks{$markName}[1]						usemark_count
   tru::umacro($markName,'-')
-  $tru::Oi=pop(@tru::Oi)
+  $tru::Oi=pop(@tru::AOi)
   tru::umacro($markName,'}')
   ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }
 global code

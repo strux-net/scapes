@@ -3,7 +3,8 @@ docexpand.tru		./tru docexpand.tru > docexpand_tru && a docexpand_tru
 tru.doc.frame
 
 quicktest.tru		./tru quicktest.tru > quicktest_tru && a quicktest.in
-quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out
+quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru -debug quicktest.in ) >| quicktest.out;
+quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out;grep -A 1 "BEGIN:VCARD.martina engel" quicktest.out
   
 
 structure_demo.tru	./tru structure_demo.tru > structure_demo_tru && a structure_demo_tru
@@ -18,6 +19,7 @@ test16
 test16_tru		chmod +x test16_tru && test16_tru test16 >| test16.out
 
 trusupp.plTR		perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >| trusupp.pl && a quicktest.tru
+trusupp.pl		a quicktest.in
 helpers
   ./structure_demo_tru -structure
   tru.jar ./tru structure_demo.tru

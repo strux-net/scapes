@@ -18,7 +18,7 @@ OPTIONS
 			seq		sequence Nr
 			d-range		the range of lines corresponding to \$NrOfLinesFollowing (only valid in inaction and depthaction)
 			\$Oi		\$tru::Oi
-			\@Oi		\@tru::Oi
+			\@AOi		\@tru::AOi
 			\$rnr*		\$rnr and \$NrOfLinesFollowing
 			\$tru::action
 			\$.		with regard to -resetlinenr
@@ -45,7 +45,7 @@ WRITE
       }
     }
     $_ = sprintf "%5d\t$range\t$tru::Oi\t%s\t$rnr $NrOfLinesFollowingPretty\t$tru::pit$tru::action\t$.\t$_",
-                  ++$tru::unroll::seq,                join(",",@tru::Oi)||"<empty>";
+                  ++$tru::unroll::seq,                join(",",@tru::AOi)||"<empty>";
     if ($opt_unroll and @tru::O >= $opt_unroll-1) {
       return if $corrected++;
       s/./>/;
