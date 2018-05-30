@@ -67,7 +67,7 @@ VERSION	3.1
 ##
 ##	  to unset a mark use
 ##	  code
-##		undef $tru::Marks{"markname"}
+##		undef $tru::HMarks{"markname"}
 #
 ##	  marks don't work in stream-mode.
 ##	  marks can be used before they are defined, in which case the text is buffered until the mark will be set.
@@ -169,10 +169,10 @@ actions
 	$name
   meta5	name
     >
-	this expamle demonstrates how to unset a mark
+	this example demonstrates how to unset a mark
       atmark("mark_4b")
 	$name
-      undef $tru::Marks{"mark_4b"}; # this unsets the mark
+      undef $tru::HMarks{"mark_4b"}; # this unsets the mark
       atmark("mark_4b")
 	$name
   example6
@@ -211,7 +211,7 @@ hooks
 	each hook has in \$_ the same content that the calling action had when the mark was used *first*
 	here it was : $_
 	this hook is triggered directly after [ - hook was executed.
-	the mark remains between the [ and the ]
+	the mark remains between the [ and ]
     {
 	(pre-)  surrounds each usemark
 	each hook has in \$_ the same content that the calling action had when the mark was used *first*

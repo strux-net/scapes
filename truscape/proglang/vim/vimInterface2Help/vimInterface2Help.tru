@@ -39,7 +39,7 @@ actions
        |
     <
       setmark("mark_additional_help");
-      undef $tru::Marks{"mark_additional_help"};
+      undef $tru::HMarks{"mark_additional_help"};
   smap	short	cmd
     >
       my $mapping=vimFriendlyName($smap);

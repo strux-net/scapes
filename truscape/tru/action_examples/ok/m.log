@@ -404,7 +404,7 @@ big   1
 big   2
 three
 end of example4
-this expamle demonstrates how to unset a mark
+this example demonstrates how to unset a mark
 this example demonstrates the mark hooks
 header-section start
 meta6 puts some stuff here
@@ -466,7 +466,7 @@ $count = 2
 each hook has in $_ the same content that the calling action had when the mark was used *first*
 here it was : meta6	first usage of mark_p1
 this hook is triggered directly after [ - hook was executed.
-the mark remains between the [ and the ]
+the mark remains between the [ and ]
 the n-hook for mark_p1 did not apply, since the mark was used at least once
 now setting a new mark.
 nothing puts some stuff here, hence the n-hook applies
@@ -509,7 +509,7 @@ $count = 1
 each hook has in $_ the same content that the calling action had when the mark was used *first*
 here it was : meta6	third usage of mark_p1
 this hook is triggered directly after [ - hook was executed.
-the mark remains between the [ and the ]
+the mark remains between the [ and ]
 even more text here
 end of example6
 testing DOC_tru

@@ -443,7 +443,7 @@ flow control
 
     to unset a mark use
     code
-	  undef $tru::Marks{"markname"}
+	  undef $tru::HMarks{"markname"}
     marks don't work in stream-mode.
     marks can be used before they are defined, in which case the text is buffered until the mark will be set.
   mark hooks

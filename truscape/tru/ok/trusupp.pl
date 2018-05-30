@@ -19,9 +19,6 @@ sub tru::actionArgsOut;
 sub tru::macroin($$$);
 sub tru::macro_in_seq;
 sub tru::macro_out_seq;
-sub tru::macro_in_depth;
-sub tru::macro_out_depth;
-sub tru::shiftMarks;
 sub tru::inRange;
 sub tru::debug;
 sub tru::umacro($$);
@@ -33,9 +30,12 @@ sub tru::macroout;
 sub tru::getrindent($);
 sub tru::CheckStatesPath($$$**$);
 sub tru::csp($$);
-sub tru::write_depth;
 sub tru::write_seq;
 sub tru::showTruOptions;
+sub tru::write_depth;
+sub tru::shiftMarks;
+sub tru::macro_in_depth;
+sub tru::macro_out_depth;
 sub setmark($);
 sub usemark($);
 sub unusemark;
@@ -421,11 +421,14 @@ sub tru::macroin($$$)
   push @tru::statesi,$offs;
   push @tru::actions,[ $level ,$tru::action ,[@F] ,$_ ,$.  ,$indent ,$tru::active_rule_nr ,$tru::active_state ];
   # I need $. only in depth-mode, it can be savely dismissed, if in seq-mode
-  # The parser does not use this value, it's here only for convenience and can be savely dismissed even in depht-mode if not used in the .tru-file
+  # The parser does not use this value, it's here only for convenience and can be savely dismissed even in depth-mode if not used in the .tru-file
   if ($tru::statesi[-1] == -1) {
     if (@tru::NrOfChilds) {
       if ($F[0] ne "") {
-        $tru::NrOfChilds[-1]++;                    # empty lines don't count for NrOfChilds
+        #****************************************
+        # empty lines don't count for NrOfChilds
+        #****************************************
+        $tru::NrOfChilds[-1]++;
       }
     }
     push @tru::NrOfChilds,0;
@@ -442,47 +445,6 @@ sub tru::macro_in_seq
 sub tru::macro_out_seq
 {
   tru::umacro($tru::action,'<');
-}
-
-sub tru::macro_in_depth
-{
-  push @tru::AOi,-1;                               # correct value not yet known
-  my $Opos = $#tru::AOi;
-  tru::umacro($tru::action,'>');
-  # now the value for the Oi on the stack (for the depth-action) is known.
-  #   The correct stack-position in @tru::AOi is $Opos
-  # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
-  if ($#tru::AOi-$Opos+1) {
-    tru::shiftMarks();
-  }
-  $tru::AOi[$Opos] = $tru::Oi; $tru::Oi += $tru::setmarkcount;
-}
-
-sub tru::macro_out_depth
-{
-  push @tru::Or,$tru::Oi;
-  $tru::Oi=pop(@tru::AOi);
-  local $NrOfLinesFollowing = int($tru::Or[-1])-int($tru::Oi); # just output-lines
-  my $rpos = @tru::actions;
-  tru::umacro($tru::action,'-');
-  $tru::Oi=pop @tru::Or;
-  while ($rpos < @tru::actions) {
-    tru::macroout();
-  }
-  tru::umacro($tru::action,'<');
-}
-
-sub tru::shiftMarks
-{
-  while ((my $key,my $ref) = each %tru::HMarks) {
-    $$ref[2]  >= $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::setmarkcount;
-  }
-  map {
-    $_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount;
-  } @tru::AOi, @tru::Or;
-  map {
-    $$_[1]    >= $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::setmarkcount;
-  } @tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive;
 }
 
 sub tru::inRange
@@ -759,40 +721,6 @@ sub tru::csp($$)
   return 0;
 }
 
-sub tru::write_depth
-{
-  local ($_) = @_;
-  if (!($tru::processingSavedText)) {
-    if (tru::write_apply()) {
-      return;
-    }
-    s/$/\n/;
-    if ($opt_debRange and ! tru::inRange()) {
-      $_ = "";
-    }
-    if (defined($opt_debReverse)) {
-      $_ = $tru::debRev;
-    }
-  }
-  if (defined($tru::unsetMarkActive)) {
-    push @{ $tru::Saved{$tru::unsetMarkActive} },$_;
-  } else {
-    while ((my $key,my $ref) = each %tru::HMarks) {
-      $$ref[2]  >= $tru::Oi and $$ref[2]++;
-    }
-    map {
-      $_      >= $tru::Oi and $_++;
-    } @tru::AOi, @tru::Or;
-    map {
-      $$_[1]  >= $tru::Oi and $$_[1]++;
-    } @tru::ActiveMark_name_Oi_unsetMarkActive;
-    map {
-      $$_[1]  >  $tru::Oi and $$_[1]++                  # do not compare with ">=", here the Oi for the depth mark-hook is stored;
-    } @tru::Marks_name_Oi;
-    splice(@tru::O,$tru::Oi++,0,$_);
-  }
-}
-
 sub tru::write_seq
 {
   local ($_) = @_;
@@ -834,14 +762,96 @@ q(       -help			show help
 );
   ## Resuming generated code
 }
-#===	public section
 #****************************************
 # $tru::unsetMarkActive				name of the not yet set mark, used for saving text
 # @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            , Oi shifted in shiftMarks and write_depth      if >= Oi
-# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after >, needed for -, Oi shifted in shiftMarks, in write_depth only if >  Oi
-# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]
+# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after {, needed for -, Oi shifted in shiftMarks, in write_depth only if >  Oi
+# @tru::Or					Oi									only in macro_out_depth, remember the pos for <-action
+# @tru::Aoi					Oi									position for the - action
+# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark
 # %tru::Saved					$tru::unsetMarkActive -> [ text ]
 #****************************************
+
+sub tru::write_depth
+{
+  local ($_) = @_;
+  if (!($tru::processingSavedText)) {
+    if (tru::write_apply()) {
+      return;
+    }
+    s/$/\n/;
+    if ($opt_debRange and ! tru::inRange()) {
+      $_ = "";
+    }
+    if (defined($opt_debReverse)) {
+      $_ = $tru::debRev;
+    }
+  }
+  if (defined($tru::unsetMarkActive)) {
+    push @{ $tru::Saved{$tru::unsetMarkActive} },$_; # mark is not yet set, remember this line
+  } else {
+    #****************************************
+    # the line can be inserted into tru::O at the position tru::Oi
+    #****************************************
+    # all pointers behind tru::Oi must be incremented
+    #****************************************
+    while ((my $key,my $ref) = each %tru::HMarks) {
+      $$ref[2] >= $tru::Oi and $$ref[2]++;
+    }
+    map {
+      $_       >= $tru::Oi and $_++;
+    } @tru::AOi, @tru::Or;
+    map {
+      $$_[1]   >= $tru::Oi and $$_[1]++;
+    } @tru::ActiveMark_name_Oi_unsetMarkActive;
+    map {
+      $$_[1]   >  $tru::Oi and $$_[1]++                  # do not compare with ">=", here the Oi for the depth mark-hook is stored;
+    } @tru::Marks_name_Oi;
+    splice(@tru::O,$tru::Oi++,0,$_);
+  }
+}
+
+sub tru::shiftMarks
+{
+  while ((my $key,my $ref) = each %tru::HMarks) {
+    $$ref[2]  >= $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::setmarkcount;
+  }
+  map {
+    $_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount;
+  } @tru::AOi, @tru::Or;
+  map {
+    $$_[1]    >= $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::setmarkcount;
+  } @tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive;
+}
+
+sub tru::macro_in_depth
+{
+  push @tru::AOi,-1;                               # correct value not yet known
+  my $Opos = $#tru::AOi;
+  tru::umacro($tru::action,'>');
+  # now the value for the Oi on the stack (for the depth-action) is known.
+  #   The correct stack-position in @tru::AOi is $Opos
+  # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
+  if ($#tru::AOi-$Opos+1) {
+    tru::shiftMarks();
+  }
+  $tru::AOi[$Opos] = $tru::Oi; $tru::Oi += $tru::setmarkcount;
+}
+
+sub tru::macro_out_depth
+{
+  push @tru::Or,$tru::Oi;
+  $tru::Oi=pop(@tru::AOi);
+  local $NrOfLinesFollowing = int($tru::Or[-1])-int($tru::Oi); # just output-lines
+  my $rpos = @tru::actions;
+  tru::umacro($tru::action,'-');
+  $tru::Oi=pop @tru::Or;
+  while ($rpos < @tru::actions) {
+    tru::macroout();
+  }
+  tru::umacro($tru::action,'<');
+}
+#===	public section
 
 sub setmark($)
 {
@@ -868,6 +878,7 @@ sub setmark($)
     }
     $tru::processingSavedText = 0;
     delete $tru::Saved{$markName};
+    $tru::HMarks{$markName}[1]++;                  # usemark_count
   }
   $tru::HMarks{$markName}[2] = $tru::Oi; $tru::Oi += $tru::setmarkcount; # Oi
 }
@@ -878,14 +889,20 @@ sub usemark($)
   $tru::HMarks{$markName}[1]++;                    # usemark_count
   push @tru::ActiveMark_name_Oi_unsetMarkActive,[ $markName,$tru::Oi,$tru::unsetMarkActive ];
   if ($tru::HMarks{$markName}[0]) {
-    # mark is set
+    # mark is set, we can use it
     $tru::Oi=$tru::HMarks{$markName}[2];           # Oi
     undef $tru::unsetMarkActive;
   } else {
+    # mark is not yet set, prepare for storing text for first occurance of setmark for this mark
     $tru::unsetMarkActive = $markName;
   }
-  $count = $tru::HMarks{$markName}[1];             # usemark_count
+  $count = $tru::HMarks{$markName}[1];             # usemark_count, can be accessed as $count in the user-truers hooks
   if ($count == 1) {
+    #****************************************
+    # first usage of this mark
+    #****************************************
+    # the [ as well as the ] hooks are applied now
+    #****************************************
     tru::umacro("$markName",'[');
     push @tru::AOi,$tru::Oi;
     $tru::Oi += $tru::setmarkcount;
@@ -900,7 +917,7 @@ sub unusemark
 {
   push @tru::AOi,$tru::Oi;
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi };
-  $count = $tru::HMarks{$markName}[1];             # usemark_count
+  $count = $tru::HMarks{$markName}[1];             # usemark_count, can be accessed as $count in the user-truers hooks
   tru::umacro($markName,'-');
   $tru::Oi=pop(@tru::AOi);
   tru::umacro($markName,'}');
