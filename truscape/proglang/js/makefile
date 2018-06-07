@@ -37,7 +37,7 @@ js_tru:
 	@echo  building js_tru
 	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru ../plainvar.tru js.tru ../c_like_vars.tru jscoll.tru ../../lib/basicUSAGE.tru >js_tru
 	chmod +x js_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
-	PATH=$$PWD:$$PATH perl ~/bin/trudocGivesCheck -s js js_tru >js_tru.tmp
+	PATH=$$PWD:$$PATH perl ~/bin/trudocGivesCheck -s js ./js_tru >js_tru.tmp
 	mv js_tru.tmp js_tru
 	chmod +x js_tru
 	@${m_diff} statistics.out

@@ -4,20 +4,20 @@ example1
   meta1	two
   more text here
 example2
-  any text here
-  meta2	one
-  meta2	two
-  more text here
+  any text2 here
+  meta2	three
+  meta2	four
+  more text2 here
 example3
-  meta3	one
-  meta3	two
+  meta3	five
+  meta3	six
 example4
   meta4a	small 1
   meta4b	big   1
   meta4b	big   2
   meta4a	small 2
 example5
-  meta5		three
+  meta5		seven
 example6
   any text here
   meta6	first usage of mark_p1

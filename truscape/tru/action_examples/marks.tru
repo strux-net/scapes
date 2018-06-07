@@ -1,4 +1,4 @@
-VERSION	3.1
+VERSION	3.2
 ##	marks
 ##	  marks can be used to place output at specified places.
 ##
@@ -177,7 +177,7 @@ actions
 	$name
   example6
     >
-	this example demonstrates the mark hooks
+	example6 demonstrates the mark hooks
 	header-section start
 	meta6 puts some stuff here
       setmark("mark_p1");
@@ -194,52 +194,55 @@ actions
       atmark("mark_p1")
 	name : $name
 	more to $name
+	\$count : $count --- count usemark (and implicitely atmark)
   meta7	name
     >
 	going to set mark mark_p1 to here.
-	this starts a new mark-setting, where all hooks apply again
+	this starts a new mark-setting, where
+	  all hooks apply again
+	  count is reset
       setmark("mark_p1"); # this implicitely first unuses mark_p1
 hooks
   mark_p1
     [
-	(pre-)  surrounds each setmark completetly if the mark was used
-	each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	here it was : $_
-	this hook is triggered directly after the first usemark.
+	the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
+	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  here it was : $_
+	  this hook is triggered directly after the first usemark.
     ]
-	(post-) surrounds each setmark completetly if the mark was used
-	each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	here it was : $_
-	this hook is triggered directly after [ - hook was executed.
-	the mark remains between the [ and ]
+	the ]-hook (post-) surrounds each setmark completetly if the mark was used
+	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  here it was : $_
+	  this hook is triggered directly after [ - hook was executed.
+	  the mark remains between the [ and ]
     {
-	(pre-)  surrounds each usemark
-	each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	here it was : $_
-	\$count contains the counter for the usemark().
-	It is incremented for each usemark() rsp. atmark(). It starts at 1
-	\$count = $count
+	the {-hook (pre-)  surrounds each usemark
+	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  here it was : $_
+	  \$count contains the counter for the usemark().
+	  It is incremented for each usemark() rsp. atmark(). It starts at 1
+	  \$count = $count
     -
-	(pre-)  surrounds each usemark
-	this is output when then mark is unused or resetted or when there is no more input
-	it is the depth-action. It appears after the output produced by the { - mark
-	each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	here it was : $_
-	\$count contains the counter for the usemark().
-	It is incremented for each usemark() rsp. atmark(). It starts at 1
-	\$count = $count
-	\$NrOfChilds and \$NrOfLinesFollowing are not set here. This may change in the future
+	the --hook (pre-)  surrounds each usemark
+	  this is output when then mark is unused or resetted or when there is no more input
+	  it is the depth-action. It appears after the output produced by the { - mark
+	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  here it was : $_
+	  \$count contains the counter for the usemark().
+	  It is incremented for each usemark() rsp. atmark(). It starts at 1
+	  \$count = $count
+	  \$NrOfChilds and \$NrOfLinesFollowing are not set here. This may change in the future
     }
-	(post-) surrounds each usemark
-	this is output when then mark is unused or resetted or when there is no more input
-	it appears after the mark-block
-	each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	here it was : $_
-	\$count contains the counter for the usemark().
-	It is incremented for each usemark() rsp. atmark(). It starts at 1
-	\$count = $count
+	the }-hook (post-) surrounds each usemark
+	  this is output when then mark is unused or resetted or when there is no more input
+	  it appears after the mark-block
+	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  here it was : $_
+	  \$count contains the counter for the usemark().
+	  It is incremented for each usemark() rsp. atmark(). It starts at 1
+	  \$count = $count
     n
-	used if the mark was never used. In this example it will not be triggered
+	  the n hook used if the mark was never used. In this example it will not be triggered
   mark_p2
     n
 	used if the mark was never used

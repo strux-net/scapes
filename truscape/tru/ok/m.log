@@ -4,7 +4,7 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >trusupp.pl
   For mark mark_usage
 	  -version	show version information
   For mark mark_version
-	    print "  trusupp.plTR	3.1\n";
+	    print "  trusupp.plTR	3.2\n";
 GOOD	trusupp.pl
 building trusubs.pl
 perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
@@ -146,7 +146,7 @@ testing trusubs.pl
 perl ./trusubs.pl -version
 testing tru
 ./tru -version
-  tru.tru	3.2
+  tru.tru	3.3
 testing marktest_tru
 perl ./marktest_tru marktest.in >marktest.out
 ./marktest_tru : some text was never output (due to unset marks) when processing marktest.in
@@ -402,7 +402,7 @@ perl test15_tru -debug -limit 999       test15 >test15depth.deb
 test15_tru - No match for test15 @ 1 : 
 test15_tru : some text was never output (due to unset marks) when processing test15
   For mark mark_not_set
-	  118		 	9.0001,27.0002,94.0014,78.0012,36.0003	117.0014/117	0	this text should never apear since mark_not_set is not set
+	  118		 	9,27.0001,94.0007,78.0006,36.0002	117.0008/117	0	this text should never apear since mark_not_set is not set
 GOOD	test15depth.deb
 perl test15_tru -debReverse 0 test15 >test15rev.deb
 test15_tru - No match for test15 @ 1 : 

@@ -1,17 +1,17 @@
-  index	 seq	d-range	$Oi	@Oi			$rnr*	$action		$.	f
-  0	   1	 	0.0001	0,-1			1  	>line		1	1	>line		_			 	1
-  1	  15	2-14	1.0001	<empty>			1 13	-line		1	15	-line		_			13	1
-  2	   2	 	1.0002	0,1.0001,-1		1  	>item		2	2	  >item		line			 	1.1
-  3	   5	3-4	2.0002	0,1.0001		1 2	-item		2	5	  -item		line			2	1.1
-  4	   3	 	2.0003	0,1.0001,2.0002,-1	1  	>subitem	3	3	    subitem	item line		 	1.1.1
-  5	   4	 	3.0004	0,1.0001,2.0002,-1	2  	>subitem	4	4	    subitem	item line		 
-  6	   6	 	5.0005	0,1.0001		1 2	<item		2	6	  <item		line			2	1.1
-  7	   7	 	6.0005	0,1.0001,-1		1 2	>first		2	7	  >first	line			2	1.1
-  8	  13	8-12	7.0005	0,1.0001		1 5	-first		2	13	  -first	line			5	1.1
-  9	   8	 	7.0006	0,1.0001,7.0005		1 2	<item		2	8	  moreText1	first line		2	1.1
-  10	   9	 	8.0006	0,1.0001,7.0005,-1	1 2	>second		2	9	  >second	first line		2	1.1
-  11	  11	10	9.0006	0,1.0001,7.0005		1 1	-second		2	11	  -second	first line		1	1.1
-  12	  10	 	9.0007	0,1.0001,7.0005,9.0006	1 2	<item		2	10	  moreText2	second first line	2	1.1
-  13	  12	 	11.0007	0,1.0001,7.0005		1 1	<second		2	12	  <second	first line		1	1.1
-  14	  14	 	13.0007	0,1.0001		1 5	<first		2	14	  <first	line			5	1.1
-  15	  16	 	15.0007	<empty>			1 13	<line		1	16	<line		_			13	1
+  index	 seq	d-range	$Oi	@Oi		$rnr*	$action		$.	f
+  0	   1	 	0	0,-1		1  	>line		1	1	>line		_			 	1
+  1	  15	2-14	1	<empty>		1 13	-line		1	15	-line		_			13	1
+  2	   2	 	1	0,1,-1		1  	>item		2	2	  >item		line			 	1.1
+  3	   5	3-4	2	0,1		1 2	-item		2	5	  -item		line			2	1.1
+  4	   3	 	2	0,1,2,-1	1  	>subitem	3	3	    subitem	item line		 	1.1.1
+  5	   4	 	3	0,1,2,-1	2  	>subitem	4	4	    subitem	item line		 
+  6	   6	 	5	0,1		1 2	<item		2	6	  <item		line			2	1.1
+  7	   7	 	6	0,1,-1		1 2	>first		2	7	  >first	line			2	1.1
+  8	  13	8-12	7	0,1		1 5	-first		2	13	  -first	line			5	1.1
+  9	   8	 	7	0,1,7		1 2	<item		2	8	  moreText1	first line		2	1.1
+  10	   9	 	8	0,1,7,-1	1 2	>second		2	9	  >second	first line		2	1.1
+  11	  11	10	9	0,1,7		1 1	-second		2	11	  -second	first line		1	1.1
+  12	  10	 	9	0,1,7,9		1 2	<item		2	10	  moreText2	second first line	2	1.1
+  13	  12	 	11	0,1,7		1 1	<second		2	12	  <second	first line		1	1.1
+  14	  14	 	13	0,1		1 5	<first		2	14	  <first	line			5	1.1
+  15	  16	 	15	<empty>		1 13	<line		1	16	<line		_			13	1

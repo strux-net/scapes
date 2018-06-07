@@ -1,91 +1,91 @@
-  index	 seq	d-range	$Oi	@Oi				$rnr*	$action		$.	f
-  0	   1	 	0	-1				1 	>DOC		0	DOC		in				0	test7
-  1	  89	2-88	1	<empty>				1 87	-DOC		0	DOC		depth				87	test7
-  2	   2	 	1.0001	1,-1				1 	>outer		1	outer		in				0	planet
-  3	  61	3-60	2.0001	1				1 58	-outer		1	outer		depth				58	planet
-  4	  62	4-61	3.0001	1				1 58	-outer		1	outer		going to call outerfoo1
-  5	  63	 	4.0001	1,-1				1 58	>outerfoo1	1	outerfoo1	in				58	outerfoo1			planet
-  6	  71	6-70	5.0001	1				1 65	-outerfoo1	1	outerfoo1	depth				65	planet
-  7	  72	7-71	6.0001	1				1 65	-outerfoo1	1	outerfoo1	going to call outerfoo11
-  8	  73	 	7.0001	1,-1				1 65	>outerfoo11	1	outerfoo11	in				65	outerfoo11			planet
-  9	  75	9-74	8.0001	1				1 66	-outerfoo11	1	outerfoo11	depth				66	planet
-  10	  74	9-73	8.0002	1,8.0001			1 65	-outerfoo1	1	outerfoo1	outerfoo11 called
-  11	  64	6-63	5.0002	1,5.0001			1 58	-outer		1	outer		outerfoo1 called
-  12	  65	7-64	6.0002	1,5.0001			1 58	-outer		1	outer		going to call outerfoo2
-  13	  66	 	7.0002	1,5.0001,-1			1 58	>outerfoo2	1	outerfoo2	in				58
-  14	  69	9-68	8.0002	1,5.0001			1 60	-outerfoo2	1	outerfoo2	depth				60
-  15	  67	9-66	8.0003	1,5.0001,8.0002			1 58	-outer		1	outer		outerfoo2 called
-  16	  68	10-67	9.0003	1,5.0001,8.0002			1 58	-outer		1	outer		depth				58	done
-  17	   3	 	2.0002	1,2.0001,-1			1 	>inner		2	inner		in				0	country
-  18	   4	 	3.0002	1,2.0001			1 	-inner		2	inner		depth				0	country
-  19	   5	 	4.0002	1,2.0001			1 	-inner		2	inner		going to call innerfoo1
-  20	   6	 	5.0002	1,2.0001,-1			1 	>innerfoo1	2	innerfoo1	in				0	innerfoo1			country
-  21	  14	7-13	6.0002	1,2.0001			1 7	-innerfoo1	2	innerfoo1	depth				7	country
-  22	  15	8-14	7.0002	1,2.0001			1 7	-innerfoo1	2	innerfoo1	going to call innerfoo11
-  23	  16	 	8.0002	1,2.0001,-1			1 7	>innerfoo11	2	innerfoo11	in				7	innerfoo11			country
-  24	  18	10-17	9.0002	1,2.0001			1 8	-innerfoo11	2	innerfoo11	depth				8	country
-  25	  17	10-16	9.0003	1,2.0001,9.0002			1 7	-innerfoo1	2	innerfoo1	innerfoo11 called
-  26	   7	 	6.0003	1,2.0001,6.0002			1 	-inner		2	inner		innerfoo1 called
-  27	   8	 	7.0003	1,2.0001,6.0002			1 	-inner		2	inner		going to call innerfoo2
-  28	   9	 	8.0003	1,2.0001,6.0002,-1		1 	>innerfoo2	2	innerfoo2	in				0
-  29	  12	10-11	9.0003	1,2.0001,6.0002			1 2	-innerfoo2	2	innerfoo2	depth				2
-  30	  10	 	9.0004	1,2.0001,6.0002,9.0003		1 	-inner		2	inner		innerfoo2 called
-  31	  11	 	10.0004	1,2.0001,6.0002,9.0003		1 	-inner		2	inner		depth				0	done
-  32	  13	 	12.0005	1,2.0001,6.0002			1 2	<innerfoo2	2	innerfoo2	out				2
-  33	  19	 	18.0005	1,2.0001			1 8	<innerfoo11	2	innerfoo11	out				8	country
-  34	  20	 	19.0005	1,2.0001			1 7	<innerfoo1	2	innerfoo1	out				7	country
-  35	  21	 	20.0005	1,2.0001			1 	<inner		2	inner		out				0	country
-  36	  22	 	21.0005	1,2.0001			1 	<inner		2	inner		going to call innerbar1
-  37	  23	 	22.0005	1,2.0001,-1			1 	>innerbar1	2	innerbar1	in				0	country
-  38	  30	24-29	23.0005	1,2.0001			1 6	-innerbar1	2	innerbar1	depth				6	country
-  39	  24	 	23.0006	1,2.0001,23.0005		1 	<inner		2	inner		innerbar1 called
-  40	  25	 	24.0006	1,2.0001,23.0005		1 	<inner		2	inner		going to call innerbar2
-  41	  26	 	25.0006	1,2.0001,23.0005,-1		1 	>innerbar2	2	innerbar2	in				0	innerbar2			constant	args
-  42	  28	27	26.0006	1,2.0001,23.0005		1 1	-innerbar2	2	innerbar2	depth				1	arg1=constant arg2=args arg3=
-  43	  27	 	26.0007	1,2.0001,23.0005,26.0006	1 	<inner		2	inner		innerbar2 called
-  44	  29	 	28.0007	1,2.0001,23.0005		1 1	<innerbar2	2	innerbar2	out				1	arg1=constant arg2=args arg3=
-  45	  31	 	30.0007	1,2.0001			1 6	<innerbar1	2	innerbar1	out				6	country
-  46	  32	 	31.0007	1,2.0001,-1			2 	>inner		3	inner		in				0	ocean
-  47	  33	 	32.0007	1,2.0001			2 	-inner		3	inner		depth				0	ocean
-  48	  34	 	33.0007	1,2.0001			2 	-inner		3	inner		going to call innerfoo1
-  49	  35	 	34.0007	1,2.0001,-1			2 	>innerfoo1	3	innerfoo1	in				0	innerfoo1			ocean
-  50	  43	36-42	35.0007	1,2.0001			2 7	-innerfoo1	3	innerfoo1	depth				7	ocean
-  51	  44	37-43	36.0007	1,2.0001			2 7	-innerfoo1	3	innerfoo1	going to call innerfoo11
-  52	  45	 	37.0007	1,2.0001,-1			2 7	>innerfoo11	3	innerfoo11	in				7	innerfoo11			ocean
-  53	  47	39-46	38.0007	1,2.0001			2 8	-innerfoo11	3	innerfoo11	depth				8	ocean
-  54	  46	39-45	38.0008	1,2.0001,38.0007		2 7	-innerfoo1	3	innerfoo1	innerfoo11 called
-  55	  36	 	35.0008	1,2.0001,35.0007		2 	-inner		3	inner		innerfoo1 called
-  56	  37	 	36.0008	1,2.0001,35.0007		2 	-inner		3	inner		going to call innerfoo2
-  57	  38	 	37.0008	1,2.0001,35.0007,-1		2 	>innerfoo2	3	innerfoo2	in				0
-  58	  41	39-40	38.0008	1,2.0001,35.0007		2 2	-innerfoo2	3	innerfoo2	depth				2
-  59	  39	 	38.0009	1,2.0001,35.0007,38.0008	2 	-inner		3	inner		innerfoo2 called
-  60	  40	 	39.0009	1,2.0001,35.0007,38.0008	2 	-inner		3	inner		depth				0	done
-  61	  42	 	41.0011	1,2.0001,35.0007		2 2	<innerfoo2	3	innerfoo2	out				2
-  62	  48	 	47.0011	1,2.0001			2 8	<innerfoo11	3	innerfoo11	out				8	ocean
-  63	  49	 	48.0011	1,2.0001			2 7	<innerfoo1	3	innerfoo1	out				7	ocean
-  64	  50	 	49.0011	1,2.0001			2 	<inner		3	inner		out				0	ocean
-  65	  51	 	50.0011	1,2.0001			2 	<inner		3	inner		going to call innerbar1
-  66	  52	 	51.0011	1,2.0001,-1			2 	>innerbar1	3	innerbar1	in				0	ocean
-  67	  59	53-58	52.0011	1,2.0001			2 6	-innerbar1	3	innerbar1	depth				6	ocean
-  68	  53	 	52.0012	1,2.0001,52.0011		2 	<inner		3	inner		innerbar1 called
-  69	  54	 	53.0012	1,2.0001,52.0011		2 	<inner		3	inner		going to call innerbar2
-  70	  55	 	54.0012	1,2.0001,52.0011,-1		2 	>innerbar2	3	innerbar2	in				0	innerbar2			constant	args
-  71	  57	56	55.0012	1,2.0001,52.0011		2 1	-innerbar2	3	innerbar2	depth				1	arg1=constant arg2=args arg3=
-  72	  56	 	55.0013	1,2.0001,52.0011,55.0012	2 	<inner		3	inner		innerbar2 called
-  73	  58	 	57.0013	1,2.0001,52.0011		2 1	<innerbar2	3	innerbar2	out				1	arg1=constant arg2=args arg3=
-  74	  60	 	59.0013	1,2.0001			2 6	<innerbar1	3	innerbar1	out				6	ocean
-  75	  70	 	69.0013	1,5.0001			1 60	<outerfoo2	1	outerfoo2	out				60
-  76	  76	 	75.0013	1				1 66	<outerfoo11	1	outerfoo11	out				66	planet
-  77	  77	 	76.0013	1				1 65	<outerfoo1	1	outerfoo1	out				65	planet
-  78	  78	 	77.0013	1				1 58	<outer		1	outer		out				58	planet
-  79	  79	 	78.0013	1				1 58	<outer		1	outer		going to call outerbar1
-  80	  80	 	79.0013	1,-1				1 58	>outerbar1	1	outerbar1	in				58	planet
-  81	  87	81-86	80.0013	1				1 6	-outerbar1	1	outerbar1	depth				6	planet
-  82	  81	 	80.0014	1,80.0013			1 58	<outer		1	outer		outerbar1 called
-  83	  82	 	81.0014	1,80.0013			1 58	<outer		1	outer		going to call outerbar2
-  84	  83	 	82.0014	1,80.0013,-1			1 58	>outerbar2	1	outerbar2	in				58	outerbar2			constant	args
-  85	  85	84	83.0014	1,80.0013			1 1	-outerbar2	1	outerbar2	depth				1	arg1=constant arg2=args arg3=
-  86	  84	 	83.0015	1,80.0013,83.0014		1 58	<outer		1	outer		outerbar2 called
-  87	  86	 	85.0015	1,80.0013			1 1	<outerbar2	1	outerbar2	out				1	arg1=constant arg2=args arg3=
-  88	  88	 	87.0015	1				1 6	<outerbar1	1	outerbar1	out				6	planet
-  89	  90	 	89.0015	<empty>				1 87	<DOC		0	DOC		out				87	test7
+  index	 seq	d-range	$Oi	@Oi		$rnr*	$action		$.	f
+  0	   1	 	0	-1		1 	>DOC		0	DOC		in				0	test7
+  1	  89	2-88	1	<empty>		1 87	-DOC		0	DOC		depth				87	test7
+  2	   2	 	1	1,-1		1 	>outer		1	outer		in				0	planet
+  3	  61	3-60	2	1		1 58	-outer		1	outer		depth				58	planet
+  4	  62	4-61	3	1		1 58	-outer		1	outer		going to call outerfoo1
+  5	  63	 	4	1,-1		1 58	>outerfoo1	1	outerfoo1	in				58	outerfoo1			planet
+  6	  71	6-70	5	1		1 65	-outerfoo1	1	outerfoo1	depth				65	planet
+  7	  72	7-71	6	1		1 65	-outerfoo1	1	outerfoo1	going to call outerfoo11
+  8	  73	 	7	1,-1		1 65	>outerfoo11	1	outerfoo11	in				65	outerfoo11			planet
+  9	  75	9-74	8	1		1 66	-outerfoo11	1	outerfoo11	depth				66	planet
+  10	  74	9-73	8	1,8		1 65	-outerfoo1	1	outerfoo1	outerfoo11 called
+  11	  64	6-63	5	1,5		1 58	-outer		1	outer		outerfoo1 called
+  12	  65	7-64	6	1,5		1 58	-outer		1	outer		going to call outerfoo2
+  13	  66	 	7	1,5,-1		1 58	>outerfoo2	1	outerfoo2	in				58
+  14	  69	9-68	8	1,5		1 60	-outerfoo2	1	outerfoo2	depth				60
+  15	  67	9-66	8	1,5,8		1 58	-outer		1	outer		outerfoo2 called
+  16	  68	10-67	9	1,5,8		1 58	-outer		1	outer		depth				58	done
+  17	   3	 	2	1,2,-1		1 	>inner		2	inner		in				0	country
+  18	   4	 	3	1,2		1 	-inner		2	inner		depth				0	country
+  19	   5	 	4	1,2		1 	-inner		2	inner		going to call innerfoo1
+  20	   6	 	5	1,2,-1		1 	>innerfoo1	2	innerfoo1	in				0	innerfoo1			country
+  21	  14	7-13	6	1,2		1 7	-innerfoo1	2	innerfoo1	depth				7	country
+  22	  15	8-14	7	1,2		1 7	-innerfoo1	2	innerfoo1	going to call innerfoo11
+  23	  16	 	8	1,2,-1		1 7	>innerfoo11	2	innerfoo11	in				7	innerfoo11			country
+  24	  18	10-17	9	1,2		1 8	-innerfoo11	2	innerfoo11	depth				8	country
+  25	  17	10-16	9	1,2,9		1 7	-innerfoo1	2	innerfoo1	innerfoo11 called
+  26	   7	 	6	1,2,6		1 	-inner		2	inner		innerfoo1 called
+  27	   8	 	7	1,2,6		1 	-inner		2	inner		going to call innerfoo2
+  28	   9	 	8	1,2,6,-1	1 	>innerfoo2	2	innerfoo2	in				0
+  29	  12	10-11	9	1,2,6		1 2	-innerfoo2	2	innerfoo2	depth				2
+  30	  10	 	9	1,2,6,9		1 	-inner		2	inner		innerfoo2 called
+  31	  11	 	10	1,2,6,9		1 	-inner		2	inner		depth				0	done
+  32	  13	 	12	1,2,6		1 2	<innerfoo2	2	innerfoo2	out				2
+  33	  19	 	18	1,2		1 8	<innerfoo11	2	innerfoo11	out				8	country
+  34	  20	 	19	1,2		1 7	<innerfoo1	2	innerfoo1	out				7	country
+  35	  21	 	20	1,2		1 	<inner		2	inner		out				0	country
+  36	  22	 	21	1,2		1 	<inner		2	inner		going to call innerbar1
+  37	  23	 	22	1,2,-1		1 	>innerbar1	2	innerbar1	in				0	country
+  38	  30	24-29	23	1,2		1 6	-innerbar1	2	innerbar1	depth				6	country
+  39	  24	 	23	1,2,23		1 	<inner		2	inner		innerbar1 called
+  40	  25	 	24	1,2,23		1 	<inner		2	inner		going to call innerbar2
+  41	  26	 	25	1,2,23,-1	1 	>innerbar2	2	innerbar2	in				0	innerbar2			constant	args
+  42	  28	27	26	1,2,23		1 1	-innerbar2	2	innerbar2	depth				1	arg1=constant arg2=args arg3=
+  43	  27	 	26	1,2,23,26	1 	<inner		2	inner		innerbar2 called
+  44	  29	 	28	1,2,23		1 1	<innerbar2	2	innerbar2	out				1	arg1=constant arg2=args arg3=
+  45	  31	 	30	1,2		1 6	<innerbar1	2	innerbar1	out				6	country
+  46	  32	 	31	1,2,-1		2 	>inner		3	inner		in				0	ocean
+  47	  33	 	32	1,2		2 	-inner		3	inner		depth				0	ocean
+  48	  34	 	33	1,2		2 	-inner		3	inner		going to call innerfoo1
+  49	  35	 	34	1,2,-1		2 	>innerfoo1	3	innerfoo1	in				0	innerfoo1			ocean
+  50	  43	36-42	35	1,2		2 7	-innerfoo1	3	innerfoo1	depth				7	ocean
+  51	  44	37-43	36	1,2		2 7	-innerfoo1	3	innerfoo1	going to call innerfoo11
+  52	  45	 	37	1,2,-1		2 7	>innerfoo11	3	innerfoo11	in				7	innerfoo11			ocean
+  53	  47	39-46	38	1,2		2 8	-innerfoo11	3	innerfoo11	depth				8	ocean
+  54	  46	39-45	38	1,2,38		2 7	-innerfoo1	3	innerfoo1	innerfoo11 called
+  55	  36	 	35	1,2,35		2 	-inner		3	inner		innerfoo1 called
+  56	  37	 	36	1,2,35		2 	-inner		3	inner		going to call innerfoo2
+  57	  38	 	37	1,2,35,-1	2 	>innerfoo2	3	innerfoo2	in				0
+  58	  41	39-40	38	1,2,35		2 2	-innerfoo2	3	innerfoo2	depth				2
+  59	  39	 	38	1,2,35,38	2 	-inner		3	inner		innerfoo2 called
+  60	  40	 	39	1,2,35,38	2 	-inner		3	inner		depth				0	done
+  61	  42	 	41	1,2,35		2 2	<innerfoo2	3	innerfoo2	out				2
+  62	  48	 	47	1,2		2 8	<innerfoo11	3	innerfoo11	out				8	ocean
+  63	  49	 	48	1,2		2 7	<innerfoo1	3	innerfoo1	out				7	ocean
+  64	  50	 	49	1,2		2 	<inner		3	inner		out				0	ocean
+  65	  51	 	50	1,2		2 	<inner		3	inner		going to call innerbar1
+  66	  52	 	51	1,2,-1		2 	>innerbar1	3	innerbar1	in				0	ocean
+  67	  59	53-58	52	1,2		2 6	-innerbar1	3	innerbar1	depth				6	ocean
+  68	  53	 	52	1,2,52		2 	<inner		3	inner		innerbar1 called
+  69	  54	 	53	1,2,52		2 	<inner		3	inner		going to call innerbar2
+  70	  55	 	54	1,2,52,-1	2 	>innerbar2	3	innerbar2	in				0	innerbar2			constant	args
+  71	  57	56	55	1,2,52		2 1	-innerbar2	3	innerbar2	depth				1	arg1=constant arg2=args arg3=
+  72	  56	 	55	1,2,52,55	2 	<inner		3	inner		innerbar2 called
+  73	  58	 	57	1,2,52		2 1	<innerbar2	3	innerbar2	out				1	arg1=constant arg2=args arg3=
+  74	  60	 	59	1,2		2 6	<innerbar1	3	innerbar1	out				6	ocean
+  75	  70	 	69	1,5		1 60	<outerfoo2	1	outerfoo2	out				60
+  76	  76	 	75	1		1 66	<outerfoo11	1	outerfoo11	out				66	planet
+  77	  77	 	76	1		1 65	<outerfoo1	1	outerfoo1	out				65	planet
+  78	  78	 	77	1		1 58	<outer		1	outer		out				58	planet
+  79	  79	 	78	1		1 58	<outer		1	outer		going to call outerbar1
+  80	  80	 	79	1,-1		1 58	>outerbar1	1	outerbar1	in				58	planet
+  81	  87	81-86	80	1		1 6	-outerbar1	1	outerbar1	depth				6	planet
+  82	  81	 	80	1,80		1 58	<outer		1	outer		outerbar1 called
+  83	  82	 	81	1,80		1 58	<outer		1	outer		going to call outerbar2
+  84	  83	 	82	1,80,-1		1 58	>outerbar2	1	outerbar2	in				58	outerbar2			constant	args
+  85	  85	84	83	1,80		1 1	-outerbar2	1	outerbar2	depth				1	arg1=constant arg2=args arg3=
+  86	  84	 	83	1,80,83		1 58	<outer		1	outer		outerbar2 called
+  87	  86	 	85	1,80		1 1	<outerbar2	1	outerbar2	out				1	arg1=constant arg2=args arg3=
+  88	  88	 	87	1		1 6	<outerbar1	1	outerbar1	out				6	planet
+  89	  90	 	89	<empty>		1 87	<DOC		0	DOC		out				87	test7

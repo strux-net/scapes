@@ -1,4 +1,4 @@
-VERSION	3.2
+VERSION	3.3
 USAGE	tru [Options] [<file> ....]
 
 	produces a perl-script based on the input-files.
@@ -236,26 +236,36 @@ actions
         usemark("mark_${pit}_${Action}");
 	##    $pit
 	\$tru::actioncode{'$pit'}{q$sdel$Action$sdel}=sub {
-        setmark("mark_${pit}start_${Action}");
-        setmark("mark_tmp");
+        setmark("mark_${pit}top_${Action}");
+        setmark("mark_${pit}bot_${Action}");
+        setmark("mark_${pit}E_${Action}");
 	};
         unusemark();
-        $tru::HMarks{"mark_${pit}_${Action}"}[2] = $tru::HMarks{"mark_tmp"}[2];
       }
-      usemark("mark_${pit}_${Action}");
       if ($CLEAR) {
-        usemark("mark_${pit}E_${Action}") if ($pit =~ /\]|\}|</);
+        usemark("mark_${pit}E_${Action}");
 	};
 	# the previous assignment is overwritten (due to a CLEAR) here
 	\$tru::actioncode{'$pit'}{q$sdel$Action$sdel}=sub {
 	##    $pit	CLEAR
+        setmark("mark_${pit}top_${Action}");
+        setmark("mark_${pit}bot_${Action}");
+      }
+      if ($pit =~ /\]|\}|</) {
+        usemark("mark_${pit}top_${Action}");
+        ## print STDERR qq($Action$pit OI: $tru::Oi, top : $tru::HMarks{"mark_${pit}top_${Action}"}[2], bot : $tru::HMarks{"mark_${pit}bot_${Action}"}[2], tmp : $tru::HMarks{"mark_tmp"}[2]\n);
+        ## print STDERR qq(O{top] : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
+        setmark("mark_tmp");
+        ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }; # together with next line ....
+        ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }; # this is dirty unusemark, leaving the mark's Oi untouched
+        ## print STDERR qq(quick unusing $tru::tmp : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
+        usemark("mark_tmp");
+        ## print STDERR qq($Action$pit OI: $tru::Oi, top : $tru::HMarks{"mark_${pit}top_${Action}"}[2], bot : $tru::HMarks{"mark_${pit}bot_${Action}"}[2], TMP : $tru::HMarks{"mark_tmp"}[2]\n);
+        ## print STDERR qq(O{top] : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
+      } else {
+        usemark("mark_${pit}bot_${Action}");
       }
     <
-      # [ (whole) or { (part) opened the hookblocks, here they are closed
-      if ($pit =~ /\]|\}|</) {
-        $tru::HMarks{"mark_${pit}_${Action}"}[2] = $tru::HMarks{"mark_${pit}start_${Action}"}[2]+0.01;
-        setmark("mark_${pit}E_${Action}");
-      }
       unusemark();
   l
     >
@@ -281,7 +291,7 @@ actions
         validityCheck($F[$i]);
         push @{$Args{$Action}},$F[$i];
       }
-      usemark("mark_$tru::states[-2]");      # can be "actions" or "hooks"
+      usemark("mark_$tru::states[-2]");      # results in  "mark_actions" or "mark_hooks"
 
       if (!$Seen{$Action}{'H'}++) {
         setmark("mark_h_${Action}");
@@ -308,7 +318,9 @@ actions
         setmark("mark_tmp");
 	=cut
         unusemark();
-        $tru::HMarks{"mark_d_${Action}"}[2] = $tru::HMarks{"mark_tmp"}[2];
+        usemark("mark_tmp");
+        setmark("mark_d_${Action}");
+        unusemark();
       }
       usemark("mark_d_${Action}");
       ($ARGVtilded = $ARGV) =~ s:^$ENV{HOME}/:~/:;

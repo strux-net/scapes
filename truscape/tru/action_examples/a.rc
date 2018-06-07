@@ -1,42 +1,44 @@
-intro.tru		perl ../tru intro.tru > intro_tru  && a intro_tru
-intro_tru		perl intro_tru intro.in
-OPTIONSandUSAGE.tru	perl ../tru OPTIONSandUSAGE.tru > OPTIONSandUSAGE_tru  && a OPTIONSandUSAGE_tru
+intro.in
+intro.tru		make -B test_intro_tru
+intro_tru		make test_intro_tru
+OPTIONSandUSAGE.tru	make -B OPTIONSandUSAGE_tru  && a OPTIONSandUSAGE_tru
 OPTIONSandUSAGE_tru	echo "sentinel" | perl OPTIONSandUSAGE_tru -a -b /tmp/x -c /tmp/y -longName
-CLEAR.tru		perl ../tru CLEAR.tru > CLEAR_tru  && a CLEAR_tru
+CLEAR.tru		make -B CLEAR_tru  && a CLEAR_tru
 CLEAR_tru		echo "overwrittenAction" | perl CLEAR_tru
-outstatements.tru	perl ../tru outstatements.tru > outstatements_tru  && a outstatements_tru
+outstatements.tru	make -B outstatements_tru  && a outstatements_tru
 outstatements_tru	echo "demoAction" | perl outstatements_tru
-callingActions.tru	perl ../tru callingActions.tru > callingActions_tru  && a callingActions_tru
+callingActions.tru	make -B callingActions_tru  && a callingActions_tru
 callingActions_tru	perl callingActions_tru callingActions.in
-redirectingActions.tru	perl ../tru redirectingActions.tru > redirectingActions_tru  && a redirectingActions_tru
+redirectingActions.tru	make -B redirectingActions_tru  && a redirectingActions_tru
 redirectingActions_tru	perl redirectingActions_tru redirectingActions.in
-perl_code.tru		perl ../tru perl_code.tru > perl_code_tru  && a perl_code_tru
+perl_code.tru		make -B perl_code_tru  && a perl_code_tru
 perl_code_tru		perl perl_code_tru perl_code.in
-arguments.tru		perl ../tru arguments.tru > arguments_tru  && a arguments_tru
+arguments.tru		make -B arguments_tru  && a arguments_tru
 arguments_tru		perl arguments_tru arguments.in
-marks.tru		perl ../tru marks.tru > marks_tru  && a marks_tru
-marks_tru		perl marks_tru marks.in
-DOC.tru			perl ../tru DOC.tru > DOC_tru  && a DOC_tru
+marks.in
+marks.tru
+marks_tru		make -B test_marks_tru
+DOC.tru			make -B DOC_tru  && a DOC_tru
 DOC_tru			perl DOC_tru DOC.in1 DOC.in2
-UNMATCHED_default.tru	perl ../tru UNMATCHED_default.tru > UNMATCHED_default_tru  && a UNMATCHED_default_tru
+UNMATCHED_default.tru	make -B UNMATCHED_default_tru  && a UNMATCHED_default_tru
 UNMATCHED_default_tru	perl UNMATCHED_default_tru UNMATCHED.in
-UNMATCHED.tru		perl ../tru UNMATCHED_default.tru UNMATCHED.tru > UNMATCHED_tru  && a UNMATCHED_tru
+UNMATCHED.tru		make -B UNMATCHED_tru  && a UNMATCHED_tru
 UNMATCHED_tru		perl UNMATCHED_tru UNMATCHED.in
-READ.tru		perl ../tru READ.tru > READ_tru  && a READ_tru
+READ.tru		make -B READ_tru  && a READ_tru
 READ_tru		perl READ_tru READ.in
-ATTICREAD.tru		perl ../tru ATTICREAD.tru > ATTICREAD_tru  && a ATTICREAD_tru
+ATTICREAD.tru		make -B ATTICREAD_tru  && a ATTICREAD_tru
 ATTICREAD_tru		perl ATTICREAD_tru ATTICREAD.in
-READempty.tru		perl ../tru READempty.tru > READempty_tru  && a READempty_tru
+READempty.tru		make -B READempty_tru  && a READempty_tru
 READempty_tru		perl READempty_tru READempty.in
-WRITE.tru		perl ../tru WRITE.tru > WRITE_tru  && a WRITE_tru
+WRITE.tru		make -B WRITE_tru  && a WRITE_tru
 WRITE_tru		echo "anything" | perl WRITE_tru -depth;echo "anything" | perl WRITE_tru
-FLUSH.tru		perl ../tru FLUSH.tru > FLUSH_tru  && a FLUSH_tru
+FLUSH.tru		make -B FLUSH_tru  && a FLUSH_tru
 FLUSH_tru		echo "anything" | perl FLUSH_tru
-NEWFILE.tru		perl ../tru NEWFILE.tru > NEWFILE_tru  && a NEWFILE_tru
+NEWFILE.tru		make -B NEWFILE_tru  && a NEWFILE_tru
 NEWFILE_tru		perl NEWFILE_tru NEWFILE1.in NEWFILE2.in
-BEGIN.tru		perl ../tru BEGIN.tru > BEGIN_tru  && a BEGIN_tru
+BEGIN.tru		make -B BEGIN_tru  && a BEGIN_tru
 BEGIN_tru		echo "anything" | perl BEGIN_tru
-SPLITAPPLY.tru		perl ../tru SPLITAPPLY.tru > SPLITAPPLY_tru  && a SPLITAPPLY_tru
+SPLITAPPLY.tru		make -B SPLITAPPLY_tru  && a SPLITAPPLY_tru
 SPLITAPPLY_tru		perl SPLITAPPLY_tru SPLITAPPLY.in
-HereText.tru		perl ../tru HereText.tru > HereText_tru  && a HereText_tru
+HereText.tru		make -B HereText_tru  && a HereText_tru
 HereText_tru		echo "anything" | perl HereText_tru
