@@ -1,14 +1,9 @@
 VERSION	testdoc1.tru : 3.0
 VERSION	testdoc2.tru : 3.0
-FLUSH
 WRITE
   s/e/a/g;
-BEGIN
-NEWFILE
 READ
   s/a/e/g;
-ATTICREAD
-SPLITAPPLY
 actions
   DOC
     programming language
@@ -37,4 +32,3 @@ actions
     a generic block
       only valid in my special proglang
   switch
-here text

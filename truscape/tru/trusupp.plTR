@@ -19,8 +19,8 @@ tru::main
   ?	$opt_ovhelp				tru::showTruOptions() ; exit 1
   ?	$opt_ohelp				tru::showOptions()   ; exit 1
   ?	defined($opt_o)				tru::setOutputFile()
-  ?	$opt_stream				$stream=1				$stream=0
   !	@F = @ARGV				@F = ("STDIN")
+  $stream=$opt_stream
   $_ = join(' ',@F)
   tru::begin()
   !	$stream
@@ -34,7 +34,7 @@ tru::main
   ?	$opt_debug and !$opt_debActionMap and $stream	*tru::write = sub {}
   binmode(STDOUT)
   $rnr = $rnr[0]=1
-  $tru::setmarkcount   = 0.0001
+  $tru::substep        = 0.00001
   $level               = 0
   $NrOfLinesFollowing  = 0
   $NrOfChilds          = 0
@@ -326,7 +326,7 @@ tru::macro_in_witharg
   #print STDERR "macro : $macro, rpos : $rpos $#tru::actions - $_\n"
   #?	@tru::actions-$rpos-1
   #  print STDERR "^^^Hit here\n"
-  #  $tru::Oi+=$tru::setmarkcount
+  #  $tru::Oi+=$tru::substep
   ?	$flag	tru::macro_out_forced($rpos)
 tru::macroout
   $state = pop @tru::states
@@ -465,17 +465,16 @@ tru::write_depth
       all pointers behind tru::Oi must be incremented
     my $a=$_
     chomp($a)
-    W	(my $key,my $ref) = each %tru::HMarks		$$ref[2] > $tru::Oi and $$ref[2]++
-    map	@tru::AOi					$_       > $tru::Oi and $_++
-    map	@tru::Or					$_       >= $tru::Oi and $_++
-    map	@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]   > $tru::Oi and $$_[1]++
-    map	@tru::Marks_name_Oi				$$_[1]   > $tru::Oi and $$_[1]++                  # do not compare with ">=", here the Oi for the depth mark-hook is stored
+    W	(my $key,my $ref) = each %tru::HMarks				$$ref[2] >  $tru::Oi and $$ref[2]++
+    map	@tru::AOi							$_       >  $tru::Oi and $_++
+    map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]   >  $tru::Oi and $$_[1]++
+    map	@tru::Or							$_       >= $tru::Oi and $_++
     splice(@tru::O,$tru::Oi++,0,$_)
 tru::shiftMarks
-  W	(my $key,my $ref) = each %tru::HMarks				$$ref[2]  > $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::setmarkcount
-  map	@tru::AOi							$_        > $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount
-  map	@tru::Or							$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::setmarkcount
-  map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]    > $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::setmarkcount
+  W	(my $key,my $ref) = each %tru::HMarks				$$ref[2]  >  $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::substep
+  map	@tru::AOi							$_        >  $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::substep
+  map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]    >  $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::substep
+  map	@tru::Or							$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::substep
 tru::macro_in_depth
     triggers >
   push @tru::AOi,-1	correct value not yet known
@@ -486,7 +485,7 @@ tru::macro_in_depth
   # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
   ?	$#tru::AOi-$Opos
     tru::shiftMarks()
-    $tru::Oi+=$tru::setmarkcount
+    $tru::Oi+=$tru::substep
   $tru::AOi[$Opos] = $tru::Oi
 tru::macro_out_depth
     triggers - and }
@@ -519,7 +518,7 @@ setmark			$
     delete $tru::Saved{$markName}
     $tru::HMarks{$markName}[1]++	usemark_count
   $tru::HMarks{$markName}[2] = $tru::Oi	Oi
-  $tru::Oi += $tru::setmarkcount
+  $tru::Oi += $tru::substep
 usemark			$
   my ($markName) = @_;
   $tru::HMarks{$markName}[1]++		usemark_count
@@ -531,8 +530,8 @@ usemark			$
   -
     # mark is not yet set, prepare for storing text for first occurance of setmark for this mark
     $tru::unsetMarkActive = $markName
-  $count = $tru::HMarks{$markName}[1]						usemark_count, can be accessed as $count in the user-truers hooks
-  ?	$count == 1
+  $usemark_count = $tru::HMarks{$markName}[1]						usemark_count, can be accessed as $count in the user-truers hooks
+  ?	$usemark_count == 1
     doc	first usage of this mark
       the [ as well as the ] hooks are applied now
     tru::umacro("$markName",'[')
@@ -544,7 +543,7 @@ usemark			$
 unusemark
   push @tru::AOi,$tru::Oi
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }
-  $count = $tru::HMarks{$markName}[1]						usemark_count, can be accessed as $count in the user-truers hooks
+  $usemark_count = $tru::HMarks{$markName}[1]					usemark_count can be accessed the user-truers hooks
   tru::umacro($markName,'-')
   $tru::Oi=pop(@tru::AOi)
   tru::umacro($markName,'}')

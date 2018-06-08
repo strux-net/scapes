@@ -402,7 +402,7 @@ perl test15_tru -debug -limit 999       test15 >test15depth.deb
 test15_tru - No match for test15 @ 1 : 
 test15_tru : some text was never output (due to unset marks) when processing test15
   For mark mark_not_set
-	  118		 	9,27.0001,94.0007,78.0006,36.0002	117.0008/117	0	this text should never apear since mark_not_set is not set
+	  118		 	9,27.00001,94.00007,78.00006,36.00002	117.00008/117	0	this text should never apear since mark_not_set is not set
 GOOD	test15depth.deb
 perl test15_tru -debReverse 0 test15 >test15rev.deb
 test15_tru - No match for test15 @ 1 : 

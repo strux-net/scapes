@@ -22,10 +22,20 @@
   1	1	0	0	0	3	inside_call
   1	1	0	0	0	2	l
   1	1	0	0	0	1	longdesc
+  1	0	0	0	0	0	mark_ATTICREAD
+  1	0	0	0	0	0	mark_BEGIN
+  1	0	0	0	0	0	mark_NEWFILE
+  1	0	0	0	0	0	mark_READ
+  1	0	0	0	0	0	mark_SPLITAPPLY
+  1	0	0	0	0	0	mark_WRITE
+  1	0	0	0	0	0	mark_actions
+  1	0	0	0	0	0	mark_flush
+  1	0	0	0	0	0	mark_here
   1	0	0	0	0	0	mark_hooks
   1	0	0	0	0	0	mark_setOptions
   1	0	0	0	0	0	mark_showOptions
   1	0	0	0	0	0	mark_showVersion
+  1	0	0	0	0	0	mark_usage
   1	1	0	1	0	1	option
   1	1	0	0	0	3	out line
   1	1	0	1	0	2	pit

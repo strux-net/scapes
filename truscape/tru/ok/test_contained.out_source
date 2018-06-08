@@ -8,15 +8,10 @@ OPTIONS
 		  and	can contain tabs
 	b:type		text for option b
 	c:type[default]	text for option c
-FLUSH
 WRITE
   s:^(?!(////|#)):" "x($level+$offset):e;
 BEGIN
   $offset=-1;
-NEWFILE
-READ
-ATTICREAD
-SPLITAPPLY
 actions
   ?-	cond
     >
@@ -44,7 +39,6 @@ actions
   stmt
     >
 	$stmt
-here text
 #file	test17.tru
 structure
 	main		=	main

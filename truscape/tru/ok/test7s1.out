@@ -1,17 +1,17 @@
-  index	 seq	d-range	$Oi	@Oi			$rnr*	$action		$.	f
-  0	   1	 	0	0,-1			1  	>line		1	1	>line		_			 	1
-  1	  15	2-14	1	<empty>			1 13	-line		1	15	-line		_			13	1
-  2	   2	 	1	0,1,-1			1  	>item		2	2	  >item		line			 	1.1
-  3	   3	 	2	0,1,-1,-1		1  	>first		2	3	  >first	line			 	1.1
-  4	  11	4-10	3	0,1,7.0001		1 7	-first		2	11	  -first	line			7	1.1
-  5	   4	 	3	0,1,-1,3		1  	>item		2	4	  moreText1	first line		 	1.1
-  6	   5	 	4	0,1,-1,3,-1		1  	>second		2	5	  >second	first line		 	1.1
-  7	   9	6-8	5	0,1,6.0001,3		1 3	-second		2	9	  -second	first line		3	1.1
-  8	   6	 	5	0,1,-1,3,5		1  	>item		2	6	  moreText2	second first line	 	1.1
-  9	  13	9-12	8.0001	0,1			1 4	-item		2	13	  -item		line			4	1.1
-  10	   7	 	6.0001	0,1,6.0001,3,5,-1	1  	>subitem	3	7	    subitem	second first item line	 	1.1.1
-  11	   8	 	7.0001	0,1,6.0001,3,5,-1	2  	>subitem	4	8	    subitem	second first item line	 
-  12	  10	 	9.0001	0,1,7.0001,3		1 3	<second		2	10	  <second	first item line		3	1.1
-  13	  12	 	11.0001	0,1,8.0001		1 7	<first		2	12	  <first	item line		7	1.1
-  14	  14	 	13.0001	0,1			1 4	<item		2	14	  <item		line			4	1.1
-  15	  16	 	15.0001	<empty>			1 13	<line		1	16	<line		_			13	1
+  index	 seq	d-range	$Oi		@Oi			$rnr*	$action		$.	f
+  0	   1	 	0		0,-1			1  	>line		1	1	>line		_			 	1
+  1	  15	2-14	1		<empty>			1 13	-line		1	15	-line		_			13	1
+  2	   2	 	1		0,1,-1			1  	>item		2	2	  >item		line			 	1.1
+  3	   3	 	2		0,1,-1,-1		1  	>first		2	3	  >first	line			 	1.1
+  4	  11	4-10	3		0,1,7.00001		1 7	-first		2	11	  -first	line			7	1.1
+  5	   4	 	3		0,1,-1,3		1  	>item		2	4	  moreText1	first line		 	1.1
+  6	   5	 	4		0,1,-1,3,-1		1  	>second		2	5	  >second	first line		 	1.1
+  7	   9	6-8	5		0,1,6.00001,3		1 3	-second		2	9	  -second	first line		3	1.1
+  8	   6	 	5		0,1,-1,3,5		1  	>item		2	6	  moreText2	second first line	 	1.1
+  9	  13	9-12	8.00001		0,1			1 4	-item		2	13	  -item		line			4	1.1
+  10	   7	 	6.00001		0,1,6.00001,3,5,-1	1  	>subitem	3	7	    subitem	second first item line	 	1.1.1
+  11	   8	 	7.00001		0,1,6.00001,3,5,-1	2  	>subitem	4	8	    subitem	second first item line	 
+  12	  10	 	9.00001		0,1,7.00001,3		1 3	<second		2	10	  <second	first item line		3	1.1
+  13	  12	 	11.00001	0,1,8.00001		1 7	<first		2	12	  <first	item line		7	1.1
+  14	  14	 	13.00001	0,1			1 4	<item		2	14	  <item		line			4	1.1
+  15	  16	 	15.00001	<empty>			1 13	<line		1	16	<line		_			13	1

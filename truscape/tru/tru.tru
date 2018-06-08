@@ -80,9 +80,7 @@ actions
 	#actions start
 	sub usage {
       setmark("mark_usage_action");
-	  print STDERR do{my\$s;(\$s = << '  END')=~ s/^\t\t//gm;\$s};
       setmark("mark_usage");
-	  END
       setmark("mark_optionIntro");
 	  if (\$opt_vhelp) {
 	    print STDERR "tru Options:\\n";
@@ -94,7 +92,6 @@ actions
 	}
       setmark("mark_showVersion");
       setmark("mark_showOptions");
-	##FLUSH
 	sub tru::flush {
 	  local(*_)=\\\@tru::O;
       setmark("mark_flush");
@@ -104,32 +101,26 @@ actions
 	    print \@_ if !\$opt_debug or \$opt_debActionMap;
 	  }
 	}
-	##WRITE
 	sub tru::write_apply {
       setmark("mark_WRITE");
 	  return 0;
 	}
-	##BEGIN
 	sub tru::begin {
       setmark("mark_BEGIN");
 	}
-	##NEWFILE
 	sub tru::newfile {
       setmark("mark_NEWFILE");
 	  \$. = 0;
 	  0;
 	}
-	##READ
 	sub tru::read {
       setmark("mark_READ");
 	  0;
 	}
-	##ATTICREAD
 	sub tru::atticread {
       setmark("mark_ATTICREAD");
 	  0;
 	}
-	##SPLITAPPLY
 	sub tru::splitapply {
 	  local \$i = 0;
 	  map {
@@ -137,9 +128,7 @@ actions
 	  ;
 	  } \@F;
 	}
-	##actions
       setmark("mark_actions");
-	#actions end
 
       setmark("mark_hooks");
 
@@ -168,10 +157,7 @@ actions
       setmark("mark_setOptions");
 	);
 
-	#here start
-	##here text
       setmark("mark_here");
-	#here end
 
 	sub tru::check()
 	{
@@ -233,14 +219,14 @@ actions
   pit	CLEAR
     >
       if (!$Seen{$Action}{$pit}++) {
-        usemark("mark_${pit}_${Action}");
+        atmark("mark_${pit}_${Action}") {
 	##    $pit
 	\$tru::actioncode{'$pit'}{q$sdel$Action$sdel}=sub {
-        setmark("mark_${pit}top_${Action}");
-        setmark("mark_${pit}bot_${Action}");
-        setmark("mark_${pit}E_${Action}");
+          setmark("mark_${pit}top_${Action}");
+          setmark("mark_${pit}bot_${Action}");
+          setmark("mark_${pit}E_${Action}");
 	};
-        unusemark();
+        }
       }
       if ($CLEAR) {
         usemark("mark_${pit}E_${Action}");
@@ -313,14 +299,14 @@ actions
   shortdesc
     >
       if (!$Seen{$Action}{'d'}++) {
-        usemark("mark_d_${Action}");
+        atmark("mark_d_${Action}") {
 	=$shortdesc
-        setmark("mark_tmp");
+          setmark("mark_tmp");
 	=cut
-        unusemark();
-        usemark("mark_tmp");
-        setmark("mark_d_${Action}");
-        unusemark();
+        }
+        atmark("mark_tmp") {
+          setmark("mark_d_${Action}");
+        }
       }
       usemark("mark_d_${Action}");
       ($ARGVtilded = $ARGV) =~ s:^$ENV{HOME}/:~/:;
@@ -467,12 +453,12 @@ actions
   ArrayName
     >
       if (!$HereSeen{$ArrayName}{'H'}++) {
-        usemark("mark_here");
+        atmark("mark_here") {
 	##  $ArrayName
 	map { s/^\\t// } \@$ArrayName = split ('\\n', << 'END' );
-        setmark("mark_here_${ArrayName}");
+          setmark("mark_here_${ArrayName}");
 	END
-        unusemark();
+        }
       }
       usemark("mark_here_${ArrayName}");
     <
@@ -498,9 +484,46 @@ actions
         }
       }
 hooks
+  mark_flush
+    [
+	##FLUSH
+  mark_WRITE
+    [
+	##WRITE
+  mark_BEGIN
+    [
+	##BEGIN
+  mark_NEWFILE
+    [
+	##NEWFILE
+  mark_READ
+    [
+	##READ
+  mark_ATTICREAD
+    [
+	##ATTICREAD
+  mark_SPLITAPPLY
+    [
+	##SPLITAPPLY
+  mark_here
+    [
+	#here start
+	##here text
+    ]
+	#here end
+  mark_actions
+    [
+	##actions
+    ]
+	#actions end
+
+  mark_usage
+    [
+	  print STDERR do{my\$s;(\$s = << '  END')=~ s/^\t\t//gm;\$s};
+    ]
+	  END
   mark_hooks
     [
-	#haha
 	#hooks start
 	##hooks
     ]

@@ -471,7 +471,7 @@ flow control
 	  }
 	  ]
 
-      in  { , - and } $count holds the counter for usemark() rsp. atmark()
+      in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()
       each hook has in $_ the same content that the calling action had when the mark was used *first*
     html code
       Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
