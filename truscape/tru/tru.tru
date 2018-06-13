@@ -1,4 +1,4 @@
-VERSION	3.3
+VERSION	3.3a
 USAGE	tru [Options] [<file> ....]
 
 	produces a perl-script based on the input-files.
@@ -239,15 +239,10 @@ actions
       }
       if ($pit =~ /\]|\}|</) {
         usemark("mark_${pit}top_${Action}");
-        ## print STDERR qq($Action$pit OI: $tru::Oi, top : $tru::HMarks{"mark_${pit}top_${Action}"}[2], bot : $tru::HMarks{"mark_${pit}bot_${Action}"}[2], tmp : $tru::HMarks{"mark_tmp"}[2]\n);
-        ## print STDERR qq(O{top] : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
         setmark("mark_tmp");
         ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }; # together with next line ....
         ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }; # this is dirty unusemark, leaving the mark's Oi untouched
-        ## print STDERR qq(quick unusing $tru::tmp : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
         usemark("mark_tmp");
-        ## print STDERR qq($Action$pit OI: $tru::Oi, top : $tru::HMarks{"mark_${pit}top_${Action}"}[2], bot : $tru::HMarks{"mark_${pit}bot_${Action}"}[2], TMP : $tru::HMarks{"mark_tmp"}[2]\n);
-        ## print STDERR qq(O{top] : $tru::O[$tru::HMarks{"mark_${pit}top_${Action}"}[2]]);
       } else {
         usemark("mark_${pit}bot_${Action}");
       }

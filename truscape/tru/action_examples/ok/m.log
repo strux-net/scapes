@@ -380,16 +380,24 @@ marks_tru : some text was never output (due to unset marks) when processing mark
 	This is here to demonstrate how the truer will tell this fact on STDERR
 "example1" started. Mark for meta set in in-action. The mark is defined when using it.
 meta : one
+usemark_count : 1
 meta : two
+usemark_count : 2
 "example1" finished
 any text here
 more text here
 "example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
-meta : three
-meta : four
+meta2 : three
+usemark_count (mark_2) : 1
+usemark_count (mark_2) : 1
+meta2 : four
+usemark_count (mark_2) : 2
+usemark_count (mark_2) : 2
 # again listing the metas
-# three
-# four
+name : three
+usemark_count (mark_3) : 1
+name : four
+usemark_count (mark_3) : 2
 "example2" finished
 any text2 here
 more text2 here

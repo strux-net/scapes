@@ -7,6 +7,7 @@
 #
 #  protos
 sub tru::main;
+sub tru::subinc(*);
 sub tru::prepare_xREAD;
 sub tru::setOutputFile;
 sub tru::indentval($);
@@ -39,7 +40,7 @@ sub tru::macro_out_depth;
 sub setmark($);
 sub usemark($);
 sub unusemark;
-# based on trusupp.plTR , version : 3.2
+# based on trusupp.plTR , version : 3.2a
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -82,6 +83,7 @@ sub tru::main
   if (!(@F = @ARGV)) {
     @F = ("STDIN");
   }
+  @tru::ARGV=@F;
   $stream=$opt_stream;
   $_ = join(' ',@F);
   tru::begin();
@@ -99,12 +101,12 @@ sub tru::main
   }
   binmode(STDOUT);
   $rnr = $rnr[0]=1;
-  $tru::substep        = 0.00001;
   $level               = 0;
   $NrOfLinesFollowing  = 0;
   $NrOfChilds          = 0;
   $tru::Oi             = 0;                        # would be "" (blank) (rsp. undef) if initial
   $tru::active_rule_nr = 0;
+  $tru::maxsubinc      = 0;
   $tru::active_state   = 'DOC';
   tru::macroin("DOC","DOC",-1);
   while (1) {
@@ -228,6 +230,16 @@ sub tru::main
       }
       $K[$i] = 0;
     }
+  }
+}
+
+sub tru::subinc(*)
+{
+  local (*a) = @_;
+  local $apre = $a;
+  $a+=0.00001;
+  if (int($a) != int($apre)) {
+    die "Too many marks or too many recursions in $0 @tru::ARGV\n";
   }
 }
 
@@ -579,10 +591,6 @@ sub tru::macro_in_witharg
   $tru::active_state   = $macro;
   my $rpos = @tru::actions;
   tru::macroin($F[0],$macro,$tru::statesi[-1]-1);
-  #print STDERR "macro : $macro, rpos : $rpos $#tru::actions - $_\n"
-  #?	@tru::actions-$rpos-1
-  #  print STDERR "^^^Hit here\n"
-  #  $tru::Oi+=$tru::substep
   if ($flag) {
     tru::macro_out_forced($rpos);
   }
@@ -764,11 +772,11 @@ q(       -help			show help
 }
 #****************************************
 # $tru::unsetMarkActive				name of the not yet set mark, used for saving text
-# @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            , Oi shifted in shiftMarks and write_depth      if >= Oi
-# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after {, needed for -, Oi shifted in shiftMarks, in write_depth only if >  Oi
-# @tru::Or					Oi									only in macro_out_depth, remember the pos for <-action
-# @tru::Aoi					Oi									position for the - action
-# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark
+# @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            ,                               Oi shifted if > Oi
+# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after {, needed for -,                               Oi shifted if > Oi
+# @tru::Or					Oi									only in macro_out_depth, remember the pos for <-action  Oi shifted if >= Oi
+# @tru::Aoi					Oi									position for the - action                               Oi shifted if > Oi
+# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark   Oi shifted if > Oi
 # %tru::Saved					$tru::unsetMarkActive -> [ text ]
 #****************************************
 
@@ -816,16 +824,16 @@ sub tru::write_depth
 sub tru::shiftMarks
 {
   while ((my $key,my $ref) = each %tru::HMarks) {
-    $$ref[2]  >  $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   $$ref[2] += $tru::substep;
+    $$ref[2]  >  $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   tru::subinc(\$$ref[2] );
   }
   map {
-    $_        >  $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::substep;
+    $_        >  $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       );
   } @tru::AOi;
   map {
-    $$_[1]    >  $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   $$_[1]   += $tru::substep;
+    $$_[1]    >  $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   tru::subinc(\$$_[1]   );
   } @tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive;
   map {
-    $_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   $_       += $tru::substep;
+    $_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       );
   } @tru::Or;
 }
 ### 
@@ -841,12 +849,12 @@ sub tru::macro_in_depth
   # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
   if ($#tru::AOi-$Opos) {
     tru::shiftMarks();
-    $tru::Oi+=$tru::substep;
+    tru::subinc(\$tru::Oi);
   }
   $tru::AOi[$Opos] = $tru::Oi;
 }
 ### 
-#  triggers - and }
+#  triggers - and <
 
 sub tru::macro_out_depth
 {
@@ -891,7 +899,7 @@ sub setmark($)
     $tru::HMarks{$markName}[1]++;                  # usemark_count
   }
   $tru::HMarks{$markName}[2] = $tru::Oi;           # Oi
-  $tru::Oi += $tru::substep;
+  tru::subinc(\$tru::Oi);
 }
 
 sub usemark($)

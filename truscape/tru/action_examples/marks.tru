@@ -1,4 +1,4 @@
-VERSION	3.2
+VERSION	3.2a
 ##	marks
 ##	  marks can be used to place output at specified places.
 ##
@@ -63,7 +63,10 @@ VERSION	3.2
 #
 ##	  the order of setmark is relevant.
 ##	    If you have two (or more) setmark in direct succession then the order is preserved.
-##	    There is a limit of 1000 marks that can be in direct succession.
+##
+##	  Note : There is a limit for the marks that can be set and the number of action-calls (via >>).
+##	      The sum of these two numbers must not exceed 10000.
+##	      The truer will detect an overflow and abort with an error-message.
 ##
 ##	  to unset a mark use
 ##	  code
@@ -98,11 +101,15 @@ VERSION	3.2
 ##		]
 ##
 ##	    in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()
+##	    $usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions
 ##	    each hook has in $_ the same content that the calling action had when the mark was used *first*
+##
+##	Note : Do not confuse mark-hooks with the structure-hooks (like READ, WRITE, .... )
 
 #	  example1 shows the using of a mark that was defined earlier
 #	  example2 shows the using of a marks that will be defined after their usage
 #	  example2 also shows what happens if marks are used that will never be defined
+#	  example2 also shows the values of $usemark_count outside hooks
 #	  example3 is for usemark() and unusemark()
 #	  example4 demonstrates the relevance of the order of marks that are in direct succession
 #	  example5 demonstrates how to unset a mark
@@ -121,6 +128,7 @@ actions
     >
       atmark("mark_1")
 	meta : $name
+	usemark_count : $usemark_count
   example2
     -
 	"example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
@@ -136,11 +144,14 @@ actions
   meta2	name
     >
       atmark("mark_2") {
-	meta : $name
+	meta2 : $name
+	usemark_count (mark_2) : $usemark_count
         # nesting works
         atmark("mark_3") {
-	# $name
+	name : $name
+	usemark_count (mark_3) : $usemark_count
         }
+	usemark_count (mark_2) : $usemark_count
       }
   example3
     >

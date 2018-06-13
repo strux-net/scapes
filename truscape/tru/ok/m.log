@@ -4,7 +4,7 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >trusupp.pl
   For mark mark_usage
 	  -version	show version information
   For mark mark_version
-	    print "  trusupp.plTR	3.2\n";
+	    print "  trusupp.plTR	3.2a\n";
 GOOD	trusupp.pl
 building trusubs.pl
 perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
@@ -146,7 +146,7 @@ testing trusubs.pl
 perl ./trusubs.pl -version
 testing tru
 ./tru -version
-  tru.tru	3.3
+  tru.tru	3.3a
 testing marktest_tru
 perl ./marktest_tru marktest.in >marktest.out
 ./marktest_tru : some text was never output (due to unset marks) when processing marktest.in

@@ -665,6 +665,14 @@ Actions can be redirected in several ways:<br/>
 </tr>
 <tr><td></td></tr>
 </table><br/>
+Note : There is a limit for the marks that can be set and the number of action-calls (via &gt;&gt;).<br/>
+<ul>
+<li>The sum of these two numbers must not exceed 10000.
+</li>
+<li>The truer will detect an overflow and abort with an error-message.
+</li>
+<br/>
+</ul>
 compare this to "calling actions"<br/>
 Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
 </div>
@@ -812,9 +820,16 @@ atmark("markname") { ... }<br/>
 <h3>the order of setmark is relevant.</h3>
 <div>
 If you have two (or more) setmark in direct succession then the order is preserved.<br/>
-There is a limit of 1000 marks that can be in direct succession.<br/>
 <br/>
 </div>
+Note : There is a limit for the marks that can be set and the number of action-calls (via &gt;&gt;).<br/>
+<ul>
+<li>The sum of these two numbers must not exceed 10000.
+</li>
+<li>The truer will detect an overflow and abort with an error-message.
+</li>
+<br/>
+</ul>
 to unset a mark use<br/>
 <br/><table class="statements">
 <tr class="coderow">
@@ -897,8 +912,14 @@ the order is as follows, for every setmark()<br/>
 </tr>
 </table><br/>
 in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()<br/>
+$usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions<br/>
 each hook has in $_ the same content that the calling action had when the mark was used *first*<br/>
+<br/>
 </div>
+</div>
+<a id="Note203a20Do20not20confuse20mark2dhooks20with20the20structure2dhooks2028like20READ2c20WRITE2c202e2e2e2e2029"></a>
+<h2>Note : Do not confuse mark-hooks with the structure-hooks (like READ, WRITE, .... )</h2>
+<div>
 Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
 </div>
 <a id="pit20CLEAR"></a>

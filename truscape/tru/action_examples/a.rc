@@ -16,7 +16,7 @@ perl_code_tru		perl perl_code_tru perl_code.in
 arguments.tru		make -B arguments_tru  && a arguments_tru
 arguments_tru		perl arguments_tru arguments.in
 marks.in
-marks.tru
+marks.tru		make -B marks_tru && a marks_tru
 marks_tru		make -B test_marks_tru
 DOC.tru			make -B DOC_tru  && a DOC_tru
 DOC_tru			perl DOC_tru DOC.in1 DOC.in2

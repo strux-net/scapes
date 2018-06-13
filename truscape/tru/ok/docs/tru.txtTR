@@ -377,6 +377,10 @@ flow control
         specified in the structure	redirection example 1 and 2
         called from the action		redirection example 3 and 4
 
+    Note : There is a limit for the marks that can be set and the number of action-calls (via >>).
+        The sum of these two numbers must not exceed 10000.
+        The truer will detect an overflow and abort with an error-message.
+
     compare this to "calling actions"
     html code
       Find details in <a href="examples/truscape/tru/action_examples/redirectingActions.tru">action_examples/redirectingActions.tru</a><br/>
@@ -439,7 +443,10 @@ flow control
 		  unusemark()
     the order of setmark is relevant.
       If you have two (or more) setmark in direct succession then the order is preserved.
-      There is a limit of 1000 marks that can be in direct succession.
+
+    Note : There is a limit for the marks that can be set and the number of action-calls (via >>).
+        The sum of these two numbers must not exceed 10000.
+        The truer will detect an overflow and abort with an error-message.
 
     to unset a mark use
     code
@@ -472,7 +479,10 @@ flow control
 	  ]
 
       in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()
+      $usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions
       each hook has in $_ the same content that the calling action had when the mark was used *first*
+
+  Note : Do not confuse mark-hooks with the structure-hooks (like READ, WRITE, .... )
     html code
       Find details in <a href="examples/truscape/tru/action_examples/marks.tru">action_examples/marks.tru</a><br/>
   pit CLEAR
