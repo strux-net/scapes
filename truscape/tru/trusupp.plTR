@@ -1,4 +1,4 @@
-VERSION	3.2a
+VERSION	3.2b
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -112,6 +112,7 @@ tru::main
 	  #      $ARGV[0] holds the name of the next file to be opened
   $level = -1
   W	@tru::actions && $level <= $tru::actions[-1][0]	tru::macroout()
+  W	@tru::Marks_name_Oi	unusemark()
   F	my $markName  (sort keys %tru::HMarks)
     !	$tru::HMarks{$markName}[1]
       doc	apply the n-hook for  not used marks
@@ -505,7 +506,17 @@ tru::macro_out_depth
   W	$rpos < @tru::actions	tru::macroout()
   tru::umacro($tru::action,'<')
 #===	public section
+# these functions can be used in the truer
+# Note : atmark("mark") is a literally translated into the equivalent sequence
+#    usemark("mark");
+#    {
+#       the body of atmark()
+#    }
+#    unusemark();
+#
 setmark			$
+    set a mark at the current cursor-position
+    if there is saved text for this mark, then this text is now outputted
   my ($markName) = @_;
   tru::shiftMarks()
   ?	!$tru::HMarks{$markName}[1] and $tru::HMarks{$markName}[0]
@@ -526,6 +537,10 @@ setmark			$
   $tru::HMarks{$markName}[2] = $tru::Oi	Oi
   tru::subinc(\$tru::Oi)
 usemark			$
+    use the mark $markName
+    the cursor is positioned at the line indicated by this mark
+    $usemark_count for this mark is incremented and can be accessed in the truer
+    also triggers the '[', ']' and '{' markhook
   my ($markName) = @_;
   $tru::HMarks{$markName}[1]++		usemark_count
   push @tru::ActiveMark_name_Oi_unsetMarkActive,[ $markName,$tru::Oi,$tru::unsetMarkActive ]	context - restored at unusemark
@@ -536,7 +551,7 @@ usemark			$
   -
     # mark is not yet set, prepare for storing text for first occurance of setmark for this mark
     $tru::unsetMarkActive = $markName
-  $usemark_count = $tru::HMarks{$markName}[1]						usemark_count, can be accessed as $count in the user-truers hooks
+  $usemark_count = $tru::HMarks{$markName}[1]						usemark_count, can be accessed as $usemark_count in the user-truers hooks
   ?	$usemark_count == 1
     doc	first usage of this mark
       the [ as well as the ] hooks are applied now
@@ -547,6 +562,8 @@ usemark			$
   tru::umacro($markName,'{')
   push @tru::Marks_name_Oi, [ $markName , $tru::Oi ]				remember Oi for the - hook
 unusemark
+    unuse the current mark and return to the previous mark (if any)
+    also triggers the '-' and '}' markhook
   push @tru::AOi,$tru::Oi
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }
   $usemark_count = $tru::HMarks{$markName}[1]					usemark_count can be accessed the user-truers hooks
@@ -555,5 +572,10 @@ unusemark
   tru::umacro($markName,'}')
   $tru::HMarks{$markName}[2] = $tru::Oi						the mark is still valid, it can be reused again.
   ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }	restore context
+clonemark	$from,$to
+    make a copy of mark $from into mark $to
+  $tru::HMarks{$to}[0]++				setmark_count
+  $tru::HMarks{$to}[1] = 0				usemark_count
+  $tru::HMarks{$to}[2] = $tru::HMarks{$from}[2];	Oi
 global code
   1

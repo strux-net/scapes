@@ -680,6 +680,7 @@ Find details in <a href="examples/truscape/tru/action_examples/redirectingAction
 <h2>marks</h2>
 <div>
 marks can be used to place output at specified places.<br/>
+They move with the output.<br/>
 <br/>
 To define a mark use<br/>
 <br/><table class="statements">
@@ -822,13 +823,26 @@ atmark("markname") { ... }<br/>
 If you have two (or more) setmark in direct succession then the order is preserved.<br/>
 <br/>
 </div>
+<a id="to20make20a20copy20of20a20mark20use"></a>
+<h3>to make a copy of a mark use</h3>
+<div>
+<br/><table class="statements">
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;clonemark("from","to")</kbd></td>
+</tr>
+</table><br/>
+</div>
+the "to"-mark will then point to the line where the "from"-mark points to.<br/>
+If you now usemark("to") then mark "from" will remain before the text.<br/>
+Only the "to"-mark will move along with the output.<br/>
+This is useful if you need the output in reverse order<br/>
+<br/>
 Note : There is a limit for the marks that can be set and the number of action-calls (via &gt;&gt;).<br/>
 <ul>
 <li>The sum of these two numbers must not exceed 10000.
 </li>
 <li>The truer will detect an overflow and abort with an error-message.
 </li>
-<br/>
 </ul>
 to unset a mark use<br/>
 <br/><table class="statements">
@@ -838,6 +852,7 @@ to unset a mark use<br/>
 </table><br/>
 marks don't work in stream-mode.<br/>
 marks can be used before they are defined, in which case the text is buffered until the mark will be set.<br/>
+used marks that were never unused will be automatically unused when the truer finishes.<br/>
 </div>
 <a id="mark20hooks"></a>
 <h2>mark hooks</h2>

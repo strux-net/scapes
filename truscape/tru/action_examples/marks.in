@@ -23,6 +23,12 @@ example6
   meta6	first usage of mark_p1
   any other text here
   meta6	second usage of mark_p1
-  meta7	resets mark_p1
+  meta6a	resets mark_p1
   even more text here
   meta6	third usage of mark_p1
+example7
+  meta7		first	1st
+  meta7		second	2nd
+  meta7a	FIRST	1ST
+  meta7a	SECOND	2ND
+example8

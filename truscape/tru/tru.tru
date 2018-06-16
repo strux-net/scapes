@@ -1,4 +1,4 @@
-VERSION	3.3a
+VERSION	3.4
 USAGE	tru [Options] [<file> ....]
 
 	produces a perl-script based on the input-files.
@@ -238,10 +238,7 @@ actions
         setmark("mark_${pit}bot_${Action}");
       }
       if ($pit =~ /\]|\}|</) {
-        usemark("mark_${pit}top_${Action}");
-        setmark("mark_tmp");
-        ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }; # together with next line ....
-        ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }; # this is dirty unusemark, leaving the mark's Oi untouched
+        clonemark("mark_${pit}top_${Action}","mark_tmp");
         usemark("mark_tmp");
       } else {
         usemark("mark_${pit}bot_${Action}");

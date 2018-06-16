@@ -31,7 +31,7 @@ perl ../tru perl_code.tru >perl_code_tru
 GOOD	perl_code_tru
 building marks_tru
 perl ../tru marks.tru >marks_tru
-GOOD	marks_tru
+BAD	marks_tru	ok/marks_tru
 building DOC_tru
 perl ../tru DOC.tru >DOC_tru
 GOOD	DOC_tru
@@ -525,6 +525,27 @@ the ]-hook (post-) surrounds each setmark completetly if the mark was used
   the mark remains between the [ and ]
 even more text here
 end of example6
+example7 demonstrates clonemark
+note that the text at mark_7 will appear in reversed order
+as opposed to the text at mark_7a
+second
+2nd
+first
+1st
+=============
+FIRST
+1ST
+SECOND
+2ND
+example8 demonstrates how the truer automatically unuses marks
+the [ hook for mark_8
+the { hook for mark_8
+the - hook for mark_8
+text at mark_8, but this mark will never be explicitely unused.
+tru will automatically unuse the mark for you and thus trigger the hooks
+the } hook for mark_8
+the ] hook for mark_8
+End
 testing DOC_tru
 perl DOC_tru DOC.in1 DOC.in2
 start of the Document

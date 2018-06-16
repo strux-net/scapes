@@ -4,7 +4,7 @@ tru.doc.frame
 
 quicktest.tru		./tru quicktest.tru > quicktest_tru && a quicktest.in
 quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru -debug quicktest.in ) >| quicktest.out;
-quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out;grep -A 1 "BEGIN:VCARD.martina engel" quicktest.out
+quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out
   
 
 structure_demo.tru	./tru structure_demo.tru > structure_demo_tru && a structure_demo_tru
@@ -18,7 +18,7 @@ test16.tru		./tru test16.tru > test16_tru && a test16_tru
 test16
 test16_tru		chmod +x test16_tru && test16_tru test16 >| test16.out
 
-trusupp.plTR		perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >| trusupp.pl && make test_test7_tru test_test13_tru
+trusupp.plTR		make -B trusupp.pl
 trusupp.pl		make test_test7_tru test_test13_tru
 tru.tru			make -B tru && make -B test7_tru
 helpers
