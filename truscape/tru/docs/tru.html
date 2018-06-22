@@ -716,6 +716,20 @@ usemark must pair with unusemark<br/>
 usemark and unusemark can spread across in,depth,out actions<br/>
 this means also that usemark can be in a different action than unusemark<br/>
 <br/>
+<a id="the20argument20to20setmark28292c20usemark282920and20atmark282920can20be20of20any20type"></a>
+<h3>the argument to setmark(), usemark() and atmark() can be of any type</h3>
+<div>
+usually you want to use string to have a meaningful name for the mark<br/>
+it can also be an integer or a float (if you need to count your marks)<br/>
+<a id="and20lastely20it20can20be20a20reference"></a>
+<h4>and lastely it can be a reference</h4>
+<div>
+but this has the drawback, that tru is will not be able<br/>
+to adequately report text for an unset mark<br/>
+</div>
+Objection : Marks of type int or reference cannot have hooks<br/>
+<br/>
+</div>
 atmark("markname") { ... }<br/>
 <ul>
 <li>cannot spread across in,depth,out actions

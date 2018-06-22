@@ -1,4 +1,4 @@
-VERSION	3.2b
+VERSION	3.2c
 ##	marks
 ##	  marks can be used to place output at specified places.
 ##	  They move with the output.
@@ -25,6 +25,14 @@ VERSION	3.2b
 ##	  usemark must pair with unusemark
 ##	  usemark and unusemark can spread across in,depth,out actions
 ##	  this means also that usemark can be in a different action than unusemark
+##
+##	  the argument to setmark(), usemark() and atmark() can be of any type
+##	    usually you want to use string to have a meaningful name for the mark
+##	    it can also be an integer or a float (if you need to count your marks)
+##	    and lastely it can be a reference
+##	      but this has the drawback, that tru is will not be able
+##	      to adequately report text for an unset mark
+##	    Objection : Marks of type int or reference cannot have hooks
 ##
 ##	  atmark("markname") { ... }
 ##	      cannot spread across in,depth,out actions
@@ -128,7 +136,8 @@ VERSION	3.2b
 #	  example5 demonstrates how to unset a mark
 #	  example6 demonstrates mark_hooks
 #	  example7 demonstrates clonemark
-#	  example8 demonstrates how the truer automatically unuses marks
+#	  example8 demonstrates the different type of argument to setmark
+#	  example9 demonstrates how the truer automatically unuses marks
 
 actions
   example1
@@ -252,14 +261,34 @@ actions
       atmark("mark_tmp")
 	$name
 	$attr
-  example8
+  example9
     >
-	example8 demonstrates how the truer automatically unuses marks
+	example9 demonstrates how the truer automatically unuses marks
       setmark("mark_8");
 	End
       usemark("mark_8");
 	text at mark_8, but this mark will never be explicitely unused.
 	tru will automatically unuse the mark for you and thus trigger the hooks
+  example8
+    >
+	example8 demonstrates the different types of argument to setmark()
+	mark type int
+      setmark(1);
+	mark type float
+      setmark(3.14);
+	mark type "string"
+      setmark("string");
+	mark type reference
+      setmark(\$var);
+	now using the marks
+      atmark(1)
+	  text at mark type int
+      atmark(3.14)
+	  text at mark type float
+      atmark("string")
+	  text at mark type "string"
+      atmark(\$var)
+	  text at mark type reference
 hooks
   mark_p1
     [
@@ -337,3 +366,4 @@ structure
 	  meta7		name	attr	=	meta7
 	  meta7a	name	attr	=	meta7a
 	example8			=	example8
+	example9			=	example9

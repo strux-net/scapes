@@ -406,6 +406,14 @@ flow control
     usemark and unusemark can spread across in,depth,out actions
     this means also that usemark can be in a different action than unusemark
 
+    the argument to setmark(), usemark() and atmark() can be of any type
+      usually you want to use string to have a meaningful name for the mark
+      it can also be an integer or a float (if you need to count your marks)
+      and lastely it can be a reference
+        but this has the drawback, that tru is will not be able
+        to adequately report text for an unset mark
+      Objection : Marks of type int or reference cannot have hooks
+
     atmark("markname") { ... }
         cannot spread across in,depth,out actions
         must be the only statement in a line , as in

@@ -41,7 +41,7 @@ sub setmark($);
 sub usemark($);
 sub unusemark;
 sub clonemark($$);
-# based on trusupp.plTR , version : 3.2b
+# based on trusupp.plTR , version : 3.2c
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -221,7 +221,7 @@ sub tru::main
       # we cannot use usemark($markName) here since this would trigger [ and ]
       #****************************************
       $tru::Oi=$tru::HMarks{$markName}[2];         # Oi
-      tru::umacro("$markName",'n');                # mark was not used, apply this hook
+      tru::umacro($markName,'n');                  # mark was not used, apply this hook
     }
   }
   tru::flush();
@@ -254,7 +254,7 @@ sub tru::prepare_xREAD
     $level = $tru::olevel;
   }
   for (;$tru::empty;$tru::empty--) {
-    push @tru::xREAD,"$sdel";
+    push @tru::xREAD,$sdel;
   }
   $tru::xREADlevel4empty=$level;
 }
@@ -346,7 +346,7 @@ sub tru::respecial
   s/^#:#\t/\t/;
   s/^( +)tru::macro_in_witharg\(0,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1>>$2\t$3/; # >>action<tab>arg
   s/^( +)tru::macro_in_witharg\(1,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1->$2\t$3/; # ->action<tab>arg
-  s/^( +)for \(local \$tru::first_and_only_run,usemark\((\\\$.*?)\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,unusemark\(\)\)/$1atmark($2)/; # atmark("$mark_x")
+  s/^( +)for \(local \$tru::first_and_only_run,usemark\((\\\$.*?)\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,unusemark\(\)\)/$1atmark($2)/; # atmark($mark_x)
   s/^( +)for \(local \$tru::rpos = \@tru::actions, local \$tru::first_and_only_run,tru::macro_in_witharg\(0,qq$sdel(.*?)$sdel,qq$sdel(.*?)$sdel\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,tru::macro_out_forced\(\$tru::rpos\)\) {/$1-->$2\t$3\t{/; # -->action<tab>arg
 }
 
@@ -776,11 +776,11 @@ q(       -help			show help
 }
 #****************************************
 # $tru::unsetMarkActive				name of the not yet set mark, used for saving text
-# @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            ,                               Oi shifted if > Oi
-# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after {, needed for -,                               Oi shifted if > Oi
-# @tru::Or					Oi									only in macro_out_depth, remember the pos for <-action  Oi shifted if >= Oi
-# @tru::Aoi					Oi									position for the - action                               Oi shifted if > Oi
-# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark   Oi shifted if > Oi
+# @tru::ActiveMark_name_Oi_unsetMarkActive	[ $markName , $tru::Oi, $tru::unsetMarkActive ]				marks in use            ,                                  Oi shifted if > Oi
+# @tru::Marks_name_Oi				[ $markName , $tru::Oi ]						Oi after {, needed for -,                                  Oi shifted if > Oi
+# @tru::Or					Oi									only in macro_out_depth, remember the pos for <-action     Oi shifted if >= Oi
+# @tru::Aoi					Oi									position for the - action, and position before the ] hook  Oi shifted if > Oi
+# %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark      Oi shifted if > Oi
 # %tru::Saved					$tru::unsetMarkActive -> [ text ]
 #****************************************
 
@@ -896,7 +896,7 @@ sub setmark($)
     #****************************************
     push @tru::AOi,$tru::Oi;
     $tru::Oi=$tru::HMarks{$markName}[2];           # Oi
-    tru::umacro("$markName",'n');                  # mark was not used, apply this hook
+    tru::umacro($markName,'n');                    # mark was not used, apply this hook
     $tru::Oi=pop(@tru::AOi);
   }
   $tru::HMarks{$markName}[0]++;                    # setmark_count
@@ -942,9 +942,9 @@ sub usemark($)
     #****************************************
     # the [ as well as the ] hooks are applied now
     #****************************************
-    tru::umacro("$markName",'[');
+    tru::umacro($markName,'[');
     push @tru::AOi,$tru::Oi;
-    tru::umacro("$markName",']');
+    tru::umacro($markName,']');
     $tru::Oi=pop(@tru::AOi);
   }
   tru::umacro($markName,'{');
@@ -958,7 +958,7 @@ sub unusemark
 {
   push @tru::AOi,$tru::Oi;
   ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi };
-  $usemark_count = $tru::HMarks{$markName}[1];     # usemark_count can be accessed the user-truers hooks
+  $usemark_count = $tru::HMarks{$markName}[1];     # usemark_count can be accessed in the user-truers hooks
   tru::umacro($markName,'-');
   $tru::Oi=pop(@tru::AOi);
   tru::umacro($markName,'}');

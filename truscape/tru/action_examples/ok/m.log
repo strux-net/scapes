@@ -537,7 +537,17 @@ FIRST
 1ST
 SECOND
 2ND
-example8 demonstrates how the truer automatically unuses marks
+example8 demonstrates the different types of argument to setmark()
+mark type int
+  text at mark type int
+mark type float
+  text at mark type float
+mark type "string"
+  text at mark type "string"
+mark type reference
+  text at mark type reference
+now using the marks
+example9 demonstrates how the truer automatically unuses marks
 the [ hook for mark_8
 the { hook for mark_8
 the - hook for mark_8
