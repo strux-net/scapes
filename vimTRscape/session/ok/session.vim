@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on session.vimTR , version : 3.0
+" based on session.vimTR , version : 3.0a
 "usage for session.vim
 "	maintain vim-sessions.
 "	the sessions have names.
@@ -162,7 +162,6 @@ endfunc
 "-- 
 "  add the tablocal-vars to the session-file (but skip the session-internal-vars)
 function!AddTabVars(of) 
-  exe 'redir >> ' . a:of
   "****************************************
   " skip (session-) internal vars
   "****************************************
@@ -170,9 +169,8 @@ function!AddTabVars(of)
     if var == 'tn' | continue
     elseif var == 'cwd' | continue
     endif
-    echo 'let t:'. var . '=' . string(t:{var}). ''
+    call writefile(['let t:'. var . '=' . string(t:{var})],a:of,"a")
   endfor
-  redir END
 endfunc
 function!OpenSession() 
   perl getFileList

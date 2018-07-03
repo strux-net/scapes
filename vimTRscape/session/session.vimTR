@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 usage	session.vim
 	maintain vim-sessions.
 	the sessions have names.
@@ -54,14 +54,12 @@ CorrectSessionFile	of
   call system("perl -i -n -e 'next if /^args / or /^set nocompatible/ or /^badd/;s/^edit (.*)/badd $1\nedit $1/;print' ".a:of)
 AddTabVars	of
     add the tablocal-vars to the session-file (but skip the session-internal-vars)
-  exe 'redir >> ' . a:of
   doc	skip (session-) internal vars
   F	var in keys(t:)
     ??	var == '	' | continue
       tn
       cwd
-    'let t:'. var . '=' . string(t:{var}). ''
-  redir END
+    call writefile(['let t:'. var . '=' . string(t:{var})],a:of,"a")
 OpenSession
   perl getFileList
   ?	exists("*winrestcmd")
