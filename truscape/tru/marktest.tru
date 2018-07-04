@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.0a
 actions
   DOC
     >
@@ -33,39 +33,43 @@ actions
 hooks
   mark_a
     {
-	in mark_a $count : $_
+	{-hook for mark_a $count : $_
     -
-	depth mark_a $count : $_
+	--hook for mark_a $count : $_
     }
-	out mark_a $count : $_
+	}-hook for mark_a $count : $_
     [
-	outer in mark_a $count : $_
+	[-hook for mark_a $count : $_
     ]
-	outer out mark_a $count : $_
+	]-hook for mark_a $count : $_
     n
-	mark_a is not used
+	n-hook for mark_a
   mark_test
     {
-	1st in mark_test $count : $_
+	{-hook 1st for mark_test $count : $_
     -
-	1st depth mark_test $count : $_
+	--hook 1st for mark_test $count : $_
     }
-	1st out mark_test $count : $_
+	}-hook 1st for mark_test $count : $_
     [
-	1st outer in mark_test $count : $_
+	[-hook 1st for mark_test $count : $_
     ]
-	1st outer out mark_test $count : $_
+	]-hook 1st for mark_test $count : $_
+    n
+	n-hook 1st for mark_test
   mark_test
     {
-	2nd in mark_test $count : $_
+	{-hook 2nd for mark_test $count : $_
     -
-	2nd depth mark_test $count : $_
+	--hook 2nd for mark_test $count : $_
     }
-	2nd out mark_test $count : $_
+	}-hook 2nd for mark_test $count : $_
     [
-	2nd outer in mark_test $count : $_
+	[-hook 2nd for mark_test $count : $_
     ]
-	2nd outer out mark_test $count : $_
+	]-hook 2nd for mark_test $count : $_
+    n
+	n-hook 2nd for mark_test
   mark_notused
     n
 	mark_notused is not used (this line comes from the hook)
@@ -73,7 +77,7 @@ hooks
 	mark_notused is not used (this line comes from the hook)
   mark_test
     {	CLEAR
-	Cle in  mark_test : $_
+	{-hook for mark_test after CLEAR $count : $_
 structure
 	hit	=	hit.*
 	a	=	a.*

@@ -412,7 +412,7 @@ flow control
       and lastely it can be a reference
         but this has the drawback, that tru is will not be able
         to adequately report text for an unset mark
-      Objection : Marks of type int or reference cannot have hooks
+      Objection : Marks of type int or reference cannot have hooks (see below)
 
     atmark("markname") { ... }
         cannot spread across in,depth,out actions
@@ -465,10 +465,14 @@ flow control
         The sum of these two numbers must not exceed 10000.
         The truer will detect an overflow and abort with an error-message.
     to unset a mark use
-    code
+      code
 	  undef $tru::HMarks{"markname"}
+      There is hardly any reason for this to be useful
     marks don't work in stream-mode.
     marks can be used before they are defined, in which case the text is buffered until the mark will be set.
+      if the mark is never set then
+        the truer reports this fact
+        the ]-hook will not be triggered
     used marks that were never unused will be automatically unused when the truer finishes.
   mark hooks
     in the structure-section 'hooks' you can define hooks for each mark
@@ -497,7 +501,8 @@ flow control
 
       in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()
       $usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions
-      each hook has in $_ the same content that the calling action had when the mark was used *first*
+      the [ hook has in $_ the same content that the calling action had when the mark was used *first*
+      the { and - hooks  have in $_ the same content that the calling action had when the mark was used
 
   Note : Do not confuse mark-hooks with the structure-hooks (like READ, WRITE, .... )
     html code

@@ -727,7 +727,7 @@ it can also be an integer or a float (if you need to count your marks)<br/>
 but this has the drawback, that tru is will not be able<br/>
 to adequately report text for an unset mark<br/>
 </div>
-Objection : Marks of type int or reference cannot have hooks<br/>
+Objection : Marks of type int or reference cannot have hooks (see below)<br/>
 <br/>
 </div>
 atmark("markname") { ... }<br/>
@@ -858,14 +858,27 @@ Note : There is a limit for the marks that can be set and the number of action-c
 <li>The truer will detect an overflow and abort with an error-message.
 </li>
 </ul>
-to unset a mark use<br/>
+<a id="to20unset20a20mark20use"></a>
+<h3>to unset a mark use</h3>
+<div>
 <br/><table class="statements">
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;undef $tru::HMarks{"markname"}</kbd></td>
 </tr>
 </table><br/>
+There is hardly any reason for this to be useful<br/>
+</div>
 marks don't work in stream-mode.<br/>
-marks can be used before they are defined, in which case the text is buffered until the mark will be set.<br/>
+<a id="marks20can20be20used20before20they20are20defined2c20in20which20case20the20text20is20buffered20until20the20mark20will20be20set2e"></a>
+<h3>marks can be used before they are defined, in which case the text is buffered until the mark will be set.</h3>
+<div>
+<a id="if20the20mark20is20never20set20then"></a>
+<h4>if the mark is never set then</h4>
+<div>
+the truer reports this fact<br/>
+the ]-hook will not be triggered<br/>
+</div>
+</div>
 used marks that were never unused will be automatically unused when the truer finishes.<br/>
 </div>
 <a id="mark20hooks"></a>
@@ -942,7 +955,8 @@ the order is as follows, for every setmark()<br/>
 </table><br/>
 in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()<br/>
 $usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions<br/>
-each hook has in $_ the same content that the calling action had when the mark was used *first*<br/>
+the [ hook has in $_ the same content that the calling action had when the mark was used *first*<br/>
+the { and - hooks  have in $_ the same content that the calling action had when the mark was used<br/>
 <br/>
 </div>
 </div>

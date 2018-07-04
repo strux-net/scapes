@@ -12,20 +12,20 @@ example3
   meta3	five
   meta3	six
 example4
-  meta4a	small 1
-  meta4b	big   1
-  meta4b	big   2
-  meta4a	small 2
+  meta4a	seven
+  meta4b	eight
+  meta4b	nine
+  meta4a	ten (will be placed after seven)
 example5
-  meta5		seven
+  meta5		eleven
 example6
   any text here
-  meta6	first usage of mark_p1
+  meta6	first usage of mark_6_1
   any other text here
-  meta6	second usage of mark_p1
-  meta6a	resets mark_p1
+  meta6	second usage of mark_6_1
+  meta6a	resets mark_6_1
   even more text here
-  meta6	third usage of mark_p1
+  meta6	third usage of mark_6_1
 example7
   meta7		first	1st
   meta7		second	2nd

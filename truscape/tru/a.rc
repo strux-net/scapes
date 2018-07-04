@@ -2,7 +2,7 @@ run			tru.jar ./action_demo_tru action_demo.in >|out
 docexpand.tru		./tru docexpand.tru > docexpand_tru && a docexpand_tru
 tru.doc.frame
 
-quicktest.tru		./tru quicktest.tru > quicktest_tru && a quicktest.in
+quicktest.tru		./tru quicktest.tru > quicktest_tru
 quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru -debug quicktest.in ) >| quicktest.out;
 quicktest.in		( date ; chmod +x quicktest_tru && quicktest_tru quicktest.in ) >| quicktest.out
   

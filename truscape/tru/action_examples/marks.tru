@@ -1,4 +1,4 @@
-VERSION	3.2c
+VERSION	3.3
 ##	marks
 ##	  marks can be used to place output at specified places.
 ##	  They move with the output.
@@ -32,7 +32,7 @@ VERSION	3.2c
 ##	    and lastely it can be a reference
 ##	      but this has the drawback, that tru is will not be able
 ##	      to adequately report text for an unset mark
-##	    Objection : Marks of type int or reference cannot have hooks
+##	    Objection : Marks of type int or reference cannot have hooks (see below)
 ##
 ##	  atmark("markname") { ... }
 ##	      cannot spread across in,depth,out actions
@@ -89,11 +89,15 @@ VERSION	3.2c
 ##	      The truer will detect an overflow and abort with an error-message.
 #
 ##	  to unset a mark use
-##	  code
+##	    code
 ##		undef $tru::HMarks{"markname"}
+##	    There is hardly any reason for this to be useful
 #
 ##	  marks don't work in stream-mode.
 ##	  marks can be used before they are defined, in which case the text is buffered until the mark will be set.
+##	    if the mark is never set then
+##	      the truer reports this fact
+##	      the ]-hook will not be triggered
 ##	  used marks that were never unused will be automatically unused when the truer finishes.
 #
 ##	mark hooks
@@ -123,7 +127,8 @@ VERSION	3.2c
 ##
 ##	    in  { , - and } $usemark_count holds the counter for usemark() rsp. atmark()
 ##	    $usemark_count is also meaningful after a usemark() rsp. atmark() in normal actions
-##	    each hook has in $_ the same content that the calling action had when the mark was used *first*
+##	    the [ hook has in $_ the same content that the calling action had when the mark was used *first*
+##	    the { and - hooks  have in $_ the same content that the calling action had when the mark was used
 ##
 ##	Note : Do not confuse mark-hooks with the structure-hooks (like READ, WRITE, .... )
 
@@ -142,7 +147,9 @@ VERSION	3.2c
 actions
   example1
     >
+	example1 shows the using of a mark that was defined earlier
 	"example1" started. Mark for meta set in in-action. The mark is defined when using it.
+	setting mark_1 here
       setmark("mark_1");
 	"example1" finished
   text
@@ -154,10 +161,16 @@ actions
 	meta : $name
 	usemark_count : $usemark_count
   example2
+    >
+	example2 shows the using of a mark that will be defined after their usage
+	  it also shows what happens if marks are used that will never be defined
+	  it also shows the values of $usemark_count outside hooks
+	Some text will be put at mark_2 and mark_3 before these marks are set.
     -
 	"example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
+	setting mark_2 here
       setmark("mark_2");
-	# again listing the metas
+	setting mark_3 here
       setmark("mark_3");
 	"example2" finished
       atmark("mark_neverset")
@@ -169,20 +182,22 @@ actions
     >
       atmark("mark_2") {
 	meta2 : $name
-	usemark_count (mark_2) : $usemark_count
+	usemark_count (for mark_2) : $usemark_count
         # nesting works
         atmark("mark_3") {
 	name : $name
-	usemark_count (mark_3) : $usemark_count
+	usemark_count (for mark_3) : $usemark_count
         }
-	usemark_count (mark_2) : $usemark_count
+        # back in mark_2, $usemark_count is restored
+	usemark_count (again for mark_2) : $usemark_count
       }
   example3
     >
-	This example demonstrates usemark() and unusemark()
+	example3 demonstrates usemark() and unusemark()
+	setting mark_4 here
       setmark("mark_4");
 	all metas are collected before this line
-      usemark("mark_4");
+      usemark("mark_4");	# it will remain active until unused in the out-action
     <
       unusemark();
   meta3	name
@@ -190,7 +205,7 @@ actions
 	$name
   example4
     >
-	this example demonstrates the relevance of the order of marks that are in direct succession
+	example4 demonstrates the relevance of the order of marks that are in direct succession
       setmark("mark_4a");
       setmark("mark_4b");
 	end of example4
@@ -202,48 +217,56 @@ actions
     >
       atmark("mark_4b")
 	$name
+  example5
+    >
+	example5 demonstrates how to unset a mark
+	setting mark_5 here
+      setmark("mark_5");
+	end of example5
   meta5	name
     >
-	this example demonstrates how to unset a mark
-      atmark("mark_4b")
+      atmark("mark_5")
 	$name
-      undef $tru::HMarks{"mark_4b"}; # this unsets the mark
-      atmark("mark_4b")
-	$name
+	unsetting mark_5
+      undef $tru::HMarks{"mark_5"}; # this unsets the mark
+      atmark("mark_5")
+	$name again, but mark_5 is not set
   example6
     >
 	example6 demonstrates the mark hooks
-	header-section start
-	meta6 puts some stuff here
-      setmark("mark_p1");
-	the n-hook for mark_p1 did not apply, since the mark was used at least once
+	setting mark_6_1
+      setmark("mark_6_1");
+	the n-hook for mark_6_1 did not apply, since the mark was used at least once
 
-	now setting a new mark.
-	nothing puts some stuff here, hence the n-hook applies
-      setmark("mark_p2");
-	header-section end
+	now setting a new mark (mark_6_2).
+	this mark is never used, hence the n-hook applies
+	setting mark_6_2
+      setmark("mark_6_2");
     <
 	end of example6
   meta6	name
     >
-      atmark("mark_p1")
+      atmark("mark_6_1")
 	name : $name
 	more to $name
 	\$usemark_count : $usemark_count --- count usemark (and implicitely atmark)
   meta6a	name
     >
-	going to set mark mark_p1 to here.
+	going to set mark mark_6_1 to here.
 	this starts a new mark-setting, where
 	  all hooks apply again
 	  usemark_count is reset
-      setmark("mark_p1"); # this implicitely first unuses mark_p1
+	setting mark_6_1 again
+      setmark("mark_6_1"); # this implicitely first unuses mark_6_1
   example7
     >
 	example7 demonstrates clonemark
 	note that the text at mark_7 will appear in reversed order
 	as opposed to the text at mark_7a
+	setting mark_7 here
       setmark("mark_7");
 	=============
+	setting mark_7a here
       setmark("mark_7a");
   meta7	name	attr
     >
@@ -254,6 +277,10 @@ actions
 	$attr
   meta7a	name	attr
     >
+      # this is not really a useful coding.
+      # it is just here to demonstrate what happens if you set a mark inside a mark-usage
+      # the mark in use will always be behind the newly set mark
+      # clonemark() does it the other way round
       atmark("mark_7a") {
        setmark("mark_tmp");
       }
@@ -261,6 +288,26 @@ actions
       atmark("mark_tmp")
 	$name
 	$attr
+  example8
+    >
+	example8 demonstrates the different types of argument to setmark()
+	mark type int
+      setmark(1);
+	mark type float
+      setmark(3.14);
+	mark type string
+      setmark("string can be anything");
+	mark type reference
+      setmark(\$var);
+	now using the marks
+      atmark(1)
+	  text at mark type int
+      atmark(3.14)
+	  text at mark type float
+      atmark("string can be anything")
+	  text at mark type string
+      atmark(\$var)
+	  text at mark type reference
   example9
     >
 	example9 demonstrates how the truer automatically unuses marks
@@ -269,51 +316,27 @@ actions
       usemark("mark_8");
 	text at mark_8, but this mark will never be explicitely unused.
 	tru will automatically unuse the mark for you and thus trigger the hooks
-  example8
-    >
-	example8 demonstrates the different types of argument to setmark()
-	mark type int
-      setmark(1);
-	mark type float
-      setmark(3.14);
-	mark type "string"
-      setmark("string");
-	mark type reference
-      setmark(\$var);
-	now using the marks
-      atmark(1)
-	  text at mark type int
-      atmark(3.14)
-	  text at mark type float
-      atmark("string")
-	  text at mark type "string"
-      atmark(\$var)
-	  text at mark type reference
 hooks
-  mark_p1
+  mark_6_1
     [
-	the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
-	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	[-hoook or mark_6_1
+	  the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
+	  this hook has in \$_ the same content that the calling action had when the mark was used *first*
 	  here it was : $_
-	  this hook is triggered directly after the first usemark.
-    ]
-	the ]-hook (post-) surrounds each setmark completetly if the mark was used
-	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	  here it was : $_
-	  this hook is triggered directly after [ - hook was executed.
-	  the mark remains between the [ and ]
+	  this hook is triggered directly at the first usemark.
     {
 	the {-hook (pre-)  surrounds each usemark
-	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  this hook has in \$_ the same content that the calling action had when the mark was used
 	  here it was : $_
 	  \$usemark_count contains the counter for the usemark().
 	  It is incremented for each usemark() rsp. atmark(). It starts at 1
 	  \$usemark_count = $usemark_count
     -
 	the --hook (pre-)  surrounds each usemark
-	  this is output when then mark is unused or resetted or when there is no more input
-	  it is the depth-action. It appears after the output produced by the { - mark
-	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
+	  this is output when the mark is unused or reset
+	  Note : all active marks are unused automatically when no more input is present.
+	  it is the depth-action. It appears after the output produced by the { - hook
+	  this hook has in \$_ the same content that the calling action had when the mark was used
 	  here it was : $_
 	  \$usemark_count contains the counter for the usemark().
 	  It is incremented for each usemark() rsp. atmark(). It starts at 1
@@ -321,18 +344,23 @@ hooks
 	  \$NrOfChilds and \$NrOfLinesFollowing are not set here. This may change in the future
     }
 	the }-hook (post-) surrounds each usemark
-	  this is output when then mark is unused or resetted or when there is no more input
+	  this hook is triggered when the mark is unused or reset
+	  Note : all active marks are unused automatically when no more input is present.
 	  it appears after the mark-block
-	  each hook has in \$_ the same content that the calling action had when the mark was used *first*
-	  here it was : $_
+	  \$_ has no special meaning here
 	  \$usemark_count contains the counter for the usemark().
 	  It is incremented for each usemark() rsp. atmark(). It starts at 1
 	  \$usemark_count = $usemark_count
+    ]
+	the ]-hook (post-) surrounds each setmark completetly if the mark was used
+	  this hook is triggered when the mark is reset
+	  Note : all active marks are unused automatically when no more input is present.
+	  \$_ has no special meaning here
     n
 	  the n hook used if the mark was never used. In this example it will not be triggered
-  mark_p2
+  mark_6_2
     n
-	used if the mark was never used
+	apply n-hook for mark_6_2
   mark_8
     [
 	the [ hook for mark_8

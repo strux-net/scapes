@@ -31,7 +31,7 @@ perl ../tru perl_code.tru >perl_code_tru
 GOOD	perl_code_tru
 building marks_tru
 perl ../tru marks.tru >marks_tru
-BAD	marks_tru	ok/marks_tru
+GOOD	marks_tru
 building DOC_tru
 perl ../tru DOC.tru >DOC_tru
 GOOD	DOC_tru
@@ -371,14 +371,16 @@ line2
 testing marks_tru
 perl marks_tru marks.in
 marks_tru : some text was never output (due to unset marks) when processing marks.in
-  For mark mark_4b
-	seven
+  For mark mark_5
+	eleven again, but mark_5 is not set
   For mark mark_neverset
 	This text will not be found in the output because the mark is never set.
   For mark mark_neverset1
 	Also this text is never output for the same reasons.
 	This is here to demonstrate how the truer will tell this fact on STDERR
+example1 shows the using of a mark that was defined earlier
 "example1" started. Mark for meta set in in-action. The mark is defined when using it.
+setting mark_1 here
 meta : one
 usemark_count : 1
 meta : two
@@ -386,153 +388,167 @@ usemark_count : 2
 "example1" finished
 any text here
 more text here
+example2 shows the using of a mark that will be defined after their usage
+  it also shows what happens if marks are used that will never be defined
+  it also shows the values of 2 outside hooks
+Some text will be put at mark_2 and mark_3 before these marks are set.
 "example2" started. mark_2 for meta set in depth-action. The mark is *NOT YET* defined when using it.
+setting mark_2 here
 meta2 : three
-usemark_count (mark_2) : 1
-usemark_count (mark_2) : 1
+usemark_count (for mark_2) : 1
+usemark_count (again for mark_2) : 1
 meta2 : four
-usemark_count (mark_2) : 2
-usemark_count (mark_2) : 2
-# again listing the metas
+usemark_count (for mark_2) : 2
+usemark_count (again for mark_2) : 2
+setting mark_3 here
 name : three
-usemark_count (mark_3) : 1
+usemark_count (for mark_3) : 1
 name : four
-usemark_count (mark_3) : 2
+usemark_count (for mark_3) : 2
 "example2" finished
 any text2 here
 more text2 here
-This example demonstrates usemark() and unusemark()
+example3 demonstrates usemark() and unusemark()
+setting mark_4 here
 five
 six
 all metas are collected before this line
-this example demonstrates the relevance of the order of marks that are in direct succession
-small 1
-small 2
-big   1
-big   2
+example4 demonstrates the relevance of the order of marks that are in direct succession
 seven
+ten (will be placed after seven)
+eight
+nine
 end of example4
-this example demonstrates how to unset a mark
+example5 demonstrates how to unset a mark
+setting mark_5 here
+eleven
+unsetting mark_5
+end of example5
 example6 demonstrates the mark hooks
-header-section start
-meta6 puts some stuff here
-the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	first usage of mark_p1
-  this hook is triggered directly after the first usemark.
+setting mark_6_1
+[-hoook or mark_6_1
+  the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
+  this hook has in $_ the same content that the calling action had when the mark was used *first*
+  here it was : meta6	first usage of mark_6_1
+  this hook is triggered directly at the first usemark.
 the {-hook (pre-)  surrounds each usemark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	first usage of mark_p1
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	first usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
 the --hook (pre-)  surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
-  it is the depth-action. It appears after the output produced by the { - mark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	first usage of mark_p1
+  this is output when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
+  it is the depth-action. It appears after the output produced by the { - hook
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	first usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
   $NrOfChilds and $NrOfLinesFollowing are not set here. This may change in the future
-name : first usage of mark_p1
-more to first usage of mark_p1
+name : first usage of mark_6_1
+more to first usage of mark_6_1
 $usemark_count : 1 --- count usemark (and implicitely atmark)
 the }-hook (post-) surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
+  this hook is triggered when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
   it appears after the mark-block
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	first usage of mark_p1
+  $_ has no special meaning here
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
 the {-hook (pre-)  surrounds each usemark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	second usage of mark_p1
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	second usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 2
 the --hook (pre-)  surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
-  it is the depth-action. It appears after the output produced by the { - mark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	second usage of mark_p1
+  this is output when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
+  it is the depth-action. It appears after the output produced by the { - hook
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	second usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 2
   $NrOfChilds and $NrOfLinesFollowing are not set here. This may change in the future
-name : second usage of mark_p1
-more to second usage of mark_p1
+name : second usage of mark_6_1
+more to second usage of mark_6_1
 $usemark_count : 2 --- count usemark (and implicitely atmark)
 the }-hook (post-) surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
+  this hook is triggered when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
   it appears after the mark-block
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	second usage of mark_p1
+  $_ has no special meaning here
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 2
 the ]-hook (post-) surrounds each setmark completetly if the mark was used
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	first usage of mark_p1
-  this hook is triggered directly after [ - hook was executed.
-  the mark remains between the [ and ]
-the n-hook for mark_p1 did not apply, since the mark was used at least once
-now setting a new mark.
-nothing puts some stuff here, hence the n-hook applies
-used if the mark was never used
-header-section end
+  this hook is triggered when the mark is reset
+  Note : all active marks are unused automatically when no more input is present.
+  $_ has no special meaning here
+the n-hook for mark_6_1 did not apply, since the mark was used at least once
+now setting a new mark (mark_6_2).
+this mark is never used, hence the n-hook applies
+setting mark_6_2
+apply n-hook for mark_6_2
 any text here
 any other text here
-going to set mark mark_p1 to here.
+going to set mark mark_6_1 to here.
 this starts a new mark-setting, where
   all hooks apply again
   usemark_count is reset
-the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	third usage of mark_p1
-  this hook is triggered directly after the first usemark.
+setting mark_6_1 again
+[-hoook or mark_6_1
+  the [-hoook (pre-)  surrounds each setmark completetly if the mark was used
+  this hook has in $_ the same content that the calling action had when the mark was used *first*
+  here it was : meta6	third usage of mark_6_1
+  this hook is triggered directly at the first usemark.
 the {-hook (pre-)  surrounds each usemark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	third usage of mark_p1
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	third usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
 the --hook (pre-)  surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
-  it is the depth-action. It appears after the output produced by the { - mark
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	third usage of mark_p1
+  this is output when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
+  it is the depth-action. It appears after the output produced by the { - hook
+  this hook has in $_ the same content that the calling action had when the mark was used
+  here it was : meta6	third usage of mark_6_1
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
   $NrOfChilds and $NrOfLinesFollowing are not set here. This may change in the future
-name : third usage of mark_p1
-more to third usage of mark_p1
+name : third usage of mark_6_1
+more to third usage of mark_6_1
 $usemark_count : 1 --- count usemark (and implicitely atmark)
 the }-hook (post-) surrounds each usemark
-  this is output when then mark is unused or resetted or when there is no more input
+  this hook is triggered when the mark is unused or reset
+  Note : all active marks are unused automatically when no more input is present.
   it appears after the mark-block
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	third usage of mark_p1
+  $_ has no special meaning here
   $usemark_count contains the counter for the usemark().
   It is incremented for each usemark() rsp. atmark(). It starts at 1
   $usemark_count = 1
 the ]-hook (post-) surrounds each setmark completetly if the mark was used
-  each hook has in $_ the same content that the calling action had when the mark was used *first*
-  here it was : meta6	third usage of mark_p1
-  this hook is triggered directly after [ - hook was executed.
-  the mark remains between the [ and ]
+  this hook is triggered when the mark is reset
+  Note : all active marks are unused automatically when no more input is present.
+  $_ has no special meaning here
 even more text here
 end of example6
 example7 demonstrates clonemark
 note that the text at mark_7 will appear in reversed order
 as opposed to the text at mark_7a
+setting mark_7 here
 second
 2nd
 first
 1st
 =============
+setting mark_7a here
 FIRST
 1ST
 SECOND
@@ -542,8 +558,8 @@ mark type int
   text at mark type int
 mark type float
   text at mark type float
-mark type "string"
-  text at mark type "string"
+mark type string
+  text at mark type string
 mark type reference
   text at mark type reference
 now using the marks

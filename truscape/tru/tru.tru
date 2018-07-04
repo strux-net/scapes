@@ -1,4 +1,4 @@
-VERSION	3.4
+VERSION	3.5
 USAGE	tru [Options] [<file> ....]
 
 	produces a perl-script based on the input-files.
@@ -236,6 +236,7 @@ actions
 	##    $pit	CLEAR
         setmark("mark_${pit}top_${Action}");
         setmark("mark_${pit}bot_${Action}");
+        unusemark();
       }
       if ($pit =~ /\]|\}|</) {
         clonemark("mark_${pit}top_${Action}","mark_tmp");
@@ -290,6 +291,7 @@ actions
       $Action = $Special;
   shortdesc
     >
+      # tbd : use clonemark()
       if (!$Seen{$Action}{'d'}++) {
         atmark("mark_d_${Action}") {
 	=$shortdesc
