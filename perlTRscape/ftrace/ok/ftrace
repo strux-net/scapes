@@ -50,7 +50,7 @@ $opt_Pp = 0;
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on ftrace.plTR , version : 3.0a
+# based on ftrace.plTR , version : 4.0
 
 sub usage
 {
@@ -139,7 +139,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  ftrace.plTR	3.0a\n";
+    print "  ftrace.plTR	4.0\n";
     exit 0
   }
   use Getopt::Long;

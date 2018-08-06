@@ -29,6 +29,5 @@ vim_tru
 	       -intro:file		use specified file for intro
 			This file will be copied unchanged.
 	       -obeyD:string		define what D produces
-	       -obeyBang		Obey ! in functions. Default is : all functions are !
 
 	       -vhelp shows more options

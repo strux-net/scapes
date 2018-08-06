@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 doc	about this program
   this program does not serve any special purpose xcept for testing perl_tru
 
@@ -6,7 +6,7 @@ doc	about this program
 package	Strull
 require	"AutoLoader.pm"
   "AutoSplit.pm"
-VERSION	3.0a
+VERSION	4.0
 require
   "Benchmark.pm"
 use	Date::Manip qw(ParseDate DateCalc UnixDate)
@@ -152,7 +152,7 @@ main
 
 # comments as usual are possible
 
-test	$scalar1,$scalar2,@array
+sub test	$scalar1,$scalar2,@array
     this function has a nice name
     Author	me
   "called test()\n"
@@ -160,29 +160,30 @@ test	$scalar1,$scalar2,@array
   "scalar2 = $scalar2\n"
   "array = @array\n"
   $a = "(..)"	##PURE##
-
-another_function	\@$$@
-  "this function is never called\n"
-  #and here is a comment with	some	tabsepareted	fields
-  M;	#	2
-    a	b
-    c	d
-  M_	#	2
-    a	b
-    c	d
-  foo(..)
-    1
-    2
-    [..]
-      3
-      4
-      {..}
-        a	"b"
-        c	"d"
-      sub	$txt
-	  comments possible
-        return ":$txt:"
-      5
-foo
-  print "$_[2][2]{a}\n"
-  print $_[2][3]("jubel")
+subs
+  another_function	\@$$@
+    "this function is never called\n"
+    #and here is a comment with	some	tabsepareted	fields
+    M;	#	2
+      a	b
+      c	d
+    M_	#	2
+      a	b
+      c	d
+    foo(..)
+      1
+      2
+      [..]
+	3
+	4
+	{..}
+	  a	"b"
+	  c	"d"
+	sub	$txt
+	    comments possible
+	  return ":$txt:"
+	5
+  foo
+    print "$_[2][2]{a}\n"
+    print $_[2][3]("jubel")
+?	1	"code not in a function"

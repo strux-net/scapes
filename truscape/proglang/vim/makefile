@@ -34,12 +34,12 @@ test_vim_tru: vim_tru
 	@echo  testing vim_tru
 	./vim_tru test.vimTR >test.vim
 	@${m_diff} test.vim
-	./vim_tru -obeyBang test.vimTR >test1.vim
+	./vim_tru test.vimTR >test1.vim
 	@${m_diff} test1.vim
 	-./vim_tru -invalid
 vim_tru:
 	@echo  building vim_tru
-	tru -s statistics.out ../common.tru ../morecommon.tru ../plainvar.tru vim.tru ../globalCode.tru vimcoll.tru  ../../lib/basicUSAGE.tru >vim_tru
+	tru -s statistics.out ../common.tru ../morecommon.tru ../plainvar.tru vim.tru vimcoll.tru  ../../lib/basicUSAGE.tru >vim_tru
 	chmod +x vim_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
 	PATH=$$PWD:$$PATH perl ~/bin/trudocGivesCheck -s vim vim_tru >vim_tru.tmp
 	mv vim_tru.tmp vim_tru

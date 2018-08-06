@@ -1,7 +1,8 @@
-VERSION	3.0
+VERSION	4.0
 structure
 	common			=g
 	java			=g
 	try catch clause	=g
 	java_sql		=g
+	{-block			=g
 	statement		=g

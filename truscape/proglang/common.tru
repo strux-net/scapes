@@ -1,4 +1,4 @@
-VERSION	3.1b
+VERSION	4.0
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -116,8 +116,8 @@ actions
 	    'a final ; is NOT given automatically' ;	do NOT forget the ; for c, js, java, perl
 
 	  doc	depending on the language statements starting with a string are treated as autoprint
-	  "a double quoted string"			sh, c, perl , java, js
-	  'a single quoted string'			vim
+	  "a double quoted string"			sh, c, perl , java, js, py
+	  'a single quoted string'			vim, py
     >
       # from now on, $comment is suitable for direct usage
       $comment = "\t$cc $comment" if $comment ne "";
@@ -210,7 +210,6 @@ actions
         case	mandatory	.+	the value to be checked
         statement	optional	.+	a statement
         comment	optional	.+	a comment
-      It must be the last statement in the case.
       Example :
         see	S
   nobreak
@@ -624,7 +623,7 @@ actions
 			2
       Example :	perl_tru -noIntro -noSharpBang -noProtos
 	doc	a more realistic example (in perl)
-	foo
+	sub foo
 	  M	if ($size > (			 )) { return int($size/(		))."		";}
 				1024*1024*1024				1024*1024*1024		TB
 				1024*1024				1024*1024		GB
@@ -870,7 +869,7 @@ actions
       Parameters :
         EMPTY	indicator	.*
       Example :	classtruer -noIntro -noSharpBang -noProtos -noConfigCheck
-	main
+	foo
 	  stmt1
 
 	  stmt2
@@ -904,8 +903,8 @@ actions
 	      void foo
 	        T1\	#1#Button.setText("#2#");	#1#.setMnemonic(KeyEvent.VK_#3#);
 	          button		Text		Hot-Key
-	          editOrView	View -> Edit	E
-	          saveChanges	Save changes	S
+	          editOrView		View -> Edit	E
+	          saveChanges		Save changes	S
 	          refresh		Refresh		R
 	          details		Details		D
 	          newEntry		New Entry	N
@@ -1107,7 +1106,7 @@ actions
 
       The strategies are applied to the plan, which is formed by the block of lines.
         The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.
-        repeating the plan is done by refeeding it to the truer
+        repeating the plan is done by refeeding it to the truer (this may make debugging a bit harder)
         depending on the flag <
           flag given		the block is shifted two spaces to the left.
           flag not given	the block is refed without fussing with the indent of the lines
@@ -1121,13 +1120,13 @@ actions
 	foo1
 	  doc	produce 3 repetitions of the block, each with another op, the plan has no name
 	  P!	s/op/>/g	s/op/</g	s/op/==/g
-	    // running tests for op
+	    doc	running tests for op
 	    ?	test1() op test2()	handleTests("op")
 
 	foo2
 	  doc	produce 2 repetitions of the block, the first is unchanged
 	  P!example with untouched block	;	s/green/red/g
-	    // when the lights are green
+	    doc	when the lights are green
 	    ?	light == "green"	greenseen++
 
       You can happily use plans within plans, they nest.
@@ -1237,19 +1236,15 @@ group
 # make the catch a bit weeker, still fix the pos
 # this allows comments on the same level
 	  catch	[statement]							>0		.+
-  statement
+  {-block
 	ending in {			[comment]				>2 2copy	.*\{
 	}				[comment]				>2 2copy	\}.*
+  statement
 	statement			[comment]				>2
 	 statementContinuation		[comment]	*			>>* 2continue
-  main
-	main									=o	main
-	  autodoc								=g
-	  Option	[comment]						=	Option
-	    opt:type[default]	shortdesc	[stmt]				=o	.+:.+(?:\[.*\])?
-	        Optiondescription	*					=t*
-	    opt			shortdesc	[stmt]				=o
-	        Optiondescription	*					=t*
-  function
-	function	[args]	additions					=o	.+
-	  autodoc								=g
+  Option
+	Option	[comment]						=	Option
+	  opt:type[default]	shortdesc	[stmt]				=o	.+:.+(?:\[.*\])?
+	      Optiondescription	*					=t*
+	  opt			shortdesc	[stmt]				=o
+	      Optiondescription	*					=t*

@@ -1,0 +1,8 @@
+~/truscape/proglang/common.tru
+pycoll.tru
+py.tru		make -B test_py_tru && a pytest.pyTR
+tru		tru.jar ./py_tru pytest.pyTR &
+py_tru
+pytest.pyTR	./py_tru pytest.pyTR > pytest.py && a pytest.py
+pytest.py	python3 pytest.py -a -t 4
+trudev		a tru

@@ -7,15 +7,16 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  LL.shTR	3.0"
+  echo "  LL.shTR	4.0"
   exit 0
 fi
-# based on LL.shTR , version : 3.0
 
 usage()
 {
   cat <<'EOU' >&2
 usage : LL [<file>]
+OPTIONS:
+  -version	show version information
 opens a powerful directory-browser.
 
 file can be a directory or a path to a real file.
@@ -27,18 +28,13 @@ Note:
   This may fail if you have a vim-setup that interferes with this LL.
   In this case try LLfs (the fail-save version of LL). 
   LLfs does the same but does not use  your .vimrc and plugins.
-OPTIONS:
-  -version	show version information
 EOU
   exit 1
 }
-main()
-{
-  if [ $# -eq 1 -a "$1" = '-?' ] ; then
-    usage
-  fi
-  #vim +"LL $@" +only
-  # above does not work for dir\ with\ spaces
-  vim -N +'perl LL("'"$@"'")' +only
-}
-main "$@"
+if [ $# -eq 1 -a "$1" = '-?' ] ; then
+  usage
+fi
+# based on LL.shTR , version : 4.0
+#vim +"LL $@" +only
+# above does not work for dir\ with\ spaces
+vim -N +'perl LL("'"$@"'")' +only

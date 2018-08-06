@@ -1,0 +1,6 @@
+VERSION	3.0
+structure
+	common				=g
+	py				=g
+	statement			[comment]				>2
+	 statementContinuation		[comment]	*			>>*

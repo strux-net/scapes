@@ -20,7 +20,7 @@ $opt_s = '';
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on perltest.plTR , version : 3.0
+# based on perltest.plTR , version : 4.0
 #****************************************
 # about this program
 #****************************************
@@ -30,7 +30,7 @@ if (@ARGV == 1 and $ARGV[0] eq '-?') {
 #****************************************
 require "AutoLoader.pm";
 require "AutoSplit.pm";
-# based on perltest.plTR , version : 3.0a
+# based on perltest.plTR , version : 4.0
 require "Benchmark.pm";
 use Date::Manip qw(ParseDate DateCalc UnixDate);
 ## Hand written stuff	1
@@ -98,8 +98,8 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  perltest.plTR	3.0\n";
-    print "  perltest.plTR	3.0a\n";
+    print "  perltest.plTR	4.0\n";
+    print "  perltest.plTR	4.0\n";
     exit 0
   }
   require "AutoLoader.pm";                         # was a problem once
@@ -319,5 +319,8 @@ sub foo
 {
   print "$_[2][2]{a}\n";
   print $_[2][3]("jubel");
+}
+if (1) {
+  print "code not in a function";
 }
 main();

@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	acmd <file>
 	offer a menu of choices of what to do with <file>
 
@@ -59,137 +59,138 @@ main
     find_entries $ARGV[0]
     interactive
   #Dump
-acmd_init
-  $group=-1	group number
-  @G=@AF=()
-  F	my $f (@acmd_files)
-    ?	-e $f
-      ?	open(AF,$f)
-	?	$opt_V			"reading $f\n"
-	$group++
-	parseAF
-	close AF
-      -	errorMsg("cannot open $f : $!\n")
-    -
-      ?	$opt_V			"skipping $f\n"
-  ?	@G == ()	errorMsg("none of @acmd_files readable, acmd not usable\n")
-errorMsg	$str
-  ?	$opt_vimcall	VIM::Msg($str)	STDERR "$str"
-showPoss
-  F	$i=0;$i<@POSSIBILITIES;$i++	print "$i\t".poss(\@POSSIBILITIES,$i)."\n"
-interactive
-  !	@ARGV == 1	usage
-  !	@POSSIBILITIES
-    "no rule for $f\n"
-    exit
-  showPoss
-  FOREVER
-    U	$_ ne ""
-      "choice : "
-      !	$_ = <STDIN>	return
-      chop $_
-    ?	$_ eq "q"	return
-    ?	$_ eq "?"	showPoss;next
-    ?	$_=choice($_)	"$_\n"
-
-vim_do_I	$i
-  WriteTmpScript(qq($xterm $POSSIBILITIES[$i][2]),$f,'' ,'t')	calculations for $f, $p, $e, $F and $r are repeated there
-  VIM::DoCommand("call ExecuteScript('t')")
-vim_do_o	$i
-  vim_do_I($i);return
-  eval qq( \$cmd = qq($POSSIBILITIES[$i][2]) )
-  $cmd =~ s/([!%#])/\\$1/g
-  VIM::DoCommand("new|r! $cmd")
-  VIM::DoCommand("1d|set nomodified")
-vim_do_G	$i
-  eval qq(system qq($POSSIBILITIES[$i][2] >/dev/null 2>/dev/null &))	&>/dev/null does not work since system invokes sh (not bash)
-vim_do_s	$i
-  eval qq(system qq($POSSIBILITIES[$i][2]&))
-
-so_do_I	$i
-  eval qq(system qq($POSSIBILITIES[$i][2]))
-so_do_o	$i
-  eval qq(system qq($POSSIBILITIES[$i][2]))
-so_do_G	$i
-  eval qq(system qq($POSSIBILITIES[$i][2]))
-so_do_s	$i
-  eval qq(system qq($POSSIBILITIES[$i][2]))
-so_do_p	$i
-  eval qq($POSSIBILITIES[$i][2])
-
-choice	$i
-  my $showcommand=0
-  ?	$i <0
-    $showcommand=1
-    $i=-$i
-  ?	@G == ()			return "acmd not usable"
-  ?	$i<0 or $i>$#POSSIBILITIES	return "no good choice"
-  !	$#{$POSSIBILITIES[$i]}		return "not here"
-  ?	$showcommand			return "$POSSIBILITIES[$i][2]"
-  -
-    ??	$POSSIBILITIES[$i][0] eq 
-      'I'	do_I($i)
-      'o'	do_o($i)
-      'G'	do_G($i)
-      's'	do_s($i)
-      'p'	so_do_p($i)
-      -		return "no such tag $POSSIBILITIES[$i][0]"
-  ?	$@				my $r=$@ ; $@="" ; return $r
-poss	$P,$i
-  ?	$#{@$P[$i]}	return "  @{@$P[$i]}[0..1]"	return "@{@$P[$i]}[0]"
-find_entries	$file
-  doc
-    sets filevars
-      $f = filename with path		/path/to/file/name.ext
-      $p = path				/path/to/file
-      $F = filename as given		name.ext
-      $r = filename without extension	name
-      $e = extension			ext
-  $r=$f=$F=$file
-  $r=~s/\.[^.]*$//
-  $e=~s/.*\.//
-  ?	$file =~ /\./	($e=$file) =~ s/.*\.//	$e = ""
-  ?	$f =~ m:^/:
-    ($p=$f) =~ s:/[^/]+$::
-  -
-    $p=`pwd`
-    chop $p
-    $f="$p/$f"
-
-  !	@HITS=grep { $f =~ @$_[0] } @AF		@HITS=grep { $f =~ /@$_[0]/i } @AF
-  @POSSIBILITIES=()
-  map	@HITS
-    push @POSSIBILITIES,[@$_[0]]
-    map	@{$G[@$_[1]]}	push @POSSIBILITIES,$_
-parseAF
-  doc
-    parse the lines in file readable by <AF>
-    and put them in the datastructure @AF
-  my $l=0	previous level
-  my $lc	last comand pushed, more to be added
-  W	<AF>
-    chop
-    ??	$_
-      =~ /^#/		next
-      =~ /^\s*$/	next
-      =~ /^[^ ]/
-	?	$l	$group++;$l=0
-        push @AF,[$_,$group]
-      =~ /^  [^ ]/
-        $l=1
-	s/^  //
-	($type,$txt,$cmd) = split /\t+/
-	!	$cmd =~ /\$/	$cmd.=' "$f"'
-	push @{$G[$group]},[$type,$txt,$cmd]
-	$lc=\@{@{$G[$group]}[$#{$G[$group]}]}[2]	reference of last pushed cmd
+subs
+  acmd_init
+    $group=-1	group number
+    @G=@AF=()
+    F	my $f (@acmd_files)
+      ?	-e $f
+	?	open(AF,$f)
+	  ?	$opt_V			"reading $f\n"
+	  $group++
+	  parseAF
+	  close AF
+	-	errorMsg("cannot open $f : $!\n")
       -
-	s/^    //
-	$$lc.="\n".$_
-Dump
-  use Data::Dumper
-  "----------- G ---------------\n"
-  print Dumper(\@G)
-  "----------- AF ---------------\n"
-  print Dumper(\@AF)
-  "------------ POSSIBILITIES --------------\n"
-  print Dumper(\@POSSIBILITIES)
+	?	$opt_V			"skipping $f\n"
+    ?	@G == ()	errorMsg("none of @acmd_files readable, acmd not usable\n")
+  errorMsg	$str
+    ?	$opt_vimcall	VIM::Msg($str)	STDERR "$str"
+  showPoss
+    F	$i=0;$i<@POSSIBILITIES;$i++	print "$i\t".poss(\@POSSIBILITIES,$i)."\n"
+  interactive
+    !	@ARGV == 1	usage
+    !	@POSSIBILITIES
+      "no rule for $f\n"
+      exit
+    showPoss
+    FOREVER
+      U	$_ ne ""
+	"choice : "
+	!	$_ = <STDIN>	return
+	chop $_
+      ?	$_ eq "q"	return
+      ?	$_ eq "?"	showPoss;next
+      ?	$_=choice($_)	"$_\n"
+
+  vim_do_I	$i
+    WriteTmpScript(qq($xterm $POSSIBILITIES[$i][2]),$f,'' ,'t')	calculations for $f, $p, $e, $F and $r are repeated there
+    VIM::DoCommand("call ExecuteScript('t')")
+  vim_do_o	$i
+    vim_do_I($i);return
+    eval qq( \$cmd = qq($POSSIBILITIES[$i][2]) )
+    $cmd =~ s/([!%#])/\\$1/g
+    VIM::DoCommand("new|r! $cmd")
+    VIM::DoCommand("1d|set nomodified")
+  vim_do_G	$i
+    eval qq(system qq($POSSIBILITIES[$i][2] >/dev/null 2>/dev/null &))	&>/dev/null does not work since system invokes sh (not bash)
+  vim_do_s	$i
+    eval qq(system qq($POSSIBILITIES[$i][2]&))
+
+  so_do_I	$i
+    eval qq(system qq($POSSIBILITIES[$i][2]))
+  so_do_o	$i
+    eval qq(system qq($POSSIBILITIES[$i][2]))
+  so_do_G	$i
+    eval qq(system qq($POSSIBILITIES[$i][2]))
+  so_do_s	$i
+    eval qq(system qq($POSSIBILITIES[$i][2]))
+  so_do_p	$i
+    eval qq($POSSIBILITIES[$i][2])
+
+  choice	$i
+    my $showcommand=0
+    ?	$i <0
+      $showcommand=1
+      $i=-$i
+    ?	@G == ()			return "acmd not usable"
+    ?	$i<0 or $i>$#POSSIBILITIES	return "no good choice"
+    !	$#{$POSSIBILITIES[$i]}		return "not here"
+    ?	$showcommand			return "$POSSIBILITIES[$i][2]"
+    -
+      ??	$POSSIBILITIES[$i][0] eq 
+	'I'	do_I($i)
+	'o'	do_o($i)
+	'G'	do_G($i)
+	's'	do_s($i)
+	'p'	so_do_p($i)
+	-		return "no such tag $POSSIBILITIES[$i][0]"
+    ?	$@				my $r=$@ ; $@="" ; return $r
+  poss	$P,$i
+    ?	$#{@$P[$i]}	return "  @{@$P[$i]}[0..1]"	return "@{@$P[$i]}[0]"
+  find_entries	$file
+    doc
+      sets filevars
+	$f = filename with path		/path/to/file/name.ext
+	$p = path				/path/to/file
+	$F = filename as given		name.ext
+	$r = filename without extension	name
+	$e = extension			ext
+    $r=$f=$F=$file
+    $r=~s/\.[^.]*$//
+    $e=~s/.*\.//
+    ?	$file =~ /\./	($e=$file) =~ s/.*\.//	$e = ""
+    ?	$f =~ m:^/:
+      ($p=$f) =~ s:/[^/]+$::
+    -
+      $p=`pwd`
+      chop $p
+      $f="$p/$f"
+
+    !	@HITS=grep { $f =~ @$_[0] } @AF		@HITS=grep { $f =~ /@$_[0]/i } @AF
+    @POSSIBILITIES=()
+    map	@HITS
+      push @POSSIBILITIES,[@$_[0]]
+      map	@{$G[@$_[1]]}	push @POSSIBILITIES,$_
+  parseAF
+    doc
+      parse the lines in file readable by <AF>
+      and put them in the datastructure @AF
+    my $l=0	previous level
+    my $lc	last comand pushed, more to be added
+    W	<AF>
+      chop
+      ??	$_
+	=~ /^#/		next
+	=~ /^\s*$/	next
+	=~ /^[^ ]/
+	  ?	$l	$group++;$l=0
+	  push @AF,[$_,$group]
+	=~ /^  [^ ]/
+	  $l=1
+	  s/^  //
+	  ($type,$txt,$cmd) = split /\t+/
+	  !	$cmd =~ /\$/	$cmd.=' "$f"'
+	  push @{$G[$group]},[$type,$txt,$cmd]
+	  $lc=\@{@{$G[$group]}[$#{$G[$group]}]}[2]	reference of last pushed cmd
+	-
+	  s/^    //
+	  $$lc.="\n".$_
+  Dump
+    use Data::Dumper
+    "----------- G ---------------\n"
+    print Dumper(\@G)
+    "----------- AF ---------------\n"
+    print Dumper(\@AF)
+    "------------ POSSIBILITIES --------------\n"
+    print Dumper(\@POSSIBILITIES)

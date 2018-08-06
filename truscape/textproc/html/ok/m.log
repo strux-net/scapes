@@ -1,13 +1,11 @@
 building html_tru
 tru -s statistics.out ../../proglang/common.tru ../../proglang/statementDelimiter.tru ../../proglang/plainvar.tru ../../proglang/js/js.tru ../../proglang/c_like_vars.tru ../../lib/style.tru ../common.tru html.tru ../../lib/htmlREAD.tru ../../lib/basicUSAGE.tru >html_tru
-tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 934
+tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 933
 	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
-tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 964
+tru : Warning 'arg-name problematic' in ../../proglang/common.tru @ 963
 	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
 tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
-	the group 'function' was defined but never used
-tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
-	the group 'main' was defined but never used
+	the group 'Option' was defined but never used
 GOOD	html_tru
 GOOD	statistics.out
 chmod +x html_tru

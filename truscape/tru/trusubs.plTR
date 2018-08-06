@@ -1,149 +1,150 @@
-VERSION	3.0
+VERSION	4.0
 #
 # trusubs.pl is required by tru and should be located in ~/strux/lib
 #
-statistics	$STAT
-  open STAT,">$STAT" or die "cannot open $STAT : $!"
-  $oldfh = select(STAT)
-  "  H\t>\t-\t<\td\ts\tname\n"
-  F	$Action (sort keys %Seen)
-    "  ${\( $Seen{$Action}{'H'}+0 )}"	hits in the action-section
-    "\t${\( $Seen{$Action}{'>'}+0 )}"	definitions for >
-    "\t${\( $Seen{$Action}{'-'}+0 )}"	definitions for -
-    "\t${\( $Seen{$Action}{'<'}+0 )}"	definitions for <
-    "\t${\( $Seen{$Action}{'d'}+0 )}"	short descriptions
-    "\t${\( $Seen{$Action}{'s'}+0 )}"	used in structure
-    "\t$Action"
-    "\n"
-  select($oldfh)
-max		$a,$b
-  ?	$a > $b	return $a	return $b
-StructureItem	$_
-  $creepLocked=1
-  W	s/^(\t*)\t/$1        /
-  ($level) = /(^ +)/
-  $level = length($level)	level = indent (leading tabs count 8 spaces)
-  s/^ +//			we now have level and don't need the indent
-  ?	$_ eq ""
-    doc	an empty structureitem is a special case and is only produced when closing an action
-    $_="UNMATCHED\t*\t>*0\t.+"
-    $creepLocking=1
-  -
-    $creepLocking=0
-  local $indicator
-  local $explicitIndent
-  local $dangling = 0
-  ($pattern,$givenindicator,$regexp) = split /\t+([=>][^\t]*)/,$_,3
-  ?	$givenindicator	$indicator=$givenindicator	$indicator="="
-  $regexp =~ s/\t+//
-  @names = split /\t+/,$pattern
-  ($prio,$isgroup,$open4creep,$tabaligned,$star,$explicitIndent,$state,$cond) = $indicator =~ /^(=|>|>>)(g)?(o)?(t)?(\*)?(\d+)?(?: +(.+?))?(?:\((.+)\))?$/
-  ?	$isgroup eq "g"
-    ?	$prio ne "="	syntax 'prio for using a group must be "="',$prio
-    $ingroup++
-    ?	@names > 1	syntax 'too many names in group usage'
-    unshift @ATTIC,"groupend"
-    local ($group_name) = $names[0]
-    push @Active_rule_nr_stack,++$active_rule_nr
-    !	defined($groups{$group_name})
-      warning 'group not defined', $group_name
-    $active_rule_nr = $groups{$group_name}{'rule_nr'}
-    ?	$groups{$group_name}{'refcount'}++ > $opt_l
-      syntax 'too many recursions when expanding a group', $group_name
-    local @G = @{$groups{$group_name}{'content'}}
-    local $active_level=$level
-    map	@G
-      ?	/^  untie$/
-	#  |      indent      | |        $_        |
-	$_=$tru::actions[-2][5].$tru::actions[-2][3]
-	$active_level=$tru::actions[-2][0]-1-8
-      -
-	s/^(\t+ *)/$1.(' 'x$active_level)/e
-    unshift @ATTIC,@G
-    return 0	not creepLocked
-  ?	$open4creep	$creepLocked=0
-  $star       = ($star       eq '*')+0
-  $tabaligned = ($tabaligned eq 't')+0
-  ?	$explicitIndent eq ""		$explicitIndent = -1
-  $#BranchIsOptional =$#BranchCond =$#BranchAction = $#BranchState = $#BranchRuleNr = $#BranchIndicators = $#BranchStar = $#BranchExplicitLevel = $#BranchLevels = $#State = $#I = $level	shorten or prolongue these stacks
-  ?	$level < length($LS)
-    substr($LS,$level) = "1"
-  -
-    $LS.="0"x($level-length($LS))."1"
-  ?	$state eq ""	$state = $names[0]
-  ?	$prio
-    $LS=~/(0*)1$/
-    $implicitIndent=length($1)+1
-    ?	$explicitIndent > 0 and $level != 0 and $explicitIndent != $implicitIndent	syntax 'explicit with indent'
-    ?	$state =~ s/^\[(.+)\]$/$1/	$creepLocked=0
-    ?	$creepLocking
-      $current_rule_nr=0
+subs
+  statistics	$STAT
+    open STAT,">$STAT" or die "cannot open $STAT : $!"
+    $oldfh = select(STAT)
+    "  H\t>\t-\t<\td\ts\tname\n"
+    F	$Action (sort keys %Seen)
+      "  ${\( $Seen{$Action}{'H'}+0 )}"	hits in the action-section
+      "\t${\( $Seen{$Action}{'>'}+0 )}"	definitions for >
+      "\t${\( $Seen{$Action}{'-'}+0 )}"	definitions for -
+      "\t${\( $Seen{$Action}{'<'}+0 )}"	definitions for <
+      "\t${\( $Seen{$Action}{'d'}+0 )}"	short descriptions
+      "\t${\( $Seen{$Action}{'s'}+0 )}"	used in structure
+      "\t$Action"
+      "\n"
+    select($oldfh)
+  max		$a,$b
+    ?	$a > $b	return $a	return $b
+  StructureItem	$_
+    $creepLocked=1
+    W	s/^(\t*)\t/$1        /
+    ($level) = /(^ +)/
+    $level = length($level)	level = indent (leading tabs count 8 spaces)
+    s/^ +//			we now have level and don't need the indent
+    ?	$_ eq ""
+      doc	an empty structureitem is a special case and is only produced when closing an action
+      $_="UNMATCHED\t*\t>*0\t.+"
+      $creepLocking=1
     -
-      $current_rule_nr=++$active_rule_nr
-      $Seen{$state}{'s'}++
-    $matchstr = matchstr()
-    $maxnamelen = max $maxnamelen,length $state
-    my $inOptional=-1
-    F	my $i=0...@BranchIsOptional-1
-      doc	find the index of the last optional action that is not followed by a non optional
-      ?		defined($BranchIsOptional[$i])	$inOptional=$i
-      ?-	defined($BranchAction[$i])	$inOptional=-1
+      $creepLocking=0
+    local $indicator
+    local $explicitIndent
+    local $dangling = 0
+    ($pattern,$givenindicator,$regexp) = split /\t+([=>][^\t]*)/,$_,3
+    ?	$givenindicator	$indicator=$givenindicator	$indicator="="
+    $regexp =~ s/\t+//
+    @names = split /\t+/,$pattern
+    ($prio,$isgroup,$open4creep,$tabaligned,$star,$explicitIndent,$state,$cond) = $indicator =~ /^(=|>|>>)(g)?(o)?(t)?(\*)?(\d+)?(?: +(.+?))?(?:\((.+)\))?$/
+    ?	$isgroup eq "g"
+      ?	$prio ne "="	syntax 'prio for using a group must be "="',$prio
+      $ingroup++
+      ?	@names > 1	syntax 'too many names in group usage'
+      unshift @ATTIC,"groupend"
+      local ($group_name) = $names[0]
+      push @Active_rule_nr_stack,++$active_rule_nr
+      !	defined($groups{$group_name})
+	warning 'group not defined', $group_name
+      $active_rule_nr = $groups{$group_name}{'rule_nr'}
+      ?	$groups{$group_name}{'refcount'}++ > $opt_l
+	syntax 'too many recursions when expanding a group', $group_name
+      local @G = @{$groups{$group_name}{'content'}}
+      local $active_level=$level
+      map	@G
+	?	/^  untie$/
+	  #  |      indent      | |        $_        |
+	  $_=$tru::actions[-2][5].$tru::actions[-2][3]
+	  $active_level=$tru::actions[-2][0]-1-8
+	-
+	  s/^(\t+ *)/$1.(' 'x$active_level)/e
+      unshift @ATTIC,@G
+      return 0	not creepLocked
+    ?	$open4creep	$creepLocked=0
+    $star       = ($star       eq '*')+0
+    $tabaligned = ($tabaligned eq 't')+0
+    ?	$explicitIndent eq ""		$explicitIndent = -1
+    $#BranchIsOptional =$#BranchCond =$#BranchAction = $#BranchState = $#BranchRuleNr = $#BranchIndicators = $#BranchStar = $#BranchExplicitLevel = $#BranchLevels = $#State = $#I = $level	shorten or prolongue these stacks
+    ?	$level < length($LS)
+      substr($LS,$level) = "1"
+    -
+      $LS.="0"x($level-length($LS))."1"
+    ?	$state eq ""	$state = $names[0]
+    ?	$prio
+      $LS=~/(0*)1$/
+      $implicitIndent=length($1)+1
+      ?	$explicitIndent > 0 and $level != 0 and $explicitIndent != $implicitIndent	syntax 'explicit with indent'
+      ?	$state =~ s/^\[(.+)\]$/$1/	$creepLocked=0
+      ?	$creepLocking
+	$current_rule_nr=0
+      -
+	$current_rule_nr=++$active_rule_nr
+	$Seen{$state}{'s'}++
+      $matchstr = matchstr()
+      $maxnamelen = max $maxnamelen,length $state
+      my $inOptional=-1
+      F	my $i=0...@BranchIsOptional-1
+	doc	find the index of the last optional action that is not followed by a non optional
+	?		defined($BranchIsOptional[$i])	$inOptional=$i
+	?-	defined($BranchAction[$i])	$inOptional=-1
 
-    R	BranchLevels,BranchExplicitLevel,BranchIndicators,BranchStar,BranchRuleNr,BranchAction,BranchState,BranchIsOptional,BranchCond,State
-      # tru::write("    #	: /".join('/',@	));
-    R	inOptional,LS,implicitIndent,state
-      # tru::write("    #	 : $	");
-    local $mm = grep(/./,@BranchAction)-1
-    ?	$state ne "[]"
-      local $corrected_indicator
-      ?	$star
-        ?	$explicitIndent >= 0
-	  $corrected_indicator = "="				# >>*2    =*2   >*2
-	  ?	$explicitIndent == 0	$star = 2               # >>*0    =*0   >*0
-	-
-	  $corrected_indicator = $prio				# >>*     =*    >*
-	  $star = 2
-	  $explicitIndent = 1
-      -
-        ?	$explicitIndent >= 0
-	  $corrected_indicator = "="				# >>2     =2    >2         (on the far left)
-	-
-	  ?	$explicitIndent == 0
-	    $corrected_indicator = "="				# >>0     =0    >0
+      R	BranchLevels,BranchExplicitLevel,BranchIndicators,BranchStar,BranchRuleNr,BranchAction,BranchState,BranchIsOptional,BranchCond,State
+	# tru::write("    #	: /".join('/',@	));
+      R	inOptional,LS,implicitIndent,state
+	# tru::write("    #	 : $	");
+      local $mm = grep(/./,@BranchAction)-1
+      ?	$state ne "[]"
+	local $corrected_indicator
+	?	$star
+	  ?	$explicitIndent >= 0
+	    $corrected_indicator = "="				# >>*2    =*2   >*2
+	    ?	$explicitIndent == 0	$star = 2               # >>*0    =*0   >*0
 	  -
-	    $corrected_indicator = $prio			# >>      =     >
-      $tmpstr = "  if ($matchstr ((tru::CheckStatesPath('$corrected_indicator',$tabaligned,$star,    \\[@State]    ,\\[@I],$implicitIndent))"		# all
-      ?	$explicitIndent >= 0
-        ?	$star
-          $tmpstr.=" or (tru::CheckStatesPath('$prio',0,$star,\\[@State '$state' ],\\[@I 0],$explicitIndent))"				# >>*0  >*0  =*0
+	    $corrected_indicator = $prio				# >>*     =*    >*
+	    $star = 2
+	    $explicitIndent = 1
 	-
-	  $tmpstr.=" or (tru::CheckStatesPath('>',0,0        ,\\[@State          ],\\[@I 0],$explicitIndent))"				# >>2   >2   =2      (on the far left)
-	  $dangling = 1
-      tru::write("$tmpstr)) {")
-      tru::write("    # not []")
-      ?	$prio eq ">"
-	tru::write("    if (\$tru::emax == -1 and \$tru::gmax < $mm) {")
-	tru::write("      \$tru::gmax = $mm;")
-      ?-	$prio eq "="
-        tru::write("    if (\$tru::emax < $mm) {")
-	tru::write("      \$tru::emax = $mm;")
-      -
-	tru::write("    if (1) {")
-      TAB
-	tru::write("	");
+	  ?	$explicitIndent >= 0
+	    $corrected_indicator = "="				# >>2     =2    >2         (on the far left)
+	  -
+	    ?	$explicitIndent == 0
+	      $corrected_indicator = "="				# >>0     =0    >0
+	    -
+	      $corrected_indicator = $prio			# >>      =     >
+	$tmpstr = "  if ($matchstr ((tru::CheckStatesPath('$corrected_indicator',$tabaligned,$star,    \\[@State]    ,\\[@I],$implicitIndent))"		# all
+	?	$explicitIndent >= 0
+	  ?	$star
+	    $tmpstr.=" or (tru::CheckStatesPath('$prio',0,$star,\\[@State '$state' ],\\[@I 0],$explicitIndent))"				# >>*0  >*0  =*0
+	  -
+	    $tmpstr.=" or (tru::CheckStatesPath('>',0,0        ,\\[@State          ],\\[@I 0],$explicitIndent))"				# >>2   >2   =2      (on the far left)
+	    $dangling = 1
+	tru::write("$tmpstr)) {")
+	tru::write("    # not []")
+	?	$prio eq ">"
+	  tru::write("    if (\$tru::emax == -1 and \$tru::gmax < $mm) {")
+	  tru::write("      \$tru::gmax = $mm;")
+	?-	$prio eq "="
+	  tru::write("    if (\$tru::emax < $mm) {")
+	  tru::write("      \$tru::emax = $mm;")
+	-
+	  tru::write("    if (1) {")
+	TAB
+	  tru::write("	");
 		      *tru::candidate = sub {
 		        \$tru::active_rule_nr = $current_rule_nr;
 		        \$tru::active_state   = q$sdel".$state."$sdel;
-      ?	$tabaligned
-	?	$inOptional >= 0	syntax 'tabaligned in an optional'
-	tru::write("        local ( \$rindent , \$rlevel ) = tru::getrindent($implicitIndent);");
-      TAB
-	tru::write("	");
-		        tru::macroin(q$sdel$names[0]$sdel,q$sdel$state$sdel,-1);
-		      };
-      ?	$tabaligned
+	?	$tabaligned
+	  ?	$inOptional >= 0	syntax 'tabaligned in an optional'
+	  tru::write("        local ( \$rindent , \$rlevel ) = tru::getrindent($implicitIndent);");
 	TAB
 	  tru::write("	");
+		        tru::macroin(q$sdel$names[0]$sdel,q$sdel$state$sdel,-1);
+		      };
+	?	$tabaligned
+	  TAB
+	    tru::write("	");
 		      if (\$tru::actions[-1][6] == $BranchRuleNr[-($BranchLevels[-1]+1)]) {
 		        *tru::secondcandiate = \\&tru::candidate;
 		        *tru::candidate = sub {
@@ -151,36 +152,36 @@ StructureItem	$_
 		          tru::secondcandiate();
 		        }
 		      }
-      ?	$prio eq ">>"	tru::write("      last;")
-      tru::write("    }")
-      tru::write("  }")
+	?	$prio eq ">>"	tru::write("      last;")
+	tru::write("    }")
+	tru::write("  }")
 
-      ?	$inOptional >= 0 and $matchstr ne "\$F[0] =~ m$sdel^(?:.{0})\$$sdel && (\@F <= 1) &&" and !$creepLocking
-        $optional_level     = $BranchLevels    [$inOptional]
-	$optional_indicator = $BranchIndicators[$inOptional]
-	$optional_star      = $BranchStar      [$inOptional]
-	$implicitIndent+=$optional_level
-	?	defined($BranchCond[$inOptional])
-	  $matchstr = "$matchstr ($BranchCond[$inOptional]) and"	triggering an optional only if both conditions match
-	?	$BranchExplicitLevel[$inOptional]	$corrected_indicator = '>'	$corrected_indicator = $optional_indicator
-	$tmpstr="  elsif ($matchstr (tru::CheckStatesPath('$corrected_indicator',0,$optional_star,\\[@State[0..$inOptional]],\\[@I[0..$inOptional]],$implicitIndent)"
-	?	$BranchExplicitLevel[$inOptional]
-	  $tmpstr.=" or (tru::CheckStatesPath('$corrected_indicator',0,$optional_star,\\[@State[0..$inOptional]],\\[@I[0..$inOptional]],".($implicitIndent-$optional_level+$BranchExplicitLevel[$inOptional]-1)."))"
-	tru::write("$tmpstr)) {")
-	tru::write("    # trigger an optional $BranchAction[$inOptional]")
-	local $mm = grep(/./,@BranchAction[0..$inOptional])-1
-	?	$optional_indicator eq ">" or $optional_indicator eq ">*"
-	  TAB
-	    tru::write("	");
+	?	$inOptional >= 0 and $matchstr ne "\$F[0] =~ m$sdel^(?:.{0})\$$sdel && (\@F <= 1) &&" and !$creepLocking
+	  $optional_level     = $BranchLevels    [$inOptional]
+	  $optional_indicator = $BranchIndicators[$inOptional]
+	  $optional_star      = $BranchStar      [$inOptional]
+	  $implicitIndent+=$optional_level
+	  ?	defined($BranchCond[$inOptional])
+	    $matchstr = "$matchstr ($BranchCond[$inOptional]) and"	triggering an optional only if both conditions match
+	  ?	$BranchExplicitLevel[$inOptional]	$corrected_indicator = '>'	$corrected_indicator = $optional_indicator
+	  $tmpstr="  elsif ($matchstr (tru::CheckStatesPath('$corrected_indicator',0,$optional_star,\\[@State[0..$inOptional]],\\[@I[0..$inOptional]],$implicitIndent)"
+	  ?	$BranchExplicitLevel[$inOptional]
+	    $tmpstr.=" or (tru::CheckStatesPath('$corrected_indicator',0,$optional_star,\\[@State[0..$inOptional]],\\[@I[0..$inOptional]],".($implicitIndent-$optional_level+$BranchExplicitLevel[$inOptional]-1)."))"
+	  tru::write("$tmpstr)) {")
+	  tru::write("    # trigger an optional $BranchAction[$inOptional]")
+	  local $mm = grep(/./,@BranchAction[0..$inOptional])-1
+	  ?	$optional_indicator eq ">" or $optional_indicator eq ">*"
+	    TAB
+	      tru::write("	");
 		    if (\$tru::emax == -1 and \$tru::gmax < $mm) {
 		      \$tru::gmax = $mm;
-	-
-	  TAB
-	    tru::write("	");
+	  -
+	    TAB
+	      tru::write("	");
 		    if (\$tru::emax < $mm) {
 		      \$tru::emax = $mm;
-	TAB
-	  tru::write("	");
+	  TAB
+	    tru::write("	");
 		      *tru::candidate = sub {
 		        \$tru::active_rule_nr = q$sdel$BranchRuleNr[$inOptional]$sdel;
 		        \$tru::active_state   = q$sdel$BranchAction[$inOptional]$sdel;
@@ -201,26 +202,26 @@ StructureItem	$_
 		      };
 		    }
 		  }
-    -
-      ?	$givenindicator	warning 'Indicator for [] given'
-      ?	$inOptional >= 0
-	$optional_indicator = $BranchIndicators[$inOptional]
-        $optional_level     = $BranchLevels    [$inOptional]
-	$optional_star      = $BranchStar      [$inOptional]
-	tru::write("  if ( (tru::CheckStatesPath('$optional_indicator',0,$optional_star,\\[@State[0..$#State-$implicitIndent]],\\[@I[0..$#I-$implicitIndent]],$optional_level+$implicitIndent))) { # xxx:$LS : $implicitIndent -> $state")
-	tru::write("    # an []");
-	?	$optional_indicator eq ">" or $optional_indicator eq ">*"
-	  TAB
-	    tru::write("	");
+      -
+	?	$givenindicator	warning 'Indicator for [] given'
+	?	$inOptional >= 0
+	  $optional_indicator = $BranchIndicators[$inOptional]
+	  $optional_level     = $BranchLevels    [$inOptional]
+	  $optional_star      = $BranchStar      [$inOptional]
+	  tru::write("  if ( (tru::CheckStatesPath('$optional_indicator',0,$optional_star,\\[@State[0..$#State-$implicitIndent]],\\[@I[0..$#I-$implicitIndent]],$optional_level+$implicitIndent))) { # xxx:$LS : $implicitIndent -> $state")
+	  tru::write("    # an []");
+	  ?	$optional_indicator eq ">" or $optional_indicator eq ">*"
+	    TAB
+	      tru::write("	");
 		    if (\$tru::emax == -1 and \$tru::gmax < $mm) {
 		      \$tru::gmax = $mm;
-	-
-	  TAB
-	    tru::write("	");
+	  -
+	    TAB
+	      tru::write("	");
 		    if (\$tru::emax < $mm) {
 		      \$tru::emax = $mm;
-	TAB
-	  tru::write("	");
+	  TAB
+	    tru::write("	");
 		      *tru::candidate = sub {
 		        unshift \@ATTIC,(' 'x(\$level-1)).qq$sdel\$_$sdel;
 		        \$level-=$implicitIndent;
@@ -230,256 +231,255 @@ StructureItem	$_
 		        tru::macroin($State[-$implicitIndent] $State[-$implicitIndent] -1);
 		        \$level+=$implicitIndent;
 		      };
-	?	$optional_indicator =~ ">>"	tru::write("      last;")
-	tru::write("    }")
-	tru::write("  }")
-      -
-	syntax '[] misplaced'
-  -
-    syntax 'invalid state',$indicator
-
-  push @State,"\q${sdel}$names[0]${sdel},"
-  push @I,($prio eq "=" and !$star and !$dangling)?"1,":"0,"
-  return $creepLocked
-matchstr
-  local @regexp = split /\t+/,$regexp
-  local $i
-  $BranchIndicators       [-1]=$prio
-  $BranchStar             [-1]=$star
-  $BranchLevels           [-1]=($explicitIndent != -1?$explicitIndent:$implicitIndent)
-  $BranchExplicitLevel    [-1]=($explicitIndent != -1?$implicitIndent:'')
-  $BranchRuleNr           [-1]=$current_rule_nr
-  $BranchIsOptional       [-1]=undef
-  $BranchAction           [-1]=$names[0]
-  $BranchState            [-1]=$state
-  $BranchCond             [-1]=$cond
-  ?	@regexp > @names or @regexp == @names and $names[-1] eq '*'	warning 'Too many regexps',$state
-  F	my $i=0...@names
-    ?	$names[$i] eq '*' and $i != $#names
-      warning 'fields after star',$names[$i+1]
-      last
-  ?	$cond ne ""	$r = "($cond) and "	$r = ""
-  $opt = 0
-  F	$i=0...@names
-    ?	$names[$i] eq "*"		return $r
-    ?	$names[$i] =~ s/^\[(.+)\]$/$1/
-      ?	$i	$opt = $i
-      -
-	$BranchIsOptional[-1]=1
-	$BranchAction    [-1]=$names[0]
-    !	$regexp[$i]	$regexp[$i] = '.*'
-    !	$regexp[$i] =~ "^/"			$regexp[$i] = "m$sdel^(?:$regexp[$i])\$$sdel"
-    !	$regexp[$i] eq "m$sdel^(?:.*)\$$sdel"
-      doc	check the regexp for validity
-      ?	$state ne "[]"
-	eval "my \$tmp =~ $regexp[$i]"
-	?	$@
-	  $@ =~ s: at .*?$::	remove useless info (for this case)
-	  syntax 'regular expression error',$i,$@
-
-      ?	$opt	$r .= "(!defined \$F[$i] ||  \$F[$i] =~ $regexp[$i]) && "
-      -		$r .= "\$F[$i] =~ $regexp[$i] && "
-  ?	$opt	$r .= "!defined \$F[$i] && (\@F >= $opt) && "
-  -
-    ?	$i == 1	$r .= "(\@F <= 1) &&"	$r .= "(\@F == $i) &&"
-warning		$warn,@a
-  vars
-    %warnstr
-      'fields after star'                         => "the field '$a[0]' is pointless after the preceding *"
-      'Indicator for [] given'                    => "the indicator is ingored"
-      'Too many regexps'                          => "you specified more regular expressions than fields in '$a[0]'"
-      'arg-name problematic'                      => "Name '$a[0]' is not a wise choice for arg (Perl gives \$$a[0] a special meaning)"
-      'arg-name problematic with module English'  => "Name '$a[0]' is not a wise choice for arg (Perl gives \$$a[0] a special meaning) - only if you have 'use English'"
-      'first usage should have shortdesc'         => "Exactly the first USAGE should have a short-description"
-      'group not defined'                         => "you try to use group '$a[0]' which is not defined"
-      'group never used'                          => "the group '$a[0]' was defined but never used"
-  !	$opt_q	STDERR "tru : Warning '$warn' in $ARGV @ $.\n\t$warnstr{$warn}\n"
-syntax		$error,@a
-  vars
-    %errstr
-      'explicit with indent'             => "a non-zero explicit is not allowed with indent"
-      'Structure missing'                => "the description of the structure is missing"
-      'invalid state'                    => "The specified state  '$a[0]' is not valid"
-      '[] misplaced'                     => '[] can only occur after an optional rule'
-      'tabaligned in an optional'        => 'tabaligned items are not allowed in optional blocks'
-      'arg-name clashes with array-name' => "Name '$a[0]' is not allowed for an arg (Perl gives \@$a[0] a special meaning)"
-      'arg-name clashes with special'    => "Name $a[0] is not allowed for arg (Perl gives $a[0] a special meaning)"
-      'arg-name is all digits'           => "Name $a[0] is not allowed (Perl gives \$1, \$2 ... a special meaning"
-      'arg-name already used'            => "the name '$a[0]' is already defined as arg or local"
-      'arg-name redefinition'            => "the name '$a[0]' was already defined as '$a[1]' earlier"
-      'arg-name belongs to tru'          => "the name '$a[0]' is a reserved name for tru"
-      'regular expression error'         => "for field $a[0] (counting starts at 0)\n\t$a[1]"
-      'too many names in group usage'    => "when using a group exactly one name must appear before the =g"
-      'cannot add to an existing group'  => "group '$a[0]' was already defined earlier. This group is closed for modifications"
-      'too many recursions when expanding a group' => "group was '$a[0]'. you can give option -l to specify a larger limit"
-      'prio for using a group must be "="'         => "$a[0] as prio is not supported"
-  STDERR "tru : Syntax Error '$error' in $ARGV @ $.\n\t$errstr{$error}\n"
-  exit 1
-validityCheck	$_
-  ??
-    $l=$_,grep($_ eq $l,@{$Locals{$Action}},@{$Args{$Action}})
-      syntax 'arg-name already used',$_
-    defined ${InvalidNames}{Arrays}{$_}
-      syntax 'arg-name clashes with array-name',$_
-    defined ${InvalidNames}{special}{$_}
-      syntax 'arg-name clashes with special',$_
-    /^\d+$/
-      syntax 'arg-name is all digits',$_
-    /^tru::/ or defined ${InvalidNames}{truOwned}{$_}
-      syntax 'arg-name belongs to tru',$_
-    defined ${InvalidNames}{problematic}{$_}
-      warning 'arg-name problematic',$_
-    defined ${InvalidNames}{english}{$_}
-      warning 'arg-name problematic with module English',$_
-fillInvalidNames
-  doc	these are the names provided if "use English"
-  T	${InvalidNames}{english}{q##1##} = 1;
-    ARG
-    MATCH
-    PREMATCH
-    POSTMATCH
-    LAST_PAREN_MATCH
-    LAST_SUBMATCH_RESULT
-    LAST_MATCH_END
-    INPUT_LINE_NUMBER
-    NR
-    INPUT_RECORD_SEPARATOR
-    RS
-    OUTPUT_AUTOFLUSH
-    OUTPUT_FIELD_SEPARATOR
-    OFS
-    OUTPUT_RECORD_SEPARATOR
-    ORS
-    LIST_SEPARATOR
-    SUBSCRIPT_SEPARATOR
-    SUBSEP
-    FORMAT_PAGE_NUMBER
-    FORMAT_LINES_PER_PAGE
-    FORMAT_LINES_LEFT
-    LAST_MATCH_START
-    FORMAT_NAME
-    FORMAT_TOP_NAME
-    FORMAT_LINE_BREAK_CHARACTERS
-    FORMAT_FORMFEED
-    ACCUMULATOR
-    CHILD_ERROR
-    OS_ERROR
-    ERRNO
-    EXTENDED_OS_ERROR
-    EVAL_ERROR
-    PROCESS_ID
-    PID
-    REAL_USER_ID
-    UID
-    EFFECTIVE_USER_ID
-    EUID
-    REAL_GROUP_ID
-    GID
-    EFFECTIVE_GROUP_ID
-    EGID
-    PROGRAM_NAME
-    COMPILING
-    DEBUGGING
-    SYSTEM_FD_MAX
-    INPLACE_EDIT
-    OSNAME
-    PERLDB
-    LAST_REGEXP_CODE_RESULT
-    EXCEPTIONS_BEING_CAUGHT
-    BASETIME
-    PERL_VERSION
-    WARNING
-    EXECUTABLE_NAME
-  doc	these are the names of default perl-vars
-  T	${InvalidNames}{problematic}{q##1##} = 1;
-    +
+	  ?	$optional_indicator =~ ">>"	tru::write("      last;")
+	  tru::write("    }")
+	  tru::write("  }")
+	-
+	  syntax '[] misplaced'
     -
-    _
-    &
-    `
-    '
-    .
-    /
-    |
-    ,
-    \\
-    "
-    ;
-    %
-    =
-    ~
-    ^
-    :
-    ?
-    !
-    @
-    $
-    <
-    >
-    (
-    )
-    0
-    [
-    ]
-    ^TAINT
-    ^MATCH
-    ^PREMATCH
-    ^POSTMATCH
-    ^CHILD_ERROR_NATIVE
-    ^ENCODING
-    ^RE_DEBUG_FLAGS
-    ^RE_TRIE_MAXBUF
-    ^OPEN
-    ^UNICODE
-    ^UTF8CACHE
-    ^UTF8LOCALE
-    ^WARNING_BITS
-    ^WIN32_SLOPPY_STAT
-    ARGV
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-    				the control character
-  doc	these are the names of default perl-arrays (with use English)
-  T	${InvalidNames}{Arrays}{q##1##} = 1;
-    F
-    INC
-    _
+      syntax 'invalid state',$indicator
 
-    +
+    push @State,"\q${sdel}$names[0]${sdel},"
+    push @I,($prio eq "=" and !$star and !$dangling)?"1,":"0,"
+    return $creepLocked
+  matchstr
+    local @regexp = split /\t+/,$regexp
+    local $i
+    $BranchIndicators       [-1]=$prio
+    $BranchStar             [-1]=$star
+    $BranchLevels           [-1]=($explicitIndent != -1?$explicitIndent:$implicitIndent)
+    $BranchExplicitLevel    [-1]=($explicitIndent != -1?$implicitIndent:'')
+    $BranchRuleNr           [-1]=$current_rule_nr
+    $BranchIsOptional       [-1]=undef
+    $BranchAction           [-1]=$names[0]
+    $BranchState            [-1]=$state
+    $BranchCond             [-1]=$cond
+    ?	@regexp > @names or @regexp == @names and $names[-1] eq '*'	warning 'Too many regexps',$state
+    F	my $i=0...@names
+      ?	$names[$i] eq '*' and $i != $#names
+	warning 'fields after star',$names[$i+1]
+	last
+    ?	$cond ne ""	$r = "($cond) and "	$r = ""
+    $opt = 0
+    F	$i=0...@names
+      ?	$names[$i] eq "*"		return $r
+      ?	$names[$i] =~ s/^\[(.+)\]$/$1/
+	?	$i	$opt = $i
+	-
+	  $BranchIsOptional[-1]=1
+	  $BranchAction    [-1]=$names[0]
+      !	$regexp[$i]	$regexp[$i] = '.*'
+      !	$regexp[$i] =~ "^/"			$regexp[$i] = "m$sdel^(?:$regexp[$i])\$$sdel"
+      !	$regexp[$i] eq "m$sdel^(?:.*)\$$sdel"
+	doc	check the regexp for validity
+	?	$state ne "[]"
+	  eval "my \$tmp =~ $regexp[$i]"
+	  ?	$@
+	    $@ =~ s: at .*?$::	remove useless info (for this case)
+	    syntax 'regular expression error',$i,$@
+
+	?	$opt	$r .= "(!defined \$F[$i] ||  \$F[$i] =~ $regexp[$i]) && "
+	-		$r .= "\$F[$i] =~ $regexp[$i] && "
+    ?	$opt	$r .= "!defined \$F[$i] && (\@F >= $opt) && "
     -
-  doc	these are strings that cannot be used as a var-name for other reasons
-    this list is probably (most likely) not complete
-  T	${InvalidNames}{special}{q##1##} = 1;
-    ::
-  doc	these are names that cannot be used as a var-name since tru owns them
-  T	${InvalidNames}{truOwned}{q##1##} = 1;
-    ATTIC			this is a public array
+      ?	$i == 1	$r .= "(\@F <= 1) &&"	$r .= "(\@F == $i) &&"
+  warning		$warn,@a
+    vars
+      %warnstr
+	'fields after star'                         => "the field '$a[0]' is pointless after the preceding *"
+	'Indicator for [] given'                    => "the indicator is ingored"
+	'Too many regexps'                          => "you specified more regular expressions than fields in '$a[0]'"
+	'arg-name problematic'                      => "Name '$a[0]' is not a wise choice for arg (Perl gives \$$a[0] a special meaning)"
+	'arg-name problematic with module English'  => "Name '$a[0]' is not a wise choice for arg (Perl gives \$$a[0] a special meaning) - only if you have 'use English'"
+	'first usage should have shortdesc'         => "Exactly the first USAGE should have a short-description"
+	'group not defined'                         => "you try to use group '$a[0]' which is not defined"
+	'group never used'                          => "the group '$a[0]' was defined but never used"
+    !	$opt_q	STDERR "tru : Warning '$warn' in $ARGV @ $.\n\t$warnstr{$warn}\n"
+  syntax		$error,@a
+    vars
+      %errstr
+	'explicit with indent'             => "a non-zero explicit is not allowed with indent"
+	'Structure missing'                => "the description of the structure is missing"
+	'invalid state'                    => "The specified state  '$a[0]' is not valid"
+	'[] misplaced'                     => '[] can only occur after an optional rule'
+	'tabaligned in an optional'        => 'tabaligned items are not allowed in optional blocks'
+	'arg-name clashes with array-name' => "Name '$a[0]' is not allowed for an arg (Perl gives \@$a[0] a special meaning)"
+	'arg-name clashes with special'    => "Name $a[0] is not allowed for arg (Perl gives $a[0] a special meaning)"
+	'arg-name is all digits'           => "Name $a[0] is not allowed (Perl gives \$1, \$2 ... a special meaning"
+	'arg-name already used'            => "the name '$a[0]' is already defined as arg or local"
+	'arg-name redefinition'            => "the name '$a[0]' was already defined as '$a[1]' earlier"
+	'arg-name belongs to tru'          => "the name '$a[0]' is a reserved name for tru"
+	'regular expression error'         => "for field $a[0] (counting starts at 0)\n\t$a[1]"
+	'too many names in group usage'    => "when using a group exactly one name must appear before the =g"
+	'cannot add to an existing group'  => "group '$a[0]' was already defined earlier. This group is closed for modifications"
+	'too many recursions when expanding a group' => "group was '$a[0]'. you can give option -l to specify a larger limit"
+	'prio for using a group must be "="'         => "$a[0] as prio is not supported"
+    STDERR "tru : Syntax Error '$error' in $ARGV @ $.\n\t$errstr{$error}\n"
+    exit 1
+  validityCheck	$_
+    ??
+      $l=$_,grep($_ eq $l,@{$Locals{$Action}},@{$Args{$Action}})
+	syntax 'arg-name already used',$_
+      defined ${InvalidNames}{Arrays}{$_}
+	syntax 'arg-name clashes with array-name',$_
+      defined ${InvalidNames}{special}{$_}
+	syntax 'arg-name clashes with special',$_
+      /^\d+$/
+	syntax 'arg-name is all digits',$_
+      /^tru::/ or defined ${InvalidNames}{truOwned}{$_}
+	syntax 'arg-name belongs to tru',$_
+      defined ${InvalidNames}{problematic}{$_}
+	warning 'arg-name problematic',$_
+      defined ${InvalidNames}{english}{$_}
+	warning 'arg-name problematic with module English',$_
+  fillInvalidNames
+    doc	these are the names provided if "use English"
+    T	${InvalidNames}{english}{q##1##} = 1;
+      ARG
+      MATCH
+      PREMATCH
+      POSTMATCH
+      LAST_PAREN_MATCH
+      LAST_SUBMATCH_RESULT
+      LAST_MATCH_END
+      INPUT_LINE_NUMBER
+      NR
+      INPUT_RECORD_SEPARATOR
+      RS
+      OUTPUT_AUTOFLUSH
+      OUTPUT_FIELD_SEPARATOR
+      OFS
+      OUTPUT_RECORD_SEPARATOR
+      ORS
+      LIST_SEPARATOR
+      SUBSCRIPT_SEPARATOR
+      SUBSEP
+      FORMAT_PAGE_NUMBER
+      FORMAT_LINES_PER_PAGE
+      FORMAT_LINES_LEFT
+      LAST_MATCH_START
+      FORMAT_NAME
+      FORMAT_TOP_NAME
+      FORMAT_LINE_BREAK_CHARACTERS
+      FORMAT_FORMFEED
+      ACCUMULATOR
+      CHILD_ERROR
+      OS_ERROR
+      ERRNO
+      EXTENDED_OS_ERROR
+      EVAL_ERROR
+      PROCESS_ID
+      PID
+      REAL_USER_ID
+      UID
+      EFFECTIVE_USER_ID
+      EUID
+      REAL_GROUP_ID
+      GID
+      EFFECTIVE_GROUP_ID
+      EGID
+      PROGRAM_NAME
+      COMPILING
+      DEBUGGING
+      SYSTEM_FD_MAX
+      INPLACE_EDIT
+      OSNAME
+      PERLDB
+      LAST_REGEXP_CODE_RESULT
+      EXCEPTIONS_BEING_CAUGHT
+      BASETIME
+      PERL_VERSION
+      WARNING
+      EXECUTABLE_NAME
+    doc	these are the names of default perl-vars
+    T	${InvalidNames}{problematic}{q##1##} = 1;
+      +
+      -
+      _
+      &
+      `
+      '
+      .
+      /
+      |
+      ,
+      \\
+      "
+      ;
+      %
+      =
+      ~
+      ^
+      :
+      ?
+      !
+      @
+      $
+      <
+      >
+      (
+      )
+      0
+      [
+      ]
+      ^TAINT
+      ^MATCH
+      ^PREMATCH
+      ^POSTMATCH
+      ^CHILD_ERROR_NATIVE
+      ^ENCODING
+      ^RE_DEBUG_FLAGS
+      ^RE_TRIE_MAXBUF
+      ^OPEN
+      ^UNICODE
+      ^UTF8CACHE
+      ^UTF8LOCALE
+      ^WARNING_BITS
+      ^WIN32_SLOPPY_STAT
+      ARGV
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+      				the control character
+    doc	these are the names of default perl-arrays (with use English)
+    T	${InvalidNames}{Arrays}{q##1##} = 1;
+      F
+      INC
+      _
 
-    state
-    stream
-    delim
-    indent
-    level
-    rindent
-    rlevel
-    rnr
-    NrOfChilds
-    isLast
-    NrOfLinesFollowing
-global code
-  fillInvalidNames()
-  1
+      +
+      -
+    doc	these are strings that cannot be used as a var-name for other reasons
+      this list is probably (most likely) not complete
+    T	${InvalidNames}{special}{q##1##} = 1;
+      ::
+    doc	these are names that cannot be used as a var-name since tru owns them
+    T	${InvalidNames}{truOwned}{q##1##} = 1;
+      ATTIC			this is a public array
+
+      state
+      stream
+      delim
+      indent
+      level
+      rindent
+      rlevel
+      rnr
+      NrOfChilds
+      isLast
+      NrOfLinesFollowing
+fillInvalidNames()
+1

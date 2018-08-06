@@ -1,4 +1,4 @@
-VERSION	3.1a
+VERSION	4.0
 USAGE	perl_tru [Options] [<file> ....]
 
 	produces a perl-script
@@ -122,7 +122,7 @@ actions
 	foo
 	  return "bar"
     -
-      >>function	main
+      >>sub	main
        if ($VERSION) {
 	  if ( \$ARGV[0] eq "-version" ) {
 	    print "Version :\\n";
@@ -130,7 +130,7 @@ actions
 	    exit 0
 	  }
       }
-  sub	args
+  anonymous sub	args
     an anonymous sub
       Parameters :
         sub	indicator	.+
@@ -151,13 +151,24 @@ actions
       Example :
         see	wantListOrObject
     >
-      >>function	anon-y-mous	$args
-  function	args
-    function
+      >>sub	anon-y-mous	$args
+  subs
+    introduces a block of subs
       Parameters :
-        function	mandatory	.+	the function name
+        subs	indicator	.+
+      Example :
+        see	sub
+    >
+      $offset-=2;
+    <
+      $offset+=2;
+
+  sub	args
+    a sub
+      Parameters :
+        sub	mandatory	.+	the sub name
         args	optional	.+	the parameters of the function
-      Introduces a function (rsp. a sub) and it's parameters.
+      Introduces a sub (aka. a function outside the perl-world) and it's parameters.
       The args can be
         empty like in
 	    foo
@@ -171,41 +182,40 @@ actions
       For each sub a prototype is generated at the beginning of the program.
       This can be supressed with -noProtos.
       Example :	perl_tru -noIntro -noSharpBang
-	foo
-	  return 1
-	bar	$n,$j
-	  return $n+$j
-	mysplice	\@$$@
-	  whatever
+	subs
+	  foo
+	    return 1
+	  bar	$n,$j
+	    return $n+$j
+	  mysplice	\@$$@
+	    whatever
     >
       setmark("mark_autodoc");
        |
-      $function = "" if $function eq "anon-y-mous";
+      $sub = "" if $sub eq "anon-y-mous";
+      $sub =~ s/^sub +//;
       if ($args) {
         if ($args =~ /[^\$*@;\\]/) {
           $dargs = "";
           for (split/ *, */,$args) { $dargs .= substr $_,0,1 }
-          proto("sub $function($dargs);") if $function ne "";
-	sub $function($dargs)
+          proto("sub $sub($dargs);") if $sub ne "";
+	sub $sub($dargs)
 	{
 	  local ($args) = \@_;
         } else {
-          proto("sub $function($args);") if $function ne "";
-	sub $function($args)
+          proto("sub $sub($args);") if $sub ne "";
+	sub $sub($args)
 	{
         }
       } else {
-        proto("sub $function;");
-	sub $function
+        proto("sub $sub;");
+	sub $sub
 	{
       }
     <
       $parent = $tru::actions[-2][1];
       $post = '';
-      # sub is structure-item only in wantListOrObject
-      # I could as well ask if $grandparent eq "wantListOrObject"
-      $post = ',' if $parent eq "sub";
-      $post = ''  if $parent eq "sub" and $isLast or $parent eq "statement";
+      $post = ','  if $parent eq "anonymous sub" and !$isLast;
 	}$post
   label
     label
@@ -247,10 +257,9 @@ actions
       If the condition has the form /;.*;/ then it is surrounded by ( and ).
       Else the condition is used unchanged.
       Example :	perl_tru -noIntro -noSharpBang -noProtos
-	foo
-	  F	$t (@T)
-	    "$t"
-	  F	$i=1;$i<100;$i+=4	"$i"
+	F	$t (@T)
+	  "$t"
+	F	$i=1;$i<100;$i+=4	"$i"
     >
       if ($cond =~/;.*;/)
 	for ($cond) {
@@ -531,8 +540,7 @@ actions
       You can also have scope declarations in this statement, as in
           F	my $i=0...10
       Example :	perl_tru -noIntro -noSharpBang -noProtos
-	foo
-	  F	my $i=10...20	"Nr : $i"
+	F	my $i=10...20	"Nr : $i"
   var	comment
     continued
     -
@@ -753,32 +761,33 @@ actions
       Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
 
       Example :	perl_tru -noIntro
-	foo
-	  local $s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
-	  local $a = {..}		here comes an object
-	    answer	42		you know why
-	    p3		[..]		objects can contain arrays
-	      'joo'
-	      'nee'
-	      {..}		arrays can contain objects
-		k1	'Right'
-		k2	'Left'
-	      [..]		arrays can contain arrays
-		'green'
-		'blue'
-	    # objects, arglists and arrays can contain subs
-	    sub	$a,$b
-		just return the sum of the two args
-	      return $a+$b
-	  local $myDraw = Drawing([{..}])
-	    x	"red"
-	    y	"green"
-	  local $fox=bax("nice",..)
-	    "foxbax"
-	    sub	$r
-	      return $r*$r
-	bax	$a,$b,$code
-	  print $code()
+	subs
+	  foo
+	    local $s = "(..)"		this is not treated by wantListOrObject because of the ##PURE## in here
+	    local $a = {..}		here comes an object
+	      answer	42		you know why
+	      p3		[..]		objects can contain arrays
+		'joo'
+		'nee'
+		{..}		arrays can contain objects
+		  k1	'Right'
+		  k2	'Left'
+		[..]		arrays can contain arrays
+		  'green'
+		  'blue'
+	      # objects, arglists and arrays can contain subs
+	      sub	$a,$b
+		  just return the sum of the two args
+		return $a+$b
+	    local $myDraw = Drawing([{..}])
+	      x	"red"
+	      y	"green"
+	    local $fox=bax("nice",..)
+	      "foxbax"
+	      sub	$r
+		return $r*$r
+	  bax	$a,$b,$code
+	    print $code()
     l	closer
     >
       unless ($wantListOrObject =~ s/\.\.([\}\]\)].*)//) {
@@ -836,12 +845,12 @@ group
 	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
 	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
 	  want args(..)			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\)/
-	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	  anonymous sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
 	   continuation			[comment]				>>* 2continue
 	wantObject			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\}/
-	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	  anonymous sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  wantObject	{..}		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
 	  wantArray	[..]		[comment]				= wantListOrObject($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
@@ -849,7 +858,7 @@ group
 	wantArray			[comment]				>2 wantListOrObject($F[1] !~ "##PURE##")		/\.\.\]/
 	  wantObject			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\{\.\.\}/
 	  wantArray			[comment]				= wantListOrObject($F[1] !~ "##PURE##")		/\[\.\.\]/
-	  sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
+	  anonymous sub	[args]								=o				/\bsub(\*?\s+\$?\w+)?$/
 	    autodoc								=g
 	  arrayelem			[comment]				>0		.+
 	   continuation			[comment]				>>* 2continue
@@ -876,3 +885,11 @@ group
 	disp	[bufname]							>2($opt_vim)	(do)?disp
 	  key	value
 	  *									= illegal
+	main									=o	main
+	  autodoc								=g
+	  Option								=g
+	subs									>2	subs
+	  sub	[args]	additions						=o	.+
+	    autodoc								=g
+	sub	[args]	additions						=o	/^sub /
+	  autodoc								=g

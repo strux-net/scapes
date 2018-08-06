@@ -1,4 +1,4 @@
-VERSION	3.2
+VERSION	4.0
 USAGE	vim_tru [Options] [<file> ....]
 
 	produces a vim-script
@@ -9,8 +9,6 @@ USAGE	vim_tru [Options] [<file> ....]
 	    http://www.strux.net/strux_zip/strux/doc/vim_tru.html
 
 	per convention the input files have the extension .vimTR
-OPTIONS
-	obeyBang		Obey ! in functions. Default is : all functions are !
 BEGIN
   $cc = "\"";	# Comment Character specific to this language
   $plang = "vim";
@@ -105,19 +103,21 @@ actions
         args		optional	.+	the parameters of the function
         modifiers	optional	.+	Bram call them also arguments. Things like range, abort or dict
       Introduces a function and it's parameters.
-      The function is created with ! unless -obeyBang is given.
+      The function is created with ! if this definition is found in functions!
       Example :	vim_tru -noIntro
-	Foo
-	  return "Foo"
-	Bar	i
-	  return a:i*a:i
-	RemoveTrailingWhites	 	range
-	  save_cursor = getpos(".")
-	  echo 'nothing changed'	can be overwritten by the next statement
-	  execute a:firstline . "," . a:lastline . 's/[ \t\r]\+$//e'
-	  call setpos('.', save_cursor)
-	!FooBar
-	  return 'this function will have the ! independent of -obeyBang'
+	functions
+	  Foo
+	    return "Foo"
+	  Bar	i
+	    return a:i*a:i
+	  RemoveTrailingWhites	 	range
+	    save_cursor = getpos(".")
+	    echo 'nothing changed'	can be overwritten by the next statement
+	    execute a:firstline . "," . a:lastline . 's/[ \t\r]\+$//e'
+	    call setpos('.', save_cursor)
+	functions!
+	  FooBar
+	    return 'this function will have the !'
 	function! b.init() dict
 	    docu for b.init()
 	  'from b.init() '
@@ -127,15 +127,9 @@ actions
     >
       setmark("mark_autodoc");
       if ($function =~ /^function/) {
-	$function
-      } elsif ($function =~ /^!/) {
-	function$function($args) $modifiers
+	$function($args) $modifiers
       } else {
-        if ($opt_obeyBang) {
-	function $function($args) $modifiers
-        } else {
-	function!$function($args) $modifiers
-        }
+	function$fuBang$function($args) $modifiers
       }
     <
 	endfunc
@@ -1421,6 +1415,17 @@ actions
       comment is ignored. Vim has no inline comments.
     >	CLEAR
 	\\$F[0]
+  functions
+    introduces a block of function definitions
+      Parameters :
+        functions	indicator	.*
+      Example :
+        see	function
+    >
+      $fuBang = " " unless ($fuBang) = $functions =~ /(!)$/;
+      $offset-=2;
+    -
+      $offset+=2;
 hooks
   mark_com
     [
@@ -1454,7 +1459,7 @@ group
 	  var			[comment]					>0
 	    initialisation	[comment]					>0
 	F	var in list	[stmt]						>2 nativeFor	F		\S.+ in .+
-	function	[args]							>o2		/^function!?\s/
+	function	[args]	modifiers					>o2	/^function!?/
 	  autodoc								=g
 	perl									=2	perl
 	  viminput	prompt	[default_answer]	completion		>>*	viminput	".*"	".*"	".*"
@@ -1494,3 +1499,7 @@ group
 	    pattern	[cmd]
 	      cmd								=	.+
 	ListOrObject								=g
+	functions								=	functions!?
+	  function	[args]	modifiers					=o	[A-Z].*
+	    autodoc								=g
+	Option									=g

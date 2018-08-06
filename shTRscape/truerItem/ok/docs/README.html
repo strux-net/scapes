@@ -20,34 +20,10 @@
   <td class="code"><kbd>usage : truerItem [Options] &lt;truer&gt; &lt;action&gt; files ....</kbd></td>
 </tr>
 <tr class="coderow">
-  <td class="code"><kbd>Echo all lines of the files for which &lt;truer&gt; would execute &lt;action&gt;.</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd></kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>Example : truerItem perl_tru fancyFor *.plTR</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>&nbsp;&nbsp;This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>&nbsp;&nbsp;</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>It does not run &lt;truer&gt;.</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>Instead a new temp-truer is created from the structure of &lt;truer&gt; where the only defined action is &lt;action&gt;.</kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd></kbd></td>
-</tr>
-<tr class="coderow">
-  <td class="code"><kbd>It may fail to recognize the correct structure if weird things with &gt;&gt; or @READ are done in the &lt;truer&gt;.</kbd></td>
-</tr>
-<tr class="coderow">
   <td class="code"><kbd>OPTIONS:</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;-version	show version information</kbd></td>
 </tr>
 <tr class="coderow">
   <td class="code"><kbd>&nbsp;&nbsp;-h	print filename and linenumber before each hit</kbd></td>
@@ -122,7 +98,31 @@
   <td class="code"><kbd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Useful for truers that ignore lines starting with #</kbd></td>
 </tr>
 <tr class="coderow">
-  <td class="code"><kbd>&nbsp;&nbsp;-version	show version information</kbd></td>
+  <td class="code"><kbd>Echo all lines of the files for which &lt;truer&gt; would execute &lt;action&gt;.</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd></kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>Example : truerItem perl_tru fancyFor *.plTR</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>&nbsp;&nbsp;</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>It does not run &lt;truer&gt;.</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>Instead a new temp-truer is created from the structure of &lt;truer&gt; where the only defined action is &lt;action&gt;.</kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd></kbd></td>
+</tr>
+<tr class="coderow">
+  <td class="code"><kbd>It may fail to recognize the correct structure if weird things with &gt;&gt; or @READ are done in the &lt;truer&gt;.</kbd></td>
 </tr>
 </table><br/>
 </div>

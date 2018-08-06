@@ -25,6 +25,8 @@ proglang/java/test.java
 proglang/java/test_with_debug.java
 proglang/js/js_tru
 proglang/js/jstest.js
+proglang/py/py_tru
+proglang/py/pytest.py
 proglang/perl/disptest.out1
 proglang/perl/disptest.out2
 proglang/perl/perl_tru

@@ -1,7 +1,3 @@
-a'b
-one
-one
-Running
 Option f given test
 opt_a = 0
 opt_f = test
@@ -66,3 +62,7 @@ no
 4 : 2
 4 : 3
 arg1 arg2 arg3 -monitor unix:/big/bill/nBill1/nBill1.cnsl,server,nowait
+a'b
+one
+one
+Running

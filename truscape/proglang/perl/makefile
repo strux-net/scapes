@@ -52,7 +52,7 @@ test_perl_tru: perl_tru
 	-perl ./perl_tru -invalid
 perl_tru:
 	@echo  building perl_tru
-	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru perl.tru ../globalCode.tru perlcoll.tru ../../lib/basicUSAGE.tru >perl_tru
+	tru -s statistics.out ../common.tru ../morecommon.tru ../statementDelimiter.tru perl.tru perlcoll.tru ../../lib/basicUSAGE.tru >perl_tru
 	chmod +x perl_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
 	PATH=$$PWD:$$PATH perl ~/bin/trudocGivesCheck -s perl ./perl_tru >perl_tru.tmp
 	mv perl_tru.tmp perl_tru

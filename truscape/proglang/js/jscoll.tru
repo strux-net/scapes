@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 # USAGE and DOC are not in js.tru so it can be used in html.tru
 USAGE	js_tru [Options] [<file> ....]
 
@@ -15,10 +15,10 @@ actions
   DOC
     A javascript
       Example :	js_tru
-	var a = foo("World");
+	var a = foo("World")
 	function foo	s
 	  "Hello "+s
-	  return 1;
+	  return 1
     >
       #->introcomment
       setmark("mark_options");

@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	LL [<file>]
 	opens a powerful directory-browser.
 
@@ -11,7 +11,6 @@ usage	LL [<file>]
 	  This may fail if you have a vim-setup that interferes with this LL.
 	  In this case try LLfs (the fail-save version of LL). 
 	  LLfs does the same but does not use  your .vimrc and plugins.
-main
-  #vim +"LL $@" +only
-  # above does not work for dir\ with\ spaces
-  vim -N +'perl LL("'"$@"'")' +only
+#vim +"LL $@" +only
+# above does not work for dir\ with\ spaces
+vim -N +'perl LL("'"$@"'")' +only

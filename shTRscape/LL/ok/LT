@@ -7,32 +7,28 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  LT.shTR	3.0"
+  echo "  LT.shTR	4.0"
   exit 0
 fi
-# based on LT.shTR , version : 3.0
 
 usage()
 {
   cat <<'EOU' >&2
 usage : LT
+OPTIONS:
+  -version	show version information
 LT works only in an LLShell.
 It changes the LL-view to the current dir in the shell.
 vim needs the servername to be set.
 eG by compiling with --enable-autoservername
-OPTIONS:
-  -version	show version information
 EOU
   exit 1
 }
-main()
-{
-  if [ $# -eq 1 -a "$1" = '-?' ] ; then
-    usage
-  fi
-  if [ -z "$VIM_SERVERNAME" ] ; then
-    usage
-  fi
-  vim --servername $VIM_SERVERNAME --remote-send ":LT"
-}
-main "$@"
+if [ $# -eq 1 -a "$1" = '-?' ] ; then
+  usage
+fi
+# based on LT.shTR , version : 4.0
+if [ -z "$VIM_SERVERNAME" ] ; then
+  usage
+fi
+vim --servername $VIM_SERVERNAME --remote-send ":LT"

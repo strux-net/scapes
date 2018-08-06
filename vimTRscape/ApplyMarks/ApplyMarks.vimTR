@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	ApplyMarks.vim
 	Invoke it by typing
 	  :ApplyMarks
@@ -11,7 +11,7 @@ usage	ApplyMarks.vim
 
 	to install this plugin put this file into ~/.vim/plugin/
 com	ApplyMarks	call ApplyMarks()	Apply all found strings of the form vimmarkx as mark x
-ApplyMarks
+function!ApplyMarks
   hitcount=0
   save_cursor = getcurpos()
   marks={}

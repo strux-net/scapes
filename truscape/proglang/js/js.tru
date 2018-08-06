@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	4.0
 # USAGE is in jscoll.tru
 BEGIN
   $cc = "//";	# Comment Character specific to this language - not used do to languageType="c"
@@ -413,4 +413,5 @@ group
 	    autodoc								=g
 	try catch clause							=g
 	ListOrObject								=g
+	{-block									=g
 	statement								=g

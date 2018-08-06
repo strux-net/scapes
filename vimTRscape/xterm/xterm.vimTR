@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	ShowPrimaryScreen
 	this only works when running vim in an xterm.
 
@@ -19,7 +19,7 @@ usage	ShowPrimaryScreen
 	to install this plugin put this file into ~/.vim/plugin/
 
 map?	<leader>sp	:call ShowPrimaryScreen()<CR>	show the primary screen (until keypress)
-ShowPrimaryScreen
+function!ShowPrimaryScreen
   ?	&term =~ "xterm*"
     silent !echo -ne "\e[?1049l";read -sn 1;echo -ne "\e[?1049h"
     normal! 

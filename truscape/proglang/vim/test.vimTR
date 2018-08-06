@@ -1,4 +1,4 @@
-VERSION	3.2a
+VERSION	4.0
 usage	testfile
 	This file serves no special purpose
 
@@ -94,150 +94,147 @@ noremap!	Map noremap!	echo(" noremap!")
 inoremap	Map inoremap	echo("inoremap")
 cnoremap	Map cnoremap	echo("cnoremap")
 
-Counter	limit
-  :put='Limit = '.a:limit
-  var=1		Local inside function (global outside)
-  b:var=1	Local to the current buffer.
-  w:var=1	Local to the current window.
-  g:var=1	Global.
-  l:var=1	Local to a function.
-  s:var=1	Local to a |:source|'ed Vim script.
-  a:var=1	Function argument (only inside a function).
-  v:var=1	Global, predefined by Vim.
-  F	k=1;k<=a:limit;k=k+1
-    :put='  more Line for '.a:limit.' = '.k	Comments work
-    F	i=1;i<=k;i=i+1
-      :put='  '.i
+functions!
+  Counter	limit
+    :put='Limit = '.a:limit
+    var=1		Local inside function (global outside)
+    b:var=1	Local to the current buffer.
+    w:var=1	Local to the current window.
+    g:var=1	Global.
+    l:var=1	Local to a function.
+    s:var=1	Local to a |:source|'ed Vim script.
+    a:var=1	Function argument (only inside a function).
+    v:var=1	Global, predefined by Vim.
+    F	k=1;k<=a:limit;k=k+1
+      :put='  more Line for '.a:limit.' = '.k	Comments work
+      F	i=1;i<=k;i=i+1
+	:put='  '.i
 
-!Fac	n
-  vars
-    a=1
-    b="be"
-    c={..}
-      1	'one'
-      2	'two'
-    d=[..]
-      10
-      20
-      {..}
-        a	"a"
-        b	"b"
-      30
-    w
-      one
-      'four'
-      two
-  ?	a:n==0	return 1
-  return a:n*Fac(a:n-1)
+  Fac	n
+    vars
+      a=1
+      b="be"
+      c={..}
+	1	'one'
+	2	'two'
+      d=[..]
+	10
+	20
+	{..}
+	  a	"a"
+	  b	"b"
+	30
+      w
+	one
+	'four'
+	two
+    ?	a:n==0	return 1
+    return a:n*Fac(a:n-1)
 
-Test1
-    a function with a nice name
-    author	me
-  i=0	Comments work
-  map <buffer>
-  set
-  ab
-  au
-  au BufWritePre
-  W	i<10
-    :put='Line '.i	Comments work
-    i=i+1
-  perl
-    main
-      $h=`hostname`
-      "Host is $h"
-      viminput	"Anser yes or no : "	"$last_answer"
-        $x = $answer
-      doc
-        this is a comment inside a perl-block
-        perl
-          $a=1
-      disp	/LL/
-	Array		\@POSSIBILITIES
-	in_function		sub {$curbuf->Append(0,$f)}
-	item_function	\&poss
-	linenr		3
-  U	i==0
-    i=i-1
-    :put='another Line '.i	Comments work
-  call Counter(3)
-  call Counter(4)
-  :put='fac(5) = '.Fac(5)
-  F	i=1;;i=i+1
-  S	i
-    1	'eins'
-    2	zwei(twee)
-    default
-      'something else'
+  Test1
+      a function with a nice name
+      author	me
+    i=0	Comments work
+    map <buffer>
+    set
+    ab
+    au
+    au BufWritePre
+    W	i<10
+      :put='Line '.i	Comments work
+      i=i+1
+    perl
+      main
+	$h=`hostname`
+	"Host is $h"
+	viminput	"Anser yes or no : "	"$last_answer"
+	  $x = $answer
+	doc
+	  this is a comment inside a perl-block
+	  perl
+	    $a=1
+	disp	/LL/
+	  Array		\@POSSIBILITIES
+	  in_function		sub {$curbuf->Append(0,$f)}
+	  item_function	\&poss
+	  linenr		3
+    U	i==0
+      i=i-1
+      :put='another Line '.i	Comments work
+    call Counter(3)
+    call Counter(4)
+    :put='fac(5) = '.Fac(5)
+    F	i=1;;i=i+1
+    S	i
+      1	'eins'
+      2	zwei(twee)
+      default
+	'something else'
 
-main
-    the main entry
-      and some lines	with tabs in the comment
-  Option
-    strux_LL_colored			use colored output	'Colored enabled'
-    strux_LL_shell:string['bash -i']	the shell for the <f4> commands
+Option
+  strux_LL_colored			use colored output	'Colored enabled'
+  strux_LL_shell:string['bash -i']	the shell for the <f4> commands
 	This can be used to tell the shell to do additional initializations.
 	e.G if you specified|g:strux_LL_shell|to be /bin/bash and want it to also
 	obey your aliases, functions and other settings, you can do
 	  let g:strux_LL_shell_setup='shopt -s expand_aliases;source ~/.profile'
-      'shell changed to g:strux_LL_shell'
+    'shell changed to g:strux_LL_shell'
 
-  com	A	a	comment for coma
-    B	b	comment for comb
-  com! -n=? -complete=file	LL	perl LLorRedisp('<args>')	start LL
-  com!
-    " a comment for C and D
-    C		c	comment for comc, next (com D) is whitout comment
-    D		d
-    -nargs 1 E	c	comment for come, has options
-  highlight	StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
-  highlight
-    StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
-function! b.init() dict
+com	A	a	comment for coma
+  B	b	comment for comb
+com! -n=? -complete=file	LL	perl LLorRedisp('<args>')	start LL
+com!
+  " a comment for C and D
+  C		c	comment for comc, next (com D) is whitout comment
+  D		d
+  -nargs 1 E	c	comment for come, has options
+highlight	StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
+highlight
+  StatusLine	term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
+function! b.init	 	dict
     autodoc for b.init()
   'from b.init() '
   echo self
-main
-  %d
-  call Test1()
-  wq
-  map
-    m 1	m 1
-    "comment
-  set	splitbelow
-  setlocal
-    sw=3	with comment
-  set
-    aw
-    noai
-    "comment
-    sr
-  normal!	only for demo
-    :ls	show the buffers
-    j0		goto next line
-    "xy$	yank the line to register y :: NOTE this line begins with " and is passed correctly
-  F	var in keys(t:)
-    'let t:'. var . '=' . string(t:{var}). ''
-  M	" wrong  : s/	/	/
-	a	b
-	c
-  M*	s/	/	/
-	a	b
-	c
-  b = {}
-  let c = {..}			c is a dictionary
-    k1		v1		key 'k1', value v1
-    k2		{..}		c.k2 is a dictionary
-      k2.1	v2.1		automatically quote key
-      k2.2	[ 1 , 2 , 3]	do not automatically quote the value here
-      k2.3	{ "a" : "A" }	do not automatically quote the value here
-    "k3"	"v3"		do not automatically quote if already quoted
-    k4		[..]
-      10
-      20
-  a="one
-    two"
+%d
+call Test1()
+wq
+map
+  m 1	m 1
+  "comment
+set	splitbelow
+setlocal
+  sw=3	with comment
+set
+  aw
+  noai
+  "comment
+  sr
+normal!	only for demo
+  :ls	show the buffers
+  j0		goto next line
+  "xy$	yank the line to register y :: NOTE this line begins with " and is passed correctly
+F	var in keys(t:)
+  'let t:'. var . '=' . string(t:{var}). ''
+M	" wrong  : s/	/	/
+      a	b
+      c
+M*	s/	/	/
+      a	b
+      c
+b = {}
+let c = {..}			c is a dictionary
+  k1		v1		key 'k1', value v1
+  k2		{..}		c.k2 is a dictionary
+    k2.1	v2.1		automatically quote key
+    k2.2	[ 1 , 2 , 3]	do not automatically quote the value here
+    k2.3	{ "a" : "A" }	do not automatically quote the value here
+  "k3"	"v3"		do not automatically quote if already quoted
+  k4		[..]
+    10
+    20
+a="one
+  two"
 perl
-  foo
+  sub foo
     M	$curbuf->Append($item++										);
 				,"name\t$fullname4internal"

@@ -14,7 +14,7 @@ sub warning($@);
 sub syntax($@);
 sub validityCheck($);
 sub fillInvalidNames;
-# based on trusubs.plTR , version : 3.0
+# based on trusubs.plTR , version : 4.0
 #
 # trusubs.pl is required by tru and should be located in ~/strux/lib
 #
@@ -627,6 +627,5 @@ sub fillInvalidNames
   ${InvalidNames}{truOwned}{q#isLast#} = 1;
   ${InvalidNames}{truOwned}{q#NrOfLinesFollowing#} = 1;
 }
-#Code outside any function
 fillInvalidNames();
 1;

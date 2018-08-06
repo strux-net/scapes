@@ -4,16 +4,17 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on disp.vimTR , version : 3.0
-if !(has("perl"))
-  finish
-endif
-if exists("loaded_disp")
-  finish
-else
-  let loaded_disp=1
-endif
-au BufEnter /strux/* setl noswapfile
+" based on disp.vimTR , version : 4.0
+"	main
+  if !(has("perl"))
+    finish
+  endif
+  if exists("loaded_disp")
+    finish
+  else
+    let loaded_disp=1
+  endif
+  au BufEnter /strux/* setl noswapfile
 function!Sp(buffname) 
   if buflisted(a:buffname) && bufexists(a:buffname)
     let switchbuf=&switchbuf
@@ -150,16 +151,6 @@ sub dodisp
   VIM::DoCommand("setlocal nomodifiable|setlocal nomodified");
   VIM::DoCommand("call winrestview($$disp::H{posInfo})");
 }
-#****************************************
-# Reenable pd for debugging
-#****************************************
-# use like
-#   :perl pd \%LL::Dirs
-# pd
-#   use Data::Dumper
-#   my @tmp=split "\n",Dumper(@_)
-#   disp { Array =>  \@tmp }
-#****************************************
 
 sub BufLeave_event
 {
@@ -172,3 +163,13 @@ sub BufEnter_event
   $disp::A = $$disp::H{Array};
 }
 EOT
+"****************************************
+" Reenable pd for debugging
+"****************************************
+" use like
+"   :perl pd \%LL::Dirs
+"   sub pd
+"     use Data::Dumper
+"     my @tmp=split "\n",Dumper(@_)
+"     disp { Array =>  \@tmp }
+"****************************************

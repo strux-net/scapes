@@ -7,15 +7,16 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  LLfs.shTR	3.0"
+  echo "  LLfs.shTR	4.0"
   exit 0
 fi
-# based on LLfs.shTR , version : 3.0
 
 usage()
 {
   cat <<'EOU' >&2
 usage : LLfs [<file>]
+OPTIONS:
+  -version	show version information
 opens a powerful directory-browser (fail-save).
 
 file can be a directory or a path to a real file.
@@ -25,16 +26,11 @@ If no file is given, then the current dir is used.
 You must have vim7 (or later) installed.
 Note:
   LL does the same but uses your .vimrc and plugins (and may fail for this reason).
-OPTIONS:
-  -version	show version information
 EOU
   exit 1
 }
-main()
-{
-  if [ $# -eq 1 -a "$1" = '-?' ] ; then
-    usage
-  fi
-  vim -N -u ~/strux/.vimrc +'perl LL("'"$@"'")' +only
-}
-main "$@"
+if [ $# -eq 1 -a "$1" = '-?' ] ; then
+  usage
+fi
+# based on LLfs.shTR , version : 4.0
+vim -N -u ~/strux/.vimrc +'perl LL("'"$@"'")' +only

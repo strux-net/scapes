@@ -1,18 +1,22 @@
-VERSION	3.1
+VERSION	4.0
 actions
   W	cond	stmt
     continued
       Example :	classtruer -noIntro -noConfigCheck -noProtos
 	foo
-	  W	i+<10
+	  W	i<10
+	    i+=1
 	    bar(i)
 	  doc	same as above
-	  W	i++ < 10	bar(i)
+	  W	i < 10	i+=1
+	    bar(i)
   U	cond	stmt
     An Until Loop
       Example :	classtruer -noIntro -noConfigCheck -noProtos
 	foo
-	  U	i++ > 10
+	  U	i > 10
 	    bar(i)
+	    i+=1
 	  doc	same as above
-	  U	i++ > 10	bar(i)
+	  U	i > 10	bar(i)
+	    i+=1

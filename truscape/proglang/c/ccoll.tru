@@ -1,8 +1,7 @@
-VERSION	3.0
+VERSION	4.0
 structure
 	common			=g
 	c			=g
 	try catch clause	=g
-	main			=g
-	function		=g
+	{-block			=g
 	statement		=g

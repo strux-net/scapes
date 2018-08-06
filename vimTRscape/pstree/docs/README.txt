@@ -33,4 +33,3 @@ pstree.vim
 	a	LL of /proc/<pid>
 	  for the pid under the cursor start LL in /proc/<pid>
 
-

@@ -17,6 +17,7 @@
     <desc>    perl_tru	for perl</desc><br/>
     <desc>    sh_tru	for shell</desc><br/>
     <desc>    vim_tru	for vim</desc><br/>
+    <desc>    py_tru	for python</desc><br/>
     <desc>They all share the same syntax-idea.</desc><br/>
     <desc>Some Options can be set to modify the output.</desc><br/>
     <div align="right"><filename>perl.tru</filename></div>
@@ -69,7 +70,7 @@
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>&quot;running&quot;
 </listing>
     <br/>
@@ -213,7 +214,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -221,7 +222,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2continue">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -232,7 +233,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -256,12 +257,6 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_disp">disp</a><ping><a title="here is a Tab">	</a>[bufname]</ping></td><td>&gt;2($opt_vim)</td><td>(do)?disp</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_key">key</a><ping><a title="here is a Tab">	</a>value</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_illegal">*</a></td><td>= illegal</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;2</td><td>try</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_finally">finally</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>=</td><td>finally</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_catch">catch</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;0</td><td>.+</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_global20code">global code</a></td><td>=</td><td>global code	</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -272,16 +267,27 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;2</td><td>try</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_finally">finally</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>=</td><td>finally</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_catch">catch</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -289,7 +295,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -300,7 +306,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -824,7 +830,7 @@ OPTIONS:
 	</tr>
 	<tr>
 	  <td>
-	    <A href="#A_sub">sub</a>
+	    <A href="#A_anonymous20sub">anonymous sub</a>
 	  </td>
 	  <td>
 	    an anonymous sub
@@ -832,10 +838,18 @@ OPTIONS:
 	</tr>
 	<tr>
 	  <td>
-	    <A href="#A_function">function</a>
+	    <A href="#A_subs">subs</a>
 	  </td>
 	  <td>
-	    function
+	    introduces a block of subs
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_sub">sub</a>
+	  </td>
+	  <td>
+	    a sub
 	  </td>
 	</tr>
 	<tr>
@@ -958,14 +972,6 @@ OPTIONS:
 	    a property and its value
 	  </td>
 	</tr>
-	<tr>
-	  <td>
-	    <A href="#A_global20code">global code</a>
-	  </td>
-	  <td>
-	    For code outside any function
-	  </td>
-	</tr>
       </table>
     <a name="A_VERSION"></a>
     <h1>VERSION       <shortText>the version of this file</shortText></h1>
@@ -1068,7 +1074,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -1076,7 +1082,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 5">       |     </a><A href="#A_2continue">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -1087,7 +1093,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -1693,7 +1699,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note : This is pseudocode</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>an = 42<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>statement fits in one line, append a ; for c, js, java, perl</ping>
 <a title = "Indent : 2">  </a>pi =<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>statement starts here</ping>
 <a title = "Indent : 4">    </a>&quot;technically seen ...&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>... what follows are continuation statements</ping>
@@ -1708,8 +1714,8 @@ OPTIONS:
 <a title = "Indent : 4">    </a>&lsquo;a final ; is NOT given automatically&lsquo; ;<ping><a title="here is a Tab">	</a>do NOT forget the ; for c, js, java, perl</ping>
 
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>depending on the language statements starting with a string are treated as autoprint</ping>
-<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js</ping>
-<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim</ping>
+<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js, py</ping>
+<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim, py</ping>
 </listing>
     <br/>
     <part>gives :</part>
@@ -1741,8 +1747,8 @@ OPTIONS:
 <a title = "Indent : 2">  </a>#****************************************
 <a title = "Indent : 2">  </a># depending on the language statements starting with a string are treated as autoprint
 <a title = "Indent : 2">  </a>#****************************************
-<a title = "Indent : 2">  </a>print &quot;a double quoted string&quot;;                  # sh, c, perl , java, js
-<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;;                        # vim
+<a title = "Indent : 2">  </a>print &quot;a double quoted string&quot;;                  # sh, c, perl , java, js, py
+<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;;                        # vim, py
 <a title = "Indent : 0"></a>}
 </listing>
     <br/>
@@ -1752,67 +1758,6 @@ OPTIONS:
     <desc>  does not end in one of these 5 characters =,;[(</desc><br/>
     <desc>  and there are no deeper lines</desc><br/>
     <desc>  </desc><br/>
-    <desc>This auto-appending of ; can (in rare cases) have undesired side-effects.</desc><br/>
-    <part>Example :</part>
-    <howToRead>[
-      <a href="howtoread/Example.html" title="how to read the Example">help</a>
-    ]</howToRead>
-    <xcommand>[
-      <a title="js_tru -noIntro">cmd</a>
-    ]</xcommand>
-    <br/><br/>
-    <listing class="Example">
-<a title = "Indent : 0"></a>function foo<ping><a title="here is a Tab">	</a>describes the code-block</ping>
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>example for undesired effect</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, {<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>the { opens a new CODE block</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;<ping><a title="here is a Tab">	</a>this looks like a one-line-statement, so append a ;</ping>
-<a title = "Indent : 2">  </a>});
-
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>workarounds for undesired effect</ping>
-
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>method 1 : make the block an &lsquo;object&lsquo; - block</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head<ping><a title="here is a Tab">	</a>append a comment, now { is no longer the very last character</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>we are in no block at all, so this simply contiues the previous line</ping>
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>method 2 : put a , at the end of the last element</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head<ping><a title="here is a Tab">	</a>append a comment, now { is no longer the very last character</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;,<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>we are in no block at all, so this simply contiues the previous line</ping>
-<a title = "Indent : 2">  </a>});
-
-</listing>
-    <br/>
-    <part>gives :</part>
-    <howToRead>[
-      <a href="howtoread/gives.html" title="how to read the gives">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <listing class="gives">
-
-<a title = "Indent : 0"></a>function foo(describes the code-block) {
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// example for undesired effect
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, {                        // the { opens a new CODE block
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;;                   // this looks like a one-line-statement, so append a ;
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// workarounds for undesired effect
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// method 1 : make the block an &lsquo;object&lsquo; - block
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;                    // we are in no block at all, so this simply contiues the previous line
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// method 2 : put a , at the end of the last element
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;,                   // we are in no block at all, so this simply contiues the previous line
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 0"></a>}
-</listing>
-    <br/>
     <desc>To NOT automatically append ; to one-line-statements at all use option -noAutoSemicolon.</desc><br/>
     <div align="right"><filename>perl.tru</filename></div>
     <desc>If the statement begins with a string then it is subject to output and results in:</desc><br/>
@@ -1834,7 +1779,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>my $count =1<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>the linecount</ping>
 <a title = "Indent : 2">  </a>?<ping><a title="here is a Tab">	</a>$count != 1</ping><pong><a title="here is a Tab">	</a>STDERR &quot;internal error&quot;</pong>
 <a title = "Indent : 2">  </a>&quot;$count&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tell it to the user</ping>
@@ -1899,7 +1844,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>$i++&gt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 </listing>
@@ -1961,7 +1906,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>$i++&lt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
@@ -2037,8 +1982,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>F<ping><a title="here is a Tab">	</a>my $i=10...20</ping><pong><a title="here is a Tab">	</a>&quot;Nr : $i&quot;</pong>
+<a title = "Indent : 0"></a>F<ping><a title="here is a Tab">	</a>my $i=10...20</ping><pong><a title="here is a Tab">	</a>&quot;Nr : $i&quot;</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -2047,12 +1991,8 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-
-<a title = "Indent : 0"></a>sub foo
-<a title = "Indent : 0"></a>{
-<a title = "Indent : 2">  </a>for (my $i=10;$i&lt;20;$i=$i+1) {
-<a title = "Indent : 4">    </a>print &quot;Nr : $i&quot;;
-<a title = "Indent : 2">  </a>}
+<a title = "Indent : 0"></a>for (my $i=10;$i&lt;20;$i=$i+1) {
+<a title = "Indent : 2">  </a>print &quot;Nr : $i&quot;;
 <a title = "Indent : 0"></a>}
 </listing>
     <br/>
@@ -2143,10 +2083,9 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>F<ping><a title="here is a Tab">	</a>$t (@T)</ping>
-<a title = "Indent : 4">    </a>&quot;$t&quot;
-<a title = "Indent : 2">  </a>F<ping><a title="here is a Tab">	</a>$i=1;$i&lt;100;$i+=4</ping><pong><a title="here is a Tab">	</a>&quot;$i&quot;</pong>
+<a title = "Indent : 0"></a>F<ping><a title="here is a Tab">	</a>$t (@T)</ping>
+<a title = "Indent : 2">  </a>&quot;$t&quot;
+<a title = "Indent : 0"></a>F<ping><a title="here is a Tab">	</a>$i=1;$i&lt;100;$i+=4</ping><pong><a title="here is a Tab">	</a>&quot;$i&quot;</pong>
 </listing>
     <br/>
     <part>gives :</part>
@@ -2155,15 +2094,11 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-
-<a title = "Indent : 0"></a>sub foo
-<a title = "Indent : 0"></a>{
-<a title = "Indent : 2">  </a>for $t (@T) {
-<a title = "Indent : 4">    </a>print &quot;$t&quot;;
-<a title = "Indent : 2">  </a>}
-<a title = "Indent : 2">  </a>for ($i=1;$i&lt;100;$i+=4) {
-<a title = "Indent : 4">    </a>print &quot;$i&quot;;
-<a title = "Indent : 2">  </a>}
+<a title = "Indent : 0"></a>for $t (@T) {
+<a title = "Indent : 2">  </a>print &quot;$t&quot;;
+<a title = "Indent : 0"></a>}
+<a title = "Indent : 0"></a>for ($i=1;$i&lt;100;$i+=4) {
+<a title = "Indent : 2">  </a>print &quot;$i&quot;;
 <a title = "Indent : 0"></a>}
 </listing>
     <br/>
@@ -2366,7 +2301,6 @@ OPTIONS:
       <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment</td></tr>
     </table>
     <br/>
-    <desc>It must be the last statement in the case.</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -2476,7 +2410,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>try
 <a title = "Indent : 6">      </a>die_sometimes()
 <a title = "Indent : 4">    </a>catch
@@ -2679,7 +2613,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>jdoc<ping><a title="here is a Tab">	</a>a very special program</ping>
 <a title = "Indent : 2">  </a>author<ping><a title="here is a Tab">	</a>buggs bunny</ping>
 <a title = "Indent : 2">  </a>this program does funny things
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>jdoc
 <a title = "Indent : 4">    </a>author<ping><a title="here is a Tab">	</a>flash gordon</ping>
 <a title = "Indent : 4">    </a>the jdoc tag can be given, but there is no real need to (except at level 1).
@@ -2724,40 +2658,40 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
@@ -2770,45 +2704,56 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
@@ -2853,21 +2798,21 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -2877,25 +2822,31 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -2938,7 +2889,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -2946,7 +2897,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -2954,7 +2905,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -2966,28 +2917,35 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -3016,7 +2974,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 4">    </a>author<ping><a title="here is a Tab">	</a>mikey mouse</ping>
 <a title = "Indent : 4">    </a>this function does even more funny things
 <a title = "Indent : 2">  </a>bar
@@ -3091,7 +3049,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>perl code
 <a title = "Indent : 8">        </a>print &quot;
 <a title = "Indent : 10">          </a>one<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs survive</ping>
@@ -3213,7 +3171,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a># comment with<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>{
 <a title = "Indent : 4">    </a>stmt
 <a title = "Indent : 2">  </a>}
@@ -3331,7 +3289,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a># comment with<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a># an indented comment
 </listing>
     <br/>
@@ -3392,7 +3350,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>??<ping><a title="here is a Tab">	</a>a</ping><pong><a title="here is a Tab">	</a>0</pong><ping><a title="here is a Tab">	</a>print &quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;</pong>
 <a title = "Indent : 4">    </a>&lt;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>smaller</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>negative numbers</pong>
 <a title = "Indent : 4">    </a>==<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>equal</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>a zero</pong>
@@ -3427,7 +3385,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>??
 <a title = "Indent : 4">    </a>a == 1<ping><a title="here is a Tab">	</a>bar()</ping>
 <a title = "Indent : 4">    </a>b &gt;= c<ping><a title="here is a Tab">	</a>baz()</ping>
@@ -3496,7 +3454,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>??*<ping><a title="here is a Tab">	</a>flag &amp; GC_</ping><pong><a title="here is a Tab">	</a> != 0</pong><ping><a title="here is a Tab">	</a>print &quot;file is </ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;</pong>
 <a title = "Indent : 4">    </a>read<ping><a title="here is a Tab">	</a>readable</ping>
 <a title = "Indent : 4">    </a>write<ping><a title="here is a Tab">	</a>writeable</ping>
@@ -3641,7 +3599,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>FOREVER<ping><a title="here is a Tab">	</a>bar()</ping>
 </listing>
     <br/>
@@ -3717,7 +3675,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>bar(&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;);</pong>
 <a title = "Indent : 14">              </a>one
 <a title = "Indent : 14">              </a>two
@@ -3747,7 +3705,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>semicolon at end</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M;<ping><a title="here is a Tab">	</a>print </ping>
 <a title = "Indent : 4">    </a>&quot;one&quot;
 <a title = "Indent : 4">    </a>1
@@ -3790,7 +3748,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>first field from the lines</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M_<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>(bar(</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)+baz(</pong><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>));</ping>
 <a title = "Indent : 14">              </a>a<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>10</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>20</pong>
 <a title = "Indent : 14">              </a>b<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>100</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>200</pong>
@@ -3824,7 +3782,7 @@ OPTIONS:
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>more params than fields</ping>
 <a title = "Indent : 2">  </a>remaining fields will simply be concatenated
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>print </ping>
 <a title = "Indent : 4">    </a>0.<ping><a title="here is a Tab">	</a>1</ping>
 <a title = "Indent : 4">    </a>0.<ping><a title="here is a Tab">	</a>2</ping><pong><a title="here is a Tab">	</a>3</pong>
@@ -3861,7 +3819,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>more fields then params</ping>
 <a title = "Indent : 2">  </a>these fields are not used at all.
 <a title = "Indent : 2">  </a>they can be used as a comment.
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>print(</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)</pong><ping><a title="here is a Tab">	</a>a comment</ping>
 <a title = "Indent : 16">                </a>1
 <a title = "Indent : 16">                </a>2
@@ -3897,7 +3855,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>a more realistic example (in perl)</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>if ($size &gt; (</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a> )) { return int($size/(</pong><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)).&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;;}</pong>
 <a title = "Indent : 24">                        </a>1024*1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>TB</pong>
 <a title = "Indent : 24">                        </a>1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>GB</pong>
@@ -3969,7 +3927,7 @@ OPTIONS:
 <a title = "Indent : 10">          </a>1.01<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>too ugly</ping>
 <a title = "Indent : 10">          </a>11.11<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>well known pretty number</ping>
 <a title = "Indent : 10">          </a>42<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>for obvious reasons</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>helper function</ping>
 <a title = "Indent : 2">  </a>bar()
 </listing>
@@ -4117,7 +4075,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4147,7 +4105,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4179,7 +4137,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4259,25 +4217,25 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo1
+<a title = "Indent : 0"></a>sub foo1
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>1..3</ping>
 <a title = "Indent : 4">    </a>foo<ping><a title="here is a Tab">	</a>();</ping>
-<a title = "Indent : 0"></a>foo2
+<a title = "Indent : 0"></a>sub foo2
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>1,5,7</ping>
 <a title = "Indent : 4">    </a>bar<ping><a title="here is a Tab">	</a>();</ping>
-<a title = "Indent : 0"></a>foo3
+<a title = "Indent : 0"></a>sub foo3
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>qw(north east west south)</ping><pong><a title="here is a Tab">	</a>print &quot;</pong><ping><a title="here is a Tab">	</a>&quot;;</ping>
-<a title = "Indent : 0"></a>foo4
+<a title = "Indent : 0"></a>sub foo4
 <a title = "Indent : 2">  </a>R/object/<ping><a title="here is a Tab">	</a>north,east,west,south</ping>
 <a title = "Indent : 4">    </a>object.add(); // add object to the pane
 <a title = "Indent : 4">    </a>print(&quot;added a object&quot;);
 <a title = "Indent : 4">    </a>// this line is copied unchanged
-<a title = "Indent : 0"></a>foo5
+<a title = "Indent : 0"></a>sub foo5
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>the list below will not be produced.</ping>
 <a title = "Indent : 4">    </a>Instead an error will be reported
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>pins,passwords,keys</ping>
 <a title = "Indent : 4">    </a>process(<ping><a title="here is a Tab">	</a>);</ping>
-<a title = "Indent : 0"></a>foo6
+<a title = "Indent : 0"></a>sub foo6
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>quoted words cause no trouble</ping>
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>&lsquo;pins&lsquo;,&lsquo;passwords&lsquo;,&lsquo;keys&lsquo;</ping>
 <a title = "Indent : 4">    </a>process(<ping><a title="here is a Tab">	</a>);</ping>
@@ -4426,7 +4384,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>a=1
 <a title = "Indent : 2">  </a>hide<ping><a title="here is a Tab">	</a>this code does not work</ping>
 <a title = "Indent : 4">    </a>// some experimental code
@@ -4523,7 +4481,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>main
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>stmt1
 
 <a title = "Indent : 2">  </a>stmt2
@@ -4536,12 +4494,11 @@ OPTIONS:
     <br/><br/>
     <listing class="gives">
 
-<a title = "Indent : 0"></a>sub main
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 0"></a>{
 <a title = "Indent : 2">  </a>stmt1;
 <a title = "Indent : 2">  </a>stmt2;
 <a title = "Indent : 0"></a>}
-<a title = "Indent : 0"></a>main();
 </listing>
     <br/>
     <a name="A_T"></a>
@@ -4589,7 +4546,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>T1\<ping><a title="here is a Tab">	</a>bar(&quot;#1#&quot;);</ping><pong><a title="here is a Tab">	</a>baz(#2#);</pong>
 <a title = "Indent : 4">    </a>string<ping><a title="here is a Tab">	</a>int</ping>
 <a title = "Indent : 4">    </a>one<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1</ping>
@@ -4631,8 +4588,8 @@ OPTIONS:
 <a title = "Indent : 6">      </a>void foo
 <a title = "Indent : 8">        </a>T1\<ping><a title="here is a Tab">	</a>#1#Button.setText(&quot;#2#&quot;);</ping><pong><a title="here is a Tab">	</a>#1#.setMnemonic(KeyEvent.VK_#3#);</pong>
 <a title = "Indent : 10">          </a>button<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Text</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Hot-Key</pong>
-<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
-<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
+<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
+<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
 <a title = "Indent : 10">          </a>refresh<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Refresh</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>R</pong>
 <a title = "Indent : 10">          </a>details<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Details</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>D</pong>
 <a title = "Indent : 10">          </a>newEntry<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>New Entry</ping><pong><a title="here is a Tab">	</a>N</pong>
@@ -4716,7 +4673,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>!<ping><a title="here is a Tab">	</a>i&lt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>-
@@ -4831,7 +4788,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>?<ping><a title="here is a Tab">	</a>i&lt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>-
@@ -4875,7 +4832,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>?<ping><a title="here is a Tab">	</a>i == 0</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;zero&quot;</pong>
 <a title = "Indent : 2">  </a>?-<ping><a title="here is a Tab">	</a>i == 1</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;one&quot;</pong>
 <a title = "Indent : 2">  </a>!-<ping><a title="here is a Tab">	</a>i &gt; 10</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;small&quot;</pong>
@@ -5033,7 +4990,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>These are pseudo examples.</ping>
 <a title = "Indent : 4">    </a>they may not be runnable code but can give the idea
 
@@ -5227,7 +5184,7 @@ OPTIONS:
     <desc></desc><br/>
     <desc>The strategies are applied to the plan, which is formed by the block of lines.</desc><br/>
     <desc>  The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.</desc><br/>
-    <desc>  repeating the plan is done by refeeding it to the truer</desc><br/>
+    <desc>  repeating the plan is done by refeeding it to the truer (this may make debugging a bit harder)</desc><br/>
     <desc>  depending on the flag &lt;</desc><br/>
     <desc>    flag given		the block is shifted two spaces to the left.</desc><br/>
     <desc>    flag not given	the block is refed without fussing with the indent of the lines</desc><br/>
@@ -5246,16 +5203,16 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note that the truer must be started with the option -allowP for this to work</ping>
-<a title = "Indent : 0"></a>foo1
+<a title = "Indent : 0"></a>sub foo1
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 3 repetitions of the block, each with another op, the plan has no name</ping>
 <a title = "Indent : 2">  </a>P!<ping><a title="here is a Tab">	</a>s/op/&gt;/g</ping><pong><a title="here is a Tab">	</a>s/op/&lt;/g</pong><ping><a title="here is a Tab">	</a>s/op/==/g</ping>
-<a title = "Indent : 4">    </a>// running tests for op
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>running tests for op</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>test1() op test2()</ping><pong><a title="here is a Tab">	</a>handleTests(&quot;op&quot;)</pong>
 
-<a title = "Indent : 0"></a>foo2
+<a title = "Indent : 0"></a>sub foo2
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 2 repetitions of the block, the first is unchanged</ping>
 <a title = "Indent : 2">  </a>P!example with untouched block<ping><a title="here is a Tab">	</a>;</ping><pong><a title="here is a Tab">	</a>s/green/red/g</pong>
-<a title = "Indent : 4">    </a>// when the lights are green
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>when the lights are green</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>light == &quot;green&quot;</ping><pong><a title="here is a Tab">	</a>greenseen++</pong>
 
 </listing>
@@ -5277,17 +5234,23 @@ OPTIONS:
 <a title = "Indent : 2">  </a>#****************************************
 <a title = "Indent : 2">  </a># start of plan 
 <a title = "Indent : 2">  </a># plan &quot;&quot;, strategy &quot;s/op/&gt;/g&quot;
-<a title = "Indent : 4">    </a>// running tests for &gt;;
+<a title = "Indent : 4">    </a>#****************************************
+<a title = "Indent : 4">    </a># running tests for &gt;
+<a title = "Indent : 4">    </a>#****************************************
 <a title = "Indent : 4">    </a>if (test1() &gt; test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;&gt;&quot;);
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a># plan &quot;&quot;, strategy &quot;s/op/&lt;/g&quot;
-<a title = "Indent : 4">    </a>// running tests for &lt;;
+<a title = "Indent : 4">    </a>#****************************************
+<a title = "Indent : 4">    </a># running tests for &lt;
+<a title = "Indent : 4">    </a>#****************************************
 <a title = "Indent : 4">    </a>if (test1() &lt; test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;&lt;&quot;);
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a># plan &quot;&quot;, strategy &quot;s/op/==/g&quot;
-<a title = "Indent : 4">    </a>// running tests for ==
+<a title = "Indent : 4">    </a>#****************************************
+<a title = "Indent : 4">    </a># running tests for ==
+<a title = "Indent : 4">    </a>#****************************************
 <a title = "Indent : 4">    </a>if (test1() == test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;==&quot;);
 <a title = "Indent : 4">    </a>}
@@ -5300,12 +5263,16 @@ OPTIONS:
 <a title = "Indent : 2">  </a>#****************************************
 <a title = "Indent : 2">  </a># start of plan example with untouched block
 <a title = "Indent : 2">  </a># plan &quot;example with untouched block&quot;, strategy &quot;;&quot;
-<a title = "Indent : 4">    </a>// when the lights are green;
+<a title = "Indent : 4">    </a>#****************************************
+<a title = "Indent : 4">    </a># when the lights are green
+<a title = "Indent : 4">    </a>#****************************************
 <a title = "Indent : 4">    </a>if (light == &quot;green&quot;) {
 <a title = "Indent : 6">      </a>greenseen++;
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a># plan &quot;example with untouched block&quot;, strategy &quot;s/green/red/g&quot;
-<a title = "Indent : 4">    </a>// when the lights are red;
+<a title = "Indent : 4">    </a>#****************************************
+<a title = "Indent : 4">    </a># when the lights are red
+<a title = "Indent : 4">    </a>#****************************************
 <a title = "Indent : 4">    </a>if (light == &quot;red&quot;) {
 <a title = "Indent : 6">      </a>redseen++;
 <a title = "Indent : 4">    </a>}
@@ -5391,7 +5358,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note : This is pseudocode</ping>
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>init</ping>
 <a title = "Indent : 4">    </a>init()
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
@@ -5476,7 +5443,7 @@ OPTIONS:
     <listing class="Example">
 <a title = "Indent : 0"></a>main
 <a title = "Indent : 2">  </a>&quot;Hello World&quot;
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>return &quot;bar&quot;
 </listing>
     <br/>
@@ -5499,8 +5466,8 @@ OPTIONS:
 <a title = "Indent : 0"></a>main();
 </listing>
     <br/>
-    <a name="A_sub"></a>
-    <h1>sub       <shortText>an anonymous sub</shortText></h1>
+    <a name="A_anonymous20sub"></a>
+    <h1>anonymous sub       <shortText>an anonymous sub</shortText></h1>
 <part>Structure :</part>
   <howToRead>[
     <a href="howtoread/structure.html" title="how to read the structure">help</a>
@@ -5513,7 +5480,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -5521,7 +5488,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -5529,28 +5496,28 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">want args(..)</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantObject</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>anonymous sub<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -5563,7 +5530,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <signatureDiv>
-<a title = "Indent : -2"></a>sub<ping><a title="here is a Tab">	</a>args</ping>
+<a title = "Indent : -2"></a>anonymous sub<ping><a title="here is a Tab">	</a>args</ping>
     </signatureDiv>
     <br/><br/>
     <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
@@ -5593,8 +5560,8 @@ OPTIONS:
     see <A href="#A_wantListOrObject">wantListOrObject</a>
 </listing>
     <br/>
-    <a name="A_function"></a>
-    <h1>function       <shortText>function</shortText></h1>
+    <a name="A_subs"></a>
+    <h1>subs       <shortText>introduces a block of subs</shortText></h1>
 <part>Structure :</part>
   <howToRead>[
     <a href="howtoread/structure.html" title="how to read the structure">help</a>
@@ -5605,7 +5572,56 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>subs</td><td>&gt;2</td><td>subs</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+</table>
+    <div align="right"><filename>perl.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>subs
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>subs</td><td>Indicator</td><td>.+</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_sub">sub</a>
+</listing>
+    <br/>
+    <a name="A_sub"></a>
+    <h1>sub       <shortText>a sub</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./perl_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_subs">subs</a></td><td>&gt;2</td><td>subs</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>sub<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>.+</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>sub<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>additions</pong></td><td>=o</td><td>/^sub /</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -5618,15 +5634,15 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <signatureDiv>
-<a title = "Indent : -2"></a>function<ping><a title="here is a Tab">	</a>args</ping>
+<a title = "Indent : -2"></a>sub<ping><a title="here is a Tab">	</a>args</ping>
     </signatureDiv>
     <br/><br/>
     <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
-      <tr><td>function</td><td>mandatory</td><td>.+</td><td>the function name</td></tr>
+      <tr><td>sub</td><td>mandatory</td><td>.+</td><td>the sub name</td></tr>
       <tr><td>args</td><td>optional</td><td>.+</td><td>the parameters of the function</td></tr>
     </table>
     <br/>
-    <desc>Introduces a function (rsp. a sub) and it&lsquo;s parameters.</desc><br/>
+    <desc>Introduces a sub (aka. a function outside the perl-world) and it&lsquo;s parameters.</desc><br/>
     <desc>The args can be</desc><br/>
     <desc>  empty like in</desc><br/>
     <desc>      foo</desc><br/>
@@ -5648,12 +5664,13 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>return 1
-<a title = "Indent : 0"></a>bar<ping><a title="here is a Tab">	</a>$n,$j</ping>
-<a title = "Indent : 2">  </a>return $n+$j
-<a title = "Indent : 0"></a>mysplice<ping><a title="here is a Tab">	</a>\@$$@</ping>
-<a title = "Indent : 2">  </a>whatever
+<a title = "Indent : 0"></a>subs
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>return 1
+<a title = "Indent : 2">  </a>bar<ping><a title="here is a Tab">	</a>$n,$j</ping>
+<a title = "Indent : 4">    </a>return $n+$j
+<a title = "Indent : 2">  </a>mysplice<ping><a title="here is a Tab">	</a>\@$$@</ping>
+<a title = "Indent : 4">    </a>whatever
 </listing>
     <br/>
     <part>gives :</part>
@@ -5721,7 +5738,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>here:
 <a title = "Indent : 4">    </a>bar()
 </listing>
@@ -5780,7 +5797,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>here:F<ping><a title="here is a Tab">	</a>$i=1;$i&lt;10;$i++</ping>
 <a title = "Indent : 4">    </a>next here if $i==5
 <a title = "Indent : 4">    </a>bar()
@@ -5860,7 +5877,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>map<ping><a title="here is a Tab">	</a>@A</ping><pong><a title="here is a Tab">	</a>s/a/b/</pong>
 <a title = "Indent : 2">  </a>map<ping><a title="here is a Tab">	</a>@B</ping>
 <a title = "Indent : 4">    </a>s/x/y/
@@ -6179,7 +6196,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>disp<ping><a title="here is a Tab">	</a>files</ping>
 <a title = "Indent : 4">    </a>dir<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;/etc&quot;</ping>
 </listing>
@@ -6316,7 +6333,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>$i=5
 <a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>$i</ping>
 <a title = "Indent : 4">    </a>&quot;i : $i\n&quot;
@@ -6375,7 +6392,7 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6385,7 +6402,7 @@ OPTIONS:
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_vars">vars</a></td><td>=2</td><td>vars</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6398,7 +6415,7 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6410,7 +6427,7 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>want args(..)<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\)/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6419,7 +6436,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
 <tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\}/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6431,7 +6448,7 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 wantListOrObject($F[1] !~ "##PURE##")</td><td>/\.\.\]/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantObject<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\{\.\.\}/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>wantArray<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_sub">sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_anonymous20sub">anonymous sub</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td>/\bsub(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -6485,32 +6502,33 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
-<a title = "Indent : 2">  </a>local $s = &quot;(..)&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>this is not treated by wantListOrObject because of the ##PURE## in here</ping>
-<a title = "Indent : 2">  </a>local $a = {..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>here comes an object</ping>
-<a title = "Indent : 4">    </a>answer<ping><a title="here is a Tab">	</a>42</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>you know why</pong>
-<a title = "Indent : 4">    </a>p3<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>objects can contain arrays</pong>
-<a title = "Indent : 6">      </a>&lsquo;joo&lsquo;
-<a title = "Indent : 6">      </a>&lsquo;nee&lsquo;
-<a title = "Indent : 6">      </a>{..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>arrays can contain objects</ping>
-<a title = "Indent : 8">        </a>k1<ping><a title="here is a Tab">	</a>&lsquo;Right&lsquo;</ping>
-<a title = "Indent : 8">        </a>k2<ping><a title="here is a Tab">	</a>&lsquo;Left&lsquo;</ping>
-<a title = "Indent : 6">      </a>[..]<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>arrays can contain arrays</ping>
-<a title = "Indent : 8">        </a>&lsquo;green&lsquo;
-<a title = "Indent : 8">        </a>&lsquo;blue&lsquo;
-<a title = "Indent : 4">    </a># objects, arglists and arrays can contain subs
-<a title = "Indent : 4">    </a>sub<ping><a title="here is a Tab">	</a>$a,$b</ping>
-<a title = "Indent : 8">        </a>just return the sum of the two args
-<a title = "Indent : 6">      </a>return $a+$b
-<a title = "Indent : 2">  </a>local $myDraw = Drawing([{..}])
-<a title = "Indent : 4">    </a>x<ping><a title="here is a Tab">	</a>&quot;red&quot;</ping>
-<a title = "Indent : 4">    </a>y<ping><a title="here is a Tab">	</a>&quot;green&quot;</ping>
-<a title = "Indent : 2">  </a>local $fox=bax(&quot;nice&quot;,..)
-<a title = "Indent : 4">    </a>&quot;foxbax&quot;
-<a title = "Indent : 4">    </a>sub<ping><a title="here is a Tab">	</a>$r</ping>
-<a title = "Indent : 6">      </a>return $r*$r
-<a title = "Indent : 0"></a>bax<ping><a title="here is a Tab">	</a>$a,$b,$code</ping>
-<a title = "Indent : 2">  </a>print $code()
+<a title = "Indent : 0"></a>subs
+<a title = "Indent : 2">  </a>foo
+<a title = "Indent : 4">    </a>local $s = &quot;(..)&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>this is not treated by wantListOrObject because of the ##PURE## in here</ping>
+<a title = "Indent : 4">    </a>local $a = {..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>here comes an object</ping>
+<a title = "Indent : 6">      </a>answer<ping><a title="here is a Tab">	</a>42</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>you know why</pong>
+<a title = "Indent : 6">      </a>p3<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[..]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>objects can contain arrays</pong>
+<a title = "Indent : 8">        </a>&lsquo;joo&lsquo;
+<a title = "Indent : 8">        </a>&lsquo;nee&lsquo;
+<a title = "Indent : 8">        </a>{..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>arrays can contain objects</ping>
+<a title = "Indent : 10">          </a>k1<ping><a title="here is a Tab">	</a>&lsquo;Right&lsquo;</ping>
+<a title = "Indent : 10">          </a>k2<ping><a title="here is a Tab">	</a>&lsquo;Left&lsquo;</ping>
+<a title = "Indent : 8">        </a>[..]<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>arrays can contain arrays</ping>
+<a title = "Indent : 10">          </a>&lsquo;green&lsquo;
+<a title = "Indent : 10">          </a>&lsquo;blue&lsquo;
+<a title = "Indent : 6">      </a># objects, arglists and arrays can contain subs
+<a title = "Indent : 6">      </a>sub<ping><a title="here is a Tab">	</a>$a,$b</ping>
+<a title = "Indent : 10">          </a>just return the sum of the two args
+<a title = "Indent : 8">        </a>return $a+$b
+<a title = "Indent : 4">    </a>local $myDraw = Drawing([{..}])
+<a title = "Indent : 6">      </a>x<ping><a title="here is a Tab">	</a>&quot;red&quot;</ping>
+<a title = "Indent : 6">      </a>y<ping><a title="here is a Tab">	</a>&quot;green&quot;</ping>
+<a title = "Indent : 4">    </a>local $fox=bax(&quot;nice&quot;,..)
+<a title = "Indent : 6">      </a>&quot;foxbax&quot;
+<a title = "Indent : 6">      </a>sub<ping><a title="here is a Tab">	</a>$r</ping>
+<a title = "Indent : 8">        </a>return $r*$r
+<a title = "Indent : 2">  </a>bax<ping><a title="here is a Tab">	</a>$a,$b,$code</ping>
+<a title = "Indent : 4">    </a>print $code()
 </listing>
     <br/>
     <part>gives :</part>
@@ -6627,7 +6645,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>local @a = [..]
 <a title = "Indent : 4">    </a>&lsquo;one&lsquo;
 <a title = "Indent : 4">    </a>&lsquo;two&lsquo;
@@ -6696,7 +6714,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>local $a = {..}
 <a title = "Indent : 4">    </a>uno<ping><a title="here is a Tab">	</a>&lsquo;one&lsquo;</ping>
 <a title = "Indent : 4">    </a>duo<ping><a title="here is a Tab">	</a>&lsquo;two&lsquo;</ping>
@@ -6719,60 +6737,6 @@ OPTIONS:
 <a title = "Indent : 4">    </a>duo =&gt; &lsquo;two&lsquo;
 <a title = "Indent : 2">  </a>};
 <a title = "Indent : 0"></a>}
-</listing>
-    <br/>
-    <a name="A_global20code"></a>
-    <h1>global code       <shortText>For code outside any function</shortText></h1>
-<part>Structure :</part>
-  <howToRead>[
-    <a href="howtoread/structure.html" title="how to read the structure">help</a>
-  ]</howToRead>
-  <completeStructure>[
-    <a href="#L_Structure" title="jump to the complete structure for ./perl_tru">complete Structure</a>
-  ]</completeStructure>
-  <br/><br/>
-<table class="structure" rules="cols">
-<tr><td><a class="structureInd" title="perlcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>global code</td><td>=</td><td>global code	</td></tr>
-</table>
-    <div align="right"><filename>../globalCode.tru</filename></div>
-    <part>Signature :</part>
-    <howToRead>[
-      <a href="howtoread/signature.html" title="how to read the signature">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <signatureDiv>
-<a title = "Indent : -2"></a>global code
-    </signatureDiv>
-    <br/><br/>
-    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
-      <tr><td>global code</td><td>Indicator</td><td>.*</td><td></td></tr>
-    </table>
-    <br/>
-    <desc>some languages, such as perl, sh or vim allow</desc><br/>
-    <desc>code outside any function.</desc><br/>
-    <desc>This is handled here.</desc><br/>
-    <part>Example :</part>
-    <howToRead>[
-      <a href="howtoread/Example.html" title="how to read the Example">help</a>
-    ]</howToRead>
-    <xcommand>[
-      <a title="perl_tru -noIntro -noSharpBang -noProtos">cmd</a>
-    ]</xcommand>
-    <br/><br/>
-    <listing class="Example">
-<a title = "Indent : 0"></a>global code
-<a title = "Indent : 2">  </a>&quot;running&quot;
-</listing>
-    <br/>
-    <part>gives :</part>
-    <howToRead>[
-      <a href="howtoread/gives.html" title="how to read the gives">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <listing class="gives">
-<a title = "Indent : 0"></a>#Code outside any function
-<a title = "Indent : 0"></a>print &quot;running&quot;;
 </listing>
     <br/>
     <br/>

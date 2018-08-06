@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on LL.vimTR , version : 3.4d
+" based on LL.vimTR , version : 4.0
 if !(has("perl"))
   finish
 endif
@@ -2182,8 +2182,9 @@ function!Shell(cmd)
   endif
   call term_sendkeys(s:termBufNr,' '.a:cmd.'')
 endfunc
-let &cpo = s:cpo_save
-unlet s:cpo_save
+"	main
+  let &cpo = s:cpo_save
+  unlet s:cpo_save
 " the interface
 " InterfaceOFF for /strux/LL
 function!InterfaceOFF_2f73747275782f4c4c()
@@ -3008,7 +3009,6 @@ endf
 au BufEnter /strux/VISITED call VInterfaceON_2f73747275782f56495349544544()
 perl <<EOT
 #  protos
-sub main;
 sub fixSort;
 sub setSode($);
 sub vimvar($);
@@ -3089,23 +3089,19 @@ sub openPty;
 sub echoLastCmd;
 sub showTechInfo;
 use POSIX qw(strftime floor);
-
-sub main
-{
-  $LL::defaultParseString = $LL::globalParseString=vimvar("g:strux_LL_parsestring");
-  $LL::defaultxPerFileCmd = $LL::globalxPerFileCmd=vimvar("g:strux_LL_perFileCommand");
-  $LL::defaultxPerDirCmd  = $LL::globalxPerDirCmd=vimvar("g:strux_LL_perDirCommand");
-  $LL::defaultxText       = $LL::globalxText=vimvar("g:strux_LL_perFileOrDirText");
-  $LL::newViewAutocommands=vimvar("g:strux_LL_dirsettings");
-  $LL::dateFormat=vimvar("g:strux_LL_dateFormat");
-  $LL::currentHeader=vimvar("g:strux_LL_header");
-  $LL::grepcmd=vimvar("g:strux_LL_grep");
-  $LL::editcmd=vimvar("g:strux_LL_editcmd");
-  $LL::AcmdRequires = "$ENV{HOME}/strux/bin/acmd";
-  RereadNewViewAutocommands(1);
-  $LL::sode=(0x300|11);                            # reversed by mtime with seperated dirs
-  $LL::dirstackposition=-1;                        # no directories yet stacked
-}
+$LL::defaultParseString = $LL::globalParseString=vimvar("g:strux_LL_parsestring");
+$LL::defaultxPerFileCmd = $LL::globalxPerFileCmd=vimvar("g:strux_LL_perFileCommand");
+$LL::defaultxPerDirCmd  = $LL::globalxPerDirCmd=vimvar("g:strux_LL_perDirCommand");
+$LL::defaultxText       = $LL::globalxText=vimvar("g:strux_LL_perFileOrDirText");
+$LL::newViewAutocommands=vimvar("g:strux_LL_dirsettings");
+$LL::dateFormat=vimvar("g:strux_LL_dateFormat");
+$LL::currentHeader=vimvar("g:strux_LL_header");
+$LL::grepcmd=vimvar("g:strux_LL_grep");
+$LL::editcmd=vimvar("g:strux_LL_editcmd");
+$LL::AcmdRequires = "$ENV{HOME}/strux/bin/acmd";
+RereadNewViewAutocommands(1);
+$LL::sode=(0x300|11);                              # reversed by mtime with seperated dirs
+$LL::dirstackposition=-1;                          # no directories yet stacked
 
 sub fixSort
 {
@@ -4914,40 +4910,37 @@ sub extension($)
   $str =~ m(\.([^.]+?)$);
   $1;
 }
-#****************************************
-# NewViewAutocommands
-#****************************************
-# they are read from $LL::newViewAutocommands (defaults : ~/LL.dirsettings,~/strux/etc/LL.dirsettings) and stored in the internal Data Structure @LL::AC
-# @LL::AC looks basically like this
-#   [ dir-pattern1 , { P => parsestring , Xf => 'xstring for files', Xd => 'xstring for directories' } ],
-#   [ dir-pattern2 , { P => parsestring                } ],
-# So if ~/strux/etc/LL.dirsettings looks like this
-#   ^/proc$
-#     P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /proc
-#   /tmp
-#     P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /tmp
-#     Xf	file
-#     Xt	magic	can contain tabs
-#     Xd
-# then @LL::AC will look like this
-#   @LL::AC = [
-#           [
-#             '^/proc$',
-#             {
-#               'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /proc'
-#             }
-#           ],
-#           [
-#             '/tmp',
-#             {
-#               'Xf' => 'file',
-#               'Xd' => '',
-#               'Xt' => 'magic	can contain tabs'
-#               'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /tmp'
-#             }
-#           ]
-#         ];
-#****************************************
+### 
+#  they are read from $LL::newViewAutocommands (defaults : ~/LL.dirsettings,~/strux/etc/LL.dirsettings) and stored in the internal Data Structure @LL::AC
+#  @LL::AC looks basically like this
+#    [ dir-pattern1 , { P => parsestring , Xf => 'xstring for files', Xd => 'xstring for directories' } ],
+#    [ dir-pattern2 , { P => parsestring                } ],
+#  So if ~/strux/etc/LL.dirsettings looks like this
+#    ^/proc$
+#      P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /proc
+#    /tmp
+#      P	%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI'm in /tmp
+#      Xf	file
+#      Xt	magic	can contain tabs
+#      Xd
+#  then @LL::AC will look like this
+#    @LL::AC = [
+#            [
+#              '^/proc$',
+#              {
+#                'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /proc'
+#              }
+#            ],
+#            [
+#              '/tmp',
+#              {
+#                'Xf' => 'file',
+#                'Xd' => '',
+#                'Xt' => 'magic	can contain tabs'
+#                'P' => '%t%f %!%T%l%T%U%T%G%T%m%T%s%T%/%TI\'m in /tmp'
+#              }
+#            ]
+#          ];
 
 sub RereadNewViewAutocommands($)
 {
@@ -5206,7 +5199,6 @@ sub showTechInfo
     Array => \@A,
   };
 }
-main();
 EOT
 "****************************************
 " additional notes

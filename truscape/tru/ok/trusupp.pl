@@ -42,7 +42,7 @@ sub setmark($);
 sub usemark($);
 sub unusemark;
 sub clonemark($$);
-# based on trusupp.plTR , version : 3.3
+# based on trusupp.plTR , version : 4.0
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -661,8 +661,8 @@ sub tru::getrindent($)
 sub debout($)
 {
   local ($_) = @_;
+  #  print STDERR $_
 }
-#  print STDERR $_
 
 sub tru::CheckStatesPath($$$**$)
 {
@@ -765,7 +765,7 @@ sub tru::write_seq
 
 sub tru::showTruOptions
 {
-  ## Hand written stuff	3
+  ## Hand written stuff	5
 print STDERR
 q(       -help			show help
        -version			show the version information
@@ -888,15 +888,18 @@ sub tru::macro_out_depth
   }
   tru::umacro($tru::action,'<');
 }
-#===	public section
+#****************************************
+# public section
+#****************************************
 # these functions can be used in the truer
 # Note : atmark("mark") is a literally translated into the equivalent sequence
-#    usemark("mark");
-#    {
+#   usemark("mark");
+#   {
 #       the body of atmark()
-#    }
-#    unusemark();
-#
+#   }
+#   unusemark();
+#   
+#****************************************
 ### 
 #  set a mark at the current cursor-position
 #  if there is saved text for this mark, then this text is now outputted
@@ -1002,5 +1005,4 @@ sub clonemark($$)
   $tru::HMarks{$to}[1] = 0;                        # usemark_count
   $tru::HMarks{$to}[2] = $tru::HMarks{$from}[2];   # Oi
 }
-#Code outside any function
 1;

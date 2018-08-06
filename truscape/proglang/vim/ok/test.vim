@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on test.vimTR , version : 3.2a
+" based on test.vimTR , version : 4.0
 "usage for testfile
 "	This file serves no special purpose
 "
@@ -490,9 +490,6 @@ EOT
     break
   endwhile
 endfunc
-"-- 
-"  the main entry
-"    and some lines	with tabs in the comment
 " use colored output
 if exists("$strux_LL_colored")
   let g:strux_LL_colored=$strux_LL_colored
@@ -527,7 +524,7 @@ highlight StatusLine term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui
 highlight StatusLine term=bold,reverse cterm=bold ctermfg=green ctermbg=blue gui=bold guifg=green guibg=blue
 "-- 
 "  autodoc for b.init()
-function! b.init() dict
+function! b.init( ) dict
   echo 'from b.init() '
   echo self
 endfunc

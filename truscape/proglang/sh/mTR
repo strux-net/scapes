@@ -1,7 +1,7 @@
 title			convert .shTR to .sh
 sh_tru
   build
-    tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
+    tru -s statistics.out ../common.tru ../morecommon.tru sh.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
     chmod +x sh_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
     PATH=$PWD:$PATH perl ~/bin/trudocGivesCheck -s sh ./sh_tru >sh_tru.tmp
     mv sh_tru.tmp sh_tru
@@ -13,7 +13,7 @@ sh_tru
     -./sh_tru -invalid
     bash shtest.sh -f test file1 file2		shtest.out
     bash shtest.sh -version
-    -bash shtest.sh -x test file1 file2		shtest_illegal_option.out
+    -bash shtest.sh -x test file1 file2
 
   doc
     trudefault			txt html

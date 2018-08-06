@@ -33,7 +33,7 @@ $opt_f = '';
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on acmd.plTR , version : 3.0
+# based on acmd.plTR , version : 4.0
 
 sub usage
 {
@@ -90,7 +90,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  acmd.plTR	3.0\n";
+    print "  acmd.plTR	4.0\n";
     exit 0
   }
   sub Print($);

@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on QuickView.vimTR , version : 3.0a
+" based on QuickView.vimTR , version : 4.0
 "usage for QuickView
 "	Quick-View vim-commands.
 "
@@ -133,13 +133,6 @@ function!QvSettings()
   let b:
 endfunc
 "-- 
-"  try to source users QvSettings.vim
-" 0 : not yet created,  1 : created w/o success, 2: successfully created
-let s:qvDirState = 0
-" users can override QvSettings by providing their own function
-ru QvSettings.vim
-autocmd VimLeavePre * call QvDirCleanUp()
-"-- 
 "  a unix-vim does not remove a temp-file if it is a directory.
 "  Here I try to remove it with OS-tools.
 "  
@@ -156,3 +149,9 @@ function!QvDirCleanUp()
     endif
   endif
 endfunc
+"	try to source users QvSettings.vim
+  " 0 : not yet created,  1 : created w/o success, 2: successfully created
+  let s:qvDirState = 0
+  " users can override QvSettings by providing their own function
+  ru QvSettings.vim
+  autocmd VimLeavePre * call QvDirCleanUp()

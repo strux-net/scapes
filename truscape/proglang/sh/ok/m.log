@@ -1,8 +1,8 @@
 building sh_tru
-tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
-tru : Warning 'arg-name problematic' in ../common.tru @ 934
+tru -s statistics.out ../common.tru ../morecommon.tru sh.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
+tru : Warning 'arg-name problematic' in ../common.tru @ 933
 	Name '!' is not a wise choice for arg (Perl gives $! a special meaning)
-tru : Warning 'arg-name problematic' in ../common.tru @ 964
+tru : Warning 'arg-name problematic' in ../common.tru @ 963
 	Name '?' is not a wise choice for arg (Perl gives $? a special meaning)
 tru : Warning 'group never used' in ../../lib/basicUSAGE.tru @ 0
 	the group 'try catch clause' was defined but never used
@@ -60,17 +60,25 @@ OPTIONS:
        -noSharpBang		Do not generate #!/bin/bash
 
        -vhelp shows more options
-makefile:35: recipe for target 'test_sh_tru' failed
+makefile:34: recipe for target 'test_sh_tru' failed
 make[1]: [test_sh_tru] Error 1 (ignored)
 bash shtest.sh -f test file1 file2 >shtest.out
 GOOD	shtest.out
 bash shtest.sh -version
 Version :
-  shtest.shTR	3.0
-  shtest.shTR	3.0a
-bash shtest.sh -x test file1 file2 >shtest_illegal_option.out
+  shtest.shTR	4.0
+  shtest.shTR	4.0
+bash shtest.sh -x test file1 file2
 shtest.sh: illegal option -- x
 usage : shtest arg
+OPTIONS:
+  -version	show version information
+  -a	all messages
+        more text for options a
+  -f:<file>	output to file
+	default for <file> is /tmp/schrott
+        more text for options f
+  -c	clear screen
 this program only serves as a test-suite
 it does *NOT* do anything use- or harmfull
 
@@ -91,14 +99,5 @@ Tables look like this
 111111	222222
 1111111	2222222
 
-OPTIONS:
-  -a	all messages
-        more text for options a
-  -f:<file>	output to file
-	default for <file> is /tmp/schrott
-        more text for options f
-  -c	clear screen
-  -version	show version information
-makefile:35: recipe for target 'test_sh_tru' failed
+makefile:34: recipe for target 'test_sh_tru' failed
 make[1]: [test_sh_tru] Error 1 (ignored)
-GOOD	shtest_illegal_option.out

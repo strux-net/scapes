@@ -1,11 +1,9 @@
-VERSION	3.0
+VERSION	4.0
 structure
 	common			=g
 	perl			=g
 	try catch clause	=g
-	global code		=	global code	
-	main			=g
-	function		=g
 	ListOrObject		=g
+	{-block			=g
 	statement		=g
 

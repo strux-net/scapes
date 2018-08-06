@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	4.0
 usage	truerItem [Options] <truer> <action> files ....
 	Echo all lines of the files for which <truer> would execute <action>.
 
@@ -9,61 +9,61 @@ usage	truerItem [Options] <truer> <action> files ....
 	Instead a new temp-truer is created from the structure of <truer> where the only defined action is <action>.
 
 	It may fail to recognize the correct structure if weird things with >> or @READ are done in the <truer>.
-main
-  cmd=singleAction
-  Option
-    h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
+cmd=singleAction
+Option
+  h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
 	same as -a '$ARGV\t$.\t$_'
 	The result is suitable to be piped through tabify.pl
-    a:string[$indent$_]	use specified string as action
+  a:string[$indent$_]	use specified string as action
 	Example -a '$.\t$_'
-    f:file[]		read action-names from file
+  f:file[]		read action-names from file
 	The file should contain action-names (and args, if needed) each on it's own line.
-      cmd=multipleActions
-      !	[ -s "$opt_f" ]
-	"File $opt_f empty or not found" >&2
-	exit
-    e	make empty actions
+    cmd=multipleActions
+    !	[ -s "$opt_f" ]
+      "File $opt_f empty or not found" >&2
+      exit
+  e	make empty actions
 	this is useful if you want to refer to parent-items
 	Example : truerItem -e -a '$goal\t$Title' m_tru goal mTR
-    v			run vim on the result			opt_a='$ARGV:$.:$_'
+  v			run vim on the result			opt_a='$ARGV:$.:$_'
 	vim is started with the result as cfile.
 	This allows for fast browsing the result.
 	Do not use together with -h.
 	Noteworthy if you want to also use option -a 
 	    put -a after -v
 	    let the argument to -a start with $ARGV:$.:
-    c:ex-cmd[set swb=]	set additional vim initialization
+  c:ex-cmd[set swb=]	set additional vim initialization
 	Just a matter of taste.
 	You can use "-c= " for an empty additional initialization 
-    s	skip comment lines
+  s	skip comment lines
 	Useful for truers that ignore lines starting with #
-  ?	[ $# -lt 2 ]	usage
-  truer=$1;shift
-  ?	[ -z $opt_f ]	action=$1;shift
-  ?	(( opt_e ))
-    emptyActions="$(echo "actions";$truer -macros | grep -a '^  [^ ]')"
-  ?	(( opt_v ))
-    perl <(( commentskip; echo $emptyActions ; $cmd ; $truer --structure ) | tru -q ) -- $* >/tmp/truerItem$$
-    ?	[ -s /tmp/truerItem$$ ]
-      vim -R -c "cfile /tmp/truerItem$$" -c "copen" -c "$opt_c"
-    -
-      "no hits" >&2
-    rm /tmp/truerItem$$
+functions
+  commentskip
+    !	(( opt_s ))	return
+    "READ"
+    "  if (/^#/) {"
+    "    return 1;"
+    "  }"
+  singleAction
+    echo    "actions"
+    echo    "  $action"
+    echo    "    >"
+    echo -e "\t$opt_a\n"
+  multipleActions
+    {
+      W	read action	singleAction
+    } < $opt_f
+?	[ $# -lt 2 ]	usage
+truer=$1;shift
+?	[ -z $opt_f ]	action=$1;shift
+?	(( opt_e ))
+  emptyActions="$(echo "actions";$truer -macros | grep -a '^  [^ ]')"
+?	(( opt_v ))
+  perl <(( commentskip; echo $emptyActions ; $cmd ; $truer --structure ) | tru -q ) -- $* >/tmp/truerItem$$
+  ?	[ -s /tmp/truerItem$$ ]
+    vim -R -c "cfile /tmp/truerItem$$" -c "copen" -c "$opt_c"
   -
-    perl <(( commentskip; echo "$emptyActions" ; $cmd ; $truer --structure ) | tru -q ) -- $*
-commentskip
-  !	(( opt_s ))	return
-  "READ"
-  "  if (/^#/) {"
-  "    return 1;"
-  "  }"
-singleAction
-  echo    "actions"
-  echo    "  $action"
-  echo    "    >"
-  echo -e "\t$opt_a\n"
-multipleActions
-  {
-    W	read action	singleAction
-  } < $opt_f
+    "no hits" >&2
+  rm /tmp/truerItem$$
+-
+  perl <(( commentskip; echo "$emptyActions" ; $cmd ; $truer --structure ) | tru -q ) -- $*

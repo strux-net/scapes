@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on ApplyMarks.vimTR , version : 3.0
+" based on ApplyMarks.vimTR , version : 4.0
 "usage for ApplyMarks.vim
 "	Invoke it by typing
 "	  :ApplyMarks

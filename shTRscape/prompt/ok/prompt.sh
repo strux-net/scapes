@@ -7,10 +7,10 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  prompt.shTR	3.0"
+  echo "  prompt.shTR	4.0"
   exit 0
 fi
-# based on prompt.shTR , version : 3.0
+# based on prompt.shTR , version : 4.0
 #****************************************
 # Copyright
 #****************************************
@@ -81,7 +81,6 @@ fi
 #       the directory-stack is not empty
 #       
 #****************************************
-#Code outside any function
 #****************************************
 # get some suitable values for userstandout and normal
 #****************************************
@@ -183,7 +182,7 @@ else
   TTY=$(basename `tty`)
   PS1='$userstandout$USER@\h($TTY)[\w] - \#/\! $?$normal\n'
 fi
-coldir_zsh()
+function coldir_zsh()
 {
   local olderrcode=$?
   if [ ! -e "$PWD" ] ; then
@@ -203,7 +202,7 @@ coldir_zsh()
   fi
   return $olderrcode
 }
-coldir_bash()
+function coldir_bash()
 {
   local olderrcode=$?
   if [ ! -e "$PWD" ] ; then
@@ -223,13 +222,13 @@ coldir_bash()
   fi
   return $olderrcode
 }
-jobcount_zsh()
+function jobcount_zsh()
 {
   if [ -n "$jobstates" ] ; then
     echo -e "$Blue"
   fi
 }
-jobcount_bash()
+function jobcount_bash()
 {
   local olderrcode=$?
   if [ ! -z "`jobs -p`" ] ; then
@@ -237,7 +236,7 @@ jobcount_bash()
   fi
   return $olderrcode
 }
-errcode()
+function errcode()
 {
   local olderrcode=$?
   if [ $olderrcode = "0" ] ; then
@@ -246,7 +245,7 @@ errcode()
     echo -ne "$I_Red $olderrcode "
   fi
 }
-job_test_bash()
+function job_test_bash()
 {
   if [ -z "$(jobs -p)" -a ${#DIRSTACK[*]} -eq 1 ] ; then
     IGNOREEOF=0
@@ -258,7 +257,7 @@ job_test_bash()
 # only for zsh  (bash will happily just do nothing with it)
 #****************************************
 #precmd() { [ $#jobtexts != 0 ] && jobcount=$Blue || jobcount="" ; }
-precmd()
+function precmd()
 {
   if [ $#jobtexts != 0 ] ; then
     jobcount=$Blue

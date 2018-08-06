@@ -1,1 +1,2 @@
 vim.tru	make logged_build
+tru	tru.jar ./vim_tru test.vimTR

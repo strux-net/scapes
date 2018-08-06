@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	CycleSyn.vim
 	cycle through different syntax-highlighting settings.
 
@@ -32,12 +32,7 @@ usage	CycleSyn.vim
 	  tabify.vim
 	  showIndent.vim
 nmap?	<leader>cs	:<c-u>call CycleSyn()<CR>	Cycle through off white indent tabify filetype
-
-main
-  s:SynC=1
-  syn on
-
-CycleSyn
+function!CycleSyn
   ?	v:count		s:SynC = v:count
   ??	s:SynC==
     1
@@ -63,3 +58,6 @@ CycleSyn
       :exe "se syntax=".&ft
       echo "5 : syn on (" . &ft .")"
       s:SynC=1
+o	main
+  s:SynC=1
+  syn on

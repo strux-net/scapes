@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on tabify.vimTR , version : 3.0
+" based on tabify.vimTR , version : 4.0
 "usage for tabify.vim
 "	this plugin provides the v-mapping \ty for tab-aligning a range.
 "	To see the effect open this file in vim, go to the testarea at the end.

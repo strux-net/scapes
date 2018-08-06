@@ -10,16 +10,8 @@ testing truerItem
 ./truerItem -invalidOption
 ./truerItem: illegal option -- i
 usage : truerItem [Options] <truer> <action> files ....
-Echo all lines of the files for which <truer> would execute <action>.
-
-Example : truerItem perl_tru fancyFor *.plTR
-  This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor
-
-It does not run <truer>.
-Instead a new temp-truer is created from the structure of <truer> where the only defined action is <action>.
-
-It may fail to recognize the correct structure if weird things with >> or @READ are done in the <truer>.
 OPTIONS:
+  -version	show version information
   -h	print filename and linenumber before each hit
         same as -a '$ARGV\t$.\t$_'
         The result is suitable to be piped through tabify.pl
@@ -44,31 +36,39 @@ OPTIONS:
         You can use "-c= " for an empty additional initialization 
   -s	skip comment lines
         Useful for truers that ignore lines starting with #
-  -version	show version information
+Echo all lines of the files for which <truer> would execute <action>.
+
+Example : truerItem perl_tru fancyFor *.plTR
+  This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor
+
+It does not run <truer>.
+Instead a new temp-truer is created from the structure of <truer> where the only defined action is <action>.
+
+It may fail to recognize the correct structure if weird things with >> or @READ are done in the <truer>.
 makefile:30: recipe for target 'test_truerItem' failed
 make[1]: [test_truerItem] Error 1 (ignored)
 ./truerItem -f invalid sh_tru truerItem.shTR
 File invalid empty or not found
 ./truerItem -f actionlist sh_tru truerItem.shTR
-    h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
-    e	make empty actions
-    v			run vim on the result			opt_a='$ARGV:$.:$_'
-    s	skip comment lines
-    W	read action	singleAction
+  h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
+  e	make empty actions
+  v			run vim on the result			opt_a='$ARGV:$.:$_'
+  s	skip comment lines
+      W	read action	singleAction
 ./truerItem sh_tru opt truerItem.shTR
-    h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
-    e	make empty actions
-    v			run vim on the result			opt_a='$ARGV:$.:$_'
-    s	skip comment lines
+  h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
+  e	make empty actions
+  v			run vim on the result			opt_a='$ARGV:$.:$_'
+  s	skip comment lines
 ./truerItem -h sh_tru opt truerItem.shTR
-truerItem.shTR	15	h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
-truerItem.shTR	26	e	make empty actions
-truerItem.shTR	29	v			run vim on the result			opt_a='$ARGV:$.:$_'
-truerItem.shTR	39	s	skip comment lines
+truerItem.shTR	14	h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
+truerItem.shTR	25	e	make empty actions
+truerItem.shTR	28	v			run vim on the result			opt_a='$ARGV:$.:$_'
+truerItem.shTR	38	s	skip comment lines
 ./truerItem -a '$.\t$_' sh_tru opt truerItem.shTR
-15	h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
-26	e	make empty actions
-29	v			run vim on the result			opt_a='$ARGV:$.:$_'
-39	s	skip comment lines
+14	h			print filename and linenumber before each hit	opt_a='$ARGV\t$.\t$_'
+25	e	make empty actions
+28	v			run vim on the result			opt_a='$ARGV:$.:$_'
+38	s	skip comment lines
 ./truerItem -e -a '$goal\t$Title' m_tru goal mTR
 truerItem	find lines that are matched by a specific item of a specific truer

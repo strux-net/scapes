@@ -38,7 +38,7 @@
   1	1	0	0	1	1	also
   1	0	1	0	1	4	arrayelem
   1	0	0	1	1	1	au
-  1	1	0	1	1	3	autodoc
+  1	1	0	1	1	2	autodoc
   1	0	0	0	1	1	block
   2	1	0	1	2	1	case
   2	1	0	0	2	1	catch
@@ -57,7 +57,7 @@
   3	1	0	0	3	1	fancyFor
   2	1	0	0	2	1	finally
   1	1	0	1	1	2	function
-  1	1	0	1	1	1	global code
+  1	1	1	0	1	1	functions
   1	1	0	1	1	1	help
   1	1	0	1	1	1	hide
   1	1	0	1	1	1	highlight
@@ -67,12 +67,12 @@
   2	0	1	0	2	1	initialisation
   1	1	0	0	1	0	introcomment
   2	2	0	0	2	1	jdoc
-  2	2	0	0	2	7	jdocu
-  1	1	0	0	1	4	jdtag
+  2	2	0	0	2	5	jdocu
+  1	1	0	0	1	3	jdtag
   1	0	0	0	1	1	left
   1	1	0	0	1	3	longhelp
   1	1	0	0	1	1	magic
-  1	1	0	1	1	1	main
+  1	1	0	1	1	0	main
   1	1	0	1	1	1	mapping
   1	0	0	0	0	0	mark_com
   1	1	0	0	1	1	middlepart

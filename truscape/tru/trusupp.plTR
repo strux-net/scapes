@@ -1,4 +1,4 @@
-VERSION	3.3
+VERSION	4.0
 #
 # trusupp.pl is required by every truer and should be located in ~/strux/lib
 #
@@ -9,431 +9,432 @@ vars
   $delim = "\t+"	on what to split
   $sdel  = "\x00"	a character that must not be in the infile
   $.=0
-tru::main
-  !	GetOptions(@Options)			usage()
-  ?	$opt_version				tru::showVersion()
-  ?	$opt_doc				tru::doc()
-  ?	$opt_source or $opt_macros		tru::source()
-  ?	$opt_structure or $opt_vstructure	tru::structure()
-  ?	$opt_help or $opt_vhelp			usage()
-  ?	$opt_ovhelp				tru::showTruOptions() ; exit 1
-  ?	$opt_ohelp				tru::showOptions()   ; exit 1
-  ?	defined($opt_o)				tru::setOutputFile()
-  !	@F = @ARGV				@F = ("STDIN")
-  @tru::ARGV=@F
-  $stream=$opt_stream
-  $_ = join(' ',@F)
-  tru::begin()
-  !	$stream
-    *tru::macro_in  = \&tru::macro_in_depth
-    *tru::macro_out = \&tru::macro_out_depth
-    *tru::write     = \&tru::write_depth
-  -
-    *tru::macro_in  = \&tru::macro_in_seq
-    *tru::macro_out = \&tru::macro_out_seq
-    *tru::write     = \&tru::write_seq
-  ?	$opt_debug and !$opt_debActionMap and $stream	*tru::write = sub {}
-  binmode(STDOUT)
-  $rnr = $rnr[0]=1
-  $level               = 0
-  $NrOfLinesFollowing  = 0
-  $NrOfChilds          = 0
-  $tru::Oi             = 0	would be "" (blank) (rsp. undef) if initial
-  $tru::active_rule_nr = 0
-  $tru::maxsubinc      = 0
-  $tru::active_state   = 'DOC'
-  tru::macroin("DOC","DOC",-1)
-  FOREVER
-    $level=1
-    $indent=""
-    ?	@tru::xREAD
-      $tru::origin = 'x'	@xREAD
-      $_      = shift @tru::xREAD
-      $.      = shift @tru::xREADl
-      ?	/^$sdel$/o
-        doc	processing empty lines
-          tru::read cannot be applied here
-        $_ = $indent = ''
-	$level  = $tru::xREADlevel4empty
-      -
-	$level  = $tru::xREADlevel
+subs
+  tru::main
+    !	GetOptions(@Options)			usage()
+    ?	$opt_version				tru::showVersion()
+    ?	$opt_doc				tru::doc()
+    ?	$opt_source or $opt_macros		tru::source()
+    ?	$opt_structure or $opt_vstructure	tru::structure()
+    ?	$opt_help or $opt_vhelp			usage()
+    ?	$opt_ovhelp				tru::showTruOptions() ; exit 1
+    ?	$opt_ohelp				tru::showOptions()   ; exit 1
+    ?	defined($opt_o)				tru::setOutputFile()
+    !	@F = @ARGV				@F = ("STDIN")
+    @tru::ARGV=@F
+    $stream=$opt_stream
+    $_ = join(' ',@F)
+    tru::begin()
+    !	$stream
+      *tru::macro_in  = \&tru::macro_in_depth
+      *tru::macro_out = \&tru::macro_out_depth
+      *tru::write     = \&tru::write_depth
     -
-      ?		@ATTIC
-	$tru::origin = 'A'	@ATTIC
-	$_ = shift @ATTIC
-      ?-	$_=<>
-	$tru::origin = 'S'	Stdin
-        chomp
-      -
-	last
-      ?	/^$/
-	push @tru::xREADl,$.
-	$tru::empty++
-	next
-      $level += tru::indentval((m/(^\t* *)/,$1))
-      ?	$tru::origin eq 'S'
-	$tru::ret = tru::read()
-	?	$tru::ret == 1	next
-	?	$tru::ret == 2	last
-      ?-	$tru::origin eq 'A'
-	$tru::ret = tru::atticread()
-	?	$tru::ret == 1	next
-	?	$tru::ret == 2	last
-      ?	$tru::empty
-	$tru::xREADlevel=$level
-	tru::prepare_xREAD()
-	push @tru::xREAD,$_
-	push @tru::xREADl,$.
-	next
-    s/(^\t* *)//
-    ?	$tru::origin ne 'x' and $_ eq ''	STDERR "tru : warning : stray blanks in an empty line at $ARGV @ $.\n"
-    $indent = $1
-    $tru::olevel=$level
-    $tru::lnr = $.
-    W	@tru::actions && $level <= $tru::actions[-1][0]	tru::macroout()
-    $. = $tru::lnr
-    @F = split /$delim/o
-    tru::splitapply()
-    $tru::relativeIndent = $level - $tru::actions[-1][0]
-    $rnr = ++$rnr[$level]
-    $#rnr = $level		shorten array
+      *tru::macro_in  = \&tru::macro_in_seq
+      *tru::macro_out = \&tru::macro_out_seq
+      *tru::write     = \&tru::write_seq
+    ?	$opt_debug and !$opt_debActionMap and $stream	*tru::write = sub {}
+    binmode(STDOUT)
+    $rnr = $rnr[0]=1
+    $level               = 0
+    $NrOfLinesFollowing  = 0
+    $NrOfChilds          = 0
+    $tru::Oi             = 0	would be "" (blank) (rsp. undef) if initial
     $tru::active_rule_nr = 0
-    $tru::active_state   = 'UNMATCHED'
-    ?	tru::check()	tru::macroin("UNMATCHED","UNMATCHED",$tru::statesi[-1]-1)
-  continue
-    ?	!@ATTIC and !@tru::xREAD
-      ?	eof
-	$level = -1
-	?	$tru::empty
-	  tru::prepare_xREAD()
+    $tru::maxsubinc      = 0
+    $tru::active_state   = 'DOC'
+    tru::macroin("DOC","DOC",-1)
+    FOREVER
+      $level=1
+      $indent=""
+      ?	@tru::xREAD
+	$tru::origin = 'x'	@xREAD
+	$_      = shift @tru::xREAD
+	$.      = shift @tru::xREADl
+	?	/^$sdel$/o
+	  doc	processing empty lines
+	    tru::read cannot be applied here
+	  $_ = $indent = ''
+	  $level  = $tru::xREADlevel4empty
 	-
-	  tru::newfile()
-	  # here $ARGV holds the name of the now to be closed file
-	  #      $ARGV[0] holds the name of the next file to be opened
-  $level = -1
-  W	@tru::actions && $level <= $tru::actions[-1][0]	tru::macroout()
-  W	@tru::Marks_name_Oi	unusemark()
-  doc	from here on we do not need to save the current Oi, it will no longer be used
-    ---------------------------------------------------------------------------------
-  F	my $markName  (sort keys %tru::HMarks)
-    ?	$tru::HMarks{$markName}[1]
-      doc	mark was used
-      $tru::Oi=$tru::HMarks{$markName}[2]
-      tru::umacro($markName,']')		apply the ]-hook
-    -
-      doc	apply the n-hook for  not used marks
-	we cannot use usemark($markName) here since this would trigger [ and ]
-      $tru::Oi=$tru::HMarks{$markName}[2]						Oi
-      tru::umacro($markName,'n')	mark was not used, apply this hook
-  tru::flush()
-  ?	@K = sort keys %tru::Saved
-    STDERR "$0 : some text was never output (due to unset marks) when processing $ARGV\n"
-    F	$symname (@K)
-      STDERR "  For mark $symname\n"
-      F	(@{$tru::Saved{$symname}})	STDERR "\t$_"
-      $K[$i] = 0
-  D	checkmaxsubinc
-    printf STDERR "maxsubinc : %.5f (@tru::ARGV)\n",$tru::maxsubinc
-tru::subinc	*a
-  local $apre = $a
-  $a+=0.00001
-  ?	int($a) != int($apre)	die "Too many marks or too many recursions in $0 @tru::ARGV\n"
-  D	checkmaxsubinc
-    local $b=$a-int($a)
-    ?	$b > $tru::maxsubinc	$tru::maxsubinc = $b
-tru::prepare_xREAD
-  ?	$tru::olevel > $level
-    $tru::emptyLineIsLast = $tru::empty+1
-    $level = $tru::olevel
-  F	;$tru::empty;$tru::empty--	push @tru::xREAD,$sdel
-  $tru::xREADlevel4empty=$level
-tru::setOutputFile
-  !	open (STDOUT,">$opt_o")
-    STDERR "$0 : cannot open '$opt_o' for writing : $!\n"
-    exit(1)
-tru::indentval		$indent
-  ($indent =~ y/\t/\t/)*8 + ($indent =~ y/ / /)
-tru::doc
-  open EXE,$0 or die "cannot open $0 : $!"
-  W	<EXE>
-    ?	/^#actions start$/.../^#actions end$/ or /^#hooks start$/.../^#hooks end$/
-      ?		s/^##  ([^ ])/$1/	print
-      ?	$seq = /^=/.../^=cut$/
-	!	$seq ==1 or $seq =~ /E0$/
-	  s/^\t//
-	  print
-  exit(0)
-tru::source
-  open EXE,$0 or die "cannot open $0 : $!"
-  W	<EXE>
-    ?	/^#version start$/.../^#version end$/
-      ?		s/^VERSION\t//
-        s/\t/ : /;
-        print "VERSION\t$_";
-    ?	/^#here start$/.../^#here end$/
-      ?		s/^##// or /^\t/ or /^$/	print
-    ?	/^#simple start$/.../^#simple end$/
-      ?		s/^##//	print
-      ?-	s/^\t//	print
-    ?	/^#actions start$/.../^#actions end$/ or /^#hooks start$/.../^#hooks end$/
-      ?		s/^##//	print
-      ?-	s/^\t//	print
-      ?-	/^$/	print
-      ?-	/^  \{tru::parse\(/../\)}$/
-	s/^  \{tru::parse\(/              /
-	s/\)}$//
-	?	$_ eq "                 '',\n"
-	  print "       |\n"
-	-
-	  s/                 q./\t/
-	  s/.,$//
-	  s/\\\\/\\/g
-	  print
-  !	$opt_macros	tru::structure()
-  exit 0
-tru::respecial
-  s/^#:#\t/\t/
-  s/^( +)tru::macro_in_witharg\(0,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1>>$2\t$3/										>>action<tab>arg
-  s/^( +)tru::macro_in_witharg\(1,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1->$2\t$3/										->action<tab>arg
-  s/^( +)for \(local \$tru::first_and_only_run,usemark\((\\\$.*?)\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,unusemark\(\)\)/$1atmark($2)/	atmark($mark_x)
-  s/^( +)for \(local \$tru::rpos = \@tru::actions, local \$tru::first_and_only_run,tru::macro_in_witharg\(0,qq$sdel(.*?)$sdel,qq$sdel(.*?)$sdel\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,tru::macro_out_forced\(\$tru::rpos\)\) {/$1-->$2\t$3\t{/	-->action<tab>arg
-tru::structure
-  open EXE,$0 or die "cannot open $0 : $!"
-  binmode(STDOUT)
-  W	<EXE>
-    ?	/^sub tru::check\(\)/.../^}/
-      ?	$opt_groupExpand
-	?	/^    # groups start here\n/.../^    # groups end here\n/	next
-	?	/=g\n/			next
-	?	s/^   #g//		print
-      ?	$opt_vstructure or $opt_source
-        ?	s/^  #//		print
+	  $level  = $tru::xREADlevel
       -
-        ?	s/^  #(?!#file)//	print
-  exit 0
-tru::actionArgsIn
-  doc	transfer the arguments
-    each arg results in
-      $arg	filled with the corrsponding field
-      @arg	a stack for this arg
-  *tru::arglist=\@{$tru::actioncode{'args'}{$tru::action}}
-  F	my $i=0...@tru::arglist
-    *tru::arg=\$tru::arglist[$i]
-    push @$tru::arg,$F[$i]
-    *$tru::arg = \$$tru::arg[-1]
-
-  doc	initialize the stacked-locals
-    each local results in
-      $local	initialized to ""
-      @local	a stack for this arg
-  *tru::arglist=\@{$tru::actioncode{'locals'}{$tru::action}}
-  F	my $i=0...@tru::arglist
-    *tru::arg=\$tru::arglist[$i]
-    push @$tru::arg,""
-    *$tru::arg = \$$tru::arg[-1]
-tru::actionArgsOut
-  F	my $namespace ('args','locals')
-    *tru::arglist=\@{$tru::actioncode{$namespace}{$tru::action}}
+	?		@ATTIC
+	  $tru::origin = 'A'	@ATTIC
+	  $_ = shift @ATTIC
+	?-	$_=<>
+	  $tru::origin = 'S'	Stdin
+	  chomp
+	-
+	  last
+	?	/^$/
+	  push @tru::xREADl,$.
+	  $tru::empty++
+	  next
+	$level += tru::indentval((m/(^\t* *)/,$1))
+	?	$tru::origin eq 'S'
+	  $tru::ret = tru::read()
+	  ?	$tru::ret == 1	next
+	  ?	$tru::ret == 2	last
+	?-	$tru::origin eq 'A'
+	  $tru::ret = tru::atticread()
+	  ?	$tru::ret == 1	next
+	  ?	$tru::ret == 2	last
+	?	$tru::empty
+	  $tru::xREADlevel=$level
+	  tru::prepare_xREAD()
+	  push @tru::xREAD,$_
+	  push @tru::xREADl,$.
+	  next
+      s/(^\t* *)//
+      ?	$tru::origin ne 'x' and $_ eq ''	STDERR "tru : warning : stray blanks in an empty line at $ARGV @ $.\n"
+      $indent = $1
+      $tru::olevel=$level
+      $tru::lnr = $.
+      W	@tru::actions && $level <= $tru::actions[-1][0]	tru::macroout()
+      $. = $tru::lnr
+      @F = split /$delim/o
+      tru::splitapply()
+      $tru::relativeIndent = $level - $tru::actions[-1][0]
+      $rnr = ++$rnr[$level]
+      $#rnr = $level		shorten array
+      $tru::active_rule_nr = 0
+      $tru::active_state   = 'UNMATCHED'
+      ?	tru::check()	tru::macroin("UNMATCHED","UNMATCHED",$tru::statesi[-1]-1)
+    continue
+      ?	!@ATTIC and !@tru::xREAD
+	?	eof
+	  $level = -1
+	  ?	$tru::empty
+	    tru::prepare_xREAD()
+	  -
+	    tru::newfile()
+	    # here $ARGV holds the name of the now to be closed file
+	    #      $ARGV[0] holds the name of the next file to be opened
+    $level = -1
+    W	@tru::actions && $level <= $tru::actions[-1][0]	tru::macroout()
+    W	@tru::Marks_name_Oi	unusemark()
+    doc	from here on we do not need to save the current Oi, it will no longer be used
+      ---------------------------------------------------------------------------------
+    F	my $markName  (sort keys %tru::HMarks)
+      ?	$tru::HMarks{$markName}[1]
+	doc	mark was used
+	$tru::Oi=$tru::HMarks{$markName}[2]
+	tru::umacro($markName,']')		apply the ]-hook
+      -
+	doc	apply the n-hook for  not used marks
+	  we cannot use usemark($markName) here since this would trigger [ and ]
+	$tru::Oi=$tru::HMarks{$markName}[2]						Oi
+	tru::umacro($markName,'n')	mark was not used, apply this hook
+    tru::flush()
+    ?	@K = sort keys %tru::Saved
+      STDERR "$0 : some text was never output (due to unset marks) when processing $ARGV\n"
+      F	$symname (@K)
+	STDERR "  For mark $symname\n"
+	F	(@{$tru::Saved{$symname}})	STDERR "\t$_"
+	$K[$i] = 0
+    D	checkmaxsubinc
+      printf STDERR "maxsubinc : %.5f (@tru::ARGV)\n",$tru::maxsubinc
+  tru::subinc	*a
+    local $apre = $a
+    $a+=0.00001
+    ?	int($a) != int($apre)	die "Too many marks or too many recursions in $0 @tru::ARGV\n"
+    D	checkmaxsubinc
+      local $b=$a-int($a)
+      ?	$b > $tru::maxsubinc	$tru::maxsubinc = $b
+  tru::prepare_xREAD
+    ?	$tru::olevel > $level
+      $tru::emptyLineIsLast = $tru::empty+1
+      $level = $tru::olevel
+    F	;$tru::empty;$tru::empty--	push @tru::xREAD,$sdel
+    $tru::xREADlevel4empty=$level
+  tru::setOutputFile
+    !	open (STDOUT,">$opt_o")
+      STDERR "$0 : cannot open '$opt_o' for writing : $!\n"
+      exit(1)
+  tru::indentval		$indent
+    ($indent =~ y/\t/\t/)*8 + ($indent =~ y/ / /)
+  tru::doc
+    open EXE,$0 or die "cannot open $0 : $!"
+    W	<EXE>
+      ?	/^#actions start$/.../^#actions end$/ or /^#hooks start$/.../^#hooks end$/
+	?		s/^##  ([^ ])/$1/	print
+	?	$seq = /^=/.../^=cut$/
+	  !	$seq ==1 or $seq =~ /E0$/
+	    s/^\t//
+	    print
+    exit(0)
+  tru::source
+    open EXE,$0 or die "cannot open $0 : $!"
+    W	<EXE>
+      ?	/^#version start$/.../^#version end$/
+	?		s/^VERSION\t//
+	  s/\t/ : /;
+	  print "VERSION\t$_";
+      ?	/^#here start$/.../^#here end$/
+	?		s/^##// or /^\t/ or /^$/	print
+      ?	/^#simple start$/.../^#simple end$/
+	?		s/^##//	print
+	?-	s/^\t//	print
+      ?	/^#actions start$/.../^#actions end$/ or /^#hooks start$/.../^#hooks end$/
+	?		s/^##//	print
+	?-	s/^\t//	print
+	?-	/^$/	print
+	?-	/^  \{tru::parse\(/../\)}$/
+	  s/^  \{tru::parse\(/              /
+	  s/\)}$//
+	  ?	$_ eq "                 '',\n"
+	    print "       |\n"
+	  -
+	    s/                 q./\t/
+	    s/.,$//
+	    s/\\\\/\\/g
+	    print
+    !	$opt_macros	tru::structure()
+    exit 0
+  tru::respecial
+    s/^#:#\t/\t/
+    s/^( +)tru::macro_in_witharg\(0,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1>>$2\t$3/										>>action<tab>arg
+    s/^( +)tru::macro_in_witharg\(1,qq$sdel(.*)$sdel,qq$sdel(.*)$sdel\);/$1->$2\t$3/										->action<tab>arg
+    s/^( +)for \(local \$tru::first_and_only_run,usemark\((\\\$.*?)\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,unusemark\(\)\)/$1atmark($2)/	atmark($mark_x)
+    s/^( +)for \(local \$tru::rpos = \@tru::actions, local \$tru::first_and_only_run,tru::macro_in_witharg\(0,qq$sdel(.*?)$sdel,qq$sdel(.*?)$sdel\);!\$tru::first_and_only_run;\$tru::first_and_only_run\+\+,tru::macro_out_forced\(\$tru::rpos\)\) {/$1-->$2\t$3\t{/	-->action<tab>arg
+  tru::structure
+    open EXE,$0 or die "cannot open $0 : $!"
+    binmode(STDOUT)
+    W	<EXE>
+      ?	/^sub tru::check\(\)/.../^}/
+	?	$opt_groupExpand
+	  ?	/^    # groups start here\n/.../^    # groups end here\n/	next
+	  ?	/=g\n/			next
+	  ?	s/^   #g//		print
+	?	$opt_vstructure or $opt_source
+	  ?	s/^  #//		print
+	-
+	  ?	s/^  #(?!#file)//	print
+    exit 0
+  tru::actionArgsIn
+    doc	transfer the arguments
+      each arg results in
+	$arg	filled with the corrsponding field
+	@arg	a stack for this arg
+    *tru::arglist=\@{$tru::actioncode{'args'}{$tru::action}}
     F	my $i=0...@tru::arglist
       *tru::arg=\$tru::arglist[$i]
-      pop @$tru::arg
-      ?	@$tru::arg	*$tru::arg = \@$tru::arg[-1]
-tru::macroin		$$$
-  local ($state,$tru::action,$offs) = @_
-  tru::actionArgsIn()
-  push @tru::states,$state
-  push @tru::statesi,$offs
-  push @tru::actions,[ $level ,$tru::action ,[@F] ,$_ ,$.  ,$indent ,$tru::active_rule_nr ,$tru::active_state ]
-  # I need $. only in depth-mode, it can be savely dismissed, if in seq-mode
-  # The parser does not use this value, it's here only for convenience and can be savely dismissed even in depth-mode if not used in the .tru-file
-  ?	$tru::statesi[-1] == -1
-    ?	@tru::NrOfChilds
-      ?	$F[0] ne ""
-	doc	empty lines don't count for NrOfChilds
-	$tru::NrOfChilds[-1]++
-    push @tru::NrOfChilds,0
-  tru::macro_in()
-tru::macro_in_seq
-  tru::umacro($tru::action,'>')
-  tru::umacro($tru::action,'-')
-tru::macro_out_seq
-  tru::umacro($tru::action,'<')
-tru::inRange
-  my $i
-  !	$tru::RangeParsed
-    $tru::RangeParsed=1
-    $opt_debRange =~ s/ //g
-    my @sr = split /,/,$opt_debRange
-    my ($from, $to)
-    F	(@sr)
-      ?	($from,$to) = /^(\d*)\-(\d*)$/
-        !	$from	$from = 1
-      ?-	($from) = /^(\d+)$/	$to = $from
-      -
-        STDERR "invald range specification : $_\n"
-	exit(1)
-      push @tru::Ranges, [ $from , $to ]
-  F	$i=0...@tru::Ranges
-    ?	$. >= $tru::Ranges[$i][0] and (!$tru::Ranges[$i][1] or $. <= $tru::Ranges[$i][1])	return 1
-  return 0
-tru::debug
-  my ($action,$pit) = @_
-  ?	$opt_debRange and !tru::inRange()	return
-  ?	$level == -1
-    return	processing !n at the end
-  ?	$opt_debStructure
-    ?	$pit eq '>' and $. != $tru::lastDot and !$tru::isTriggered
-      "$action\t$indent$_\n"
-      $tru::lastDot = $.
-  -
-    ?	!$opt_deball and  !defined(&{$tru::actioncode{$pit}{$action}})	return
-    "$.\t$level\t$rnr\t",(!defined(&{$tru::actioncode{$pit}{$action}}))?"!":"","$pit\t$action\t"
-    "$sdel$tru::actions[$_][6]" for 0..$#tru::actions	active_rule_nr
-    "\t"
-    "$sdel$tru::actions[$_][1]" for 0..$#tru::actions	action
-    "\t"
-    "$sdel$tru::actions[$_][4]" for 0..$#tru::actions	$.
-    "\t$_\n"
-tru::umacro		$$
-  (my $action,local $tru::pit) = @_
-  local $level=$level	allow machines to play around with $level
-  ?	$opt_debug
-    ?	$opt_debActionMap
-      ?	defined(&{$tru::actioncode{$tru::pit}{$opt_debActionMap}})	&{$tru::actioncode{$tru::pit}{$opt_debActionMap}}
-      return
-    -
-      tru::debug(@_)
-      ?	$opt_debStructure	return
-  ?	defined(&{$tru::actioncode{$tru::pit}{$action}})		&{$tru::actioncode{$tru::pit}{$action}}
-tru::parse
-  local *tru::A = \@_
-  local $tru::line
-  F	$tru::line (@tru::A)
-    tru::debRev() if (defined($opt_debReverse))
-    local @tru::W
-    local $tru::liney
-    local $tru::linex
-    eval qq(\$tru::liney = qq$sdel$tru::line$sdel)
-    !	@tru::W = split /\n/,$tru::liney,-1	@tru::W = ('')
-    F	$tru::linex (@tru::W)	tru::write($tru::linex)
-tru::debRev
-  my $filename = $ARGV || "<none>"
-  my $pit=$tru::pit
-  ?	$pit eq ''
-    doc	we have no pit if we are called from a special like READ or SPLITAPPLY
-    $pit = 's'
-  M;	$tru::debRev
-    ="$filename\t$.\t$pit\t"
-    .="$sdel$tru::actions[$_][6]" for 0..$#tru::actions
-    .="\t"
-    .="$sdel".$tru::actions[$_][7] for 0..$#tru::actions
-    .="\n"
-tru::macro_out_forced	$rpos
-  W	$rpos < @tru::actions	tru::macroout()
-tru::macro_in_witharg
-  (my $flag,my $macro,local $_) = @_
-  local @F
-  @F = split /$delim/o
-  ?	$macro eq ""	$macro = $F[0]
-  #$tru::active_rule_nr = -1
-  $tru::active_state   = $macro
-  my $rpos = @tru::actions
-  tru::macroin($F[0],$macro,$tru::statesi[-1]-1)
-  ?	$flag	tru::macro_out_forced($rpos)
-tru::macroout
-  $state = pop @tru::states
-  $NrOfChilds = $tru::NrOfChilds[-1]
-  local $tru::tillhere = @tru::actions
-  ?	pop @tru::statesi == -1	pop @tru::NrOfChilds
-  local $tru::lnr = $.
-  local $isLast = $level < 0 || $level < $tru::actions[-1][0] || $tru::emptyLineIsLast
-  $tru::emptyLineIsLast = 0
-  local ($level,$tru::action,*F ,$_ ,$. ,$indent ,$tru::active_rule_nr ,$tru::active_state) = @{ @tru::actions[-1] }
-  $rnr = $rnr[$level]+0
-  tru::macro_out()
-  W	@tru::actions > $tru::tillhere	tru::macroout()
-  tru::actionArgsOut()
-  pop @tru::actions
-  $. = $tru::lnr
-tru::getrindent	$implicitIndent
-  my $i
-  doc	find the last action enclosing the tabaligned action
-  F	$i=$#tru::actions;$i>=0;$i--
-    ?	$tru::actions[$i][8]	last
-  $i = $tru::actions[$i][0]+$implicitIndent-1
-  my $requiredLevel = (int($i/8)+($i%8 > 0))*8
-  $i=0
-  F	my $j=0;$j<$requiredLevel;$i++
-    ?	substr($indent,$i,1) eq "\t"	$j+=8	$j++
-  return ( substr($indent,$i) , $level-$requiredLevel-1 )
-debout			$_
-#  print STDERR $_
-tru::CheckStatesPath	$$$**$
-  local ($indicator,$tabaligned,$star,*M,*I,$implicitIndent) = @_
-  ?	@$M > @tru::states			return 0 # more to match than states available -> no match
-  ?	$tabaligned
-    my $i = $tru::actions[-1][0]+$implicitIndent-1
-    my $requiredLevel = (int($i/8)+($i%8 > 0))*8+1
-    ?	$star == 2
-      ?	$level <  $requiredLevel		return 0 # indent for "tabaligned dangling"  ( >>t*  =t*    >t*  ) too small  -> no match
-    -
-      ?	$level != $requiredLevel		return 0 # indent for "tabaligned"           ( >>t   =t     >t   ) too small  -> no match
-  ?-	$star == 2
-    ?	$implicitIndent > $tru::relativeIndent	return 0 # indent for "dangling"             ( >*    >>*    =*   ) too small  -> no match
-  -
-    ?	$implicitIndent != $tru::relativeIndent	return 0 # indent for "fixed"                ( >>3   ==3    >3   ) incorrect  -> no match
-  #debout "--------:-\@ : $_\n"
-  #debout "Line Nr : $.\n"
-  #debout "M       : ".@$M           ." : @$M\n"
-  #debout "I       : ".@$I           ." : @$I\n"
-  #debout "states  : ".@tru::states  ." : ". join("/",@tru::states)."\n"
-  #debout "statesi : ".@tru::statesi ." : @tru::statesi\n"
-  #debout "actions : ".@tru::actions ." :\tlevel/action/\@F/f/indent // only first element of \@F is shown"
-  #debout "\n\t\t$tru::actions[$_][0]/$tru::actions[$_][1]/$tru::actions[$_][2][0]/$tru::actions[$_][3]/$tru::actions[$_][4]/$tru::actions[$_][6]" for 0..$#tru::actions;debout "\n"
-  #debout "tru::relativeIndent      : $tru::relativeIndent\n"
-  #debout "implicitIndent      : $implicitIndent\n"
-  my $ret= tru::csp(0,0)
-  #debout "returns $ret\n"
-  return $ret
-tru::csp		$i,$j
-  my $ret
+      push @$tru::arg,$F[$i]
+      *$tru::arg = \$$tru::arg[-1]
 
-  #debout "$i,$j : $$M[$i],$tru::states[$j]\n"
-  ?	$tru::statesi[$j] < -1
-    #debout "not -1 in statesi, skip\n"
-    return tru::csp($i,$j+1)
-  ?	$i > $#$M
-    ?	$indicator eq "="
-      #debout "everything eaten and =, checking j >= tru::states\n"
-      return ($j >= @tru::states)
+    doc	initialize the stacked-locals
+      each local results in
+	$local	initialized to ""
+	@local	a stack for this arg
+    *tru::arglist=\@{$tru::actioncode{'locals'}{$tru::action}}
+    F	my $i=0...@tru::arglist
+      *tru::arg=\$tru::arglist[$i]
+      push @$tru::arg,""
+      *$tru::arg = \$$tru::arg[-1]
+  tru::actionArgsOut
+    F	my $namespace ('args','locals')
+      *tru::arglist=\@{$tru::actioncode{$namespace}{$tru::action}}
+      F	my $i=0...@tru::arglist
+	*tru::arg=\$tru::arglist[$i]
+	pop @$tru::arg
+	?	@$tru::arg	*$tru::arg = \@$tru::arg[-1]
+  tru::macroin		$$$
+    local ($state,$tru::action,$offs) = @_
+    tru::actionArgsIn()
+    push @tru::states,$state
+    push @tru::statesi,$offs
+    push @tru::actions,[ $level ,$tru::action ,[@F] ,$_ ,$.  ,$indent ,$tru::active_rule_nr ,$tru::active_state ]
+    # I need $. only in depth-mode, it can be savely dismissed, if in seq-mode
+    # The parser does not use this value, it's here only for convenience and can be savely dismissed even in depth-mode if not used in the .tru-file
+    ?	$tru::statesi[-1] == -1
+      ?	@tru::NrOfChilds
+	?	$F[0] ne ""
+	  doc	empty lines don't count for NrOfChilds
+	  $tru::NrOfChilds[-1]++
+      push @tru::NrOfChilds,0
+    tru::macro_in()
+  tru::macro_in_seq
+    tru::umacro($tru::action,'>')
+    tru::umacro($tru::action,'-')
+  tru::macro_out_seq
+    tru::umacro($tru::action,'<')
+  tru::inRange
+    my $i
+    !	$tru::RangeParsed
+      $tru::RangeParsed=1
+      $opt_debRange =~ s/ //g
+      my @sr = split /,/,$opt_debRange
+      my ($from, $to)
+      F	(@sr)
+	?	($from,$to) = /^(\d*)\-(\d*)$/
+	  !	$from	$from = 1
+	?-	($from) = /^(\d+)$/	$to = $from
+	-
+	  STDERR "invald range specification : $_\n"
+	  exit(1)
+	push @tru::Ranges, [ $from , $to ]
+    F	$i=0...@tru::Ranges
+      ?	$. >= $tru::Ranges[$i][0] and (!$tru::Ranges[$i][1] or $. <= $tru::Ranges[$i][1])	return 1
+    return 0
+  tru::debug
+    my ($action,$pit) = @_
+    ?	$opt_debRange and !tru::inRange()	return
+    ?	$level == -1
+      return	processing !n at the end
+    ?	$opt_debStructure
+      ?	$pit eq '>' and $. != $tru::lastDot and !$tru::isTriggered
+	"$action\t$indent$_\n"
+	$tru::lastDot = $.
     -
-      #debout "everything eaten and >, good\n"
-      return 1
-  ?	$$I[$i]
-    ?	$tru::states[$j] eq $$M[$i]
-      #debout "= assured, good\n"
-      return tru::csp($i+1,$j+1)
+      ?	!$opt_deball and  !defined(&{$tru::actioncode{$pit}{$action}})	return
+      "$.\t$level\t$rnr\t",(!defined(&{$tru::actioncode{$pit}{$action}}))?"!":"","$pit\t$action\t"
+      "$sdel$tru::actions[$_][6]" for 0..$#tru::actions	active_rule_nr
+      "\t"
+      "$sdel$tru::actions[$_][1]" for 0..$#tru::actions	action
+      "\t"
+      "$sdel$tru::actions[$_][4]" for 0..$#tru::actions	$.
+      "\t$_\n"
+  tru::umacro		$$
+    (my $action,local $tru::pit) = @_
+    local $level=$level	allow machines to play around with $level
+    ?	$opt_debug
+      ?	$opt_debActionMap
+	?	defined(&{$tru::actioncode{$tru::pit}{$opt_debActionMap}})	&{$tru::actioncode{$tru::pit}{$opt_debActionMap}}
+	return
+      -
+	tru::debug(@_)
+	?	$opt_debStructure	return
+    ?	defined(&{$tru::actioncode{$tru::pit}{$action}})		&{$tru::actioncode{$tru::pit}{$action}}
+  tru::parse
+    local *tru::A = \@_
+    local $tru::line
+    F	$tru::line (@tru::A)
+      tru::debRev() if (defined($opt_debReverse))
+      local @tru::W
+      local $tru::liney
+      local $tru::linex
+      eval qq(\$tru::liney = qq$sdel$tru::line$sdel)
+      !	@tru::W = split /\n/,$tru::liney,-1	@tru::W = ('')
+      F	$tru::linex (@tru::W)	tru::write($tru::linex)
+  tru::debRev
+    my $filename = $ARGV || "<none>"
+    my $pit=$tru::pit
+    ?	$pit eq ''
+      doc	we have no pit if we are called from a special like READ or SPLITAPPLY
+      $pit = 's'
+    M;	$tru::debRev
+      ="$filename\t$.\t$pit\t"
+      .="$sdel$tru::actions[$_][6]" for 0..$#tru::actions
+      .="\t"
+      .="$sdel".$tru::actions[$_][7] for 0..$#tru::actions
+      .="\n"
+  tru::macro_out_forced	$rpos
+    W	$rpos < @tru::actions	tru::macroout()
+  tru::macro_in_witharg
+    (my $flag,my $macro,local $_) = @_
+    local @F
+    @F = split /$delim/o
+    ?	$macro eq ""	$macro = $F[0]
+    #$tru::active_rule_nr = -1
+    $tru::active_state   = $macro
+    my $rpos = @tru::actions
+    tru::macroin($F[0],$macro,$tru::statesi[-1]-1)
+    ?	$flag	tru::macro_out_forced($rpos)
+  tru::macroout
+    $state = pop @tru::states
+    $NrOfChilds = $tru::NrOfChilds[-1]
+    local $tru::tillhere = @tru::actions
+    ?	pop @tru::statesi == -1	pop @tru::NrOfChilds
+    local $tru::lnr = $.
+    local $isLast = $level < 0 || $level < $tru::actions[-1][0] || $tru::emptyLineIsLast
+    $tru::emptyLineIsLast = 0
+    local ($level,$tru::action,*F ,$_ ,$. ,$indent ,$tru::active_rule_nr ,$tru::active_state) = @{ @tru::actions[-1] }
+    $rnr = $rnr[$level]+0
+    tru::macro_out()
+    W	@tru::actions > $tru::tillhere	tru::macroout()
+    tru::actionArgsOut()
+    pop @tru::actions
+    $. = $tru::lnr
+  tru::getrindent	$implicitIndent
+    my $i
+    doc	find the last action enclosing the tabaligned action
+    F	$i=$#tru::actions;$i>=0;$i--
+      ?	$tru::actions[$i][8]	last
+    $i = $tru::actions[$i][0]+$implicitIndent-1
+    my $requiredLevel = (int($i/8)+($i%8 > 0))*8
+    $i=0
+    F	my $j=0;$j<$requiredLevel;$i++
+      ?	substr($indent,$i,1) eq "\t"	$j+=8	$j++
+    return ( substr($indent,$i) , $level-$requiredLevel-1 )
+  debout			$_
+    #  print STDERR $_
+  tru::CheckStatesPath	$$$**$
+    local ($indicator,$tabaligned,$star,*M,*I,$implicitIndent) = @_
+    ?	@$M > @tru::states			return 0 # more to match than states available -> no match
+    ?	$tabaligned
+      my $i = $tru::actions[-1][0]+$implicitIndent-1
+      my $requiredLevel = (int($i/8)+($i%8 > 0))*8+1
+      ?	$star == 2
+	?	$level <  $requiredLevel		return 0 # indent for "tabaligned dangling"  ( >>t*  =t*    >t*  ) too small  -> no match
+      -
+	?	$level != $requiredLevel		return 0 # indent for "tabaligned"           ( >>t   =t     >t   ) too small  -> no match
+    ?-	$star == 2
+      ?	$implicitIndent > $tru::relativeIndent	return 0 # indent for "dangling"             ( >*    >>*    =*   ) too small  -> no match
     -
-      #debout "= not assured, bad\n"
-      return 0
-  -
-    W	$j < @tru::states
-      ?	$tru::statesi[$j] == -1 and $tru::states[$j] eq $$M[$i]
-	#debout "skipped to $j,$i, good\n"
-	my $ret = tru::csp($i+1,$j+1)
-	#debout "no match, check next position\n"
-	?	$ret	return $ret
-      $j++
-  return 0
-tru::write_seq
-  local ($_) = @_
-  ?	tru::write_apply()	return
-  ?	defined($opt_debReverse)
-    ?	++$tru::Outputlinecount == $opt_debReverse or !$opt_debReverse	print $tru::debRev
-  -
-    print "$_\n"
-tru::showTruOptions
-  perl code<
+      ?	$implicitIndent != $tru::relativeIndent	return 0 # indent for "fixed"                ( >>3   ==3    >3   ) incorrect  -> no match
+    #debout "--------:-\@ : $_\n"
+    #debout "Line Nr : $.\n"
+    #debout "M       : ".@$M           ." : @$M\n"
+    #debout "I       : ".@$I           ." : @$I\n"
+    #debout "states  : ".@tru::states  ." : ". join("/",@tru::states)."\n"
+    #debout "statesi : ".@tru::statesi ." : @tru::statesi\n"
+    #debout "actions : ".@tru::actions ." :\tlevel/action/\@F/f/indent // only first element of \@F is shown"
+    #debout "\n\t\t$tru::actions[$_][0]/$tru::actions[$_][1]/$tru::actions[$_][2][0]/$tru::actions[$_][3]/$tru::actions[$_][4]/$tru::actions[$_][6]" for 0..$#tru::actions;debout "\n"
+    #debout "tru::relativeIndent      : $tru::relativeIndent\n"
+    #debout "implicitIndent      : $implicitIndent\n"
+    my $ret= tru::csp(0,0)
+    #debout "returns $ret\n"
+    return $ret
+  tru::csp		$i,$j
+    my $ret
+
+    #debout "$i,$j : $$M[$i],$tru::states[$j]\n"
+    ?	$tru::statesi[$j] < -1
+      #debout "not -1 in statesi, skip\n"
+      return tru::csp($i,$j+1)
+    ?	$i > $#$M
+      ?	$indicator eq "="
+	#debout "everything eaten and =, checking j >= tru::states\n"
+	return ($j >= @tru::states)
+      -
+	#debout "everything eaten and >, good\n"
+	return 1
+    ?	$$I[$i]
+      ?	$tru::states[$j] eq $$M[$i]
+	#debout "= assured, good\n"
+	return tru::csp($i+1,$j+1)
+      -
+	#debout "= not assured, bad\n"
+	return 0
+    -
+      W	$j < @tru::states
+	?	$tru::statesi[$j] == -1 and $tru::states[$j] eq $$M[$i]
+	  #debout "skipped to $j,$i, good\n"
+	  my $ret = tru::csp($i+1,$j+1)
+	  #debout "no match, check next position\n"
+	  ?	$ret	return $ret
+	$j++
+    return 0
+  tru::write_seq
+    local ($_) = @_
+    ?	tru::write_apply()	return
+    ?	defined($opt_debReverse)
+      ?	++$tru::Outputlinecount == $opt_debReverse or !$opt_debReverse	print $tru::debRev
+    -
+      print "$_\n"
+  tru::showTruOptions
+    perl code<
 	print STDERR
 	q(       -help			show help
 	       -version			show the version information
@@ -463,132 +464,133 @@ doc
   @tru::Aoi					Oi									position for the - action, and position before the ] hook  Oi shifted if > Oi
   %tru::HMarks					$markName             -> [ setmark_count , usemark_count  , Oi ]	usemark_count counts the usage after the last setmark      Oi shifted if > Oi
   %tru::Saved					$tru::unsetMarkActive -> [ text ]
-tru::write_depth
-  local ($_) = @_
-  !	$tru::processingSavedText
-    ?	tru::write_apply()	return
-    s/$/\n/
-    ?	$opt_debRange and ! tru::inRange()	$_ = ""
-    ?	defined($opt_debReverse)		$_ = $tru::debRev
-  ?	defined($tru::unsetMarkActive)
-    push @{ $tru::Saved{$tru::unsetMarkActive} },$_	mark is not yet set, remember this line
-  -
-    doc	the line can be inserted into tru::O at the position tru::Oi
-      all pointers behind tru::Oi must be incremented
-    my $a=$_
-    chomp($a)
-    W	(my $key,my $ref) = each %tru::HMarks				$$ref[2] >  $tru::Oi and $$ref[2]++
-    map	@tru::AOi							$_       >  $tru::Oi and $_++
-    map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]   >  $tru::Oi and $$_[1]++
-    map	@tru::Or							$_       >= $tru::Oi and $_++
-    splice(@tru::O,$tru::Oi++,0,$_)
-tru::shiftMarks
-  W	(my $key,my $ref) = each %tru::HMarks				$$ref[2]  >  $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   tru::subinc(\$$ref[2] )
-  map	@tru::AOi							$_        >  $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       )
-  map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]    >  $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   tru::subinc(\$$_[1]   )
-  map	@tru::Or							$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       )
-tru::macro_in_depth
-    triggers >
-  push @tru::AOi,-1	correct value not yet known
-  my $Opos = $#tru::AOi
-  tru::umacro($tru::action,'>')
-  # now the value for the Oi on the stack (for the depth-action) is known.
-  #   The correct stack-position in @tru::AOi is $Opos
-  # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
-  ?	$#tru::AOi-$Opos
-    tru::shiftMarks()
-    tru::subinc(\$tru::Oi)
-  $tru::AOi[$Opos] = $tru::Oi
-tru::macro_out_depth
-    triggers - and <
-  push @tru::Or,$tru::Oi
-  $tru::Oi=pop(@tru::AOi)
-  local $NrOfLinesFollowing = int($tru::Or[-1])-int($tru::Oi)	just output-lines
-
-  my $rpos = @tru::actions
-  tru::umacro($tru::action,'-')
-  $tru::Oi=pop @tru::Or
-  W	$rpos < @tru::actions	tru::macroout()
-  tru::umacro($tru::action,'<')
-#===	public section
-# these functions can be used in the truer
-# Note : atmark("mark") is a literally translated into the equivalent sequence
-#    usemark("mark");
-#    {
-#       the body of atmark()
-#    }
-#    unusemark();
-#
-setmark			$
-    set a mark at the current cursor-position
-    if there is saved text for this mark, then this text is now outputted
-  my ($markName) = @_;
-  debout "setmark $markName $tru::Oi\n"
-  tru::shiftMarks()
-  ?	$tru::HMarks{$markName}[0]
-    doc	mark was already set and ....
-    ?	$tru::HMarks{$markName}[1]
-      doc	... was used, apply the ]-hook
-      push @tru::AOi,$tru::Oi
-      $tru::Oi = $tru::HMarks{$markName}[2]
-      tru::umacro($markName,']')
-      $tru::Oi=pop(@tru::AOi)
+subs
+  tru::write_depth
+    local ($_) = @_
+    !	$tru::processingSavedText
+      ?	tru::write_apply()	return
+      s/$/\n/
+      ?	$opt_debRange and ! tru::inRange()	$_ = ""
+      ?	defined($opt_debReverse)		$_ = $tru::debRev
+    ?	defined($tru::unsetMarkActive)
+      push @{ $tru::Saved{$tru::unsetMarkActive} },$_	mark is not yet set, remember this line
     -
-      doc	... was not used, apply its n-hook
-      push @tru::AOi,$tru::Oi
-      $tru::Oi=$tru::HMarks{$markName}[2]						Oi
-      tru::umacro($markName,'n')	mark was not used, apply this hook
-      $tru::Oi=pop(@tru::AOi)
-  $tru::HMarks{$markName}[0]++		setmark_count
-  $tru::HMarks{$markName}[1] = 0	usemark_count
-  ?	$tru::unsetMarkActive eq $markName	undef $tru::unsetMarkActive
-  ?	defined $tru::Saved{$markName}
-    $tru::processingSavedText = 1
-    F	(@{$tru::Saved{$markName}})	tru::write($_)
-    $tru::processingSavedText = 0
-    delete $tru::Saved{$markName}
-    $tru::HMarks{$markName}[1]++	usemark_count
-  $tru::HMarks{$markName}[2] = $tru::Oi	Oi
-  tru::subinc(\$tru::Oi)
-usemark			$
-    use the mark $markName
-    the cursor is positioned at the line indicated by this mark
-    $usemark_count for this mark is incremented and can be accessed in the truer
-    also triggers the '[' and '{' markhook (if first usage)
-  my ($markName) = @_;
-  $tru::HMarks{$markName}[1]++		usemark_count
-  push @tru::ActiveMark_name_Oi_unsetMarkActive,[ $markName,$tru::Oi,$tru::unsetMarkActive ]	context - restored at unusemark
-  ?	$tru::HMarks{$markName}[0]
-    # mark is set, we can use it
-    $tru::Oi=$tru::HMarks{$markName}[2]	Oi
-    debout "usemark $markName $tru::Oi\n"
-    undef $tru::unsetMarkActive
-  -
-    # mark is not yet set, prepare for storing text for first occurance of setmark for this mark
-    $tru::unsetMarkActive = $markName
-  $usemark_count = $tru::HMarks{$markName}[1]					usemark_count, can be accessed as $usemark_count in the user-truers hooks
-  ?	$usemark_count == 1
-    doc	first usage of this mark
-    tru::umacro($markName,'[')	apply the [-hook
-  tru::umacro($markName,'{')	apply the {-hook
-  push @tru::Marks_name_Oi, [ $markName , $tru::Oi ]				remember Oi for the - hook
-unusemark
-    unuse the current mark and return to the previous mark (if any)
-    also triggers the '-' and '}' markhook
-  push @tru::AOi,$tru::Oi
-  ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }
-  debout "unusemark $markName $tru::Oi\n"
-  $usemark_count = $tru::HMarks{$markName}[1]					usemark_count can be accessed in the user-truers hooks
-  tru::umacro($markName,'-')
-  $tru::Oi=pop(@tru::AOi)
-  tru::umacro($markName,'}')
-  $tru::HMarks{$markName}[2] = $tru::Oi						the mark is still valid, it can be reused again.
-  ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }	restore context
-clonemark	$from,$to
-    make a copy of mark $from into mark $to
-  debout "clonemark $from -> $to\n"
-  $tru::HMarks{$to}[0]++				setmark_count
-  $tru::HMarks{$to}[1] = 0				usemark_count
-  $tru::HMarks{$to}[2] = $tru::HMarks{$from}[2];	Oi
-global code
-  1
+      doc	the line can be inserted into tru::O at the position tru::Oi
+	all pointers behind tru::Oi must be incremented
+      my $a=$_
+      chomp($a)
+      W	(my $key,my $ref) = each %tru::HMarks				$$ref[2] >  $tru::Oi and $$ref[2]++
+      map	@tru::AOi							$_       >  $tru::Oi and $_++
+      map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]   >  $tru::Oi and $$_[1]++
+      map	@tru::Or							$_       >= $tru::Oi and $_++
+      splice(@tru::O,$tru::Oi++,0,$_)
+  tru::shiftMarks
+    W	(my $key,my $ref) = each %tru::HMarks				$$ref[2]  >  $tru::Oi   and   int($$ref[2]) == int($tru::Oi)   and   tru::subinc(\$$ref[2] )
+    map	@tru::AOi							$_        >  $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       )
+    map	@tru::Marks_name_Oi,@tru::ActiveMark_name_Oi_unsetMarkActive	$$_[1]    >  $tru::Oi   and   int($$_[1])   == int($tru::Oi)   and   tru::subinc(\$$_[1]   )
+    map	@tru::Or							$_        >= $tru::Oi   and   int($_)       == int($tru::Oi)   and   tru::subinc(\$_       )
+  tru::macro_in_depth
+      triggers >
+    push @tru::AOi,-1	correct value not yet known
+    my $Opos = $#tru::AOi
+    tru::umacro($tru::action,'>')
+    # now the value for the Oi on the stack (for the depth-action) is known.
+    #   The correct stack-position in @tru::AOi is $Opos
+    # if there were some actioncalls ( >>action ) in the in-action then some internal Arrays may now be larger.
+    ?	$#tru::AOi-$Opos
+      tru::shiftMarks()
+      tru::subinc(\$tru::Oi)
+    $tru::AOi[$Opos] = $tru::Oi
+  tru::macro_out_depth
+      triggers - and <
+    push @tru::Or,$tru::Oi
+    $tru::Oi=pop(@tru::AOi)
+    local $NrOfLinesFollowing = int($tru::Or[-1])-int($tru::Oi)	just output-lines
+
+    my $rpos = @tru::actions
+    tru::umacro($tru::action,'-')
+    $tru::Oi=pop @tru::Or
+    W	$rpos < @tru::actions	tru::macroout()
+    tru::umacro($tru::action,'<')
+doc	public section
+  these functions can be used in the truer
+  Note : atmark("mark") is a literally translated into the equivalent sequence
+    usemark("mark");
+    {
+	the body of atmark()
+    }
+    unusemark();
+
+subs
+  setmark			$
+      set a mark at the current cursor-position
+      if there is saved text for this mark, then this text is now outputted
+    my ($markName) = @_;
+    debout "setmark $markName $tru::Oi\n"
+    tru::shiftMarks()
+    ?	$tru::HMarks{$markName}[0]
+      doc	mark was already set and ....
+      ?	$tru::HMarks{$markName}[1]
+	doc	... was used, apply the ]-hook
+	push @tru::AOi,$tru::Oi
+	$tru::Oi = $tru::HMarks{$markName}[2]
+	tru::umacro($markName,']')
+	$tru::Oi=pop(@tru::AOi)
+      -
+	doc	... was not used, apply its n-hook
+	push @tru::AOi,$tru::Oi
+	$tru::Oi=$tru::HMarks{$markName}[2]						Oi
+	tru::umacro($markName,'n')	mark was not used, apply this hook
+	$tru::Oi=pop(@tru::AOi)
+    $tru::HMarks{$markName}[0]++		setmark_count
+    $tru::HMarks{$markName}[1] = 0	usemark_count
+    ?	$tru::unsetMarkActive eq $markName	undef $tru::unsetMarkActive
+    ?	defined $tru::Saved{$markName}
+      $tru::processingSavedText = 1
+      F	(@{$tru::Saved{$markName}})	tru::write($_)
+      $tru::processingSavedText = 0
+      delete $tru::Saved{$markName}
+      $tru::HMarks{$markName}[1]++	usemark_count
+    $tru::HMarks{$markName}[2] = $tru::Oi	Oi
+    tru::subinc(\$tru::Oi)
+  usemark			$
+      use the mark $markName
+      the cursor is positioned at the line indicated by this mark
+      $usemark_count for this mark is incremented and can be accessed in the truer
+      also triggers the '[' and '{' markhook (if first usage)
+    my ($markName) = @_;
+    $tru::HMarks{$markName}[1]++		usemark_count
+    push @tru::ActiveMark_name_Oi_unsetMarkActive,[ $markName,$tru::Oi,$tru::unsetMarkActive ]	context - restored at unusemark
+    ?	$tru::HMarks{$markName}[0]
+      # mark is set, we can use it
+      $tru::Oi=$tru::HMarks{$markName}[2]	Oi
+      debout "usemark $markName $tru::Oi\n"
+      undef $tru::unsetMarkActive
+    -
+      # mark is not yet set, prepare for storing text for first occurance of setmark for this mark
+      $tru::unsetMarkActive = $markName
+    $usemark_count = $tru::HMarks{$markName}[1]					usemark_count, can be accessed as $usemark_count in the user-truers hooks
+    ?	$usemark_count == 1
+      doc	first usage of this mark
+      tru::umacro($markName,'[')	apply the [-hook
+    tru::umacro($markName,'{')	apply the {-hook
+    push @tru::Marks_name_Oi, [ $markName , $tru::Oi ]				remember Oi for the - hook
+  unusemark
+      unuse the current mark and return to the previous mark (if any)
+      also triggers the '-' and '}' markhook
+    push @tru::AOi,$tru::Oi
+    ( my $markName, $tru::Oi) = @{ pop @tru::Marks_name_Oi }
+    debout "unusemark $markName $tru::Oi\n"
+    $usemark_count = $tru::HMarks{$markName}[1]					usemark_count can be accessed in the user-truers hooks
+    tru::umacro($markName,'-')
+    $tru::Oi=pop(@tru::AOi)
+    tru::umacro($markName,'}')
+    $tru::HMarks{$markName}[2] = $tru::Oi						the mark is still valid, it can be reused again.
+    ($tru::tmp,$tru::Oi,$tru::unsetMarkActive)=@{ pop @tru::ActiveMark_name_Oi_unsetMarkActive }	restore context
+  clonemark	$from,$to
+      make a copy of mark $from into mark $to
+    debout "clonemark $from -> $to\n"
+    $tru::HMarks{$to}[0]++				setmark_count
+    $tru::HMarks{$to}[1] = 0				usemark_count
+    $tru::HMarks{$to}[2] = $tru::HMarks{$from}[2];	Oi
+1

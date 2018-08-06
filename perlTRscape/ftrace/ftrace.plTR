@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	4.0
 usage	ftrace [options] [ -- strace-options ] [ command [ args ] ]
 
 	trace a process (and it's childs) and produces a tree-view summary.
@@ -156,185 +156,184 @@ main
     ?	$c = $$p_stderr{bytecount}	"$c Bytes written to STDERR\n"
 END
   !	$opt_f	unlink($tracefile)
-summary	$pid
-  local $pidstr
-  ?	$opt_Pp	$pidstr = "$pid\t"	$pidstr = ""
-  local $indent = $indent+2
-  #"xxx:$pid:$Process{$pid}{Files}[0]{name}:$Process{$pid}{Files}[0]{flags}:$Process{$pid}{initialCwd}:\n"
-  @{$Process{$pid}{Files}} = grep { $$_{name}  !~ /$opt_i/ or $$_{flags} !~ /^O_/ } @{$Process{$pid}{Files}}
-  @{$Process{$pid}{Files}} = grep $$_{flags} !~ /O_RDONLY/ ,@{$Process{$pid}{Files}}
-  ?	$Process{$pid}{Files}[0]{flags} and $Process{$pid}{Files}[0]{flags} !~ /pseudo|exec|fork|attached|assumed/	print ($pidstr.(" "x($indent-2))."cloned\n")
-  F	(@{$Process{$pid}{Files}})
-    #"zzz:$pid $$_{name}:$$_{flags}\n"
-    ??	$$_{flags} =~ /	/
-      attached
-        print ($pidstr.(" "x$indent)."$$_{flags}\n") unless $opt_fno
-	summary($$_{name})
-      pseudo	summary($$_{name})
-      clone
-        #print ($pidstr.(" "x$indent)."$$_{flags} to $$_{name}\n") unless $opt_fno
-	summary($$_{name})
-      fork
-	?	$Process{$$_{name}}{Files}[1]{flags} !~ /^exec/ and ! $opt_fno
-	  print ($pidstr.(" "x($indent-2))."forked w/o execve\n")
-	summary($$_{name})
-      exec
-	$runtime = sprintf("%0.6f sec",$Process{$pid}{endts} - $$_{ts})
-        print ($pidstr.(" "x($indent-2))."$$_{name}\texec in $Process{$pid}{initialCwd} ($$_{binary}) ran $runtime, returned $Process{$pid}{errcode}\n") unless $opt_fno
+subs
+  summary	$pid
+    local $pidstr
+    ?	$opt_Pp	$pidstr = "$pid\t"	$pidstr = ""
+    local $indent = $indent+2
+    #"xxx:$pid:$Process{$pid}{Files}[0]{name}:$Process{$pid}{Files}[0]{flags}:$Process{$pid}{initialCwd}:\n"
+    @{$Process{$pid}{Files}} = grep { $$_{name}  !~ /$opt_i/ or $$_{flags} !~ /^O_/ } @{$Process{$pid}{Files}}
+    @{$Process{$pid}{Files}} = grep $$_{flags} !~ /O_RDONLY/ ,@{$Process{$pid}{Files}}
+    ?	$Process{$pid}{Files}[0]{flags} and $Process{$pid}{Files}[0]{flags} !~ /pseudo|exec|fork|attached|assumed/	print ($pidstr.(" "x($indent-2))."cloned\n")
+    F	(@{$Process{$pid}{Files}})
+      #"zzz:$pid $$_{name}:$$_{flags}\n"
+      ??	$$_{flags} =~ /	/
+	attached
+	  print ($pidstr.(" "x$indent)."$$_{flags}\n") unless $opt_fno
+	  summary($$_{name})
+	pseudo	summary($$_{name})
+	clone
+	  #print ($pidstr.(" "x$indent)."$$_{flags} to $$_{name}\n") unless $opt_fno
+	  summary($$_{name})
+	fork
+	  ?	$Process{$$_{name}}{Files}[1]{flags} !~ /^exec/ and ! $opt_fno
+	    print ($pidstr.(" "x($indent-2))."forked w/o execve\n")
+	  summary($$_{name})
+	exec
+	  $runtime = sprintf("%0.6f sec",$Process{$pid}{endts} - $$_{ts})
+	  print ($pidstr.(" "x($indent-2))."$$_{name}\texec in $Process{$pid}{initialCwd} ($$_{binary}) ran $runtime, returned $Process{$pid}{errcode}\n") unless $opt_fno
+	-
+	  ??	$$_{flags} =~ m"	"	iprint ($_,						)
+	    O_APPEND						1,"appended"
+	    O_CREAT|O_RDWR					1,"written"
+	    O_TRUNC						1,"overwritten with"
+	    chmod|removed|renamed|created|linked|assumed|touched	0,"$$_{flags}"
+	    #.							0,"unassigned $$_{flags} $$_{bytecount} Bytes"
+  iprint	$file,$typ,$str
+    local $fname = $$file{name}
+    ?	$typ
+      ?	$$_{bytecount}
+	$str.=" $$_{bytecount} Bytes in $$_{packetcount} packets"
       -
-	??	$$_{flags} =~ m"	"	iprint ($_,						)
-	  O_APPEND						1,"appended"
-	  O_CREAT|O_RDWR					1,"written"
-	  O_TRUNC						1,"overwritten with"
-	  chmod|removed|renamed|created|linked|assumed|touched	0,"$$_{flags}"
-	  #.							0,"unassigned $$_{flags} $$_{bytecount} Bytes"
-
-iprint	$file,$typ,$str
-  local $fname = $$file{name}
-  ?	$typ
-    ?	$$_{bytecount}
-      $str.=" $$_{bytecount} Bytes in $$_{packetcount} packets"
-    -
-      $str="touched"
-    ?	$opt_v	$str.=" ($$file{flags})"
-  print($pidstr.(" "x$indent)."$fname\t$str\n")
-pathCorrectat	$dirfd,*fname
-  ?	$dirfd eq "AT_FDCWD"	$refdir = $Process{$pid}{cwd}	$refdir = $Process{$pid}{Fd}{$dirfd}{name}
-  !	$fname =~ m:^/:		$fname = "$refdir/$fname"
-  W	$fname =~ s:/\.?/:/:g	# dir1/./dir2 -> dir1/dir2          dir1//dir2 -> dir/dir2
-  $fname =~ s:/\.$::
-noquote
-  local $a
-  W	$a = shift
-    ?	ref($a) eq "ARRAY"
-      F	(@$a)	noquote(\$_)
-    -
-      $count = ($$a =~ tr/ \t//)	count the whitespace
-      !	$count
-	$$a =~ s/.//
-	$$a =~ s/.$//
-
-xvfork
-    has no args
-  $Process{$retval}{initialCwd} = $Process{$retval}{cwd} = $Process{$pid}{cwd}
-  $Process{$retval}{Fd}  = $Process{$pid}{Fd}
-  push @{$Process{$pid}{Files}},{ name => $retval, flags => "fork"}
-xmkdir
-  local ($dir) = ($args =~ m/"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$dir)
-  push @{$Process{$pid}{Files}},{ name => $dir , flags => "directory created"}
-xrmdir
-  local ($dir) = ($args =~ m/"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$dir)
-  push @{$Process{$pid}{Files}},{ name => $dir , flags => "directory removed"}
-xexecve
-    args looks like
-      "/bin/cp", ["cp", "a.rc", "xx"], [/* 67 vars */]
-  $args =~ s:\], \[/\*.*::
-  $args =~ s:, \[:,:
-  ($binary,$command,$args) = split(/, */,$args,3)
-  #"pre  : $args\n"
-  noquote(\$binary,\$command)
-  $args=asplit($args)
-  #"post : $args\n"
-  push @{$Process{$pid}{Files}},{ name => "$command $args", flags => "exec" , binary => $binary , ts => $ts }
-asplit	$_
-    printf(asplit(q("a\"b", "kkkk", "ll ll", "m\6m", "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"..., "c'd")))
-      gives
-    "a\"b" kkkk "ll ll" "m\6m" "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"... "c'd"
-  s/"\.\.\./\x03"/g		"...       -> ^C"
-  s/.//				leading ...
-  s/.$//			... and trailing "
-  local @A = split /", "/
-  map	@A
-    ?	s/\x03$/".../	s/^/"/	
-    ?-	/[ '\\]/	$_ = qq("$_")
-  return "@A"
-xchmod
-    args look like
-      "vim", 0775
-  ($file,$newmode) = ($args =~ m/"(.*)", (\d+)/)
-  pathCorrectat("AT_FDCWD",\$file)
-  push @{$Process{$pid}{Files}},{ name => $file , flags => "chmod to $newmode"}
-xlinkat
-    args look like
-      AT_FDCWD, "from", AT_FDCWD, "to", 0
-    or
-      3, "from", AT_FDCWD, "to", 0
-  ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
-  push @{$Process{$pid}{Files}},{ name => $to , flags => "hardlinked to $from"}
-xsymlink
-  ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$to)
-  push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked to $from"}
-xlink
-  ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
-  push @{$Process{$pid}{Files}},{ name => $to , flags => "linked to $from"}
-xrename
-  ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
-  push @{$Process{$pid}{Files}},{ name => $to , flags => "renamed, was $from"}
-xfchdir
-  $Process{$pid}{cwd} = $Process{$pid}{Fd}{$args}{name}
-xchdir
-  local ($pwd) = ($args =~ m/"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$pwd)
-  $Process{$pid}{cwd} = $pwd
-xunlinkat
-    args look like
-      4, "filename", AT_REMOVEDIR
-      AT_FDCWD, "filename", AT_REMOVEDIR
-  ($dirfd,$fname) = ($args =~ /^(.*?), "(.*?)"/)
-  pathCorrectat($dirfd,\$fname)
-  push @{$Process{$pid}{Files}},{ name => $fname , flags => "removed"}
-xunlink
-  ($fname) = ($args =~ m/"(.*)"/)
-  pathCorrectat("AT_FDCWD",\$fname)
-  push @{$Process{$pid}{Files}},{ name => $fname , flags => "removed"}
-xopenat
-    args look like
-      4, "filename", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_DIRECTORY|O_NOFOLLOW
-      AT_FDCWD, "filename", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_DIRECTORY|O_NOFOLLOW
-  ($dirfd,$fname,$flags) = ($args =~ /^(.*?), "(.*?)", (.*)/)
-  pathCorrectat($dirfd,\$fname)
-  push @{$Process{$pid}{Files}},{ name => $fname , flags => $flags }
-  $Process{$pid}{Fd}{$retval} = ${$Process{$pid}{Files}}[-1]
-xopen
-  ($fname,$flags) = ($args =~ m/"(.*)", (.*)/)
-  pathCorrectat("AT_FDCWD",\$fname)
-  push @{$Process{$pid}{Files}},{ name => $fname , flags => $flags }
-  $Process{$pid}{Fd}{$retval} = ${$Process{$pid}{Files}}[-1]
-xwrite
-  ($channel) = ($args =~ m/(.*?),/)
-
-  ${$Process{$pid}{Fd}{$channel}}{bytecount}+=$retval
-  ${$Process{$pid}{Fd}{$channel}}{packetcount}++
-xdup
-  ($channel) = ($args =~ m/(.*?),/)
-  $Process{$pid}{Fd}{$retval}  = $Process{$pid}{Fd}{$channel}
-xdup2
-  xdup()
-xdup3
-  xdup()
-xfcntl64
-  xfcntl()
-xfcntl
-    only the F_DUPFD are of interest
-    args look like
-      3, F_DUPFD, 3
-  ?	($channel) = ($args =~ m/^(.*?), F_DUPFD/)
-    $Process{$pid}{Fd}{$retval}  = $Process{$pid}{Fd}{$channel}
-xclone
-    complete line looks like
-      8193  clone(child_stack=0, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7f4eb8dfa9d0) = 8194
-  $Process{$retval}{initialCwd} = $Process{$retval}{cwd} = $Process{$pid}{cwd}
-  $Process{$retval}{Fd}  = $Process{$pid}{Fd}
-  push @{$Process{$pid}{Files}},{ name => $retval, flags => "clone"}
-xutimensat
-    args look like
-      AT_FDCWD, "xxyy/", [{1486012099, 769375883}, {1485429745, 0}], 0
-  ?	($dirfd,$fname) = ($args =~ /^(.*?), "(.*?)"/)
+	$str="touched"
+      ?	$opt_v	$str.=" ($$file{flags})"
+    print($pidstr.(" "x$indent)."$fname\t$str\n")
+  pathCorrectat	$dirfd,*fname
+    ?	$dirfd eq "AT_FDCWD"	$refdir = $Process{$pid}{cwd}	$refdir = $Process{$pid}{Fd}{$dirfd}{name}
+    !	$fname =~ m:^/:		$fname = "$refdir/$fname"
+    W	$fname =~ s:/\.?/:/:g	# dir1/./dir2 -> dir1/dir2          dir1//dir2 -> dir/dir2
+    $fname =~ s:/\.$::
+  noquote
+    local $a
+    W	$a = shift
+      ?	ref($a) eq "ARRAY"
+	F	(@$a)	noquote(\$_)
+      -
+	$count = ($$a =~ tr/ \t//)	count the whitespace
+	!	$count
+	  $$a =~ s/.//
+	  $$a =~ s/.$//
+  xvfork
+      has no args
+    $Process{$retval}{initialCwd} = $Process{$retval}{cwd} = $Process{$pid}{cwd}
+    $Process{$retval}{Fd}  = $Process{$pid}{Fd}
+    push @{$Process{$pid}{Files}},{ name => $retval, flags => "fork"}
+  xmkdir
+    local ($dir) = ($args =~ m/"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$dir)
+    push @{$Process{$pid}{Files}},{ name => $dir , flags => "directory created"}
+  xrmdir
+    local ($dir) = ($args =~ m/"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$dir)
+    push @{$Process{$pid}{Files}},{ name => $dir , flags => "directory removed"}
+  xexecve
+      args looks like
+	"/bin/cp", ["cp", "a.rc", "xx"], [/* 67 vars */]
+    $args =~ s:\], \[/\*.*::
+    $args =~ s:, \[:,:
+    ($binary,$command,$args) = split(/, */,$args,3)
+    #"pre  : $args\n"
+    noquote(\$binary,\$command)
+    $args=asplit($args)
+    #"post : $args\n"
+    push @{$Process{$pid}{Files}},{ name => "$command $args", flags => "exec" , binary => $binary , ts => $ts }
+  asplit	$_
+      printf(asplit(q("a\"b", "kkkk", "ll ll", "m\6m", "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"..., "c'd")))
+	gives
+      "a\"b" kkkk "ll ll" "m\6m" "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"... "c'd"
+    s/"\.\.\./\x03"/g		"...       -> ^C"
+    s/.//				leading ...
+    s/.$//			... and trailing "
+    local @A = split /", "/
+    map	@A
+      ?	s/\x03$/".../	s/^/"/	
+      ?-	/[ '\\]/	$_ = qq("$_")
+    return "@A"
+  xchmod
+      args look like
+	"vim", 0775
+    ($file,$newmode) = ($args =~ m/"(.*)", (\d+)/)
+    pathCorrectat("AT_FDCWD",\$file)
+    push @{$Process{$pid}{Files}},{ name => $file , flags => "chmod to $newmode"}
+  xlinkat
+      args look like
+	AT_FDCWD, "from", AT_FDCWD, "to", 0
+      or
+	3, "from", AT_FDCWD, "to", 0
+    ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "hardlinked to $from"}
+  xsymlink
+    ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$to)
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked to $from"}
+  xlink
+    ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "linked to $from"}
+  xrename
+    ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "renamed, was $from"}
+  xfchdir
+    $Process{$pid}{cwd} = $Process{$pid}{Fd}{$args}{name}
+  xchdir
+    local ($pwd) = ($args =~ m/"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$pwd)
+    $Process{$pid}{cwd} = $pwd
+  xunlinkat
+      args look like
+	4, "filename", AT_REMOVEDIR
+	AT_FDCWD, "filename", AT_REMOVEDIR
+    ($dirfd,$fname) = ($args =~ /^(.*?), "(.*?)"/)
     pathCorrectat($dirfd,\$fname)
-    push @{$Process{$pid}{Files}},{ name => $fname , flags => "touched" }
+    push @{$Process{$pid}{Files}},{ name => $fname , flags => "removed"}
+  xunlink
+    ($fname) = ($args =~ m/"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$fname)
+    push @{$Process{$pid}{Files}},{ name => $fname , flags => "removed"}
+  xopenat
+      args look like
+	4, "filename", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_DIRECTORY|O_NOFOLLOW
+	AT_FDCWD, "filename", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_DIRECTORY|O_NOFOLLOW
+    ($dirfd,$fname,$flags) = ($args =~ /^(.*?), "(.*?)", (.*)/)
+    pathCorrectat($dirfd,\$fname)
+    push @{$Process{$pid}{Files}},{ name => $fname , flags => $flags }
+    $Process{$pid}{Fd}{$retval} = ${$Process{$pid}{Files}}[-1]
+  xopen
+    ($fname,$flags) = ($args =~ m/"(.*)", (.*)/)
+    pathCorrectat("AT_FDCWD",\$fname)
+    push @{$Process{$pid}{Files}},{ name => $fname , flags => $flags }
+    $Process{$pid}{Fd}{$retval} = ${$Process{$pid}{Files}}[-1]
+  xwrite
+    ($channel) = ($args =~ m/(.*?),/)
+
+    ${$Process{$pid}{Fd}{$channel}}{bytecount}+=$retval
+    ${$Process{$pid}{Fd}{$channel}}{packetcount}++
+  xdup
+    ($channel) = ($args =~ m/(.*?),/)
+    $Process{$pid}{Fd}{$retval}  = $Process{$pid}{Fd}{$channel}
+  xdup2
+    xdup()
+  xdup3
+    xdup()
+  xfcntl64
+    xfcntl()
+  xfcntl
+      only the F_DUPFD are of interest
+      args look like
+	3, F_DUPFD, 3
+    ?	($channel) = ($args =~ m/^(.*?), F_DUPFD/)
+      $Process{$pid}{Fd}{$retval}  = $Process{$pid}{Fd}{$channel}
+  xclone
+      complete line looks like
+	8193  clone(child_stack=0, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7f4eb8dfa9d0) = 8194
+    $Process{$retval}{initialCwd} = $Process{$retval}{cwd} = $Process{$pid}{cwd}
+    $Process{$retval}{Fd}  = $Process{$pid}{Fd}
+    push @{$Process{$pid}{Files}},{ name => $retval, flags => "clone"}
+  xutimensat
+      args look like
+	AT_FDCWD, "xxyy/", [{1486012099, 769375883}, {1485429745, 0}], 0
+    ?	($dirfd,$fname) = ($args =~ /^(.*?), "(.*?)"/)
+      pathCorrectat($dirfd,\$fname)
+      push @{$Process{$pid}{Files}},{ name => $fname , flags => "touched" }

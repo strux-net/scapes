@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	LLfs [<file>]
 	opens a powerful directory-browser (fail-save).
 
@@ -9,6 +9,5 @@ usage	LLfs [<file>]
 	You must have vim7 (or later) installed.
 	Note:
 	  LL does the same but uses your .vimrc and plugins (and may fail for this reason).
-main
-  vim -N -u ~/strux/.vimrc +'perl LL("'"$@"'")' +only
+vim -N -u ~/strux/.vimrc +'perl LL("'"$@"'")' +only
 

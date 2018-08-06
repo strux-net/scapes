@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on CycleSyn.vimTR , version : 3.0
+" based on CycleSyn.vimTR , version : 4.0
 "usage for CycleSyn.vim
 "	cycle through different syntax-highlighting settings.
 "
@@ -44,8 +44,6 @@ if !hasmapto(":<c-u>call CycleSyn()<CR>",'n')
   " <leader>cs       -> Cycle through off white indent tabify filetype
   nmap <leader>cs :<c-u>call CycleSyn()<CR>
 endif
-let s:SynC=1
-syn on
 function!CycleSyn() 
   if v:count
     let s:SynC = v:count
@@ -76,3 +74,6 @@ function!CycleSyn()
     let s:SynC=1
   endif
 endfunc
+"	main
+  let s:SynC=1
+  syn on

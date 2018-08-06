@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 USAGE	java_tru [Options] [<file> ....]
 
 	produces a java-file
@@ -1047,7 +1047,9 @@ group
 	  autodoc								=g
 	  usage	shortdesc							=	usage
 		usageline	*						>>t*
-	  main									=g
+	  main									=o	main
+	    autodoc								=g
+	    Option								=g
 	  static								=	static
 	  abstractfunction	[args]		throws				>o0		[^{}]*\babstract\b.+	.+	throws .+
 	    autodoc								=g

@@ -9,7 +9,7 @@ package XPE;
 # or you may loose all your changes and probably choose the wrong method.
 # goto http://www.strux.net to find more information.
 #
-# based on XPE.plTR , version : 3.0a
+# based on XPE.plTR , version : 4.0
 #****************************************
 # This file holds perl-functions used by LL.dirsettings
 # 

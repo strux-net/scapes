@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on findShorterIndent.vimTR , version : 3.0
+" based on findShorterIndent.vimTR , version : 4.0
 "usage for findShorterIndent.vim
 "	skips the cursor (in the given direction) according to indents.
 "	if the cursor is on an empty line

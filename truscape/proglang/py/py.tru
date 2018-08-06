@@ -1,0 +1,654 @@
+VERSION	4.0
+USAGE	py_tru [Options] [<file> ....]
+
+	produces a python file
+
+	find details in
+	    ~/strux/doc/py_tru.html
+	or if you do not have the strux-tools installed
+	    http://www.strux.net/strux_zip/strux/doc/py_tru.html
+
+
+	per convention the input files have the extension .pyTR
+BEGIN
+  $cc = "#";	# Comment Character specific to this language - not used do to languageType="c"
+  $plang = "py";
+  $true = "True";
+actions
+  VERSION	version
+    continued
+      the version is just put as a comment into the output-file and otherwise ignored.
+      Example :	py_tru -noIntro
+	VERSION	2.0
+	def foo
+	  'hello world'
+    >
+	# based on $ARGV , version : $version
+  DOC
+    A pyton script
+      Example :	py_tru
+	defs
+	  foo	s
+	    "Hello "+s
+	    return 1
+	  bar	x
+	    pass
+	a = foo("World")
+    >
+      #->introcomment
+      setmark("mark_scriptTop");
+      setmark("mark_usagecall");
+      setmark("mark_options");
+  usageline
+    continued
+    >
+      $level=1;
+	$rindent$_
+  usage	shortdesc
+    continued
+    >
+      atmark("mark_usagecall") {
+	  # tbd
+      }
+	#
+	# emit a usage to stderr and exit with code 1
+	#
+	def usage():
+	  print("""\\
+	usage : $shortdesc
+    <
+      setmark("mark_usage");
+      setmark("mark_optiontext");
+	  """)
+  Option	comment
+    continued
+      py_tru makes use of argparse
+      the import statement for the argparse-module is supplied automatically
+      The following is guaranteed
+	  The usual -- can be used to stop option-processing.
+          The form -f=file is also supported.
+          argparse is prepared to accept any number of non-option arguments
+            this is consistent with the other proglang truers
+
+      -x results in the var opt.x
+        If -x takes no argument then the value of opt.x is
+	    0		if the option is not given
+	    1		if the option is given once
+	    n		the number 
+        If -x takes an argument then the value of opt.x is
+	    default		if option is not given. default can be empty.
+	    argument	the one given to the option.
+      -name-with-dashes results in opt.var_with_dashes
+
+      Example :	py_tru -noIntro
+	usage	calculatePrettyNumber [options]
+		this program calculates the prettiest numbers.
+		it skips
+			10	like always
+			42	for obvious reasons
+	Option
+	  a	all
+		calculate all numbers (including the not so pretty)
+	  f:file[/tmp/x]	infile
+	    "file is %s\n", opt.f
+	  t:number[8]		how many spaces are a tab
+	"-a : ",opt.a
+	"-f : ",opt.f
+	"-t : ",opt.t
+    >
+      atmark("mark_scriptTop") {
+	import argparse
+      }
+	parser = argparse.ArgumentParser()
+	parser.add_argument('____argv', nargs='*') # always allow for any number of non-option arguments
+    <
+	opt = parser.parse_args()
+	argv=opt.____argv
+      setmark("mark_optionStatements");
+
+  opt:type[default]	shortdesc	statement
+    continued
+      For the default the following holds:
+        If it looks like a number (it matches /^\d+(\.\d+$)?/) is is a number
+          the resulting opt.opt will be of type int
+        Else it is a string (surrounding quotes are optional)
+          the resulting opt.opt will be of type string
+      If the default is empty then "" is used as assginment to opt.opt
+    >
+      unless ($numopt=($default =~ /^\d+(\.\d+$)?$/)) {
+        $default =~ s/^"?(.+)"?$/"$1"/;
+      }
+      $default = '""' unless ($default);
+      $offset-=2;
+	# $shortdesc
+      if ($numopt)
+	parser.add_argument("-$opt",default=$default,help="$shortdesc",type=int)
+      else
+	parser.add_argument("-$opt",default=$default,help="$shortdesc")
+      atmark("mark_optiontext") {
+       if ($default eq "")
+	  \t-$opt:$type\t$shortdesc
+       else
+	  \t-$opt:$type\[$default\]\t$shortdesc
+      }
+      usemark("mark_optionStatements");
+	if opt.$opt != $default:
+      stmt($statement);
+    -
+	  pass
+    <
+      unusemark();
+      $offset+=2;
+  opt	shortdesc	statement
+    continued
+    >
+      $offset-=2;
+      atmark("mark_optiontext") {
+	\t-$opt\t$shortdesc
+      }
+	parser.add_argument("-$opt",action='store_true',help="$shortdesc")
+      usemark("mark_optionStatements");
+	if opt.$opt:
+      stmt($statement);
+    -
+	  pass
+    <
+      unusemark();
+      $offset+=2;
+  Optiondescription
+    continued
+    >
+      $indent = " "x($level-9);
+      $level=3;
+      atmark("mark_optiontext") {
+	\t\t$indent$_
+      }
+  jdoc
+    continued
+    >
+      $jdocu=" $jdocu" if $jdocu;
+      $offset+=2;
+	"""$jdocu
+    <
+	"""
+      $offset-=2;
+  jdocu
+    continued
+      an empty line means : new paragraph
+    >
+	@{[" "x($relindent)]}$_
+  For	cond	stmt
+    l	e1	e2	e3
+    continued
+      see also |pyFor|
+
+      python has no for-loop of the form
+         for (i=0;i<10;i++)
+      py_tru mimics this kind of loop with the same semantics as the corresponding loop in c or perl has.
+      Example :	py_tru -noIntro
+	F	i=1;i<4;i=i+1
+	  'i inside loop : ' i
+	'i after loop : ' i
+      Note :
+        i++ and alike is not supported by python.
+        Use i=i+1 or i+=1instead.
+    >
+      ($e1,$e2,$e3) = $cond =~/(.*);(.*);(.*)/;
+	# for ($cond)
+      $offset-=2;
+	$e1
+      $offset+=2;
+	while True:
+      if ($e2) {
+	  if not($e2):
+	    break
+      }
+      stmt($stmt);
+    <
+	  $e3
+  fancyFor	expr	statement
+    continued
+      see also |For|
+      see also |pyFor|
+      Example :	py_tru -noIntro
+	F	i=10...20	bar(i)
+    >	CLEAR
+      local ($start,$end) = $expr =~ /(.*)\.\.\.(.*)/;
+      $start =~ s/([^ ]+) *=//;
+      local $var = $1;
+      >>pyFor	F	$var in range($start,$end)	$statement
+  pyFor	cond	stmt
+    A for loop for iterators
+      Parameters :
+        fancyFor	indicator	.*
+        expr	mandatory	.+	the expression
+        stmt	optional	.+	the statement
+
+      see also |For|
+      see also |fancyFor|
+    continued
+      Example :	py_tru -noIntro
+	F	i in string
+	  bar(i)
+	doc	same as above
+	F	i in string	bar(i)
+    >
+	for $cond:
+      stmt($stmt);
+  W	cond	stmt
+    continued
+    >
+	while $cond:
+      stmt($stmt);
+  U	cond	stmt
+    continued
+    >
+	while True:
+      stmt($stmt);
+    <
+	  if $cond:
+	    break
+  S	expr	comment
+    l	switchcount	casecount
+    continued
+      python natively has no switch/break.
+      py_tru mimics it with if-statements.
+      The comparison between expression and case is done via == (thus matching case).
+      The case does not need to be a constant. It can be any expression.
+      The expression is evaluated only once and can be any type.
+      Example :	py_tru -noIntro
+	S	i
+	  'a'		'One'
+	  'b'		'two'
+	    S	j
+	      'A'	'eins'
+	      'B'	'zwei'
+	      default	'sau viel'
+	  'c'		'three'
+	  default	'something else'
+    >
+      $switchcount = ++$gswitchcount;
+	pytruS$switchcount=$expr
+	while True:
+    <
+	  break
+      $no_break = 0;
+  default	statement	comment
+    l	noBreak
+    continued
+    >
+      $offset-=2;
+      stmt($statement);
+    <
+      $offset+=2;
+  case	statement	comment
+    l	noBreak
+    continued
+    >
+      if ($S ne "S*" and !$no_break or $rnr == 1)
+	if pytruS$switchcount == $case:
+      else
+	if (pytruS$switchcount == $case) or pytruS${switchcount}_c == $casecount:
+      $no_break=0;
+      stmt($statement);
+      $casecount++;
+    <
+      if ($S ne "S*" and !$noBreak)  {
+	  break
+      } else {
+	  pytruS${switchcount}_c = $casecount
+      }
+  nobreak
+    continued
+    >
+      $no_break = $noBreak=1;
+  enum	name
+    continued
+    >
+      $enumcount=0;
+	class $name :
+  enumline	comment
+    continued
+    >
+	$enumline = $enumcount
+      $enumcount++;
+  negate	cond
+    internal
+    >
+      $cond = "not ($cond)";
+  simple_if	cond
+    internal
+    >
+	if $cond:
+  simple_else
+    internal
+    >
+	else:
+  simple_elseif	cond
+    internal
+    >
+	elif $cond:
+  try	statement
+    continued
+      Example :	py_tru -noIntro
+	def divide	x, y
+	    simple example from the python docu
+	  try
+	      result = x / y
+	    ZeroDivisionError
+	      "division by zero!"
+	    -
+	      'result is', result
+	    finally
+	      "executing finally clause"
+    >
+	try:
+      stmt($statement);
+      $offset-=2;
+    <
+      $offset+=2;
+  catch	statement
+    continued
+    >
+	except $catch:
+      stmt($statement);
+  finally	statement
+    continued
+    >
+	finally:
+      stmt($statement);
+  else in try	statement
+    An else statement in a try/catch block
+      Parameters :
+        else in try	indicator	.+	the continuation line
+        statement	optional	.+	a statement
+      Example :
+	see	try
+    >
+	else:
+      stmt($statement);
+  statement	comment
+    continued
+      If the statement begins with a string then it is subject to output and results in:
+	print(statement);
+
+      Example :	py_tru -noIntro
+	"this string will be printed"
+	'this string will be printed"
+	a=b		this a normal statement with a comment
+	c=1+		this is a multiline statement
+	  2+
+	  3+
+	    a*
+	    b
+    -
+      if ($statement =~ /^['"]/) {
+	print($statement)$comment
+      } else {
+       $parent = $tru::actions[-2][1];
+       if ($NrOfChilds and $parent ne "For")
+	$statement\\
+       else
+	$statement$comment
+      }
+    <
+       if ($NrOfChilds)
+        |
+  statementContinuation	comment
+    the continuation of a native statement
+      Parameters :
+        statementContinuation	mandatory	.+	the continuation line
+        comment	optional			.+	a comment
+      Example :
+        see	statement
+    -
+	$statementContinuation\\
+  vars
+    continued
+      Example :	py_tru -noIntro
+	vars
+	  count = 1		count the items
+	  sizes = [..]		in different units
+	    1			inch
+	    2.54		cm
+	  o = {..}
+	    p1	v1		property p1 has value v1
+	    p2	v2		property p2 has value v2
+	  int i = 0
+    >
+      $offset=$offset-2;
+    <
+      $offset=$offset+2;
+  var	comment
+    continued
+    >
+      $comment = "\t$cc $comment" if $comment ne "";
+	$var$comment
+  defs
+    introduces a block of function definitions
+      Parameters :
+        defs	indicator	.*
+      Example :
+        see	def
+    >
+      $offset-=2;
+    -
+      $offset+=2;
+  def	args
+    a function definition inside defs
+      Parameters :
+        def		mandatory	.+	the function name
+        args		optional	.+	the args of the functin
+
+      Example :	py_tru -noIntro
+	defs
+	  foo
+	    "bar"
+	  square	x
+	    return x*x
+	  motor_step
+	    x+=1
+    >
+	def $def($args):
+      setmark("mark_autodoc");
+  def name	args
+    a function definition
+      Parameters :
+        def		mandatory	.+	the function name
+        args		optional	.+	the args of the functin
+
+      Example :	py_tru -noIntro
+	def  foo
+	  "bar"
+	def square	x
+	  return x*x
+	def motor_step
+	  x+=1
+    >
+      $F[0] =~ s/def (.*)//;
+      $name = $1;
+	def $name($args):
+      setmark("mark_autodoc");
+  class	baseclass
+    a class
+      Parameters :
+	class	mandatory		.+	the class decrlaring expression rsp. statement
+	baseclass	optional	.+	the name of the base class
+
+      Example :	py_tru -noIntro
+	class Board
+	  defs
+	    __init__	self
+	      pass
+	    coll	self
+	      pass
+	class Chesspoard	Board
+	  vars
+	    a=[..]
+	      1
+	      2
+	  pass
+    >
+      if ($baseclass)
+	$class($baseclass):
+      else
+	$class:
+  wantCompound	c_or_i		comment2
+    an object, an Array or a argument-list follows
+
+      It comes in two forms
+        Form 1) for outside of an dictionaries
+      Parameters :
+        wantCompound		mandatory	.*[\{\[\(]\.\.[\)\]\}]	a line containing {..} or [..] or (..)
+        c_or_i				optional	.+			a comment
+        comment2			unused		unused			unused
+
+      2) for inside an dictionaries
+      Parameters :
+        wantCompound		mandatory	.*			a property-name
+        c_or_i				mandatory	[\{\[\(]\.\.[\)\]\}]	one of {..} or [..] or (..)
+        comment2			optional	.+			a comment
+
+      Note : if you need to have a string like (..) passed unchanged include ##PURE## in the comment
+
+      Example :	py_tru -noIntro
+	def foo
+	  s = "(..)"		this is not treated by wantCompound because of the ##PURE## in here
+	  a = {..}			here comes an dictionaries
+	    answer	42		you know why
+	    p3		[..]		dictionaries can contain lists
+	      'joo'
+	      'nee'
+	      {..}		lists can contain dictionaries
+		k1	'Right'
+		k2	'Left'
+	      [..]		lists can contain lists
+		'green'
+		'blue'
+	      (..)		and tuples
+		"green"
+		"red"
+	  myDraw = Drawing([{..}])
+	    x	"red"
+	    y	"green"
+	  controller=foo("nice",..)
+	    ctx
+	    bad
+    l	closer
+    >
+      unless ($wantCompound =~ s/\.\.([\}\]\)].*)//) {
+        $wantCompound = "$wantCompound : $c_or_i";
+        $comment = $comment2;
+        $wantCompound =~ s/\.\.([\}\]\)].*)//;
+        $closer = $1;
+      } else {
+        $comment = $c_or_i;
+        $closer = $1;
+      }
+      $comment = "\t$cc $comment" if $comment ne "";
+	$wantCompound$comment
+    <
+      $parent = $tru::actions[-2][1];
+      $post = '';
+      $post = ',' if  $parent eq "wantCompound";
+      $post = ''  if $parent eq "wantCompound" and $isLast or $parent eq "statement";
+	$closer$post
+  listelem	comment
+    an element of a array variable
+      Parameters :
+        listelem	mandatory	.+	the element
+        comment		optional	.+	a comment for this element
+      Example :	py_tru -noIntro
+	a = [..]
+	  'one'
+	  'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      if ($isLast)
+	$listelem$comment
+      else
+	$listelem,$comment
+  property	value	comment
+    a property and its value
+      Parameters :
+        property	mandatory	.+	the property
+        value		mandatory	.+	the value of the property
+        comment	optional		.+	a comment
+      Example :	py_tru -noIntro
+	a = {..}
+	  uno	'one'
+	  duo	'two'
+    -
+      $comment = "\t$cc $comment" if $comment ne "";
+      $terminator = $isLast ? '' : ',';
+	$property : $value$terminator$comment
+  ending in :
+    a line that is copied unchanged.
+      Acccepts a new block
+      Parameters :
+        ending in :	mandatory	.+:	the line to be copied
+      Example :	py_tru -noIntro
+	if a:
+	  FOREVER	foo()
+	def foo:
+	  return [..]
+	    1
+	    10
+    >
+	$F[0]
+hooks
+  mark_optiontext
+    [
+      $level=1;
+	OPTIONS:
+group
+  ListOrTuple
+	wantTuple			[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantList			[comment]				= wantCompound($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantTuple			[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantDictionary		[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\}/
+	  listelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2continue
+	wantList			[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantList			[comment]				= wantCompound($F[1] !~ "##PURE##")		/\.\.\]/
+	  wantTuple			[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\)/
+	  wantDictionary		[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\}/
+	  listelem			[comment]				>0		.+
+	   continuation			[comment]				>>* 2continue
+	wantDictionary			[comment]				>2 wantCompound($F[1] !~ "##PURE##")		/\.\.\}/
+	  wantDictionary	{..}	[comment]				= wantCompound($F[1] !~ "##PURE##")		.+		/\{\.\.\}/
+	  wantList	[..]		[comment]				= wantCompound($F[1] !~ "##PURE##")		.+		/\[\.\.\]/
+	  wantTuple	(..)		[comment]				= wantCompound($F[1] !~ "##PURE##")		.+		/\(\.\.\)/
+	  property	value		[comment]				=
+  py
+	comment	*								=2		#.*
+	F	cond	[stmt]							>2 pyFor	F
+	Option	[comment]						=	Option
+	  opt:type[default]	shortdesc	[stmt]				=o	.+:.+(?:\[.*\])?
+	      Optiondescription	*					=t*
+	  opt			shortdesc	[stmt]				=o
+	      Optiondescription	*					=t*
+	native code								=2		py code<?
+	  nativeCodeLine	*						>>t*
+	vars									>2		vars
+	  enum		name							>2		enum
+	  ListOrTuple								=g
+	  var			[comment]					>0
+	ending in :								>2		.*:
+	defs									>o2		defs
+	  def	[args]								=o
+	    autodoc								=g
+	def name	[args]							>o2		def .*
+	  autodoc								=g
+	class	[baseclass]							>o2		/\bclass(\s+\w+)?$/	.+
+	try			[statement]					>2		try
+	  [block]								=o		block
+	    []
+	  finally	[statement]						=		finally
+	  -	[statement]							= else in try		-
+# make the catch a bit weeker, still fix the pos
+# this allows comments on the same level
+	  catch	[statement]							>0		.+
+	ListOrTuple								=g
+	enum		name							>2		enum
+	  enumline		[comment]					>0

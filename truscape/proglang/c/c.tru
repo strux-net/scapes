@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 USAGE	c_tru [Options] [<file> ....]
 
 	produces a c-file
@@ -685,4 +685,9 @@ group
 	using	[usingline]							=		using
 	  usingline	[comment]
 	memberfunction	[args]	basecall					=o		.+::.+
+	  autodoc								=g
+	main									=o	main
+	  autodoc								=g
+	  Option								=g
+	function	[args]	additions					=o	.+
 	  autodoc								=g

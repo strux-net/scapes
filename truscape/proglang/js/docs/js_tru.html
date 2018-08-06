@@ -17,6 +17,7 @@
     <desc>    perl_tru	for perl</desc><br/>
     <desc>    sh_tru	for shell</desc><br/>
     <desc>    vim_tru	for vim</desc><br/>
+    <desc>    py_tru	for python</desc><br/>
     <desc>They all share the same syntax-idea.</desc><br/>
     <desc>Some Options can be set to modify the output.</desc><br/>
     <div align="right"><filename>jscoll.tru</filename></div>
@@ -29,10 +30,10 @@
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>var a = foo(&quot;World&quot;);
+<a title = "Indent : 0"></a>var a = foo(&quot;World&quot;)
 <a title = "Indent : 0"></a>function foo<ping><a title="here is a Tab">	</a>s</ping>
 <a title = "Indent : 2">  </a>&quot;Hello &quot;+s
-<a title = "Indent : 2">  </a>return 1;
+<a title = "Indent : 2">  </a>return 1
 </listing>
     <br/>
     <part>gives :</part>
@@ -1159,8 +1160,8 @@ OPTIONS:
 <a title = "Indent : 4">    </a>&lsquo;a final ; is NOT given automatically&lsquo; ;<ping><a title="here is a Tab">	</a>do NOT forget the ; for c, js, java, perl</ping>
 
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>depending on the language statements starting with a string are treated as autoprint</ping>
-<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js</ping>
-<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim</ping>
+<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js, py</ping>
+<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim, py</ping>
 </listing>
     <br/>
     <part>gives :</part>
@@ -1190,8 +1191,8 @@ OPTIONS:
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>// depending on the language statements starting with a string are treated as autoprint
 <a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>log(&quot;a double quoted string&quot;);                   // sh, c, perl , java, js
-<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;;                        // vim
+<a title = "Indent : 2">  </a>log(&quot;a double quoted string&quot;);                   // sh, c, perl , java, js, py
+<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;;                        // vim, py
 <a title = "Indent : 0"></a>}
 </listing>
     <br/>
@@ -1201,67 +1202,6 @@ OPTIONS:
     <desc>  does not end in one of these 5 characters =,;[(</desc><br/>
     <desc>  and there are no deeper lines</desc><br/>
     <desc>  </desc><br/>
-    <desc>This auto-appending of ; can (in rare cases) have undesired side-effects.</desc><br/>
-    <part>Example :</part>
-    <howToRead>[
-      <a href="howtoread/Example.html" title="how to read the Example">help</a>
-    ]</howToRead>
-    <xcommand>[
-      <a title="js_tru -noIntro">cmd</a>
-    ]</xcommand>
-    <br/><br/>
-    <listing class="Example">
-<a title = "Indent : 0"></a>function foo<ping><a title="here is a Tab">	</a>describes the code-block</ping>
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>example for undesired effect</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, {<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>the { opens a new CODE block</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;<ping><a title="here is a Tab">	</a>this looks like a one-line-statement, so append a ;</ping>
-<a title = "Indent : 2">  </a>});
-
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>workarounds for undesired effect</ping>
-
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>method 1 : make the block an &lsquo;object&lsquo; - block</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head<ping><a title="here is a Tab">	</a>append a comment, now { is no longer the very last character</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>we are in no block at all, so this simply contiues the previous line</ping>
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>method 2 : put a , at the end of the last element</ping>
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head<ping><a title="here is a Tab">	</a>append a comment, now { is no longer the very last character</ping>
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;,<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>we are in no block at all, so this simply contiues the previous line</ping>
-<a title = "Indent : 2">  </a>});
-
-</listing>
-    <br/>
-    <part>gives :</part>
-    <howToRead>[
-      <a href="howtoread/gives.html" title="how to read the gives">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <listing class="gives">
-
-<a title = "Indent : 0"></a>function foo(describes the code-block) {
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// example for undesired effect
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, {                        // the { opens a new CODE block
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;;                   // this looks like a one-line-statement, so append a ;
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// workarounds for undesired effect
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// method 1 : make the block an &lsquo;object&lsquo; - block
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;                    // we are in no block at all, so this simply contiues the previous line
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>// method 2 : put a , at the end of the last element
-<a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>response.writeHead(200, { // standard head       // append a comment, now { is no longer the very last character
-<a title = "Indent : 4">    </a>&lsquo;Content-Type&lsquo;: &lsquo;text/html&lsquo;,                   // we are in no block at all, so this simply contiues the previous line
-<a title = "Indent : 2">  </a>});
-<a title = "Indent : 0"></a>}
-</listing>
-    <br/>
     <desc>To NOT automatically append ; to one-line-statements at all use option -noAutoSemicolon.</desc><br/>
     <div align="right"><filename>js.tru</filename></div>
     <desc>If the statement begins with a string then it is subject to output and results in:</desc><br/>
@@ -1337,10 +1277,12 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>function foo
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping>
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i &gt; 10</ping>
 <a title = "Indent : 4">    </a>bar(i)
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 4">    </a>i+=1
 </listing>
     <br/>
     <part>gives :</part>
@@ -1353,13 +1295,15 @@ OPTIONS:
 <a title = "Indent : 0"></a>function foo() {
 <a title = "Indent : 2">  </a>do {
 <a title = "Indent : 4">    </a>bar(i);
-<a title = "Indent : 2">  </a>} while (!(i++ &gt; 10));
+<a title = "Indent : 4">    </a>i+=1;
+<a title = "Indent : 2">  </a>} while (!(i &gt; 10));
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>// same as above
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>do {
 <a title = "Indent : 4">    </a>bar(i);
-<a title = "Indent : 2">  </a>} while (!(i++ &gt; 10));
+<a title = "Indent : 4">    </a>i+=1;
+<a title = "Indent : 2">  </a>} while (!(i &gt; 10));
 <a title = "Indent : 0"></a>}
 </listing>
     <br/>
@@ -1407,10 +1351,12 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>function foo
-<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
+<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i&lt;10</ping>
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i++ &lt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i &lt; 10</ping><pong><a title="here is a Tab">	</a>i+=1</pong>
+<a title = "Indent : 4">    </a>bar(i)
 </listing>
     <br/>
     <part>gives :</part>
@@ -1421,13 +1367,15 @@ OPTIONS:
     <listing class="gives">
 
 <a title = "Indent : 0"></a>function foo() {
-<a title = "Indent : 2">  </a>while (i+&lt;10) {
+<a title = "Indent : 2">  </a>while (i&lt;10) {
+<a title = "Indent : 4">    </a>i+=1;
 <a title = "Indent : 4">    </a>bar(i);
 <a title = "Indent : 2">  </a>}
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>// same as above
 <a title = "Indent : 2">  </a>//****************************************
-<a title = "Indent : 2">  </a>while (i++ &lt; 10) {
+<a title = "Indent : 2">  </a>while (i &lt; 10) {
+<a title = "Indent : 4">    </a>i+=1;
 <a title = "Indent : 4">    </a>bar(i);
 <a title = "Indent : 2">  </a>}
 <a title = "Indent : 0"></a>}
@@ -1796,7 +1744,6 @@ OPTIONS:
       <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment</td></tr>
     </table>
     <br/>
-    <desc>It must be the last statement in the case.</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -3472,7 +3419,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>a more realistic example (in perl)</ping>
-<a title = "Indent : 0"></a>function foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>if ($size &gt; (</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a> )) { return int($size/(</pong><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)).&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;;}</pong>
 <a title = "Indent : 24">                        </a>1024*1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>TB</pong>
 <a title = "Indent : 24">                        </a>1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>GB</pong>
@@ -3490,7 +3437,7 @@ OPTIONS:
 <a title = "Indent : 0"></a># a more realistic example (in perl)
 <a title = "Indent : 0"></a>#****************************************
 
-<a title = "Indent : 0"></a>sub function foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 0"></a>{
 <a title = "Indent : 2">  </a>if ($size &gt; (1024*1024*1024 )) { return int($size/(1024*1024*1024)).&quot;TB&quot;;}
 <a title = "Indent : 2">  </a>if ($size &gt; (1024*1024 )) { return int($size/(1024*1024)).&quot;GB&quot;;}
@@ -4087,7 +4034,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>main
+<a title = "Indent : 0"></a>function foo
 <a title = "Indent : 2">  </a>stmt1
 
 <a title = "Indent : 2">  </a>stmt2
@@ -4099,10 +4046,11 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>main
-<a title = "Indent : 2">  </a>stmt1
 
-<a title = "Indent : 2">  </a>stmt2
+<a title = "Indent : 0"></a>function foo() {
+<a title = "Indent : 2">  </a>stmt1;
+<a title = "Indent : 2">  </a>stmt2;
+<a title = "Indent : 0"></a>}
 </listing>
     <br/>
     <a name="A_T"></a>
@@ -4191,8 +4139,8 @@ OPTIONS:
 <a title = "Indent : 6">      </a>void foo
 <a title = "Indent : 8">        </a>T1\<ping><a title="here is a Tab">	</a>#1#Button.setText(&quot;#2#&quot;);</ping><pong><a title="here is a Tab">	</a>#1#.setMnemonic(KeyEvent.VK_#3#);</pong>
 <a title = "Indent : 10">          </a>button<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Text</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Hot-Key</pong>
-<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
-<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
+<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
+<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
 <a title = "Indent : 10">          </a>refresh<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Refresh</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>R</pong>
 <a title = "Indent : 10">          </a>details<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Details</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>D</pong>
 <a title = "Indent : 10">          </a>newEntry<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>New Entry</ping><pong><a title="here is a Tab">	</a>N</pong>
@@ -4780,7 +4728,7 @@ OPTIONS:
     <desc></desc><br/>
     <desc>The strategies are applied to the plan, which is formed by the block of lines.</desc><br/>
     <desc>  The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.</desc><br/>
-    <desc>  repeating the plan is done by refeeding it to the truer</desc><br/>
+    <desc>  repeating the plan is done by refeeding it to the truer (this may make debugging a bit harder)</desc><br/>
     <desc>  depending on the flag &lt;</desc><br/>
     <desc>    flag given		the block is shifted two spaces to the left.</desc><br/>
     <desc>    flag not given	the block is refed without fussing with the indent of the lines</desc><br/>
@@ -4802,13 +4750,13 @@ OPTIONS:
 <a title = "Indent : 0"></a>function foo1
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 3 repetitions of the block, each with another op, the plan has no name</ping>
 <a title = "Indent : 2">  </a>P!<ping><a title="here is a Tab">	</a>s/op/&gt;/g</ping><pong><a title="here is a Tab">	</a>s/op/&lt;/g</pong><ping><a title="here is a Tab">	</a>s/op/==/g</ping>
-<a title = "Indent : 4">    </a>// running tests for op
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>running tests for op</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>test1() op test2()</ping><pong><a title="here is a Tab">	</a>handleTests(&quot;op&quot;)</pong>
 
 <a title = "Indent : 0"></a>function foo2
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 2 repetitions of the block, the first is unchanged</ping>
 <a title = "Indent : 2">  </a>P!example with untouched block<ping><a title="here is a Tab">	</a>;</ping><pong><a title="here is a Tab">	</a>s/green/red/g</pong>
-<a title = "Indent : 4">    </a>// when the lights are green
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>when the lights are green</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>light == &quot;green&quot;</ping><pong><a title="here is a Tab">	</a>greenseen++</pong>
 
 </listing>
@@ -4829,17 +4777,23 @@ OPTIONS:
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>// start of plan 
 <a title = "Indent : 2">  </a>// plan &quot;&quot;, strategy &quot;s/op/&gt;/g&quot;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// running tests for &gt;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>if (test1() &gt; test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;&gt;&quot;);
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a>// plan &quot;&quot;, strategy &quot;s/op/&lt;/g&quot;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// running tests for &lt;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>if (test1() &lt; test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;&lt;&quot;);
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a>// plan &quot;&quot;, strategy &quot;s/op/==/g&quot;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// running tests for ==
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>if (test1() == test2()) {
 <a title = "Indent : 6">      </a>handleTests(&quot;==&quot;);
 <a title = "Indent : 4">    </a>}
@@ -4851,12 +4805,16 @@ OPTIONS:
 <a title = "Indent : 2">  </a>//****************************************
 <a title = "Indent : 2">  </a>// start of plan example with untouched block
 <a title = "Indent : 2">  </a>// plan &quot;example with untouched block&quot;, strategy &quot;;&quot;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// when the lights are green
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>if (light == &quot;green&quot;) {
 <a title = "Indent : 6">      </a>greenseen++;
 <a title = "Indent : 4">    </a>}
 <a title = "Indent : 2">  </a>// plan &quot;example with untouched block&quot;, strategy &quot;s/green/red/g&quot;
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>// when the lights are red
+<a title = "Indent : 4">    </a>//****************************************
 <a title = "Indent : 4">    </a>if (light == &quot;red&quot;) {
 <a title = "Indent : 6">      </a>redseen++;
 <a title = "Indent : 4">    </a>}

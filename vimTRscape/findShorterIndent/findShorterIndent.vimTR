@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 usage	findShorterIndent.vim
 	skips the cursor (in the given direction) according to indents.
 	if the cursor is on an empty line
@@ -21,54 +21,55 @@ onoremap? <silent>
 vnoremap? <silent>
   <Up>		:call PrevShorterIndent()<CR>m'gv``	search Up   in visual mode
   <Down>	:call NextShorterIndent()<CR>m'gv``	search Down in visual mode
-PrevShorterIndent	 	range
-  line=line(".")
-  doc	if cursorline is empty skip to previous nonempty line
-  ?	getline(line) == ""
-    W	line > 0 && getline(line) == ""	line=line-1
-    exe line			go to new position
-    return
-  currentIndent=indent(line)	indent of line on which the cursor is
-  doc	skip back over block of lines of same indent
-  blockSkipped=0
-  W	line > 1 && indent(line-1) == currentIndent && getline(line-1) != ""
-    line=line-1
-    blockSkipped=1
-  ?	!blockSkipped && !indent(line) && line > 1
-    line=line-1
-    W	line > 1 && (indent(line) || getline(line) == "")	line=line-1
-    exe line			go to new position
-    return
-  exe line			go to (possibly) new position
-  W	line > 0
-    ?	indent(line) < currentIndent && getline(line) != ""
+functions!
+  PrevShorterIndent	 	range
+    line=line(".")
+    doc	if cursorline is empty skip to previous nonempty line
+    ?	getline(line) == ""
+      W	line > 0 && getline(line) == ""	line=line-1
       exe line			go to new position
       return
-    line=line-1
-  'No smaller indent before this line'
-NextShorterIndent	 	range
-  line=line(".")
-  lastline=line("$")		line number of last line in the buffer
-  doc	if cursorline is empty skip to next nonempty line
-  ?	getline(line) == ""
-    W	line < lastline && getline(line) == ""	line=line+1
-    exe line			go to new position
-    return
-  currentIndent=indent(line)	indent of line on which the cursor is
-  doc	skip forward over block of lines of same indent
-  blockSkipped=0
-  W	line < lastline && indent(line+1) == currentIndent && getline(line+1) != ""
-    line=line+1
-    blockSkipped=1
-  ?	!blockSkipped && !indent(line) && line < lastline
-    line=line+1
-    W	line < lastline && (indent(line) || getline(line) == "")	line=line+1
-    exe line			go to new position
-    return
-  exe line			go to (possibly) new position
-  W	line <= lastline
-    ?	indent(line) < currentIndent && getline(line) != ""
+    currentIndent=indent(line)	indent of line on which the cursor is
+    doc	skip back over block of lines of same indent
+    blockSkipped=0
+    W	line > 1 && indent(line-1) == currentIndent && getline(line-1) != ""
+      line=line-1
+      blockSkipped=1
+    ?	!blockSkipped && !indent(line) && line > 1
+      line=line-1
+      W	line > 1 && (indent(line) || getline(line) == "")	line=line-1
       exe line			go to new position
       return
-    line=line+1
-  'No smaller indent after this line'
+    exe line			go to (possibly) new position
+    W	line > 0
+      ?	indent(line) < currentIndent && getline(line) != ""
+	exe line			go to new position
+	return
+      line=line-1
+    'No smaller indent before this line'
+  NextShorterIndent	 	range
+    line=line(".")
+    lastline=line("$")		line number of last line in the buffer
+    doc	if cursorline is empty skip to next nonempty line
+    ?	getline(line) == ""
+      W	line < lastline && getline(line) == ""	line=line+1
+      exe line			go to new position
+      return
+    currentIndent=indent(line)	indent of line on which the cursor is
+    doc	skip forward over block of lines of same indent
+    blockSkipped=0
+    W	line < lastline && indent(line+1) == currentIndent && getline(line+1) != ""
+      line=line+1
+      blockSkipped=1
+    ?	!blockSkipped && !indent(line) && line < lastline
+      line=line+1
+      W	line < lastline && (indent(line) || getline(line) == "")	line=line+1
+      exe line			go to new position
+      return
+    exe line			go to (possibly) new position
+    W	line <= lastline
+      ?	indent(line) < currentIndent && getline(line) != ""
+	exe line			go to new position
+	return
+      line=line+1
+    'No smaller indent after this line'

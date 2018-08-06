@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	4.0
 usage	QuickView
 	Quick-View vim-commands.
 
@@ -20,79 +20,79 @@ usage	QuickView
 Interface
   <leader>Qv	&Strux.&QuickView.Quickview&All		quick view for vars and options of all windows		:call QuickViewAll()<CR>
   <leader>qv	&Strux.&QuickView.&Quickview		quick view for vars and options of current winow	:call QuickView()<CR>
-QuickViewAll
-    toggle the QuickView of all windows
-  ?	QvDirMissing()	return
-  n=winnr()
-  windo call QuickView()
-  exe n . "wincmd w"
-  redraw!
-QuickView
-    toggle the QuickView of current window
-  ?	QvDirMissing()	return
-  ?	exists('b:isQuickView')
-    doc	switch back to original file
-    exe "bu ".b:isQuickView
-    bw #
-  -
-    doc	switch to qv-file
-    bufnr   = bufnr("%")
-    bufname = expand("%")
-    qvFile = s:qvDir."/".bufnr
-    silent call ShowSettings(qvFile)
-    exe "n ".qvFile	use :n, not :e so that a new buffer number is assigned (even if buffer is [No Name] and empty)
-    set ft=		do not inherit the filetype
-    let &l:stl='Quickview for : '.bufname
-    b:isQuickView = bufnr
-ShowSettings	qvFile
-    call this function with 'silent' to suppress unwanted output
-  exe "redir! > ".a:qvFile
-  call QvSettings()
-  redir END
-QvDirMissing
-  ?	s:qvDirState == 0
-    s:qvDir  = tempname()
-    !	isdirectory(s:qvDir)	silent! call mkdir(s:qvDir,"p",0700)
-    !	isdirectory(s:qvDir)
-      echohl WarningMsg
-      'directory '.s:qvDir.' does not exist.'
-      echohl None
-      'I already tried to create this directory without success'
-      'Solution : '
-      '  create the directory yourself with permissions set so that the current user can read and write it'
-      'Find more help with :help QuickView'
-      s:qvDirState = 1
-      return 1	error
+functions!
+  QuickViewAll
+      toggle the QuickView of all windows
+    ?	QvDirMissing()	return
+    n=winnr()
+    windo call QuickView()
+    exe n . "wincmd w"
+    redraw!
+  QuickView
+      toggle the QuickView of current window
+    ?	QvDirMissing()	return
+    ?	exists('b:isQuickView')
+      doc	switch back to original file
+      exe "bu ".b:isQuickView
+      bw #
     -
-      s:qvDirState = 2
+      doc	switch to qv-file
+      bufnr   = bufnr("%")
+      bufname = expand("%")
+      qvFile = s:qvDir."/".bufnr
+      silent call ShowSettings(qvFile)
+      exe "n ".qvFile	use :n, not :e so that a new buffer number is assigned (even if buffer is [No Name] and empty)
+      set ft=		do not inherit the filetype
+      let &l:stl='Quickview for : '.bufname
+      b:isQuickView = bufnr
+  ShowSettings	qvFile
+      call this function with 'silent' to suppress unwanted output
+    exe "redir! > ".a:qvFile
+    call QvSettings()
+    redir END
+  QvDirMissing
+    ?	s:qvDirState == 0
+      s:qvDir  = tempname()
+      !	isdirectory(s:qvDir)	silent! call mkdir(s:qvDir,"p",0700)
+      !	isdirectory(s:qvDir)
+	echohl WarningMsg
+	'directory '.s:qvDir.' does not exist.'
+	echohl None
+	'I already tried to create this directory without success'
+	'Solution : '
+	'  create the directory yourself with permissions set so that the current user can read and write it'
+	'Find more help with :help QuickView'
+	s:qvDirState = 1
+	return 1	error
+      -
+	s:qvDirState = 2
+	return 0	good
+    ?-	s:qvDirState == 1	return 1
+    -
       return 0	good
-  ?-	s:qvDirState == 1	return 1
-  -
-    return 0	good
-QvSettings
-    the results of the commands given here are shown in the Qv-View
-  'buffer-local mappings'
-  map <buffer>
-  ''
-  'buffer-local settings'
-  setlocal
-  ''
-  'buffer-local variables'
-  let b:
-main
-    try to source users QvSettings.vim
+  QvSettings
+      the results of the commands given here are shown in the Qv-View
+    'buffer-local mappings'
+    map <buffer>
+    ''
+    'buffer-local settings'
+    setlocal
+    ''
+    'buffer-local variables'
+    let b:
+  QvDirCleanUp
+      a unix-vim does not remove a temp-file if it is a directory.
+      Here I try to remove it with OS-tools.
+
+      I'm not sure how vim behaves on other OSes.
+      So the following coding may need some additions.
+      e. G under Windows you may do something like
+	exe '!rmdir /S /Q '.s:n
+
+      No big harm should occur anyway if the files remain.
+    ?	s:qvDirState == 2
+      ?	has('unix')	exe '!rm -r '.s:qvDir
+o	try to source users QvSettings.vim
   s:qvDirState = 0	0 : not yet created,  1 : created w/o success, 2: successfully created
   ru QvSettings.vim	users can override QvSettings by providing their own function
   autocmd VimLeavePre * call QvDirCleanUp()
-QvDirCleanUp
-    a unix-vim does not remove a temp-file if it is a directory.
-    Here I try to remove it with OS-tools.
-
-    I'm not sure how vim behaves on other OSes.
-    So the following coding may need some additions.
-    e. G under Windows you may do something like
-      exe '!rmdir /S /Q '.s:n
-
-    No big harm should occur anyway if the files remain.
-  ?	s:qvDirState == 2
-    ?	has('unix')	exe '!rm -r '.s:qvDir

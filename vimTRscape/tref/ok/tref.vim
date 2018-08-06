@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on tref.vimTR , version : 3.0
+" based on tref.vimTR , version : 4.0
 "usage for tref
 "	this plugin provides the mapping \tr for opening a context-view for the current line.
 "

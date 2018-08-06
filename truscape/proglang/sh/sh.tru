@@ -1,4 +1,4 @@
-VERSION	3.0b
+VERSION	4.0
 USAGE	sh_tru [Options] [<file> ....]
 
 	produces a shell-script
@@ -20,26 +20,10 @@ actions
     continued
       the version is put as a comment into the output-file.
 
-      If the script has a main function
-        option -version is introduced into your script.
-
-        If the script is invoked like
-          script -version
-        then all version information is printed to stdout and the script exits with code 0.
-
       Example :	sh_tru -noIntro
 	VERSION	0.1
-	main
-	  "hello world\n"
+	"hello world\n"
 
-      If the script has no main function
-        the version is ignored.
-
-        sh_tru will issue a message like
-	  sh_tru : some text was never output (due to unset marks) when processing filename
-	    For mark $mark_version
-		      echo "  filename	0.9\n";
-	you can easily ignore this message.
     >
 	# based on $ARGV , version : $version
       atmark("mark_version")
@@ -48,44 +32,19 @@ actions
     A shell-script
       The created code is a sh-script (most suitable for bash)
       Example :	sh_tru
-	main
-	  "running"
+	"running"
       The automatic generation of the sharpBang-line can be supressed with -noSharpBang
 
       Limitations :
         Do not use names beginning with shtru for your variables.
-    -
+    >
       unless ($opt_noSharpBang) {
 	#!/bin/bash
       }
       ->introcomment
+      setmark("mark_version");
+      setmark("mark_usage_def");
       setmark("mark_options");
-      if ($VERSION) {
-       atmark("mark_usage") {
-	  -version\tshow version information
-       }
-	if [ "\$1" = "-version" ] ; then
-	  echo "Version :"
-       setmark("mark_version");
-	  exit 0
-	fi
-      }
-    <
-      if ($main)
-	main "\$@"
-  main
-    the main function
-      Parameters :
-        main	indicator	.*
-      The main function differs from other functions in that a call to that function is created at the end of the script.
-      Example :	sh_tru -noIntro -noSharpBang
-	main
-	  "Hello World"
-	foo
-	  "bar"
-    >
-      >>function	main
-      setmark("mark_usagecall");
   function	args
     function
       Parameters :
@@ -99,7 +58,11 @@ actions
     >
       setmark("mark_autodoc");
       local $i  = 0;
+      if ($function =~ /^function/) {
 	$function()
+      } else {
+	function $function()
+      }
 	{
       for (split / *, */,$args) {
        $i++;
@@ -267,42 +230,41 @@ actions
       Example :	sh_tru -noIntro -noSharpBang
 	usage	magic [options] filename ....
 		reads all files and applies magic on them
-	main
-	  Option
-	    V			emit the Version and exit
-	      "Version 1.0.0.0.42"
-	      exit
-	    v			run verbose
-		repeat -v for a higher verbose level
-	    w			produce warning
-		repeat -w for a higher warning level
-	    f:file[/tmp/x]	ofile	"using $opt_f for output"
-	    F:file[]		ifile
+	Option
+	  V			emit the Version and exit
+	    "Version 1.0.0.0.42"
+	    exit
+	  v			run verbose
+	    repeat -v for a higher verbose level
+	  w			produce warning
+	    repeat -w for a higher warning level
+	  f:file[/tmp/x]	ofile	"using $opt_f for output"
+	  F:file[]		ifile
 
-	  doc	some vars are guaranteed to be defined
-	  "-v : $opt_v"	0,1,2...
-	  "-w : $opt_w"	0,1,2...
-	  "-f : $opt_f"	/tmp/x or a given filename
-	  "-F : $opt_F"	empty  or a given filename
-	  "-V : $opt_V"	0,1,2... (though due to the exit above we never reach here)
+	doc	some vars are guaranteed to be defined
+	"-v : $opt_v"	0,1,2...
+	"-w : $opt_w"	0,1,2...
+	"-f : $opt_f"	/tmp/x or a given filename
+	"-F : $opt_F"	empty  or a given filename
+	"-V : $opt_V"	0,1,2... (though due to the exit above we never reach here)
 
-	  "remaining args : $@"
+	"remaining args : $@"
 
-	  doc	Examples for testing an option
-	  ?	((opt_v))		"-v given $opt_v"
-	  ?	(( opt_v == 2 ))	"-v given $opt_v"
-	  ?	(( $opt_v ))		"-v given $opt_v"
-	  ?	[ $opt_v != 0 ]		"-v given $opt_v"
-	  ?	[ $opt_v -gt 0 ]	"-v given $opt_v"
-	  ?	[ $opt_v = 1 ]		"-v given $opt_v"
-	  ?	[ $opt_v = 2 ]		"-v given $opt_v"
-	  ?	[ $opt_v == 2 ]		"-v given $opt_v"
+	doc	Examples for testing an option
+	?	((opt_v))		"-v given $opt_v"
+	?	(( opt_v == 2 ))	"-v given $opt_v"
+	?	(( $opt_v ))		"-v given $opt_v"
+	?	[ $opt_v != 0 ]		"-v given $opt_v"
+	?	[ $opt_v -gt 0 ]	"-v given $opt_v"
+	?	[ $opt_v = 1 ]		"-v given $opt_v"
+	?	[ $opt_v = 2 ]		"-v given $opt_v"
+	?	[ $opt_v == 2 ]		"-v given $opt_v"
 
-	  ?	[ -z opt_f ]		"-f not given"
+	?	[ -z opt_f ]		"-f not given"
 
-	  ??	(( opt_	))
-	    v	"running verbose"
-	    w	"warnings enabled"
+	??	(( opt_	))
+	  v	"running verbose"
+	  w	"warnings enabled"
     -
 	while getopts '@GetOpt' opt ; do @{[do{"\t# " if "$comment"}]}$comment
 	  # Checking the options
@@ -358,21 +320,21 @@ actions
   usage	shortdesc
     continued
     >
-      atmark("mark_usagecall") {
-	  if [ \$# -eq 1 -a "\$1" = '-?' ] ; then
-	    usage
-	  fi
-      }
+      usemark("mark_usage_def");
        |
 	usage()
 	{
 	  cat <<'EOU' >&2
 	usage : $shortdesc
-    <
       setmark("mark_usage");
+    <
 	EOU
 	  exit 1
 	}
+	if [ \$# -eq 1 -a "\$1" = '-?' ] ; then
+	  usage
+	fi
+      unusemark();
   secured
     starting a secured section
       Parameters :
@@ -478,16 +440,15 @@ actions
   vars
     continued
       Example :	sh_tru -noIntro -noSharpBang
-	main
-	  vars
-	    count = 1		count the items
-	    Sizes		in different units
-	      1			inch
-	      2.54		cm
-	    j			uninitialized
-	    i = 0
-	  F	j=0...${#Sizes[@]}
-	    echo "item $j is ${Sizes[j]}"
+	vars
+	  count = 1		count the items
+	  Sizes		in different units
+	    1			inch
+	    2.54		cm
+	  j			uninitialized
+	  i = 0
+	F	j=0...${#Sizes[@]}
+	  echo "item $j is ${Sizes[j]}"
     >
       if ($vars eq "vars") {
         $vars = "";
@@ -514,14 +475,13 @@ actions
       The expression is evaluated only once.
       Expression and case must be comparable with == .
       Example :	sh_tru -noIntro -noSharpBang
-	main
-	  i=2
-	  S	$i
-	    1		"one"
-	    2		"two"
-	    3		"three"
-	    default	"something else"
-	      more_code_for_default()
+	i=2
+	S	$i
+	  1		"one"
+	  2		"two"
+	  3		"three"
+	  default	"something else"
+	    more_code_for_default()
 
     >
       $switchcount = ++$gswitchcount;
@@ -561,6 +521,30 @@ actions
 	  shtruS${switchcount}_c=$casecount
       }
 	fi
+  functions
+    introduces a block of function definitions
+      Parameters :
+        functions	indicator	.*
+      Example :
+        see	function
+    >
+      $offset-=2;
+    -
+      $offset+=2;
+hooks
+  mark_usage
+    [
+        local $level = 0;
+	OPTIONS:
+  mark_version
+    [
+	if [ "\$1" = "-version" ] ; then
+	  echo "Version :"
+      atmark("mark_usage")
+	  -version\tshow version information
+    ]
+	  exit 0
+	fi
 group
   sh
 	comment	*								=2	#.*
@@ -577,8 +561,9 @@ group
 	  continueLine		[comment]					>
 	secured									>2	secured
 	F				expr	[stmt]				>2 For	F		(?!.*\.\.\.).+
-hooks
-  mark_usage
-    [
-        local $level = 0;
-	OPTIONS:
+	functions								=	functions
+	  function	[args]							=o
+	    autodoc								=g
+	function	[args]							=o	/^function /
+	  autodoc								=g
+	Option									=g

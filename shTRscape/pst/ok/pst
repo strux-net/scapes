@@ -7,34 +7,30 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  pst.shTR	3.0"
+  echo "  pst.shTR	4.0"
   exit 0
 fi
-# based on pst.shTR , version : 3.0
 
 usage()
 {
   cat <<'EOU' >&2
 usage : pst [<pattern>]
+OPTIONS:
+  -version	show version information
 Opens an interactive process-tree with many features.
 
 It requires that you have vim and the pstree-plugin installed.
-OPTIONS:
-  -version	show version information
 EOU
   exit 1
 }
-main()
-{
-  if [ $# -eq 1 -a "$1" = '-?' ] ; then
-    usage
-  fi
-  if [ $# -eq 0 ] ; then
-    vim -N +'syn on' /strux/pstree
-  elif [ $# -eq 1 ] ; then
-    vim -N +/$1 +'normal n' +'syn on' /strux/pstree
-  else
-    usage
-  fi
-}
-main "$@"
+if [ $# -eq 1 -a "$1" = '-?' ] ; then
+  usage
+fi
+# based on pst.shTR , version : 4.0
+if [ $# -eq 0 ] ; then
+  vim -N +'syn on' /strux/pstree
+elif [ $# -eq 1 ] ; then
+  vim -N +/$1 +'normal n' +'syn on' /strux/pstree
+else
+  usage
+fi

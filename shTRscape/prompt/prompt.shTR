@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 doc	Copyright
   This file is in the public domain.
   Use it at your won risk.
@@ -63,111 +63,111 @@ doc	README
 	some background-jobs are still present, or
 	the directory-stack is not empty
 
-global code
-  doc	get some suitable values for userstandout and normal
-	userstandout	color for the username
-	normal		switch back to white on black
-    these values are overwritten later if you're lucky
-  ?	[ "$LOGNAME" = "root" -o "$USER" = "root" ]	userstandout=`tput rev 2>/dev/null`	userstandout=`tput bold 2>/dev/null`
-  normal=`tput rmso 2>/dev/null`
-  doc	Best prompt with bash 2 or better or zsh
-  ?	[ "$BASH_VERSINFO" -ge 2 -o "$ZSH_NAME" = "zsh" ]
-    doc	xterm and it's clones know how to use colors
-    ?	[[ "$TERM" == xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]]
+doc	get some suitable values for userstandout and normal
+      userstandout	color for the username
+      normal		switch back to white on black
+  these values are overwritten later if you're lucky
+?	[ "$LOGNAME" = "root" -o "$USER" = "root" ]	userstandout=`tput rev 2>/dev/null`	userstandout=`tput bold 2>/dev/null`
+normal=`tput rmso 2>/dev/null`
+doc	Best prompt with bash 2 or better or zsh
+?	[ "$BASH_VERSINFO" -ge 2 -o "$ZSH_NAME" = "zsh" ]
+  doc	xterm and it's clones know how to use colors
+  ?	[[ "$TERM" == xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]]
 
-      M	 	=$'\e[		m'
-        normal		0
-        Inverse		7
-        White		1;37
-        Light_Gray	0;37
-        Gray		1;30
-        Black		0;30
-        Red		0;31
-        Light_Red	1;31
-        Green		0;32
-        Light_Green	1;32
-        Brown		0;33
-        Yellow		1;33
-        Blue		0;34
-        Light_Blue	1;34
-        Purple		0;35
-        Pink		1;35
-        Cyan		0;36
-        Light_Cyan	1;36
+    M	 	=$'\e[		m'
+      normal		0
+      Inverse		7
+      White		1;37
+      Light_Gray	0;37
+      Gray		1;30
+      Black		0;30
+      Red		0;31
+      Light_Red	1;31
+      Green		0;32
+      Light_Green	1;32
+      Brown		0;33
+      Yellow		1;33
+      Blue		0;34
+      Light_Blue	1;34
+      Purple		0;35
+      Pink		1;35
+      Cyan		0;36
+      Light_Cyan	1;36
 
-        UL_White	1;37
-        UL_Light_Gray	0;37
-        UL_Gray		1;30
-        UL_Black	4;30
-        UL_Red		4;31
-        UL_Light_Red	1;31
-        UL_Green	4;32
-        UL_Light_Green	1;32
-        UL_Brown	4;33
-        UL_Yellow	1;33
-        UL_Blue		4;34
-        UL_Light_Blue	1;34
-        UL_Purple	4;35
-        UL_Pink		1;35
-        UL_Cyan		4;36
-        UL_Light_Cyan	1;36
+      UL_White	1;37
+      UL_Light_Gray	0;37
+      UL_Gray		1;30
+      UL_Black	4;30
+      UL_Red		4;31
+      UL_Light_Red	1;31
+      UL_Green	4;32
+      UL_Light_Green	1;32
+      UL_Brown	4;33
+      UL_Yellow	1;33
+      UL_Blue		4;34
+      UL_Light_Blue	1;34
+      UL_Purple	4;35
+      UL_Pink		1;35
+      UL_Cyan		4;36
+      UL_Light_Cyan	1;36
 
-      I_Red=$Red$Inverse
-      doc	the color for the host depends on whether we're on localhost ore remote
-        This fact is detected by the presence of $HOSTDISPLAY which is set on localhost and unset if we are here via ssh
-      ?	[ -z "$HOSTDISPLAY" ]	hoststandout=$Blue	hoststandout=$Brown
+    I_Red=$Red$Inverse
+    doc	the color for the host depends on whether we're on localhost ore remote
+      This fact is detected by the presence of $HOSTDISPLAY which is set on localhost and unset if we are here via ssh
+    ?	[ -z "$HOSTDISPLAY" ]	hoststandout=$Blue	hoststandout=$Brown
 
-      doc	the color for the user depends on whether it's root or not
-      ?	[ $UID = 0 ]	userstandout=$Red	userstandout=$Green
-      doc	now comes the prompt
-      ?	[ "$ZSH_NAME" = "zsh" ]
-	setopt promptsubst PROMPT_PERCENT
-	PS1=$'%{$userstandout%}%n$Light_Gray@$hoststandout%m$Light_Gray %l \$(coldir_zsh)\%~$Light_Gray %! $Brown%*$Light_Gray %{$jobcount%}%j \$(errcode)%{$normal%}\n'
-      -
-	PS1="\[$userstandout\]\u$Light_Gray@$hoststandout\h$Light_Gray \l \$(coldir_bash)\w$Light_Gray \#/\! $Brown\t$Light_Gray \$(jobcount_bash)\j \$(errcode)\[$normal\]\n"
-	doc	set the checking for disabling ^D
-	PROMPT_COMMAND=job_test_bash
+    doc	the color for the user depends on whether it's root or not
+    ?	[ $UID = 0 ]	userstandout=$Red	userstandout=$Green
+    doc	now comes the prompt
+    ?	[ "$ZSH_NAME" = "zsh" ]
+      setopt promptsubst PROMPT_PERCENT
+      PS1=$'%{$userstandout%}%n$Light_Gray@$hoststandout%m$Light_Gray %l \$(coldir_zsh)\%~$Light_Gray %! $Brown%*$Light_Gray %{$jobcount%}%j \$(errcode)%{$normal%}\n'
     -
-      doc	we have no xterm, so we must use conservative settings
-      PS1="\[$userstandout\]\u@\h(\l)[\w] - \#/\! \t \j \$(errcode)\[$normal\]\n"
+      PS1="\[$userstandout\]\u$Light_Gray@$hoststandout\h$Light_Gray \l \$(coldir_bash)\w$Light_Gray \#/\! $Brown\t$Light_Gray \$(jobcount_bash)\j \$(errcode)\[$normal\]\n"
+      doc	set the checking for disabling ^D
+      PROMPT_COMMAND=job_test_bash
   -
-    doc	we have a too old or unsupported shell, we are conservative
-    USER=`id -un`
-    TTY=$(basename `tty`)
-    PS1='$userstandout$USER@\h($TTY)[\w] - \#/\! $?$normal\n'
+    doc	we have no xterm, so we must use conservative settings
+    PS1="\[$userstandout\]\u@\h(\l)[\w] - \#/\! \t \j \$(errcode)\[$normal\]\n"
+-
+  doc	we have a too old or unsupported shell, we are conservative
+  USER=`id -un`
+  TTY=$(basename `tty`)
+  PS1='$userstandout$USER@\h($TTY)[\w] - \#/\! $?$normal\n'
 
-coldir_zsh
-  local olderrcode=$?
-  ?	[ ! -e "$PWD" ]			echo -e $I_Red
-  ?-	[ -w "$PWD" ]
-    ?	[ $#dirstack -eq 0 ]	echo -e $Green	echo -e $UL_Green
-  -
-    ?	[ $#dirstack -eq 0 ]	echo -e $Red	echo -e $UL_Red
-  return $olderrcode
-coldir_bash
-  local olderrcode=$?
-  ?	[ ! -e "$PWD" ]			echo -e $I_Red
-  ?-	[ -w "$PWD" ]
-    ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Green	echo -e $UL_Green
-  -
-    ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Red	echo -e $UL_Red
-  return $olderrcode
-jobcount_zsh
-  ?	[ -n "$jobstates" ]	echo -e "$Blue"
-jobcount_bash
-  local olderrcode=$?
-  ?	[ ! -z "`jobs -p`" ]	echo -e "$Blue"
-  return $olderrcode
-errcode
-  local olderrcode=$?
-  ?	[ $olderrcode = "0" ]	echo -n "OK"	echo -ne "$I_Red $olderrcode "
-job_test_bash
-  ?	[ -z "$(jobs -p)" -a ${#DIRSTACK[*]} -eq 1 ]	IGNOREEOF=0	IGNOREEOF=999999
+functions
+  coldir_zsh
+    local olderrcode=$?
+    ?	[ ! -e "$PWD" ]			echo -e $I_Red
+    ?-	[ -w "$PWD" ]
+      ?	[ $#dirstack -eq 0 ]	echo -e $Green	echo -e $UL_Green
+    -
+      ?	[ $#dirstack -eq 0 ]	echo -e $Red	echo -e $UL_Red
+    return $olderrcode
+  coldir_bash
+    local olderrcode=$?
+    ?	[ ! -e "$PWD" ]			echo -e $I_Red
+    ?-	[ -w "$PWD" ]
+      ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Green	echo -e $UL_Green
+    -
+      ?	[ ${#DIRSTACK[*]} -eq 1 ]	echo -e $Red	echo -e $UL_Red
+    return $olderrcode
+  jobcount_zsh
+    ?	[ -n "$jobstates" ]	echo -e "$Blue"
+  jobcount_bash
+    local olderrcode=$?
+    ?	[ ! -z "`jobs -p`" ]	echo -e "$Blue"
+    return $olderrcode
+  errcode
+    local olderrcode=$?
+    ?	[ $olderrcode = "0" ]	echo -n "OK"	echo -ne "$I_Red $olderrcode "
+  job_test_bash
+    ?	[ -z "$(jobs -p)" -a ${#DIRSTACK[*]} -eq 1 ]	IGNOREEOF=0	IGNOREEOF=999999
 
 
 doc	only for zsh  (bash will happily just do nothing with it)
 #precmd() { [ $#jobtexts != 0 ] && jobcount=$Blue || jobcount="" ; }
-precmd
+function precmd
   ?	[ $#jobtexts != 0 ]
     jobcount=$Blue
   -

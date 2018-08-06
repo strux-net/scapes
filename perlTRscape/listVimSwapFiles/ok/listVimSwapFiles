@@ -15,7 +15,7 @@ sub getSWPinfo($$);
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on listVimSwapFiles.plTR , version : 3.0
+# based on listVimSwapFiles.plTR , version : 4.0
 #****************************************
 # can be compiled into a standalone perl-script or into a vim-plugin (using perl_tru --vimPlug)
 #****************************************
@@ -83,7 +83,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  listVimSwapFiles.plTR	3.0\n";
+    print "  listVimSwapFiles.plTR	4.0\n";
     exit 0
   }
   open(STDOUT,"|tabify.pl");                       # no harm if this fails, output will just not be tabified

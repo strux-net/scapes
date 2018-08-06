@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on pstree.vimTR , version : 3.0
+" based on pstree.vimTR , version : 4.0
 "usage for pstree.vim
 "	investigate the pstree.
 "	some of the commands only work on debian-based systems.
@@ -37,7 +37,6 @@
 "	  If there is no pid right of the cursor, the pid left of the cursor is used
 "	a	LL of /proc/<pid>
 "	  for the pid under the cursor start LL in /proc/<pid>
-"
 "
 "---------------------------------------------
 function <sid>Help_n2f73747275782f707374726565_1()
@@ -86,8 +85,73 @@ function <sid>Help_n2f73747275782f707374726565_6()
   echohl None
   echo ''
   echo 'for the pid under the cursor start LL in /proc/<pid>'
-  echo ''
 endfunction
+" the interface
+" InterfaceOFF for /strux/pstree
+function!InterfaceOFF_2f73747275782f707374726565()
+  if exists("b:Interface_2f73747275782f707374726565_MapsDone")
+    nunmenu &Strux.&pstree.&refresh<tab>r
+    nunmenu &Strux.&pstree.&next<tab>P
+    nunmenu &Strux.&pstree.next\ &and\ info<tab>p
+    nunmenu &Strux.&pstree.&kill<tab>K
+    nunmenu &Strux.&pstree.&info<tab>i
+    nunmenu &Strux.&pstree.&LL<tab>a
+    unlet b:Interface_2f73747275782f707374726565_MapsDone
+  endif
+endf
+function!<sid>Help_n2f73747275782f707374726565()
+  echo '1	r	Refresh view'
+  echo '2	P	Goto next pid'
+  echo '3	p	Search next Pid and show info'
+  echo '4	K	Kill this process'
+  echo '5	i	Info about this pid'
+  echo '6	a	LL of /proc/<pid>'
+  if exists('<SID>Help()')
+    call <SID>Help()
+  endif
+  while 1 == 1
+    echo '' | " due to a bug in vim. Else the prompt will get partly overwritten
+    call inputsave()
+    let ans=input("Type Nr of Item for more help on this item, or just press ENTER : ")
+    call inputrestore()
+    let ans='<sid>Help_n2f73747275782f707374726565_'.ans
+    if exists('*'.ans)
+      echo "\r"
+      exe 'call '.ans.'()'
+    else
+      break
+    endif
+  endwhile
+endf
+" InterfaceON for /strux/pstree
+function!InterfaceON_2f73747275782f707374726565()
+  if !exists("b:Interface_2f73747275782f707374726565_MapsDone")
+    nnoremap <buffer> <F1> :<C-U>call <sid>Help_n2f73747275782f707374726565()<CR>
+    nnoremenu &Strux.&pstree.&refresh<tab>r :call Pstree()<CR>
+    nnoremenu &Strux.&pstree.&next<tab>P :call NextPid()<CR>
+    nnoremenu &Strux.&pstree.next\ &and\ info<tab>p :call NextPid()<CR>:call PsInfo()<CR>
+    nnoremenu &Strux.&pstree.&kill<tab>K f)%l:!kill -9 <C-R><C-W><Home><Right><Right><Right><Right><Right><Right><Right><Right>
+    nnoremenu &Strux.&pstree.&info<tab>i :call PsInfo()<CR>
+    nnoremenu &Strux.&pstree.&LL<tab>a :call PsLL()<CR>
+    nnoremap <buffer> <silent> r :call Pstree()<CR>
+    nnoremap <buffer> <silent> P :call NextPid()<CR>
+    nnoremap <buffer> <silent> p :call NextPid()<CR>:call PsInfo()<CR>
+    nnoremap <buffer> K :call <sid>Help_n2f73747275782f707374726565_4()<cr>f)%l:!kill -9 <C-R><C-W><Home><Right><Right><Right><Right><Right><Right><Right><Right>
+    nnoremap <buffer> <silent> i :call PsInfo()<CR>
+    nnoremap <buffer> <silent> a :call PsLL()<CR>
+    augroup g2f73747275782f707374726565
+      au! BufLeave <buffer>
+      au BufLeave <buffer> call InterfaceOFF_2f73747275782f707374726565()
+    augroup END
+    let b:Interface_2f73747275782f707374726565_MapsDone=1
+    if !exists("b:_2f73747275782f707374726565_HintGiven")
+      unsilent echo 'special mappings from pstree.vimTR available. Press <F1> for a list'
+    endif
+    let b:_2f73747275782f707374726565_HintGiven=1
+  endif
+endf
+" Hooking the Interfaces for /strux/pstree
+au BufEnter /strux/pstree call InterfaceON_2f73747275782f707374726565()
 au BufEnter /strux/pstree call PsInit()
 function!PsInfo_pid() 
   :put =s:currpid
@@ -254,72 +318,6 @@ function!PsInfo()
   wincmd p
   let &switchbuf=switchbuf
 endfunc
-" the interface
-" InterfaceOFF for /strux/pstree
-function!InterfaceOFF_2f73747275782f707374726565()
-  if exists("b:Interface_2f73747275782f707374726565_MapsDone")
-    nunmenu &Strux.&pstree.&refresh<tab>r
-    nunmenu &Strux.&pstree.&next<tab>P
-    nunmenu &Strux.&pstree.next\ &and\ info<tab>p
-    nunmenu &Strux.&pstree.&kill<tab>K
-    nunmenu &Strux.&pstree.&info<tab>i
-    nunmenu &Strux.&pstree.&LL<tab>a
-    unlet b:Interface_2f73747275782f707374726565_MapsDone
-  endif
-endf
-function!<sid>Help_n2f73747275782f707374726565()
-  echo '1	r	Refresh view'
-  echo '2	P	Goto next pid'
-  echo '3	p	Search next Pid and show info'
-  echo '4	K	Kill this process'
-  echo '5	i	Info about this pid'
-  echo '6	a	LL of /proc/<pid>'
-  if exists('<SID>Help()')
-    call <SID>Help()
-  endif
-  while 1 == 1
-    echo '' | " due to a bug in vim. Else the prompt will get partly overwritten
-    call inputsave()
-    let ans=input("Type Nr of Item for more help on this item, or just press ENTER : ")
-    call inputrestore()
-    let ans='<sid>Help_n2f73747275782f707374726565_'.ans
-    if exists('*'.ans)
-      echo "\r"
-      exe 'call '.ans.'()'
-    else
-      break
-    endif
-  endwhile
-endf
-" InterfaceON for /strux/pstree
-function!InterfaceON_2f73747275782f707374726565()
-  if !exists("b:Interface_2f73747275782f707374726565_MapsDone")
-    nnoremap <buffer> <F1> :<C-U>call <sid>Help_n2f73747275782f707374726565()<CR>
-    nnoremenu &Strux.&pstree.&refresh<tab>r :call Pstree()<CR>
-    nnoremenu &Strux.&pstree.&next<tab>P :call NextPid()<CR>
-    nnoremenu &Strux.&pstree.next\ &and\ info<tab>p :call NextPid()<CR>:call PsInfo()<CR>
-    nnoremenu &Strux.&pstree.&kill<tab>K f)%l:!kill -9 <C-R><C-W><Home><Right><Right><Right><Right><Right><Right><Right><Right>
-    nnoremenu &Strux.&pstree.&info<tab>i :call PsInfo()<CR>
-    nnoremenu &Strux.&pstree.&LL<tab>a :call PsLL()<CR>
-    nnoremap <buffer> <silent> r :call Pstree()<CR>
-    nnoremap <buffer> <silent> P :call NextPid()<CR>
-    nnoremap <buffer> <silent> p :call NextPid()<CR>:call PsInfo()<CR>
-    nnoremap <buffer> K :call <sid>Help_n2f73747275782f707374726565_4()<cr>f)%l:!kill -9 <C-R><C-W><Home><Right><Right><Right><Right><Right><Right><Right><Right>
-    nnoremap <buffer> <silent> i :call PsInfo()<CR>
-    nnoremap <buffer> <silent> a :call PsLL()<CR>
-    augroup g2f73747275782f707374726565
-      au! BufLeave <buffer>
-      au BufLeave <buffer> call InterfaceOFF_2f73747275782f707374726565()
-    augroup END
-    let b:Interface_2f73747275782f707374726565_MapsDone=1
-    if !exists("b:_2f73747275782f707374726565_HintGiven")
-      unsilent echo 'special mappings from pstree.vimTR available. Press <F1> for a list'
-    endif
-    let b:_2f73747275782f707374726565_HintGiven=1
-  endif
-endf
-" Hooking the Interfaces for /strux/pstree
-au BufEnter /strux/pstree call InterfaceON_2f73747275782f707374726565()
 function!PsInit() 
   if exists("b:Inited")
     return

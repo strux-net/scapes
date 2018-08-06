@@ -1,4 +1,4 @@
-VERSION	3.0a
+VERSION	4.0
 package	XPE
 doc
   This file holds perl-functions used by LL.dirsettings
@@ -12,368 +12,368 @@ doc
 
   to force rereading this file do (in vim)
     :verbose runtime plugin/XPE.vim
-perl
-    show the name of the module
-    find it in section
-      =head1 NAME
-  ?	open(local *I,"<$F")
-    local @A
-    W	<I>
+subs
+  perl
+      show the name of the module
+      find it in section
+	=head1 NAME
+    ?	open(local *I,"<$F")
+      local @A
+      W	<I>
+	chop
+	?	/^=head1 NAME/.../^=/	push(@A,$_)
+      shift @A
+      pop @A
+      return join('',grep(/./,@A))
+  kerneldoc	$flag
+      extract the description from 00-INDEX
+    ??	$flag==
+      1
+	?	open(local *I,"<00-INDEX")
+	  W	<I>
+	    chop
+	    ?	/^\s+- /	$Index[-1].=$_	push @Index,$_
+      2
+	$_=(grep(/^$F\t/,@Index))[0]
+	s/.*?\t- //
+	return $_
+      3
+	$_=(grep(/^$F\/\t/,@Index))[0]
+	s/.*?\t- (directory with\s+)?//
+	return $_
+      4
+	undef(@Index)
+  irssi
+      show the description
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	s/.*description["']?\s*=>\s*(['"])//
+	  chomp
+	  s/$1[^$1]*$//
+	  s/\\//g
+	  return $_
+  dev
+      show the whatis for this device
+      for loop-files show the losetup
+    ?	$F =~ /^loop/
+      $_ = `losetup "$F" 2>/dev/null`
       chop
-      ?	/^=head1 NAME/.../^=/	push(@A,$_)
-    shift @A
-    pop @A
-    return join('',grep(/./,@A))
-kerneldoc	$flag
-    extract the description from 00-INDEX
-  ??	$flag==
-    1
-      ?	open(local *I,"<00-INDEX")
-	W	<I>
-	  chop
-	  ?	/^\s+- /	$Index[-1].=$_	push @Index,$_
-    2
-      $_=(grep(/^$F\t/,@Index))[0]
-      s/.*?\t- //
+      s/.*?\[/[/
+      return "4\tloop device $_"
+    ?	defined($whatis{$F}) and $whatis{$fs} =~ /^4/
+      return $whatis{$F}
+    (local $fs=$F) =~ s/\d+$//
+    ?	defined($whatis{$fs}) and $whatis{$fs} =~ /^4/
+      return $whatis{$fs}
+  cvs
+      a whatever/CVS dir contains 3 files:
+	Entries
+	Root
+	Repository
+      show the contents of Root and Repository.
+      show the number of dirs and files of Entries
+    ?	open(local *I,"<$F")
+      ?	$F eq "Entries"
+	my @Array=<I>
+	my $dirs=grep(/^D/,@Array)
+	my $files=@Array-$dirs
+	return "dirs : $dirs , files : $files"
+      -
+	chomp(my $s=<I>)
+	return $s
+  htmlTitle
+      show the title
+    ?	$F =~ /\.html$/ and open(local *I,"<$F")
+      W	<I>
+	?	s/.*?<title> *//
+	  s:</title>.*$::
+	  chomp
+	  return $_
+  gimpPreset
+      show the description for this preset.
+      find it in the first line starting with desc=
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	/^desc=(.*)/	return $1
+  READMEbased	$flag
+      show the description for a file based on README.txt.
+    ??	$flag==
+      1
+	?	open(local *I,"<README.txt")	@README=<I>
+      2
+	(grep(/^$F\s/,@README))[0] =~ /.+?\s+(.*)/
+	return $1
+      4
+	undef(@README)
+  gimpScript
+      show the description for this script.
+      basically find it in the third element of script-fu-register
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	/script-fu-register/
+	  <I>
+	  $_=<I>
+	  s/.*?"//
+	  s/".*?$//
+	  chomp
+	  return $_
+  vimLang
+      show the language for the menu-file
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	/^" Menu Translations:\s*(.*)/	return $1
+  vimColors
+      show the background-setting
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	/^:?set\s+(bg|background)=(.*)/	return $2
+  vimTutor
+      show the Header line for a tutor file
+      this is basically the second line in the file
+    ?	$F =~ /^README/ or $F =~ /\.vim$/	return ""
+    ?	open(local *I,"<$F")
+      <I>			skip first line
+      $_=<I>		read the second line
+      s/^ *= *//		remove leading 'garbage'
       return $_
-    3
-      $_=(grep(/^$F\/\t/,@Index))[0]
-      s/.*?\t- (directory with\s+)?//
-      return $_
-    4
-      undef(@Index)
-irssi
-    show the description
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	s/.*description["']?\s*=>\s*(['"])//
-	chomp
-	s/$1[^$1]*$//
-	s/\\//g
-	return $_
-dev
-    show the whatis for this device
-    for loop-files show the losetup
-  ?	$F =~ /^loop/
-    $_ = `losetup "$F" 2>/dev/null`
-    chop
-    s/.*?\[/[/
-    return "4\tloop device $_"
-  ?	defined($whatis{$F}) and $whatis{$fs} =~ /^4/
-    return $whatis{$F}
-  (local $fs=$F) =~ s/\d+$//
-  ?	defined($whatis{$fs}) and $whatis{$fs} =~ /^4/
-    return $whatis{$fs}
-
-cvs
-    a whatever/CVS dir contains 3 files:
-      Entries
-      Root
-      Repository
-    show the contents of Root and Repository.
-    show the number of dirs and files of Entries
-  ?	open(local *I,"<$F")
-    ?	$F eq "Entries"
-      my @Array=<I>
-      my $dirs=grep(/^D/,@Array)
-      my $files=@Array-$dirs
-      return "dirs : $dirs , files : $files"
-    -
-      chomp(my $s=<I>)
-      return $s
-htmlTitle
-    show the title
-  ?	$F =~ /\.html$/ and open(local *I,"<$F")
-    W	<I>
-      ?	s/.*?<title> *//
-	s:</title>.*$::
-	chomp
-	return $_
-gimpPreset
-    show the description for this preset.
-    find it in the first line starting with desc=
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	/^desc=(.*)/	return $1
-READMEbased	$flag
-    show the description for a file based on README.txt.
-  ??	$flag==
-    1
-      ?	open(local *I,"<README.txt")	@README=<I>
-    2
-      (grep(/^$F\s/,@README))[0] =~ /.+?\s+(.*)/
-      return $1
-    4
-      undef(@README)
-gimpScript
-    show the description for this script.
-    basically find it in the third element of script-fu-register
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	/script-fu-register/
-	<I>
-	$_=<I>
-	s/.*?"//
-	s/".*?$//
-	chomp
-	return $_
-vimLang
-    show the language for the menu-file
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	/^" Menu Translations:\s*(.*)/	return $1
-vimColors
-    show the background-setting
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	/^:?set\s+(bg|background)=(.*)/	return $2
-vimTutor
-    show the Header line for a tutor file
-    this is basically the second line in the file
-  ?	$F =~ /^README/ or $F =~ /\.vim$/	return ""
-  ?	open(local *I,"<$F")
-    <I>			skip first line
-    $_=<I>		read the second line
-    s/^ *= *//		remove leading 'garbage'
-    return $_
-vimFt
-    show the (programming-)language a plugin is made for.
-    find it in the plugin by looking for the first line that looks like either
-      " Compiler: whatever
-    or
-      " Language: whatever
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	s/^" *Compiler:\s+// or s/^" *Language:\s+//
-	chomp
-	return $_
-vimRoot
-    show the description for a top-level-plugin.
-    This is basically the very first line which in most files starts with a " (quote), 
-    One file though (strangly) starts with :"  (vim7.3)
-  ?	open(local *I,"<$F")
-    (my $s=<I>) =~ s/^:?"\s*//
-    chomp($s)
-    return $s
-vimDoc
-    show the summary for the help-file.
-    basically look for the first non-empty line after the 4th line.
-    It does not work perfectly since there is no style-guide for the help-files (vim7.3)
-  ?	$F eq "tags"	return "the tags-file for vim's help-system"
-  !	$F =~ /\.txt$/	return ""
-  ?	open(local *I,"<$F")
-    my $s
-    <I>	skip first 4 lines
-    <I>
-    <I>
-    <I>
-    U	$s ne ""
-      $s=<I>
+  vimFt
+      show the (programming-)language a plugin is made for.
+      find it in the plugin by looking for the first line that looks like either
+	" Compiler: whatever
+      or
+	" Language: whatever
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	s/^" *Compiler:\s+// or s/^" *Language:\s+//
+	  chomp
+	  return $_
+  vimRoot
+      show the description for a top-level-plugin.
+      This is basically the very first line which in most files starts with a " (quote), 
+      One file though (strangly) starts with :"  (vim7.3)
+    ?	open(local *I,"<$F")
+      (my $s=<I>) =~ s/^:?"\s*//
       chomp($s)
-      $s =~ s/\*.*//	* starts a tag
-      $s =~ s/^\s+//	leading spaces
-    return $s
-procFdinfo
-    show the pos and flags
-    The files loook like
-      pos:	240
-      flags:	0100000
-  ?	open(local *I,"<$F")
-    (my $s) = <I> =~ /(\d+)/
-    <I> =~ /(\d+)/
-    return "$s\t$1"
-procSys
-    show the very first line
-  ?	open(local *I,"<$F")
-    chomp(my $s=<I>)
-    return $s
-procFile
-    show the very first line for some selected files
-  ?	$F =~ /^(version_signature|version|uptime|loadavg|dma|cmdline)$/
+      return $s
+  vimDoc
+      show the summary for the help-file.
+      basically look for the first non-empty line after the 4th line.
+      It does not work perfectly since there is no style-guide for the help-files (vim7.3)
+    ?	$F eq "tags"	return "the tags-file for vim's help-system"
+    !	$F =~ /\.txt$/	return ""
+    ?	open(local *I,"<$F")
+      my $s
+      <I>	skip first 4 lines
+      <I>
+      <I>
+      <I>
+      U	$s ne ""
+	$s=<I>
+	chomp($s)
+	$s =~ s/\*.*//	* starts a tag
+	$s =~ s/^\s+//	leading spaces
+      return $s
+  procFdinfo
+      show the pos and flags
+      The files loook like
+	pos:	240
+	flags:	0100000
+    ?	open(local *I,"<$F")
+      (my $s) = <I> =~ /(\d+)/
+      <I> =~ /(\d+)/
+      return "$s\t$1"
+  procSys
+      show the very first line
     ?	open(local *I,"<$F")
       chomp(my $s=<I>)
-      return " \t$s"
-procDir
-    show the three fields
-      stat	status	cmdline
-    stat	3rd field from $F/stat
-    status	part after tab in first line fo $F/status
-    cmdline	$F/cmdline ( \0 replaced with space)
-  ?	$F !~ /\d+/	return
-  my $s
-  ?	open(local *I,"<$F/stat")	$s .= (split(/\s+/,<I>))[2]." "
-  ?	open(local *I,"<$F/status")	$s .= (split(/\t+|\n/,<I>))[1]."\t"
-  ?	open(local *I,"<$F/cmdline")
-    (my $x = <I>) =~ s/\0/ /g
-    $s.=$x
-  $s
-mail
-    show the three fields
-      from	to	subject
-  ?	open(local *I,"<$F")
-    my ($subject,$from,$to)
-    $subject="no subject"
-    W	<I>
-      ?	/^$/			last
-      ?	/^From: (.*)/		$from=$1
-      ?	/^To: (.*)/		$to=$1
-      ?	/^Subject: (.*)/	$subject=$1
-    return "$from\t$to\t$subject"
-initdRules
-    show the description of a service
-  ?	open(local *I,"<$F")
-    $description = " "
-    W	<I>
-      ?	/^# Short\-Description:\s+(.*)/	return $1
-initRules
-    show the three fields
-      Description	start on	stop on
-  ?	open(local *I,"<$F")
-    $description = " "
-    W	<I>
-      ?	/^description\s+"(.*)"/	$description = $1
-      ?	/^start on (.*)/	$start = $1
-      ?	/^stop on (.*)/		$stop = $1
-    return "$description\t$start\t$stop"
-desktop
-    show the comment if given and nonempty. Else show the name
-  !	$F =~ /\.desktop/	return ""
-  ?	open(local *I,"<$F")
-    local $name
-    W	<I>
-      ?	/^Name=(.+)/	$name = $1
-      ?	/^Comment=(.+)/	return $1
-    return $name
-bin	$flag
-    show the whatis for this file
-  ??	$flag==
-    1
-      !	%whatis
-	map	`whatis -s 1,4,6,7,8 -r '.*'`
-	  local ($name,$mansection,$txt) = /([^ ]+) \((.*?)\) +\- (.*)/
-	  $whatis{$name}="$mansection\t$txt"
-    2	return $whatis{$F}
-locale
-    extract the title
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	m/^title\s+"(.*)"$/	return $1
-dbus
-    extract the Exec
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	m/^Exec=(.*)$/	return $1
-calendar
-    basically return the second line
-  ?	open(local *I,"<$F")
-    <I>	skip first line
-    $_=<I>
-    chomp
-    s/..//
-    return $_
-nano
-    basically return the first line
-  ?	open(local *I,"<$F")
-    ?	($_=<I>) =~ /#+\s*(.*)/	return $1
-vsllib
-    basically return the second line
-  ?	open(local *I,"<$F")
-    <I>	skip first line
-    $_=<I>
-    /...(.*)/
-    return $1
-mime
-    return the two fields
-      mime	comment
-  ?	open(local *I,"<$F")
-    local $type
-    W	<I>
-      ?	/type="(.*?)"/			$type = $1
-      ?	m:<comment>(.*?)</comment>:	return "$type\t$1"
-git	$flag
-    show the git-status of the files
-  ??	$flag==
-    1
-      @GIT = split(/\0/,`git status --ignored -z . 2>/dev/null`)
-      $InGitDir = !$?
-      ?	@GIT
-	local $tl = `git rev-parse --show-toplevel`
-	local $r = substr($d,length($tl))."/"
-	map	@GIT	s/ $r/ /
-    2
-      ?	$InGitDir
-	$indicator = substr((grep(substr($_,3) eq $F,@GIT))[0],0,2)
-      -
-	$indicator = substr(`git -C $p status $f -s 2>/dev/null`,0,2)
+      return $s
+  procFile
+      show the very first line for some selected files
+    ?	$F =~ /^(version_signature|version|uptime|loadavg|dma|cmdline)$/
+      ?	open(local *I,"<$F")
+	chomp(my $s=<I>)
+	return " \t$s"
+  procDir
+      show the three fields
+	stat	status	cmdline
+      stat	3rd field from $F/stat
+      status	part after tab in first line fo $F/status
+      cmdline	$F/cmdline ( \0 replaced with space)
+    ?	$F !~ /\d+/	return
+    my $s
+    ?	open(local *I,"<$F/stat")	$s .= (split(/\s+/,<I>))[2]." "
+    ?	open(local *I,"<$F/status")	$s .= (split(/\t+|\n/,<I>))[1]."\t"
+    ?	open(local *I,"<$F/cmdline")
+      (my $x = <I>) =~ s/\0/ /g
+      $s.=$x
+    $s
+  mail
+      show the three fields
+	from	to	subject
+    ?	open(local *I,"<$F")
+      my ($subject,$from,$to)
+      $subject="no subject"
+      W	<I>
+	?	/^$/			last
+	?	/^From: (.*)/		$from=$1
+	?	/^To: (.*)/		$to=$1
+	?	/^Subject: (.*)/	$subject=$1
+      return "$from\t$to\t$subject"
+  initdRules
+      show the description of a service
+    ?	open(local *I,"<$F")
+      $description = " "
+      W	<I>
+	?	/^# Short\-Description:\s+(.*)/	return $1
+  initRules
+      show the three fields
+	Description	start on	stop on
+    ?	open(local *I,"<$F")
+      $description = " "
+      W	<I>
+	?	/^description\s+"(.*)"/	$description = $1
+	?	/^start on (.*)/	$start = $1
+	?	/^stop on (.*)/		$stop = $1
+      return "$description\t$start\t$stop"
+  desktop
+      show the comment if given and nonempty. Else show the name
+    !	$F =~ /\.desktop/	return ""
+    ?	open(local *I,"<$F")
+      local $name
+      W	<I>
+	?	/^Name=(.+)/	$name = $1
+	?	/^Comment=(.+)/	return $1
+      return $name
+  bin	$flag
+      show the whatis for this file
+    ??	$flag==
+      1
+	!	%whatis
+	  map	`whatis -s 1,4,6,7,8 -r '.*'`
+	    local ($name,$mansection,$txt) = /([^ ]+) \((.*?)\) +\- (.*)/
+	    $whatis{$name}="$mansection\t$txt"
+      2	return $whatis{$F}
+  locale
+      extract the title
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	m/^title\s+"(.*)"$/	return $1
+  dbus
+      extract the Exec
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	m/^Exec=(.*)$/	return $1
+  calendar
+      basically return the second line
+    ?	open(local *I,"<$F")
+      <I>	skip first line
+      $_=<I>
+      chomp
+      s/..//
+      return $_
+  nano
+      basically return the first line
+    ?	open(local *I,"<$F")
+      ?	($_=<I>) =~ /#+\s*(.*)/	return $1
+  vsllib
+      basically return the second line
+    ?	open(local *I,"<$F")
+      <I>	skip first line
+      $_=<I>
+      /...(.*)/
+      return $1
+  mime
+      return the two fields
+	mime	comment
+    ?	open(local *I,"<$F")
+      local $type
+      W	<I>
+	?	/type="(.*?)"/			$type = $1
+	?	m:<comment>(.*?)</comment>:	return "$type\t$1"
+  git	$flag
+      show the git-status of the files
+    ??	$flag==
+      1
+	@GIT = split(/\0/,`git status --ignored -z . 2>/dev/null`)
+	$InGitDir = !$?
+	?	@GIT
+	  local $tl = `git rev-parse --show-toplevel`
+	  local $r = substr($d,length($tl))."/"
+	  map	@GIT	s/ $r/ /
+      2
+	?	$InGitDir
+	  $indicator = substr((grep(substr($_,3) eq $F,@GIT))[0],0,2)
+	-
+	  $indicator = substr(`git -C $p status $f -s 2>/dev/null`,0,2)
 
-      ?	$indicator eq "!!"	return ""
-      ?	$indicator eq ""	$indicator = "  "
-      ??	$indicator eq 	 	$desc = "	"
-	" D"	deleted  , not updated , deleted in work tree
-	" M"	modified , not updated , work tree changed since index
-	"M "	modified , updated in index , index and work tree matches
-	"MM"	modified , updated in index
-	"MD"	modified , updated in index , deleted in work tree
-	"A "	added    , added to index , index and work tree matches
-	"AM"	added    , added to index , work tree changed since index
-	"AD"	added    , added to index , deleted in work tree
-	"D "	deleted  , deleted from index
-	"DM"	deleted  , deleted from index
-	"R "	renamed  , renamed in index , index and work tree matches
-	"RM"	renamed  , renamed in index , work tree changed since index
-	"RD"	renamed  , renamed in index , deleted in work tree
-	"C "	copied   , copied in index , index and work tree matches
-	"CM"	copied   , copied in index , work tree changed since index
-	"CD"	copied   , copied in index , deleted in work tree
-	"DD"	unmerged , both deleted
-	"AU"	unmerged , added by us
-	"UD"	unmerged , deleted by them
-	"UA"	unmerged , added by them
-	"DU"	unmerged , deleted by us
-	"AA"	unmerged , both added
-	"UU"	unmerged , both modified
-	"??"	untracked
-	" T"	typechange
-	"  "	unmodified
-	-	$desc = "unknown tag"
-      return "$indicator $desc"
-    3
-      ?	$F eq ".git"	return "git db"
-      $F.="/"
-      $indicator = substr((grep(substr($_,3,length($F)) eq $F,@GIT))[0],0,2)
-      ?		$indicator eq "!!"			return ""
-      ?-	$indicator eq "??" or ! $indicator	return $indicator
-      -							return "changed files inside"
-    4
-      undef(@GIT)
-universalindentgui_indenters
-    extract the indenterName (only for .ini-files)
-  !	$F =~ m/\.ini$/		return ""
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	m/^indenterName=(.*)/	return $1
-remmina
-    extract name and server
-  ?	open(local *I,"<$F")
-    local $name, $server
-    W	<I>
-      ?	m/^name=(.*)/	$name=$1
-      ?	m/^server=(.*)/	$server=$1
-    return "$name\t$server"
-python
-    basically extract the first """-line
-    for a .pyc try the .py file
-    ''' is also accepted
-  ?	$F =~ s/\.pyc/.py/	return python()
-  !	$F =~ m/\.py$/		return ""
-  ?	open(local *I,"<$F")
-    W	<I>
-      ?	s/^r?("""|''')\s*//
-        chop
-        s/(""")|(''')$//
-        ?	$_ eq "" or $_ eq "\\"	
-	  $_=<I>
+	?	$indicator eq "!!"	return ""
+	?	$indicator eq ""	$indicator = "  "
+	??	$indicator eq 	 	$desc = "	"
+	  " D"	deleted  , not updated , deleted in work tree
+	  " M"	modified , not updated , work tree changed since index
+	  "M "	modified , updated in index , index and work tree matches
+	  "MM"	modified , updated in index
+	  "MD"	modified , updated in index , deleted in work tree
+	  "A "	added    , added to index , index and work tree matches
+	  "AM"	added    , added to index , work tree changed since index
+	  "AD"	added    , added to index , deleted in work tree
+	  "D "	deleted  , deleted from index
+	  "DM"	deleted  , deleted from index
+	  "R "	renamed  , renamed in index , index and work tree matches
+	  "RM"	renamed  , renamed in index , work tree changed since index
+	  "RD"	renamed  , renamed in index , deleted in work tree
+	  "C "	copied   , copied in index , index and work tree matches
+	  "CM"	copied   , copied in index , work tree changed since index
+	  "CD"	copied   , copied in index , deleted in work tree
+	  "DD"	unmerged , both deleted
+	  "AU"	unmerged , added by us
+	  "UD"	unmerged , deleted by them
+	  "UA"	unmerged , added by them
+	  "DU"	unmerged , deleted by us
+	  "AA"	unmerged , both added
+	  "UU"	unmerged , both modified
+	  "??"	untracked
+	  " T"	typechange
+	  "  "	unmodified
+	  -	$desc = "unknown tag"
+	return "$indicator $desc"
+      3
+	?	$F eq ".git"	return "git db"
+	$F.="/"
+	$indicator = substr((grep(substr($_,3,length($F)) eq $F,@GIT))[0],0,2)
+	?		$indicator eq "!!"			return ""
+	?-	$indicator eq "??" or ! $indicator	return $indicator
+	-							return "changed files inside"
+      4
+	undef(@GIT)
+  universalindentgui_indenters
+      extract the indenterName (only for .ini-files)
+    !	$F =~ m/\.ini$/		return ""
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	m/^indenterName=(.*)/	return $1
+  remmina
+      extract name and server
+    ?	open(local *I,"<$F")
+      local $name, $server
+      W	<I>
+	?	m/^name=(.*)/	$name=$1
+	?	m/^server=(.*)/	$server=$1
+      return "$name\t$server"
+  python
+      basically extract the first """-line
+      for a .pyc try the .py file
+      ''' is also accepted
+    ?	$F =~ s/\.pyc/.py/	return python()
+    !	$F =~ m/\.py$/		return ""
+    ?	open(local *I,"<$F")
+      W	<I>
+	?	s/^r?("""|''')\s*//
 	  chop
 	  s/(""")|(''')$//
-	  s/^\s*//
-        return $_
+	  ?	$_ eq "" or $_ eq "\\"	
+	    $_=<I>
+	    chop
+	    s/(""")|(''')$//
+	    s/^\s*//
+	  return $_

@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 package	listVimSwapFiles
 doc	can be compiled into a standalone perl-script or into a vim-plugin (using perl_tru --vimPlug)
 
@@ -50,40 +50,41 @@ main
   open(STDOUT,"|tabify.pl")		no harm if this fails, output will just not be tabified
   fillSWP()				fill the Data-Structure %SWP
   printSWP()				print %SWP
-fillSWP
-    refreshes %SWP according to `vim -r`
-  my @RES = `vim -r 2>&1`
-  my ($found, $file,$modified,$pid,$runstatus )
-  chop @RES	\n
-  chop @RES	\r
-  F	(@RES)
-    doc	skip all lines that are not relevant
-      they might be produced by some plugins (such as CSApprox)
-    ?	$_ eq "Swap files found:"
-      $found = 1
-      next
-    !	$found	next
+subs
+  fillSWP
+      refreshes %SWP according to `vim -r`
+    my @RES = `vim -r 2>&1`
+    my ($found, $file,$modified,$pid,$runstatus )
+    chop @RES	\n
+    chop @RES	\r
+    F	(@RES)
+      doc	skip all lines that are not relevant
+	they might be produced by some plugins (such as CSApprox)
+      ?	$_ eq "Swap files found:"
+	$found = 1
+	next
+      !	$found	next
 
-    ?	/^   In directory (.+):/
-      ($dir = $1) =~ s(/*$)()
-      ?	-l $dir	($dir = readlink($dir)) =~ s(/*$)()
-    ?-	/^\s*\d+\.\s+(.*)/		$swpfile = $1
-    ?-	/^\s*owned by: /		next # irrelevant, it's mtime and uid of the swp-file
-    ?-	/^\s*file name: (.*)/		$file = $1
-    ?-	/^\s*modified: (.*)/		$modified = $1
-    ?-	/^\s*user name: (.*)/		next # irrelevant, it's username and hostname
-    ?-	/^\s*process ID: (\d+)(.*)/
-      $pid       = $1
-      ?	$2
-	?	$2 eq ' (still running)'	$runstatus = "runnning"
-	-					$runstatus = $2
-      -						$runstatus = "dead"
-      $SWP{$dir}{$swpfile} = [ $modified,$pid,$runstatus,$file ]
-printSWP
-    print the entries in %SWP
-  F	$dir (keys %SWP)
-    F	$sf (keys %{$SWP{$dir}})
-      "$sf\t".getSWPinfo($dir,$sf)."\n"
-getSWPinfo	$dir,$swapfile
-    return string for entry(dir,swapfile) from %SWP
-  return join("\t",@{$SWP{$dir}{$swapfile}})
+      ?	/^   In directory (.+):/
+	($dir = $1) =~ s(/*$)()
+	?	-l $dir	($dir = readlink($dir)) =~ s(/*$)()
+      ?-	/^\s*\d+\.\s+(.*)/		$swpfile = $1
+      ?-	/^\s*owned by: /		next # irrelevant, it's mtime and uid of the swp-file
+      ?-	/^\s*file name: (.*)/		$file = $1
+      ?-	/^\s*modified: (.*)/		$modified = $1
+      ?-	/^\s*user name: (.*)/		next # irrelevant, it's username and hostname
+      ?-	/^\s*process ID: (\d+)(.*)/
+	$pid       = $1
+	?	$2
+	  ?	$2 eq ' (still running)'	$runstatus = "runnning"
+	  -					$runstatus = $2
+	-						$runstatus = "dead"
+	$SWP{$dir}{$swpfile} = [ $modified,$pid,$runstatus,$file ]
+  printSWP
+      print the entries in %SWP
+    F	$dir (keys %SWP)
+      F	$sf (keys %{$SWP{$dir}})
+	"$sf\t".getSWPinfo($dir,$sf)."\n"
+  getSWPinfo	$dir,$swapfile
+      return string for entry(dir,swapfile) from %SWP
+    return join("\t",@{$SWP{$dir}{$swapfile}})

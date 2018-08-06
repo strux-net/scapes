@@ -4,7 +4,7 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusupp.plTR >trusupp.pl
   For mark mark_usage
 	  -version	show version information
   For mark mark_version
-	    print "  trusupp.plTR	3.3\n";
+	    print "  trusupp.plTR	4.0\n";
 GOOD	trusupp.pl
 building trusubs.pl
 perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
@@ -12,7 +12,7 @@ perl -I ~/strux/lib ~/strux/bin/perl_tru trusubs.plTR >trusubs.pl
   For mark mark_usage
 	  -version	show version information
   For mark mark_version
-	    print "  trusubs.plTR	3.0\n";
+	    print "  trusubs.plTR	4.0\n";
 GOOD	trusubs.pl
 building tru
 perl -I ~/strux/lib  ~/strux/bin/tru tru.tru ../lib/basicUSAGE.tru >tru_tmp

@@ -1,9 +1,8 @@
-VERSION	3.0
+VERSION	4.0
 usage	LT
 	LT works only in an LLShell.
 	It changes the LL-view to the current dir in the shell.
 	vim needs the servername to be set.
 	eG by compiling with --enable-autoservername
-main
-  ?	[ -z "$VIM_SERVERNAME" ]	usage
-  vim --servername $VIM_SERVERNAME --remote-send ":LT"
+?	[ -z "$VIM_SERVERNAME" ]	usage
+vim --servername $VIM_SERVERNAME --remote-send ":LT"

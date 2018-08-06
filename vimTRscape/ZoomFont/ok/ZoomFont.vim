@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on ZoomFont.vimTR , version : 3.0
+" based on ZoomFont.vimTR , version : 4.0
 "usage for ZoomFont.vim
 "	allows to quickly increase/decrease (rsp. switch) fonts.
 "	You define a font-family like

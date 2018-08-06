@@ -26,7 +26,6 @@ install_sh_tru:
 	@${m_copy} sh_tru ok/sh_tru
 	@${m_copy} shtest.sh ok/shtest.sh
 	@${m_copy} shtest.out ok/shtest.out
-	@${m_copy} shtest_illegal_option.out ok/shtest_illegal_option.out
 	@${m_copy} docs/README.txt ok/docs/README.txt
 	@${m_copy} docs/README.html ok/docs/README.html
 	@${m_copy} docs/sh_tru.html ok/docs/sh_tru.html
@@ -39,11 +38,10 @@ test_sh_tru: sh_tru
 	bash shtest.sh -f test file1 file2 >shtest.out
 	@${m_diff} shtest.out
 	bash shtest.sh -version
-	-bash shtest.sh -x test file1 file2 >shtest_illegal_option.out
-	@${m_diff} shtest_illegal_option.out
+	-bash shtest.sh -x test file1 file2
 sh_tru:
 	@echo  building sh_tru
-	tru -s statistics.out ../common.tru ../morecommon.tru sh.tru ../globalCode.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
+	tru -s statistics.out ../common.tru ../morecommon.tru sh.tru shcoll.tru ../../lib/basicUSAGE.tru >sh_tru
 	chmod +x sh_tru # this is needed for trudocGivesCheck, else it finds the truer somewhere else
 	PATH=$$PWD:$$PATH perl ~/bin/trudocGivesCheck -s sh ./sh_tru >sh_tru.tmp
 	mv sh_tru.tmp sh_tru

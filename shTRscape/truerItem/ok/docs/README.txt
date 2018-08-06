@@ -2,16 +2,8 @@ truerItem
   find lines that are matched by a specific item of a specific truer
     usage
 	usage : truerItem [Options] <truer> <action> files ....
-	Echo all lines of the files for which <truer> would execute <action>.
-
-	Example : truerItem perl_tru fancyFor *.plTR
-	  This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor
-
-	It does not run <truer>.
-	Instead a new temp-truer is created from the structure of <truer> where the only defined action is <action>.
-
-	It may fail to recognize the correct structure if weird things with >> or @READ are done in the <truer>.
 	OPTIONS:
+	  -version	show version information
 	  -h	print filename and linenumber before each hit
 	        same as -a '$ARGV\t$.\t$_'
 	        The result is suitable to be piped through tabify.pl
@@ -36,4 +28,12 @@ truerItem
 	        You can use "-c= " for an empty additional initialization 
 	  -s	skip comment lines
 	        Useful for truers that ignore lines starting with #
-	  -version	show version information
+	Echo all lines of the files for which <truer> would execute <action>.
+
+	Example : truerItem perl_tru fancyFor *.plTR
+	  This will parse all *.plTR files and echo the lines which perl_tru considers a fancyFor
+
+	It does not run <truer>.
+	Instead a new temp-truer is created from the structure of <truer> where the only defined action is <action>.
+
+	It may fail to recognize the correct structure if weird things with >> or @READ are done in the <truer>.

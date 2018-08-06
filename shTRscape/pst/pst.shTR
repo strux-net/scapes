@@ -1,9 +1,8 @@
-VERSION	3.0
+VERSION	4.0
 usage	pst [<pattern>]
 	Opens an interactive process-tree with many features.
 
 	It requires that you have vim and the pstree-plugin installed.
-main
-  ?	[ $# -eq 0 ]	vim -N +'syn on' /strux/pstree
-  ?-	[ $# -eq 1 ]	vim -N +/$1 +'normal n' +'syn on' /strux/pstree
-  -	usage
+?	[ $# -eq 0 ]	vim -N +'syn on' /strux/pstree
+?-	[ $# -eq 1 ]	vim -N +/$1 +'normal n' +'syn on' /strux/pstree
+-	usage

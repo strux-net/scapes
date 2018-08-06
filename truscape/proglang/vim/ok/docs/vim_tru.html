@@ -17,6 +17,7 @@
     <desc>    perl_tru	for perl</desc><br/>
     <desc>    sh_tru	for shell</desc><br/>
     <desc>    vim_tru	for vim</desc><br/>
+    <desc>    py_tru	for python</desc><br/>
     <desc>They all share the same syntax-idea.</desc><br/>
     <desc>Some Options can be set to modify the output.</desc><br/>
     <div align="right"><filename>vim.tru</filename></div>
@@ -54,9 +55,8 @@
 <a title = "Indent : 0"></a>&quot;
 <a title = "Indent : 0"></a>&quot;---------------------------------------------
 <a title = "Indent : 0"></a>map &lt;f10&gt; :call Foo()&lt;cr&gt;
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>echo &lsquo;Hello World&lsquo;
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\&lsquo;Hello World&lsquo;
 </listing>
     <br/>
     <annotation>Limitations :</annotation><br/>
@@ -95,7 +95,6 @@ OPTIONS:
        -intro:file		use specified file for intro
 		This file will be copied unchanged.
        -obeyD:string		define what D produces
-       -obeyBang		Obey ! in functions. Default is : all functions are !
 
        -vhelp shows more options
     </listing>
@@ -176,7 +175,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_var">var</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_initialisation">initialisation</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_nativeFor">F</a><ping><a title="here is a Tab">	</a>var in list</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>&gt;2 nativeFor</td><td>F<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>\S.+ in .+</ping></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
@@ -233,27 +232,22 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_wantListOrObject">wantArray</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>= wantListOrObject($F[1] !~ "##PURE##")</td><td>/\[\.\.\]/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_arrayelem">arrayelem</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 3">       |   </a><A href="#A_2continue">continuation</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;&gt;* 2continue</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_try">try</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;2</td><td>try</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_block">block]</a></td><td>=o</td><td>block</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="howtoread/posIndicator.html">[]</a></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_finally">finally</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>=</td><td>finally</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_catch">catch</a><ping><a title="here is a Tab">	</a>[statement]</ping></td><td>&gt;0</td><td>.+</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_global20code">global code</a></td><td>=</td><td>global code</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_2copy">ending in {</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 2copy</td><td>.*\{</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_2copy">}</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2 2copy</td><td>\}.*</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_statement">statement</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;2</td><td></td></tr>
@@ -763,14 +757,6 @@ OPTIONS:
 	</tr>
 	<tr>
 	  <td>
-	    <A href="#A_main">main</a>
-	  </td>
-	  <td>
-	    the top-level code (outside of any function)
-	  </td>
-	</tr>
-	<tr>
-	  <td>
 	    <A href="#A_function">function</a>
 	  </td>
 	  <td>
@@ -1075,10 +1061,10 @@ OPTIONS:
 	</tr>
 	<tr>
 	  <td>
-	    <A href="#A_global20code">global code</a>
+	    <A href="#A_functions">functions</a>
 	  </td>
 	  <td>
-	    For code outside any function
+	    introduces a block of function definitions
 	  </td>
 	</tr>
       </table>
@@ -1136,9 +1122,8 @@ OPTIONS:
     <br/><br/>
     <listing class="gives">
 <a title = "Indent : 0"></a>&quot; based on infile , version : 2.0
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>echo &lsquo;hello world&lsquo;
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\&lsquo;hello world&lsquo;
 </listing>
     <br/>
     <a name="A_vars"></a>
@@ -1458,12 +1443,11 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>Option<ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>Option<ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -1524,55 +1508,20 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;usage for myPlugin
 <a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>This plugin does ....</ping>
 <a title = "Indent : 0"></a>&quot;
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>Configuration variables</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>  The following vars can be set in your .vimrc or in your environment.</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>  Settings in the environment have the highest precedence.</ping>
-<a title = "Indent : 0"></a>&quot;
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>g:myPlugin_colored : use colored output</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>  (can be superseded with the environment-var $myPlugin_colored)</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>g:myPlugin_shell : the shell to be used</ping><pong><a title="here is a Tab">	</a>(defaults to &lsquo;bash -i&lsquo;)</pong>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>  (can be superseded with the environment-var $myPlugin_shell)</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>  This can be used to tell the shell to do additional initializations.</ping>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>g:myPlugin_dirsettings : location for dirsettings</ping><pong><a title="here is a Tab">	</a>(defaults to $HOME.&quot;/.myplugin/dirsettings&quot;)</pong>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>  (can be superseded with the environment-var $myPlugin_dirsettings)</ping>
-<a title = "Indent : 0"></a>&quot;
 <a title = "Indent : 0"></a>&quot;---------------------------------------------
-<a title = "Indent : 0"></a>&quot; use colored output
-<a title = "Indent : 0"></a>if exists(&quot;$myPlugin_colored&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_colored=$myPlugin_colored
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>if !exists(&quot;g:myPlugin_colored&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_colored=0
-<a title = "Indent : 0"></a>else
-<a title = "Indent : 2">  </a>&quot; this is a statement
-<a title = "Indent : 2">  </a>let color=&lsquo;blue&lsquo;
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>&quot; the shell to be used
-<a title = "Indent : 0"></a>if exists(&quot;$myPlugin_shell&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_shell=$myPlugin_shell
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>if !exists(&quot;g:myPlugin_shell&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_shell=&lsquo;bash -i&lsquo;
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>&quot; location for dirsettings
-<a title = "Indent : 0"></a>if exists(&quot;$myPlugin_dirsettings&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_dirsettings=$myPlugin_dirsettings
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>if !exists(&quot;g:myPlugin_dirsettings&quot;)
-<a title = "Indent : 2">  </a>let g:myPlugin_dirsettings=$HOME.&quot;/.myplugin/dirsettings&quot;
-<a title = "Indent : 0"></a>endif
-<a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>&quot; code starts here
-<a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>if g:myPlugin_colored
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>&quot; code for colored ouput
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 0"></a>else
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>&quot; code for b/w output
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 0"></a>endif
+<a title = "Indent : 0"></a>main
+<a title = "Indent : 2">  </a>\Option
+<a title = "Indent : 4">    </a>\myPlugin_colored
+<a title = "Indent : 6">      </a>\color=&lsquo;blue&lsquo;
+<a title = "Indent : 4">    </a>\myPlugin_shell:string[&lsquo;bash -i&lsquo;]
+<a title = "Indent : 8">        </a>\This can be used to tell the shell to do additional initializations.
+<a title = "Indent : 4">    </a>\myPlugin_dirsettings:string[$HOME.&quot;/.myplugin/dirsettings&quot;]
+<a title = "Indent : 4">    </a>\
+<a title = "Indent : 2">  </a>\doc
+<a title = "Indent : 2">  </a>\?
+<a title = "Indent : 4">    </a>\doc
+<a title = "Indent : 2">  </a>\-
+<a title = "Indent : 4">    </a>\doc
 </listing>
     <br/>
     <a name="A_opt3atype5bdefault5d"></a>
@@ -1587,10 +1536,9 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>opt:type[default]<ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>opt:type[default]<ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -1637,10 +1585,9 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>opt<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>opt<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -1680,15 +1627,13 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>Optiondescription<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Optiondescription<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>Optiondescription<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>Optiondescription<ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -1757,7 +1702,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note : This is pseudocode</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>an = 42<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>statement fits in one line, append a ; for c, js, java, perl</ping>
 <a title = "Indent : 2">  </a>pi =<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>statement starts here</ping>
 <a title = "Indent : 4">    </a>&quot;technically seen ...&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>... what follows are continuation statements</ping>
@@ -1772,8 +1717,8 @@ OPTIONS:
 <a title = "Indent : 4">    </a>&lsquo;a final ; is NOT given automatically&lsquo; ;<ping><a title="here is a Tab">	</a>do NOT forget the ; for c, js, java, perl</ping>
 
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>depending on the language statements starting with a string are treated as autoprint</ping>
-<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js</ping>
-<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim</ping>
+<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js, py</ping>
+<a title = "Indent : 2">  </a>&lsquo;a single quoted string&lsquo;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>vim, py</ping>
 </listing>
     <br/>
     <part>gives :</part>
@@ -1785,7 +1730,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; Note : This is pseudocode
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot; statement fits in one line, append a ; for c, js, java, perl
 <a title = "Indent : 2">  </a>let an = 42
 <a title = "Indent : 2">  </a>&quot; statement starts here
@@ -1804,8 +1749,8 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; depending on the language statements starting with a string are treated as autoprint
 <a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js</ping>
-<a title = "Indent : 2">  </a>&quot; vim
+<a title = "Indent : 2">  </a>&quot;a double quoted string&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>sh, c, perl , java, js, py</ping>
+<a title = "Indent : 2">  </a>&quot; vim, py
 <a title = "Indent : 2">  </a>echo &lsquo;a single quoted string&lsquo;
 <a title = "Indent : 0"></a>endfunc
 </listing>
@@ -1847,18 +1792,13 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>&quot; the linecount
-<a title = "Indent : 2">  </a>let b:count=1
-<a title = "Indent : 2">  </a>if b:count != 1
-<a title = "Indent : 4">    </a>echo &lsquo;internal error&lsquo;
-<a title = "Indent : 2">  </a>endif
-<a title = "Indent : 2">  </a>&quot; tell it to the user
-<a title = "Indent : 2">  </a>echo &lsquo;count :&lsquo; b:count
-<a title = "Indent : 2">  </a>&quot;count :&lsquo; b:count<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>this is a comment</ping>
-<a title = "Indent : 2">  </a>&quot; see &quot;:help :put&quot; for what it means
-<a title = "Indent : 2">  </a>:put=&lsquo;done&lsquo;
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\b:count=1
+<a title = "Indent : 2">  </a>\?
+<a title = "Indent : 2">  </a>\&lsquo;count :&lsquo; b:count
+<a title = "Indent : 2">  </a>\&quot;count :&lsquo; b:count
+<a title = "Indent : 2">  </a>\:put=&lsquo;done&lsquo;
+<a title = "Indent : 2">  </a>\
 </listing>
     <br/>
     <a name="A_U"></a>
@@ -1903,11 +1843,13 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping>
+<a title = "Indent : 0"></a>function Foo
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i &gt; 10</ping>
 <a title = "Indent : 4">    </a>bar(i)
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i++ &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>U<ping><a title="here is a Tab">	</a>i &gt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 4">    </a>i+=1
 </listing>
     <br/>
     <part>gives :</part>
@@ -1916,10 +1858,11 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>while 1
 <a title = "Indent : 4">    </a>bar(i)
-<a title = "Indent : 4">    </a>if i++ &gt; 10
+<a title = "Indent : 4">    </a>i+=1
+<a title = "Indent : 4">    </a>if i &gt; 10
 <a title = "Indent : 6">      </a>break
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>endwhile
@@ -1928,7 +1871,8 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>while 1
 <a title = "Indent : 4">    </a>bar(i)
-<a title = "Indent : 4">    </a>if i++ &gt; 10
+<a title = "Indent : 4">    </a>i+=1
+<a title = "Indent : 4">    </a>if i &gt; 10
 <a title = "Indent : 6">      </a>break
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>endwhile
@@ -1978,11 +1922,13 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
-<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i+&lt;10</ping>
+<a title = "Indent : 0"></a>function Foo
+<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i&lt;10</ping>
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>same as above</ping>
-<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i++ &lt; 10</ping><pong><a title="here is a Tab">	</a>bar(i)</pong>
+<a title = "Indent : 2">  </a>W<ping><a title="here is a Tab">	</a>i &lt; 10</ping><pong><a title="here is a Tab">	</a>i+=1</pong>
+<a title = "Indent : 4">    </a>bar(i)
 </listing>
     <br/>
     <part>gives :</part>
@@ -1991,14 +1937,16 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>while i+&lt;10
+<a title = "Indent : 0"></a>function Foo() 
+<a title = "Indent : 2">  </a>while i&lt;10
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>endwhile
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; same as above
 <a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>while i++ &lt; 10
+<a title = "Indent : 2">  </a>while i &lt; 10
+<a title = "Indent : 4">    </a>i+=1
 <a title = "Indent : 4">    </a>bar(i)
 <a title = "Indent : 2">  </a>endwhile
 <a title = "Indent : 0"></a>endfunc
@@ -2061,17 +2009,8 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>&quot; for (i=10;i&lt;20;i=i+1)
-<a title = "Indent : 2">  </a>let i=10
-<a title = "Indent : 2">  </a>while 1
-<a title = "Indent : 4">    </a>if !(i&lt;20)
-<a title = "Indent : 6">      </a>break
-<a title = "Indent : 4">    </a>endif
-<a title = "Indent : 4">    </a>echo &lsquo;Nr : &lsquo;.i
-<a title = "Indent : 4">    </a>let i=i+1
-<a title = "Indent : 2">  </a>endwhile
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\F
 </listing>
     <br/>
     <a name="A_initialisation"></a>
@@ -2144,20 +2083,17 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>&quot; vars
-<a title = "Indent : 2">  </a>let mylist = [
-<a title = "Indent : 4">    </a>\ 1,
-<a title = "Indent : 4">    </a>\ two,
-<a title = "Indent : 4">    </a>\ 3,
-<a title = "Indent : 4">    </a>\ &lsquo;four&lsquo;
-<a title = "Indent : 2">  </a>\]
-<a title = "Indent : 2">  </a>let nestlist = [
-<a title = "Indent : 4">    </a>\ [11, 12],
-<a title = "Indent : 4">    </a>\ [21, 22],
-<a title = "Indent : 4">    </a>\ [31, 32]
-<a title = "Indent : 2">  </a>\]
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\vars
+<a title = "Indent : 4">    </a>\mylist
+<a title = "Indent : 6">      </a>\1
+<a title = "Indent : 6">      </a>\two
+<a title = "Indent : 6">      </a>\3
+<a title = "Indent : 6">      </a>\&lsquo;four&lsquo;
+<a title = "Indent : 4">    </a>\nestlist
+<a title = "Indent : 6">      </a>\[11, 12]
+<a title = "Indent : 6">      </a>\[21, 22]
+<a title = "Indent : 6">      </a>\[31, 32]
 </listing>
     <br/>
     <a name="A_For"></a>
@@ -2216,16 +2152,10 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>&quot; for (i=1;i&lt;4;i=i+1)
-<a title = "Indent : 0"></a>let i=1
-<a title = "Indent : 0"></a>while 1
-<a title = "Indent : 2">  </a>if !(i&lt;4)
-<a title = "Indent : 4">    </a>break
-<a title = "Indent : 2">  </a>endif
-<a title = "Indent : 2">  </a>echo &lsquo;i inside loop : &lsquo; i
-<a title = "Indent : 2">  </a>let i=i+1
-<a title = "Indent : 0"></a>endwhile
-<a title = "Indent : 0"></a>echo &lsquo;i after loop : &lsquo; i
+<a title = "Indent : 0"></a>main
+<a title = "Indent : 2">  </a>\F
+<a title = "Indent : 4">    </a>\&lsquo;i inside loop : &lsquo; i
+<a title = "Indent : 2">  </a>\&lsquo;i after loop : &lsquo; i
 </listing>
     <br/>
     <annotation>Note :</annotation><br/>
@@ -2338,36 +2268,16 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>let vimtruS1=i
-<a title = "Indent : 0"></a>while 1
-<a title = "Indent : 2">  </a>if vimtruS1 ==# &lsquo;a&lsquo;
-<a title = "Indent : 4">    </a>echo &lsquo;One&lsquo;
-<a title = "Indent : 4">    </a>break
-<a title = "Indent : 2">  </a>endif
-<a title = "Indent : 2">  </a>if vimtruS1 ==# &lsquo;b&lsquo;
-<a title = "Indent : 4">    </a>echo &lsquo;two&lsquo;
-<a title = "Indent : 4">    </a>let vimtruS2=j
-<a title = "Indent : 4">    </a>while 1
-<a title = "Indent : 6">      </a>if vimtruS2 ==# &lsquo;A&lsquo;
-<a title = "Indent : 8">        </a>echo &lsquo;eins&lsquo;
-<a title = "Indent : 8">        </a>break
-<a title = "Indent : 6">      </a>endif
-<a title = "Indent : 6">      </a>if vimtruS2 ==# &lsquo;B&lsquo;
-<a title = "Indent : 8">        </a>echo &lsquo;zwei&lsquo;
-<a title = "Indent : 8">        </a>break
-<a title = "Indent : 6">      </a>endif
-<a title = "Indent : 6">      </a>echo &lsquo;sau viel&lsquo;
-<a title = "Indent : 6">      </a>break
-<a title = "Indent : 4">    </a>endwhile
-<a title = "Indent : 4">    </a>break
-<a title = "Indent : 2">  </a>endif
-<a title = "Indent : 2">  </a>if vimtruS1 ==# &lsquo;c&lsquo;
-<a title = "Indent : 4">    </a>echo &lsquo;three&lsquo;
-<a title = "Indent : 4">    </a>break
-<a title = "Indent : 2">  </a>endif
-<a title = "Indent : 2">  </a>echo &lsquo;something else&lsquo;
-<a title = "Indent : 2">  </a>break
-<a title = "Indent : 0"></a>endwhile
+<a title = "Indent : 0"></a>main
+<a title = "Indent : 2">  </a>\S
+<a title = "Indent : 4">    </a>\&lsquo;a&lsquo;
+<a title = "Indent : 4">    </a>\&lsquo;b&lsquo;
+<a title = "Indent : 6">      </a>\S
+<a title = "Indent : 8">        </a>\&lsquo;A&lsquo;
+<a title = "Indent : 8">        </a>\&lsquo;B&lsquo;
+<a title = "Indent : 8">        </a>\default
+<a title = "Indent : 4">    </a>\&lsquo;c&lsquo;
+<a title = "Indent : 4">    </a>\default
 </listing>
     <br/>
     <a name="A_default"></a>
@@ -2445,7 +2355,6 @@ OPTIONS:
       <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment</td></tr>
     </table>
     <br/>
-    <desc>It must be the last statement in the case.</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -2559,15 +2468,13 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>try
-<a title = "Indent : 6">      </a>sleep 2
-<a title = "Indent : 4">    </a>catch /^Vim:Interrupt$/
-<a title = "Indent : 6">      </a>echo &lsquo;interrupted&lsquo;
-<a title = "Indent : 4">    </a>finally
-<a title = "Indent : 6">      </a>echo &lsquo;continuing&lsquo;
-<a title = "Indent : 2">  </a>endtry
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\try
+<a title = "Indent : 6">      </a>\sleep 2
+<a title = "Indent : 4">    </a>\/^Vim:Interrupt$/
+<a title = "Indent : 6">      </a>\&lsquo;interrupted&lsquo;
+<a title = "Indent : 4">    </a>\finally
+<a title = "Indent : 6">      </a>\&lsquo;continuing&lsquo;
 </listing>
     <br/>
     <a name="A_block"></a>
@@ -2735,7 +2642,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>jdoc<ping><a title="here is a Tab">	</a>a very special program</ping>
 <a title = "Indent : 2">  </a>author<ping><a title="here is a Tab">	</a>buggs bunny</ping>
 <a title = "Indent : 2">  </a>this program does funny things
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>jdoc
 <a title = "Indent : 4">    </a>author<ping><a title="here is a Tab">	</a>flash gordon</ping>
 <a title = "Indent : 4">    </a>the jdoc tag can be given, but there is no real need to (except at level 1).
@@ -2751,7 +2658,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;-- a very special program
 <a title = "Indent : 0"></a>&quot;  @author buggs bunny
 <a title = "Indent : 0"></a>&quot;  this program does funny things
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot;-- 
 <a title = "Indent : 2">  </a>&quot;  @author flash gordon
 <a title = "Indent : 2">  </a>&quot;  the jdoc tag can be given, but there is no real need to (except at level 1).
@@ -2775,32 +2682,25 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_jdoc">jdoc</a><ping><a title="here is a Tab">	</a>[jdocu]</ping></td><td>=2</td><td>jdoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;&gt;*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -2841,20 +2741,16 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_jdoc">jdoc</a><ping><a title="here is a Tab">	</a>[jdocu]</ping></td><td>=2</td><td>jdoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>&gt;&gt;</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -2892,23 +2788,18 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_main">main</a></td><td>=o</td><td>main</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
     <div align="right"><filename>../common.tru</filename></div>
     <part>Signature :</part>
@@ -2933,7 +2824,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 4">    </a>author<ping><a title="here is a Tab">	</a>mikey mouse</ping>
 <a title = "Indent : 4">    </a>this function does even more funny things
 <a title = "Indent : 2">  </a>bar
@@ -2948,7 +2839,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;-- 
 <a title = "Indent : 0"></a>&quot;  @author mikey mouse
 <a title = "Indent : 0"></a>&quot;  this function does even more funny things
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar
 <a title = "Indent : 0"></a>endfunc
 </listing>
@@ -3005,7 +2896,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>vim code
 <a title = "Indent : 8">        </a>print &quot;
 <a title = "Indent : 10">          </a>one<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs survive</ping>
@@ -3025,7 +2916,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot;&quot; Hand written stuff<ping><a title="here is a Tab">	</a>3</ping>
 <a title = "Indent : 2">  </a>print &quot;
 <a title = "Indent : 4">    </a>one<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs survive</ping>
@@ -3125,7 +3016,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a># comment with<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>{
 <a title = "Indent : 4">    </a>stmt
 <a title = "Indent : 2">  </a>}
@@ -3139,7 +3030,7 @@ OPTIONS:
     <listing class="gives">
 <a title = "Indent : 0"></a>&quot; tabs
 <a title = "Indent : 0"></a># comment with
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>{
 <a title = "Indent : 4">    </a>stmt
 <a title = "Indent : 2">  </a>}
@@ -3244,7 +3135,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a># comment with<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>tabs</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a># an indented comment
 </listing>
     <br/>
@@ -3256,7 +3147,7 @@ OPTIONS:
     <listing class="gives">
 <a title = "Indent : 0"></a>&quot; tabs
 <a title = "Indent : 0"></a># comment with
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a># an indented comment
 <a title = "Indent : 0"></a>endfunc
 </listing>
@@ -3304,7 +3195,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>??<ping><a title="here is a Tab">	</a>a</ping><pong><a title="here is a Tab">	</a>0</pong><ping><a title="here is a Tab">	</a>print &quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;</pong>
 <a title = "Indent : 4">    </a>&lt;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>smaller</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>negative numbers</pong>
 <a title = "Indent : 4">    </a>==<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>equal</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>a zero</pong>
@@ -3317,7 +3208,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if a&lt;0
 <a title = "Indent : 4">    </a>print &quot;smaller&quot;
 <a title = "Indent : 2">  </a>elseif a==0
@@ -3337,7 +3228,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>??
 <a title = "Indent : 4">    </a>a == 1<ping><a title="here is a Tab">	</a>bar()</ping>
 <a title = "Indent : 4">    </a>b &gt;= c<ping><a title="here is a Tab">	</a>baz()</ping>
@@ -3350,7 +3241,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if a == 1
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>elseif b &gt;= c
@@ -3404,7 +3295,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>??*<ping><a title="here is a Tab">	</a>flag &amp; GC_</ping><pong><a title="here is a Tab">	</a> != 0</pong><ping><a title="here is a Tab">	</a>print &quot;file is </ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;</pong>
 <a title = "Indent : 4">    </a>read<ping><a title="here is a Tab">	</a>readable</ping>
 <a title = "Indent : 4">    </a>write<ping><a title="here is a Tab">	</a>writeable</ping>
@@ -3417,7 +3308,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if flag &amp; GC_read != 0
 <a title = "Indent : 4">    </a>print &quot;file is readable&quot;
 <a title = "Indent : 2">  </a>endif
@@ -3547,7 +3438,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>FOREVER<ping><a title="here is a Tab">	</a>bar()</ping>
 </listing>
     <br/>
@@ -3557,7 +3448,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>while 1
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>endwhile
@@ -3621,7 +3512,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>bar(&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;);</pong>
 <a title = "Indent : 14">              </a>one
 <a title = "Indent : 14">              </a>two
@@ -3633,7 +3524,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar(&quot;one&quot;);
 <a title = "Indent : 2">  </a>bar(&quot;two&quot;);
 <a title = "Indent : 0"></a>endfunc
@@ -3649,7 +3540,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>semicolon at end</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>M;<ping><a title="here is a Tab">	</a>print </ping>
 <a title = "Indent : 4">    </a>&quot;one&quot;
 <a title = "Indent : 4">    </a>1
@@ -3669,7 +3560,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; semicolon at end
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>print &quot;one&quot;;
 <a title = "Indent : 2">  </a>print 1;
 <a title = "Indent : 2">  </a>&quot;****************************************
@@ -3690,7 +3581,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>first field from the lines</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>M_<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>(bar(</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)+baz(</pong><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>));</ping>
 <a title = "Indent : 14">              </a>a<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>10</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>20</pong>
 <a title = "Indent : 14">              </a>b<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>100</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>200</pong>
@@ -3705,7 +3596,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; first field from the lines
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>a(bar(10)+baz(20));
 <a title = "Indent : 2">  </a>b(bar(100)+baz(200));
 <a title = "Indent : 0"></a>endfunc
@@ -3722,7 +3613,7 @@ OPTIONS:
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>more params than fields</ping>
 <a title = "Indent : 2">  </a>remaining fields will simply be concatenated
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>print </ping>
 <a title = "Indent : 4">    </a>0.<ping><a title="here is a Tab">	</a>1</ping>
 <a title = "Indent : 4">    </a>0.<ping><a title="here is a Tab">	</a>2</ping><pong><a title="here is a Tab">	</a>3</pong>
@@ -3739,7 +3630,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; remaining fields will simply be concatenated
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>print 0.1
 <a title = "Indent : 2">  </a>print 0.23
 <a title = "Indent : 0"></a>endfunc
@@ -3757,7 +3648,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>more fields then params</ping>
 <a title = "Indent : 2">  </a>these fields are not used at all.
 <a title = "Indent : 2">  </a>they can be used as a comment.
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>print(</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)</pong><ping><a title="here is a Tab">	</a>a comment</ping>
 <a title = "Indent : 16">                </a>1
 <a title = "Indent : 16">                </a>2
@@ -3775,7 +3666,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot; these fields are not used at all.
 <a title = "Indent : 0"></a>&quot; they can be used as a comment.
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>print(1)
 <a title = "Indent : 2">  </a>print(2)
 <a title = "Indent : 0"></a>endfunc
@@ -3791,7 +3682,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>a more realistic example (in perl)</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 2">  </a>M<ping><a title="here is a Tab">	</a>if ($size &gt; (</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a> )) { return int($size/(</pong><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>)).&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;;}</pong>
 <a title = "Indent : 24">                        </a>1024*1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>TB</pong>
 <a title = "Indent : 24">                        </a>1024*1024<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1024*1024</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>GB</pong>
@@ -3809,7 +3700,7 @@ OPTIONS:
 <a title = "Indent : 0"></a># a more realistic example (in perl)
 <a title = "Indent : 0"></a>#****************************************
 
-<a title = "Indent : 0"></a>sub Foo
+<a title = "Indent : 0"></a>sub foo
 <a title = "Indent : 0"></a>{
 <a title = "Indent : 2">  </a>if ($size &gt; (1024*1024*1024 )) { return int($size/(1024*1024*1024)).&quot;TB&quot;;}
 <a title = "Indent : 2">  </a>if ($size &gt; (1024*1024 )) { return int($size/(1024*1024)).&quot;GB&quot;;}
@@ -3863,7 +3754,7 @@ OPTIONS:
 <a title = "Indent : 10">          </a>1.01<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>too ugly</ping>
 <a title = "Indent : 10">          </a>11.11<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>well known pretty number</ping>
 <a title = "Indent : 10">          </a>42<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>for obvious reasons</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>helper function</ping>
 <a title = "Indent : 2">  </a>bar()
 </listing>
@@ -3882,7 +3773,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;         11.11<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>well known pretty number</ping>
 <a title = "Indent : 0"></a>&quot;         42<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>for obvious reasons</ping>
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; helper function
 <a title = "Indent : 2">  </a>&quot;****************************************
@@ -4009,7 +3900,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4023,7 +3914,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar(4)
 <a title = "Indent : 0"></a>endfunc
 </listing>
@@ -4037,7 +3928,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4051,7 +3942,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar(1)
 <a title = "Indent : 2">  </a>bar(2)
 <a title = "Indent : 2">  </a>bar(4)
@@ -4067,7 +3958,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>Dx<ping><a title="here is a Tab">	</a>bar(1)</ping>
 <a title = "Indent : 2">  </a>Dy
 <a title = "Indent : 4">    </a>bar(2)
@@ -4081,7 +3972,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar(1)
 <a title = "Indent : 2">  </a>bar(2)
 <a title = "Indent : 2">  </a>bar(3)
@@ -4145,25 +4036,25 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo1
+<a title = "Indent : 0"></a>function Foo1
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>1..3</ping>
 <a title = "Indent : 4">    </a>foo<ping><a title="here is a Tab">	</a>();</ping>
-<a title = "Indent : 0"></a>Foo2
+<a title = "Indent : 0"></a>function Foo2
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>1,5,7</ping>
 <a title = "Indent : 4">    </a>bar<ping><a title="here is a Tab">	</a>();</ping>
-<a title = "Indent : 0"></a>Foo3
+<a title = "Indent : 0"></a>function Foo3
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>qw(north east west south)</ping><pong><a title="here is a Tab">	</a>print &quot;</pong><ping><a title="here is a Tab">	</a>&quot;;</ping>
-<a title = "Indent : 0"></a>Foo4
+<a title = "Indent : 0"></a>function Foo4
 <a title = "Indent : 2">  </a>R/object/<ping><a title="here is a Tab">	</a>north,east,west,south</ping>
 <a title = "Indent : 4">    </a>object.add(); // add object to the pane
 <a title = "Indent : 4">    </a>print(&quot;added a object&quot;);
 <a title = "Indent : 4">    </a>// this line is copied unchanged
-<a title = "Indent : 0"></a>Foo5
+<a title = "Indent : 0"></a>function Foo5
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>the list below will not be produced.</ping>
 <a title = "Indent : 4">    </a>Instead an error will be reported
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>pins,passwords,keys</ping>
 <a title = "Indent : 4">    </a>process(<ping><a title="here is a Tab">	</a>);</ping>
-<a title = "Indent : 0"></a>Foo6
+<a title = "Indent : 0"></a>function Foo6
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>quoted words cause no trouble</ping>
 <a title = "Indent : 2">  </a>R<ping><a title="here is a Tab">	</a>&lsquo;pins&lsquo;,&lsquo;passwords&lsquo;,&lsquo;keys&lsquo;</ping>
 <a title = "Indent : 4">    </a>process(<ping><a title="here is a Tab">	</a>);</ping>
@@ -4175,23 +4066,23 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo1() 
+<a title = "Indent : 0"></a>function Foo1() 
 <a title = "Indent : 2">  </a>foo1();
 <a title = "Indent : 2">  </a>foo2();
 <a title = "Indent : 2">  </a>foo3();
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo2() 
+<a title = "Indent : 0"></a>function Foo2() 
 <a title = "Indent : 2">  </a>bar1();
 <a title = "Indent : 2">  </a>bar5();
 <a title = "Indent : 2">  </a>bar7();
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo3() 
+<a title = "Indent : 0"></a>function Foo3() 
 <a title = "Indent : 2">  </a>print &quot;north&quot;;
 <a title = "Indent : 2">  </a>print &quot;east&quot;;
 <a title = "Indent : 2">  </a>print &quot;west&quot;;
 <a title = "Indent : 2">  </a>print &quot;south&quot;;
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo4() 
+<a title = "Indent : 0"></a>function Foo4() 
 <a title = "Indent : 2">  </a>north.add(); // add north to the pane
 <a title = "Indent : 2">  </a>print(&quot;added a north&quot;);
 <a title = "Indent : 2">  </a>// this line is copied unchanged
@@ -4205,14 +4096,14 @@ OPTIONS:
 <a title = "Indent : 2">  </a>print(&quot;added a south&quot;);
 <a title = "Indent : 2">  </a>// this line is copied unchanged
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo5() 
+<a title = "Indent : 0"></a>function Foo5() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; the list below will not be produced.
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; Instead an error will be reported
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo6() 
+<a title = "Indent : 0"></a>function Foo6() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; quoted words cause no trouble
 <a title = "Indent : 2">  </a>&quot;****************************************
@@ -4300,7 +4191,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>a=1
 <a title = "Indent : 2">  </a>hide<ping><a title="here is a Tab">	</a>this code does not work</ping>
 <a title = "Indent : 4">    </a>// some experimental code
@@ -4313,7 +4204,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>let a=1
 <a title = "Indent : 0"></a>endfunc
 </listing>
@@ -4395,7 +4286,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>main
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>stmt1
 
 <a title = "Indent : 2">  </a>stmt2
@@ -4407,8 +4298,10 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>stmt1
-<a title = "Indent : 0"></a>stmt2
+<a title = "Indent : 0"></a>function Foo() 
+<a title = "Indent : 2">  </a>stmt1
+<a title = "Indent : 2">  </a>stmt2
+<a title = "Indent : 0"></a>endfunc
 </listing>
     <br/>
     <a name="A_T"></a>
@@ -4456,7 +4349,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>T1\<ping><a title="here is a Tab">	</a>bar(&quot;#1#&quot;);</ping><pong><a title="here is a Tab">	</a>baz(#2#);</pong>
 <a title = "Indent : 4">    </a>string<ping><a title="here is a Tab">	</a>int</ping>
 <a title = "Indent : 4">    </a>one<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>1</ping>
@@ -4470,7 +4363,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>bar(&quot;one&quot;);
 <a title = "Indent : 2">  </a>baz(1);
 
@@ -4496,8 +4389,8 @@ OPTIONS:
 <a title = "Indent : 6">      </a>void foo
 <a title = "Indent : 8">        </a>T1\<ping><a title="here is a Tab">	</a>#1#Button.setText(&quot;#2#&quot;);</ping><pong><a title="here is a Tab">	</a>#1#.setMnemonic(KeyEvent.VK_#3#);</pong>
 <a title = "Indent : 10">          </a>button<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Text</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Hot-Key</pong>
-<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
-<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
+<a title = "Indent : 10">          </a>editOrView<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>View -&gt; Edit</ping><pong><a title="here is a Tab">	</a>E</pong>
+<a title = "Indent : 10">          </a>saveChanges<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Save changes</ping><pong><a title="here is a Tab">	</a>S</pong>
 <a title = "Indent : 10">          </a>refresh<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Refresh</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>R</pong>
 <a title = "Indent : 10">          </a>details<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>Details</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>D</pong>
 <a title = "Indent : 10">          </a>newEntry<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>New Entry</ping><pong><a title="here is a Tab">	</a>N</pong>
@@ -4581,7 +4474,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>!<ping><a title="here is a Tab">	</a>i&lt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>-
@@ -4596,7 +4489,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if !(i&lt;=10)
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>else
@@ -4693,7 +4586,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>?<ping><a title="here is a Tab">	</a>i&lt;=10</ping>
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>-
@@ -4708,7 +4601,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if i&lt;=10
 <a title = "Indent : 4">    </a>bar()
 <a title = "Indent : 2">  </a>else
@@ -4734,7 +4627,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>?<ping><a title="here is a Tab">	</a>i == 0</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;zero&quot;</pong>
 <a title = "Indent : 2">  </a>?-<ping><a title="here is a Tab">	</a>i == 1</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;one&quot;</pong>
 <a title = "Indent : 2">  </a>!-<ping><a title="here is a Tab">	</a>i &gt; 10</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;small&quot;</pong>
@@ -4747,7 +4640,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>if i == 0
 <a title = "Indent : 4">    </a>&quot;zero&quot;
 <a title = "Indent : 2">  </a>elseif i == 1
@@ -4889,7 +4782,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>These are pseudo examples.</ping>
 <a title = "Indent : 4">    </a>they may not be runnable code but can give the idea
 
@@ -4924,7 +4817,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; These are pseudo examples.
 <a title = "Indent : 2">  </a>&quot;****************************************
@@ -5081,7 +4974,7 @@ OPTIONS:
     <desc></desc><br/>
     <desc>The strategies are applied to the plan, which is formed by the block of lines.</desc><br/>
     <desc>  The plan is repeated as often as there are strategies, each round with the next strategy applied to the plan.</desc><br/>
-    <desc>  repeating the plan is done by refeeding it to the truer</desc><br/>
+    <desc>  repeating the plan is done by refeeding it to the truer (this may make debugging a bit harder)</desc><br/>
     <desc>  depending on the flag &lt;</desc><br/>
     <desc>    flag given		the block is shifted two spaces to the left.</desc><br/>
     <desc>    flag not given	the block is refed without fussing with the indent of the lines</desc><br/>
@@ -5100,16 +4993,16 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note that the truer must be started with the option -allowP for this to work</ping>
-<a title = "Indent : 0"></a>Foo1
+<a title = "Indent : 0"></a>function Foo1
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 3 repetitions of the block, each with another op, the plan has no name</ping>
 <a title = "Indent : 2">  </a>P!<ping><a title="here is a Tab">	</a>s/op/&gt;/g</ping><pong><a title="here is a Tab">	</a>s/op/&lt;/g</pong><ping><a title="here is a Tab">	</a>s/op/==/g</ping>
-<a title = "Indent : 4">    </a>// running tests for op
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>running tests for op</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>test1() op test2()</ping><pong><a title="here is a Tab">	</a>handleTests(&quot;op&quot;)</pong>
 
-<a title = "Indent : 0"></a>Foo2
+<a title = "Indent : 0"></a>function Foo2
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>produce 2 repetitions of the block, the first is unchanged</ping>
 <a title = "Indent : 2">  </a>P!example with untouched block<ping><a title="here is a Tab">	</a>;</ping><pong><a title="here is a Tab">	</a>s/green/red/g</pong>
-<a title = "Indent : 4">    </a>// when the lights are green
+<a title = "Indent : 4">    </a>doc<ping><a title="here is a Tab">	</a>when the lights are green</ping>
 <a title = "Indent : 4">    </a>?<ping><a title="here is a Tab">	</a>light == &quot;green&quot;</ping><pong><a title="here is a Tab">	</a>greenseen++</pong>
 
 </listing>
@@ -5123,39 +5016,49 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; Note that the truer must be started with the option -allowP for this to work
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo1() 
+<a title = "Indent : 0"></a>function Foo1() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; produce 3 repetitions of the block, each with another op, the plan has no name
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; start of plan 
 <a title = "Indent : 2">  </a>&quot; plan &quot;&quot;, strategy &quot;s/op/&gt;/g&quot;
-<a title = "Indent : 4">    </a>// running tests for &gt;
+<a title = "Indent : 4">    </a>&quot;****************************************
+<a title = "Indent : 4">    </a>&quot; running tests for &gt;
+<a title = "Indent : 4">    </a>&quot;****************************************
 <a title = "Indent : 4">    </a>if test1() &gt; test2()
 <a title = "Indent : 6">      </a>handleTests(&quot;&gt;&quot;)
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>&quot; plan &quot;&quot;, strategy &quot;s/op/&lt;/g&quot;
-<a title = "Indent : 4">    </a>// running tests for &lt;
+<a title = "Indent : 4">    </a>&quot;****************************************
+<a title = "Indent : 4">    </a>&quot; running tests for &lt;
+<a title = "Indent : 4">    </a>&quot;****************************************
 <a title = "Indent : 4">    </a>if test1() &lt; test2()
 <a title = "Indent : 6">      </a>handleTests(&quot;&lt;&quot;)
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>&quot; plan &quot;&quot;, strategy &quot;s/op/==/g&quot;
-<a title = "Indent : 4">    </a>// running tests for ==
+<a title = "Indent : 4">    </a>&quot;****************************************
+<a title = "Indent : 4">    </a>&quot; running tests for ==
+<a title = "Indent : 4">    </a>&quot;****************************************
 <a title = "Indent : 4">    </a>if test1() == test2()
 <a title = "Indent : 6">      </a>handleTests(&quot;==&quot;)
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Foo2() 
+<a title = "Indent : 0"></a>function Foo2() 
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; produce 2 repetitions of the block, the first is unchanged
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>&quot; start of plan example with untouched block
 <a title = "Indent : 2">  </a>&quot; plan &quot;example with untouched block&quot;, strategy &quot;;&quot;
-<a title = "Indent : 4">    </a>// when the lights are green
+<a title = "Indent : 4">    </a>&quot;****************************************
+<a title = "Indent : 4">    </a>&quot; when the lights are green
+<a title = "Indent : 4">    </a>&quot;****************************************
 <a title = "Indent : 4">    </a>if light == &quot;green&quot;
 <a title = "Indent : 6">      </a>greenseen++
 <a title = "Indent : 4">    </a>endif
 <a title = "Indent : 2">  </a>&quot; plan &quot;example with untouched block&quot;, strategy &quot;s/green/red/g&quot;
-<a title = "Indent : 4">    </a>// when the lights are red
+<a title = "Indent : 4">    </a>&quot;****************************************
+<a title = "Indent : 4">    </a>&quot; when the lights are red
+<a title = "Indent : 4">    </a>&quot;****************************************
 <a title = "Indent : 4">    </a>if light == &quot;red&quot;
 <a title = "Indent : 6">      </a>redseen++
 <a title = "Indent : 4">    </a>endif
@@ -5241,7 +5144,7 @@ OPTIONS:
     <br/><br/>
     <listing class="Example">
 <a title = "Indent : 0"></a>doc<ping><a title="here is a Tab">	</a>Note : This is pseudocode</ping>
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>init</ping>
 <a title = "Indent : 4">    </a>init()
 <a title = "Indent : 2">  </a>o<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
@@ -5261,7 +5164,7 @@ OPTIONS:
 <a title = "Indent : 0"></a>&quot;****************************************
 <a title = "Indent : 0"></a>&quot; Note : This is pseudocode
 <a title = "Indent : 0"></a>&quot;****************************************
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot;<ping><a title="here is a Tab">	</a>init</ping>
 <a title = "Indent : 4">    </a>init()
 <a title = "Indent : 2">  </a>&quot;<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
@@ -5271,88 +5174,6 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot;<ping><a title="here is a Tab">	</a>exit</ping>
 <a title = "Indent : 4">    </a>exit()
 <a title = "Indent : 0"></a>endfunc
-</listing>
-    <br/>
-    <a name="A_main"></a>
-    <h1>main       <shortText>the top-level code (outside of any function)</shortText></h1>
-<part>Structure :</part>
-  <howToRead>[
-    <a href="howtoread/structure.html" title="how to read the structure">help</a>
-  ]</howToRead>
-  <completeStructure>[
-    <a href="#L_Structure" title="jump to the complete structure for ./vim_tru">complete Structure</a>
-  ]</completeStructure>
-  <br/><br/>
-<table class="structure" rules="cols">
-<tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>main</td><td>=o</td><td>main</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_Option">Option</a><ping><a title="here is a Tab">	</a>[comment]</ping></td><td>=</td><td>Option</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt3atype5bdefault5d">opt:type[default]</a><ping><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td>.+:.+(?:\[.*\])?</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_opt">opt</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>shortdesc</ping><pong><a title="here is a Tab">	</a>[stmt]</pong></td><td>=o</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_Optiondescription">Optiondescription</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
-</table>
-    <div align="right"><filename>vim.tru</filename></div>
-    <part>Signature :</part>
-    <howToRead>[
-      <a href="howtoread/signature.html" title="how to read the signature">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <signatureDiv>
-<a title = "Indent : -2"></a>main
-    </signatureDiv>
-    <br/><br/>
-    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
-      <tr><td>main</td><td>Indicator</td><td>.*</td><td></td></tr>
-    </table>
-    <br/>
-    <desc>There can be more than one main section.</desc><br/>
-    <desc>Though it looks like a function it is&lsquo;nt one.</desc><br/>
-    <part>Example :</part>
-    <howToRead>[
-      <a href="howtoread/Example.html" title="how to read the Example">help</a>
-    ]</howToRead>
-    <xcommand>[
-      <a title="vim_tru -noIntro">cmd</a>
-    ]</xcommand>
-    <br/><br/>
-    <listing class="Example">
-<a title = "Indent : 0"></a>usage<ping><a title="here is a Tab">	</a>just for demonstration</ping>
-<a title = "Indent : 0"></a>main
-<a title = "Indent : 2">  </a>s:cpo_save = &amp;cpo
-<a title = "Indent : 2">  </a>set<ping><a title="here is a Tab">	</a>cpo&amp;vim</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>I want the defaults</pong>
-<a title = "Indent : 0"></a>map
-<a title = "Indent : 2">  </a>X<ping><a title="here is a Tab">	</a>\&lt;Esc&gt;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>as in the example for &quot;:he cpo-B&quot;</pong>
-<a title = "Indent : 2">  </a>Y<ping><a title="here is a Tab">	</a>\&lt;CR&gt;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>my own invention</pong>
-<a title = "Indent : 0"></a>main
-<a title = "Indent : 2">  </a>&amp;cpo = s:cpo_save
-<a title = "Indent : 2">  </a>unlet s:cpo_save
-</listing>
-    <br/>
-    <part>gives :</part>
-    <howToRead>[
-      <a href="howtoread/gives.html" title="how to read the gives">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <listing class="gives">
-<a title = "Indent : 0"></a>&quot;usage for just for demonstration
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>X</ping><pong><a title="here is a Tab">	</a>as in the example for &quot;:he cpo-B&quot;</pong>
-<a title = "Indent : 0"></a>&quot;<ping><a title="here is a Tab">	</a>Y</ping><pong><a title="here is a Tab">	</a>my own invention</pong>
-<a title = "Indent : 0"></a>&quot;
-<a title = "Indent : 0"></a>&quot;---------------------------------------------
-<a title = "Indent : 0"></a>let s:cpo_save = &amp;cpo
-<a title = "Indent : 0"></a>&quot; I want the defaults
-<a title = "Indent : 0"></a>set cpo&amp;vim
-<a title = "Indent : 0"></a>&quot; X       -&gt; as in the example for &quot;:he cpo-B&quot;
-<a title = "Indent : 0"></a>map X \&lt;Esc&gt;
-<a title = "Indent : 0"></a>&quot; Y       -&gt; my own invention
-<a title = "Indent : 0"></a>map Y \&lt;CR&gt;
-<a title = "Indent : 0"></a>let &amp;cpo = s:cpo_save
-<a title = "Indent : 0"></a>unlet s:cpo_save
 </listing>
     <br/>
     <a name="A_function"></a>
@@ -5367,17 +5188,18 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/^function!?\s/</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>&gt;o2</td><td>/^function!?/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>function<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>!?[A-Z].*</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_functions">functions</a></td><td>=</td><td>functions!?</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>function<ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
     <div align="right"><filename>vim.tru</filename></div>
     <part>Signature :</part>
@@ -5396,7 +5218,7 @@ OPTIONS:
     </table>
     <br/>
     <desc>Introduces a function and it&lsquo;s parameters.</desc><br/>
-    <desc>The function is created with ! unless -obeyBang is given.</desc><br/>
+    <desc>The function is created with ! if this definition is found in functions!</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -5406,17 +5228,19 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
-<a title = "Indent : 2">  </a>return &quot;Foo&quot;
-<a title = "Indent : 0"></a>Bar<ping><a title="here is a Tab">	</a>i</ping>
-<a title = "Indent : 2">  </a>return a:i*a:i
-<a title = "Indent : 0"></a>RemoveTrailingWhites<ping><a title="here is a Tab">	</a> </ping><pong><a title="here is a Tab">	</a>range</pong>
-<a title = "Indent : 2">  </a>save_cursor = getpos(&quot;.&quot;)
-<a title = "Indent : 2">  </a>echo &lsquo;nothing changed&lsquo;<ping><a title="here is a Tab">	</a>can be overwritten by the next statement</ping>
-<a title = "Indent : 2">  </a>execute a:firstline . &quot;,&quot; . a:lastline . &lsquo;s/[ \t\r]\+$//e&lsquo;
-<a title = "Indent : 2">  </a>call setpos(&lsquo;.&lsquo;, save_cursor)
-<a title = "Indent : 0"></a>!FooBar
-<a title = "Indent : 2">  </a>return &lsquo;this function will have the ! independent of -obeyBang&lsquo;
+<a title = "Indent : 0"></a>functions
+<a title = "Indent : 2">  </a>Foo
+<a title = "Indent : 4">    </a>return &quot;Foo&quot;
+<a title = "Indent : 2">  </a>Bar<ping><a title="here is a Tab">	</a>i</ping>
+<a title = "Indent : 4">    </a>return a:i*a:i
+<a title = "Indent : 2">  </a>RemoveTrailingWhites<ping><a title="here is a Tab">	</a> </ping><pong><a title="here is a Tab">	</a>range</pong>
+<a title = "Indent : 4">    </a>save_cursor = getpos(&quot;.&quot;)
+<a title = "Indent : 4">    </a>echo &lsquo;nothing changed&lsquo;<ping><a title="here is a Tab">	</a>can be overwritten by the next statement</ping>
+<a title = "Indent : 4">    </a>execute a:firstline . &quot;,&quot; . a:lastline . &lsquo;s/[ \t\r]\+$//e&lsquo;
+<a title = "Indent : 4">    </a>call setpos(&lsquo;.&lsquo;, save_cursor)
+<a title = "Indent : 0"></a>functions!
+<a title = "Indent : 2">  </a>FooBar
+<a title = "Indent : 4">    </a>return &lsquo;this function will have the !&lsquo;
 <a title = "Indent : 0"></a>function! b.init() dict
 <a title = "Indent : 4">    </a>docu for b.init()
 <a title = "Indent : 2">  </a>&lsquo;from b.init() &lsquo;
@@ -5429,13 +5253,13 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>return &quot;Foo&quot;
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!Bar(i) 
+<a title = "Indent : 0"></a>function Bar(i) 
 <a title = "Indent : 2">  </a>return a:i*a:i
 <a title = "Indent : 0"></a>endfunc
-<a title = "Indent : 0"></a>function!RemoveTrailingWhites( ) range
+<a title = "Indent : 0"></a>function RemoveTrailingWhites( ) range
 <a title = "Indent : 2">  </a>let save_cursor = getpos(&quot;.&quot;)
 <a title = "Indent : 2">  </a>&quot; can be overwritten by the next statement
 <a title = "Indent : 2">  </a>echo &lsquo;nothing changed&lsquo;
@@ -5443,11 +5267,11 @@ OPTIONS:
 <a title = "Indent : 2">  </a>call setpos(&lsquo;.&lsquo;, save_cursor)
 <a title = "Indent : 0"></a>endfunc
 <a title = "Indent : 0"></a>function!FooBar() 
-<a title = "Indent : 2">  </a>return &lsquo;this function will have the ! independent of -obeyBang&lsquo;
+<a title = "Indent : 2">  </a>return &lsquo;this function will have the !&lsquo;
 <a title = "Indent : 0"></a>endfunc
 <a title = "Indent : 0"></a>&quot;-- 
 <a title = "Indent : 0"></a>&quot;  docu for b.init()
-<a title = "Indent : 0"></a>function! b.init() dict
+<a title = "Indent : 0"></a>function! b.init() dict() 
 <a title = "Indent : 2">  </a>echo &lsquo;from b.init() &lsquo;
 <a title = "Indent : 2">  </a>echo self
 <a title = "Indent : 0"></a>endfunc
@@ -6756,17 +6580,10 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>perl &lt;&lt;EOT
-<a title = "Indent : 2">  </a>#  protos
-<a title = "Indent : 2">  </a>sub foo;
-
-<a title = "Indent : 2">  </a>sub foo
-<a title = "Indent : 2">  </a>{
-<a title = "Indent : 4">    </a>$bar=1;
-<a title = "Indent : 2">  </a>}
-<a title = "Indent : 0"></a>EOT
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\perl
+<a title = "Indent : 4">    </a>\foo
+<a title = "Indent : 6">      </a>\$bar=1
 </listing>
     <br/>
     <a name="A_viminput"></a>
@@ -6833,41 +6650,18 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
-<a title = "Indent : 2">  </a>perl &lt;&lt;EOT
-<a title = "Indent : 2">  </a>#  protos
-<a title = "Indent : 2">  </a>sub foo;
-
-<a title = "Indent : 2">  </a>sub foo
-<a title = "Indent : 2">  </a>{
-<a title = "Indent : 4">    </a>VIM::DoCommand(&quot;cnoremap &lt;c-c&gt; &lt;C-e&gt;&lt;C-u&gt;{cancelreturn}&lt;esc&gt;&quot;);
-<a title = "Indent : 4">    </a>VIM::DoCommand(qq(let cmd=input(&quot;File : &quot;,&quot;foo.rc&quot;,&quot;file&quot;)));
-<a title = "Indent : 4">    </a>VIM::DoCommand(&quot;cunmap &lt;c-c&gt;&quot;);
-<a title = "Indent : 4">    </a>VIM::DoCommand(&quot;redraw&quot;);
-<a title = "Indent : 4">    </a>($success,$answer)=VIM::Eval(&lsquo;cmd&lsquo;);
-<a title = "Indent : 4">    </a>if (!($success and $answer ne &quot;{cancelreturn}&quot;)) {
-<a title = "Indent : 6">      </a>VIM::Msg(&quot;cancelled&quot;);
-<a title = "Indent : 4">    </a>}
-<a title = "Indent : 4">    </a>VIM::DoCommand(&quot;call histdel(&lsquo;input&lsquo;,&lsquo;^{cancelreturn}\$&lsquo;)&quot;);
-<a title = "Indent : 4">    </a>if ($success and $answer ne &quot;{cancelreturn}&quot;) {
-<a title = "Indent : 6">      </a>if (!($answer)) {
-<a title = "Indent : 8">        </a>return;
-<a title = "Indent : 6">      </a>}
-<a title = "Indent : 6">      </a>local *TF;
-<a title = "Indent : 6">      </a>if (-r $answer) {
-<a title = "Indent : 8">        </a>if (open(TF,$answer)) {
-<a title = "Indent : 10">          </a>while (&lt;TF&gt;) {
-<a title = "Indent : 12">            </a>bar($_);
-<a title = "Indent : 10">          </a>}
-<a title = "Indent : 10">          </a>close TF;
-<a title = "Indent : 8">        </a>}
-<a title = "Indent : 6">      </a>}
-<a title = "Indent : 4">    </a>} else {
-<a title = "Indent : 6">      </a>return;
-<a title = "Indent : 4">    </a>}
-<a title = "Indent : 2">  </a>}
-<a title = "Indent : 0"></a>EOT
-<a title = "Indent : 0"></a>endfunc
+<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 2">  </a>\perl
+<a title = "Indent : 4">    </a>\foo
+<a title = "Indent : 6">      </a>\viminput
+<a title = "Indent : 8">        </a>\!
+<a title = "Indent : 8">        </a>\local *TF
+<a title = "Indent : 8">        </a>\?
+<a title = "Indent : 10">          </a>\?
+<a title = "Indent : 12">            </a>\W
+<a title = "Indent : 14">              </a>\bar($_)
+<a title = "Indent : 12">            </a>\close TF
+<a title = "Indent : 6">      </a>\-
 </listing>
     <br/>
     <a name="A_perll"></a>
@@ -7464,21 +7258,15 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>for item in copy(mylist)
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>&quot; an inefficient way to make a list empty
-<a title = "Indent : 2">  </a>&quot;****************************************
-<a title = "Indent : 2">  </a>for item in mylist
-<a title = "Indent : 4">    </a>call remove(mylist, 0)
-<a title = "Indent : 2">  </a>endfor
-<a title = "Indent : 2">  </a>for item in [&quot;foo&quot;, [&quot;bar&quot;]]
-<a title = "Indent : 4">    </a>echo item
-<a title = "Indent : 4">    </a>unlet item  &quot; E706 without this
-<a title = "Indent : 2">  </a>endfor
-<a title = "Indent : 2">  </a>for [lnum, col] in [[1, 3], [2, 5], [3, 8]]
-<a title = "Indent : 4">    </a>echo getline(lnum)[col]
-<a title = "Indent : 2">  </a>endfor
-<a title = "Indent : 0"></a>endfor
+<a title = "Indent : 0"></a>main
+<a title = "Indent : 2">  </a>\F
+<a title = "Indent : 4">    </a>\doc
+<a title = "Indent : 4">    </a>\F
+<a title = "Indent : 6">      </a>\call remove(mylist, 0)
+<a title = "Indent : 4">    </a>\F
+<a title = "Indent : 6">      </a>\echo item
+<a title = "Indent : 6">      </a>\unlet item  &quot; E706 without this
+<a title = "Indent : 4">    </a>\F
 </listing>
     <br/>
     <desc>see also <A href="#A_For">For</a> and <A href="#A_fancyFor">fancyFor</a></desc><br/>
@@ -7579,7 +7367,7 @@ OPTIONS:
     ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>Foo
+<a title = "Indent : 0"></a>function Foo
 <a title = "Indent : 2">  </a>var s = &quot;(..)&quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>this is not treated by wantListOrObject because of the ##PURE## in here</ping>
 <a title = "Indent : 2">  </a>var a = {..}<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>here comes a dictionary</ping>
 <a title = "Indent : 4">    </a>answer<ping><a title="here is a Tab">	</a>42</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>you know why</pong>
@@ -7600,7 +7388,7 @@ OPTIONS:
     ]</howToRead>
     <br/><br/>
     <listing class="gives">
-<a title = "Indent : 0"></a>function!Foo() 
+<a title = "Indent : 0"></a>function Foo() 
 <a title = "Indent : 2">  </a>&quot; this is not treated by wantListOrObject because of the ##PURE## in here
 <a title = "Indent : 2">  </a>var s = &quot;(..)&quot;
 <a title = "Indent : 2">  </a>var a = {
@@ -7753,8 +7541,8 @@ OPTIONS:
 <a title = "Indent : 0"></a>\ }
 </listing>
     <br/>
-    <a name="A_global20code"></a>
-    <h1>global code       <shortText>For code outside any function</shortText></h1>
+    <a name="A_functions"></a>
+    <h1>functions       <shortText>introduces a block of function definitions</shortText></h1>
 <part>Structure :</part>
   <howToRead>[
     <a href="howtoread/structure.html" title="how to read the structure">help</a>
@@ -7765,46 +7553,34 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>global code</td><td>=</td><td>global code</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>functions</td><td>=</td><td>functions!?</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping><pong><a title="here is a Tab">	</a>modifiers</pong></td><td>=o</td><td>[A-Z].*</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 </table>
-    <div align="right"><filename>../globalCode.tru</filename></div>
+    <div align="right"><filename>vim.tru</filename></div>
     <part>Signature :</part>
     <howToRead>[
       <a href="howtoread/signature.html" title="how to read the signature">help</a>
     ]</howToRead>
     <br/><br/>
     <signatureDiv>
-<a title = "Indent : -2"></a>global code
+<a title = "Indent : -2"></a>functions
     </signatureDiv>
     <br/><br/>
     <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
-      <tr><td>global code</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>functions</td><td>Indicator</td><td>.*</td><td></td></tr>
     </table>
     <br/>
-    <desc>some languages, such as perl, sh or vim allow</desc><br/>
-    <desc>code outside any function.</desc><br/>
-    <desc>This is handled here.</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
     ]</howToRead>
-    <xcommand>[
-      <a title="vim_tru -noIntro">cmd</a>
-    ]</xcommand>
     <br/><br/>
     <listing class="Example">
-<a title = "Indent : 0"></a>global code
-<a title = "Indent : 2">  </a>&quot;running&quot;
-</listing>
-    <br/>
-    <part>gives :</part>
-    <howToRead>[
-      <a href="howtoread/gives.html" title="how to read the gives">help</a>
-    ]</howToRead>
-    <br/><br/>
-    <listing class="gives">
-<a title = "Indent : 0"></a>&quot;Code outside any function
-<a title = "Indent : 0"></a>&quot;running&quot;
+    see <A href="#A_function">function</a>
 </listing>
     <br/>
     <br/>

@@ -1,0 +1,118 @@
+VERSION	3.0
+F	i=1;i<4;i=i+1	'i inside loop : ',i
+  s=1
+'i after loop : ',i
+list=[1,2,3]
+F	j in list	'j inside loop : ',j
+  s=2
+'j after loop : ',j
+a=3+
+  4 -
+    4-
+     5
+released = {..}
+  "iphone"	2007
+  "iphone 3G"	2008
+  "iphone 3GS"	2009
+  "iphone 4"	2010
+  "iphone 4S"	2011
+  "iphone 5"	2012
+  "tu"		(..)
+    1
+    2
+print(released)
+usage	demo file
+	describing the usage
+!	1==0	"unequal"
+def divide	x, y
+    simple example from the python docu
+  try
+      result = x / y
+    ZeroDivisionError
+      "division by zero!"
+    -
+      'result is', result
+    finally
+      print("executing finally clause")
+defs
+  foo	x
+      this is the jdocu for foo
+	followed by even more description, a blank line
+
+	and more description
+    print(a)
+    print(x)
+    print(c)
+  bar	x,y
+    return x+y
+divide(3,2)
+vars
+  a=3	size
+  b=4	age
+  c=[..]
+    1
+    "zwei"
+    2+.5
+    (..)
+      bar(..)
+	10
+	20
+      3
+      4
+      [(..)]
+        5
+        7
+foo(2)
+Option
+  a	output all	"option -a given"
+	more info for option a
+    "lucky you"
+  b	output binary
+  f:file[/tmp/x]	infile	"file is now ",opt.f
+    #"file is %s\n", opt_f
+  t:number[8]		how many spaces are a tab	"tabs set to ",opt.t
+"-a : ",opt.a
+"-f : ",opt.f
+"-t : ",opt.t
+print("argv : ",argv)
+print("a:"+str(opt.a))		a comment
+"a:"+str(opt.a)		a comment
+print("b:"+str(opt.b))
+FOREVER
+  "a:",a
+  F	i=1...4
+    ?	i&1
+      ""+str(i)
+    -
+      "   "+str(i)
+  break
+i=0
+U	i==3
+  ""+str(i)
+  i+=1
+i=2
+S	i
+  1	"one"
+  2	"two"
+  3	"three"
+  default	"default"
+vars
+  enum	Pieces
+    King
+    Rook
+    Bishop
+print(Pieces.King)
+usage()
+class Board
+  defs
+    __init__	self
+      pass
+    coll	self
+      pass
+class Chesspoard	Board
+  vars
+    a=[..]
+      1
+      2
+  pass
+

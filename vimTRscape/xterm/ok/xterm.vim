@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on xterm.vimTR , version : 3.0
+" based on xterm.vimTR , version : 4.0
 "usage for ShowPrimaryScreen
 "	this only works when running vim in an xterm.
 "

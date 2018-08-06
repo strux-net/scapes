@@ -4,7 +4,7 @@
 " or you may loose all your changes and probably choose the wrong method.
 " goto http://www.strux.net to find more information.
 "
-" based on session.vimTR , version : 3.0a
+" based on session.vimTR , version : 4.0
 "usage for session.vim
 "	maintain vim-sessions.
 "	the sessions have names.
@@ -119,6 +119,54 @@ com! -nargs=1 CreateSessionTab call CreateSessionTab('<args>')
     nnoremap <silent> <M-f>C :if !SaveSession()\|tabc\|endif<CR>
     nnoremap <silent> <M-f>z :call ZoomSession()<CR>
     nnoremap <silent> <M-f>Z :call NewTabForCurrentBuffer()<cr>
+" the interface
+" InterfaceOFF for /strux/sessions
+function!InterfaceOFF_2f73747275782f73657373696f6e73()
+  if exists("b:Interface_2f73747275782f73657373696f6e73_MapsDone")
+    unlet b:Interface_2f73747275782f73657373696f6e73_MapsDone
+  endif
+endf
+function!<sid>Help_n2f73747275782f73657373696f6e73()
+  echo '1	<CR>	use this session'
+  echo '2	<C-C>	cancel'
+  echo '3	i	enter the name'
+  if exists('<SID>Help()')
+    call <SID>Help()
+  endif
+  while 1 == 1
+    echo '' | " due to a bug in vim. Else the prompt will get partly overwritten
+    call inputsave()
+    let ans=input("Type Nr of Item for more help on this item, or just press ENTER : ")
+    call inputrestore()
+    let ans='<sid>Help_n2f73747275782f73657373696f6e73_'.ans
+    if exists('*'.ans)
+      echo "\r"
+      exe 'call '.ans.'()'
+    else
+      break
+    endif
+  endwhile
+endf
+" InterfaceON for /strux/sessions
+function!InterfaceON_2f73747275782f73657373696f6e73()
+  if !exists("b:Interface_2f73747275782f73657373696f6e73_MapsDone")
+    nnoremap <buffer> <F1> :<C-U>call <sid>Help_n2f73747275782f73657373696f6e73()<CR>
+    nnoremap <buffer> <CR> :call <sid>Help_n2f73747275782f73657373696f6e73_1()<cr>:call UseThisSessionFile()<CR>
+    nnoremap <buffer> <silent> <C-C> :call Cancel()<CR>
+    nnoremap <buffer> <silent> i :call EnterNameDirectly()<CR>
+    augroup g2f73747275782f73657373696f6e73
+      au! BufLeave <buffer>
+      au BufLeave <buffer> call InterfaceOFF_2f73747275782f73657373696f6e73()
+    augroup END
+    let b:Interface_2f73747275782f73657373696f6e73_MapsDone=1
+    if !exists("b:_2f73747275782f73657373696f6e73_HintGiven")
+      unsilent echo 'special mappings from session.vimTR available. Press <F1> for a list'
+    endif
+    let b:_2f73747275782f73657373696f6e73_HintGiven=1
+  endif
+endf
+" Hooking the Interfaces for /strux/sessions
+au BufEnter /strux/sessions call InterfaceON_2f73747275782f73657373696f6e73()
 "-- 
 "  returns 0 on success, 1 if cancelled
 function!SaveSession() 
@@ -212,80 +260,6 @@ function!CreateSessionTab(ns)
     endif
   endif
 endfunc
-" the interface
-" InterfaceOFF for /strux/sessions
-function!InterfaceOFF_2f73747275782f73657373696f6e73()
-  if exists("b:Interface_2f73747275782f73657373696f6e73_MapsDone")
-    unlet b:Interface_2f73747275782f73657373696f6e73_MapsDone
-  endif
-endf
-function!<sid>Help_n2f73747275782f73657373696f6e73()
-  echo '1	<CR>	use this session'
-  echo '2	<C-C>	cancel'
-  echo '3	i	enter the name'
-  if exists('<SID>Help()')
-    call <SID>Help()
-  endif
-  while 1 == 1
-    echo '' | " due to a bug in vim. Else the prompt will get partly overwritten
-    call inputsave()
-    let ans=input("Type Nr of Item for more help on this item, or just press ENTER : ")
-    call inputrestore()
-    let ans='<sid>Help_n2f73747275782f73657373696f6e73_'.ans
-    if exists('*'.ans)
-      echo "\r"
-      exe 'call '.ans.'()'
-    else
-      break
-    endif
-  endwhile
-endf
-" InterfaceON for /strux/sessions
-function!InterfaceON_2f73747275782f73657373696f6e73()
-  if !exists("b:Interface_2f73747275782f73657373696f6e73_MapsDone")
-    nnoremap <buffer> <F1> :<C-U>call <sid>Help_n2f73747275782f73657373696f6e73()<CR>
-    nnoremap <buffer> <CR> :call <sid>Help_n2f73747275782f73657373696f6e73_1()<cr>:call UseThisSessionFile()<CR>
-    nnoremap <buffer> <silent> <C-C> :call Cancel()<CR>
-    nnoremap <buffer> <silent> i :call EnterNameDirectly()<CR>
-    augroup g2f73747275782f73657373696f6e73
-      au! BufLeave <buffer>
-      au BufLeave <buffer> call InterfaceOFF_2f73747275782f73657373696f6e73()
-    augroup END
-    let b:Interface_2f73747275782f73657373696f6e73_MapsDone=1
-    if !exists("b:_2f73747275782f73657373696f6e73_HintGiven")
-      unsilent echo 'special mappings from session.vimTR available. Press <F1> for a list'
-    endif
-    let b:_2f73747275782f73657373696f6e73_HintGiven=1
-  endif
-endf
-" Hooking the Interfaces for /strux/sessions
-au BufEnter /strux/sessions call InterfaceON_2f73747275782f73657373696f6e73()
-perl <<EOT
-#  protos
-sub getFileList;
-
-sub getFileList
-{
-  @disp::A=();
-  if (!(opendir(dirhandle,"$ENV{HOME}/vimsessions"))) {
-    VIM::Msg("cannot open dir $file : $!","Error");
-    return;
-  }
-  while ($_=readdir dirhandle) {
-    if ($_ ne "." and $_ ne "..") {
-      push @disp::A,$_;
-    }
-  }
-  @disp::A=sort @disp::A;
-  closedir dirhandle;
-  disp {
-    bufname => "/strux/sessions",
-    Array => \@disp::A,
-  };
-  VIM::Msg("choose session to open");
-  VIM::DoCommand("call feedkeys('/\cU','n')");     # the \cU (<c-u>) is needed to have the /strux/sessions visible (strange as it is)
-}
-EOT
 function!UseThisSessionFile() 
   perl VIM::DoCommand('let s:ns="'.@$disp::A[($curwin->Cursor())[0]-1].'"')
   call histadd("@",s:ns)
@@ -320,3 +294,29 @@ function!NewTabForCurrentBuffer()
   exe "bu ".bn
   let t:tn = 'zoomed:'.tn
 endfunc
+perl <<EOT
+#  protos
+sub getFileList;
+
+sub getFileList
+{
+  @disp::A=();
+  if (!(opendir(dirhandle,"$ENV{HOME}/vimsessions"))) {
+    VIM::Msg("cannot open dir $file : $!","Error");
+    return;
+  }
+  while ($_=readdir dirhandle) {
+    if ($_ ne "." and $_ ne "..") {
+      push @disp::A,$_;
+    }
+  }
+  @disp::A=sort @disp::A;
+  closedir dirhandle;
+  disp {
+    bufname => "/strux/sessions",
+    Array => \@disp::A,
+  };
+  VIM::Msg("choose session to open");
+  VIM::DoCommand("call feedkeys('/\cU','n')");     # the \cU (<c-u>) is needed to have the /strux/sessions visible (strange as it is)
+}
+EOT

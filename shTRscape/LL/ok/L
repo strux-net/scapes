@@ -7,36 +7,32 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  L.shTR	3.0"
+  echo "  L.shTR	4.0"
   exit 0
 fi
-# based on L.shTR , version : 3.0
 
 usage()
 {
   cat <<'EOU' >&2
 usage : L [<file>]
+OPTIONS:
+  -version	show version information
 opens a powerful directory-browser for a given set of files.
 
 if no file is given then STDIN is read.
 file should contain nothing but filenames.
 Each on a line of it's own.
-OPTIONS:
-  -version	show version information
 EOU
   exit 1
 }
-main()
-{
-  if [ $# -eq 1 -a "$1" = '-?' ] ; then
-    usage
-  fi
-  if [ $# -eq 0 ] ; then
-    vim -N +"set nomodified" +"L" -  +only
-  elif [ $# -eq 1 ] ; then
-    vim -N +"set nomodified" +"L" $1 +only
-  else
-    usage
-  fi
-}
-main "$@"
+if [ $# -eq 1 -a "$1" = '-?' ] ; then
+  usage
+fi
+# based on L.shTR , version : 4.0
+if [ $# -eq 0 ] ; then
+  vim -N +"set nomodified" +"L" -  +only
+elif [ $# -eq 1 ] ; then
+  vim -N +"set nomodified" +"L" $1 +only
+else
+  usage
+fi

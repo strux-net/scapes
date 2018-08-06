@@ -1,1 +1,2 @@
 shtest.shTR	./sh_tru shtest.shTR >| shtest.sh
+tru		tru.jar ./sh_tru shtest.shTR&

@@ -22,7 +22,7 @@ sub readStructure($);
 sub fillHashAndArrays;
 sub printStructure;
 sub printHash;
-# based on xtractStructure.plTR , version : 3.0
+# based on xtractStructure.plTR , version : 4.0
 #****************************************
 # @Structure	Array containing `$truer -vstructure -groupExpand`
 # @FileNames	Array (same size as @Structure) with corresponding filenames
@@ -39,7 +39,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  xtractStructure.plTR	3.0\n";
+    print "  xtractStructure.plTR	4.0\n";
     exit 0
   }
   #xtractStructureTest()
