@@ -252,6 +252,12 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_var">var</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[comment]</ping></td><td>&gt;0</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_RangeFor">F</a><ping><a title="here is a Tab">	</a>inclusion check</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[stmt]</pong></td><td>&gt;2 RangeFor</td><td>F<ping><a title="here is a Tab">	</a>/\b(in|of)\b/</ping></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_IIFE">IIFE</a><ping><a title="here is a Tab">	</a>)(args)</ping></td><td>=2</td><td>.*<ping><a title="here is a Tab">	</a>(\(\)\))|(\)\(.*\)).*</ping></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/\bfunction(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -805,6 +811,14 @@ OPTIONS:
 	  </td>
 	  <td>
 	    a range-based for-loop
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <A href="#A_functions">functions</a>
+	  </td>
+	  <td>
+	    introduces a block of function definitions
 	  </td>
 	</tr>
 	<tr>
@@ -2207,6 +2221,19 @@ OPTIONS:
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdocu<ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/\bfunction(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -2418,6 +2445,13 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 12">       |            </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/\bfunction(\*?\s+\$?\w+)?$/</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>jdtag<ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
@@ -2567,6 +2601,14 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 12">       |            </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[autodoc]</td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/\bfunction(\*?\s+\$?\w+)?$/</td></tr>
@@ -4490,7 +4532,7 @@ OPTIONS:
       <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment for this fragment</td></tr>
     </table>
     <br/>
-    <desc>The comment can contain tags</desc><br/>
+    <desc>The comment can contain tabs</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -4759,6 +4801,49 @@ OPTIONS:
 <a title = "Indent : 0"></a>F<ping><a title="here is a Tab">	</a>var v of [10, 20, 30]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>log(v);</pong>
 </listing>
     <br/>
+    <a name="A_functions"></a>
+    <h1>functions       <shortText>introduces a block of function definitions</shortText></h1>
+<part>Structure :</part>
+  <howToRead>[
+    <a href="howtoread/structure.html" title="how to read the structure">help</a>
+  ]</howToRead>
+  <completeStructure>[
+    <a href="#L_Structure" title="jump to the complete structure for ./html_tru">complete Structure</a>
+  ]</completeStructure>
+  <br/><br/>
+<table class="structure" rules="cols">
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>functions</td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_function">function</a><ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+</table>
+    <div align="right"><filename>../../proglang/js/js.tru</filename></div>
+    <part>Signature :</part>
+    <howToRead>[
+      <a href="howtoread/signature.html" title="how to read the signature">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <signatureDiv>
+<a title = "Indent : -2"></a>functions
+    </signatureDiv>
+    <br/><br/>
+    <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
+      <tr><td>functions</td><td>Indicator</td><td>.*</td><td></td></tr>
+    </table>
+    <br/>
+    <part>Example :</part>
+    <howToRead>[
+      <a href="howtoread/Example.html" title="how to read the Example">help</a>
+    ]</howToRead>
+    <br/><br/>
+    <listing class="Example">
+    see <A href="#A_function">function</a>
+</listing>
+    <br/>
     <a name="A_function"></a>
     <h1>function       <shortText>a function</shortText></h1>
 <part>Structure :</part>
@@ -4788,6 +4873,14 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 12">       |            </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_functions">functions</a></td><td>&gt;o2</td><td>functions</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>function<ping><a title="here is a Tab">	</a>[args]</ping></td><td>=o</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 6">       |      </a>[<A href="#A_autodoc">autodoc]</a></td><td>=</td><td>autodoc</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdtag">jdtag</a><ping><a title="here is a Tab">	</a>descr</ping></td><td>=</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 10">       |          </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 8">       |        </a><A href="#A_jdocu">jdocu</a><ping><a title="here is a Tab">	</a>*</ping></td><td>=*</td><td></td></tr>
 <tr><td><a class="structureInd" title="html.tru">structure</a></td><td></td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_javascript">javascript</a><ping><a title="here is a Tab">	</a>[stmt]</ping></td><td>&gt;&gt;2</td><td>javascript</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>function<ping><a title="here is a Tab">	</a>[args]</ping></td><td>&gt;o2</td><td>/\bfunction(\*?\s+\$?\w+)?$/</td></tr>
@@ -4827,8 +4920,6 @@ OPTIONS:
       <tr><td>args</td><td>optional</td><td>.+</td><td>the args of the functin</td></tr>
     </table>
     <br/>
-    <desc>A function is only treatet as such if it appears on the far left.</desc><br/>
-    <desc></desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -4840,10 +4931,11 @@ OPTIONS:
     <listing class="Example">
 <a title = "Indent : 0"></a>function foo
 <a title = "Indent : 2">  </a>&quot;bar&quot;
-<a title = "Indent : 0"></a>function square<ping><a title="here is a Tab">	</a>x</ping>
-<a title = "Indent : 2">  </a>return x*x
-<a title = "Indent : 0"></a>function motor_step
-<a title = "Indent : 2">  </a>x++
+<a title = "Indent : 0"></a>functions
+<a title = "Indent : 2">  </a>square<ping><a title="here is a Tab">	</a>x</ping>
+<a title = "Indent : 4">    </a>return x*x
+<a title = "Indent : 2">  </a>motor_step
+<a title = "Indent : 4">    </a>x++
 </listing>
     <br/>
     <a name="A_class"></a>

@@ -53,6 +53,8 @@
 <a title = "Indent : 0"></a>a = foo(&quot;World&quot;)
 </listing>
     <br/>
+    <annotation>Limitations :</annotation><br/>
+    <desc>  Do not use names beginning with pytru for your variables.</desc><br/>
     <mainpart>Usage:</mainpart>
       <howToRead>[
 	<a href="howtoread/options.html" title="how to read the options">help</a>
@@ -4703,7 +4705,7 @@ OPTIONS:
       <tr><td>comment</td><td>optional</td><td>.+</td><td>a comment for this fragment</td></tr>
     </table>
     <br/>
-    <desc>The comment can contain tags</desc><br/>
+    <desc>The comment can contain tabs</desc><br/>
     <part>Example :</part>
     <howToRead>[
       <a href="howtoread/Example.html" title="how to read the Example">help</a>
@@ -4736,15 +4738,16 @@ OPTIONS:
 <a title = "Indent : 0"></a>#****************************************
 <a title = "Indent : 0"></a>def foo():
 <a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>init</ping>
-<a title = "Indent : 4">    </a>init()
+<a title = "Indent : 2">  </a>init()
 <a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part1</pong>
-<a title = "Indent : 4">    </a>....
+<a title = "Indent : 2">  </a>....
 <a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>run</ping><pong><a title="here is a Tab">	</a>part2</pong>
-<a title = "Indent : 4">    </a>....
+<a title = "Indent : 2">  </a>....
 <a title = "Indent : 2">  </a>#<ping><a title="here is a Tab">	</a>exit</ping>
-<a title = "Indent : 4">    </a>exit()
+<a title = "Indent : 2">  </a>exit()
 </listing>
     <br/>
+    <div align="right"><filename>py.tru</filename></div>
     <a name="A_pyFor"></a>
     <h1>pyFor       <shortText>A for loop for iterators</shortText></h1>
 <part>Structure :</part>

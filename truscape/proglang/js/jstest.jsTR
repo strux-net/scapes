@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	4.0
 function	fs
     When done, call this function
 var AbstractEnumerableSet = AbstractSet.extend(..)
@@ -214,15 +214,15 @@ P!shifted plan	;
 	  ? e
 	    ?	f
 	      ?	g
+functions
   foo	args
     // code for foob
-
-function bar
-  P<!shifted plan	;
-    testing here, if NEWFILE triggers correctly.
-    So nothing should come after this line
-function* generator	i
-  yield i*i
+  bar
+    P<!shifted plan	;
+      testing here, if NEWFILE triggers correctly.
+      So nothing should come after this line
+  * generator	i
+    yield i*i
 class Polygon
   constructor	height, width
       this is a comment for this method

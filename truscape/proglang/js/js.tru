@@ -1,4 +1,4 @@
-VERSION	4.0
+VERSION	4.0a
 # USAGE is in jscoll.tru
 BEGIN
   $cc = "//";	# Comment Character specific to this language - not used do to languageType="c"
@@ -154,28 +154,40 @@ actions
 	F	var v of [10, 20, 30]		log(v);
     >
       >>For	F	$exp	$statement
+  functions
+    introduces a block of function definitions
+      Parameters :
+        functions	indicator	.*
+      Example :
+        see	function
+    >
+      $offset-=2;
+    -
+      $offset+=2;
   function	args
     a function
       Parameters :
         function	mandatory	.+	the function name
         args		optional	.+	the args of the functin
 
-      A function is only treatet as such if it appears on the far left.
-
       Example :	js_tru -noIntro
 	function foo
 	  "bar"
-	function square	x
-	  return x*x
-	function motor_step
-	  x++
+	functions
+	  square	x
+	    return x*x
+	  motor_step
+	    x++
     l	terminator
     >
       setmark("mark_autodoc");
     -
       (local $start) = ($function =~ /(.*?)\s*function(\s+\w+)?$/);
       $parent = $tru::actions[-2][1];
-      if ($parent eq "wantListOrObject") {
+      if ($parent eq "functions") {
+        $function =~ s/^/function /;
+
+      } elsif ($parent eq "wantListOrObject") {
         $terminator = $isLast ? '' : ',';
       } elsif  ($function =~ /^function\b/) {
         $terminator = ''; # it's an expression function
@@ -399,6 +411,9 @@ group
 	  var			[comment]					>0
 	F	inclusion check		[stmt]					>2 RangeFor	F	/\b(in|of)\b/
 	IIFE	)(args)								=2		.*	(\(\)\))|(\)\(.*\)).*
+	functions								>o2		functions
+	  function	[args]							=o
+	    autodoc								=g
 	function	[args]							>o2		/\bfunction(\*?\s+\$?\w+)?$/
 	  autodoc								=g
 	class	[baseclass]							>o2		/\bclass(\s+\w+)?$/	.+

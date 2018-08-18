@@ -1,4 +1,4 @@
-VERSION	4.0
+VERSION	4.0a
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -1158,7 +1158,7 @@ actions
       Parameters :
         o	indicator	.*
         comment	optional	.+	a comment for this fragment
-      The comment can contain tags
+      The comment can contain tabs
       Example :	classtruer -noConfigCheck -noProtos -noIntro
 	doc	Note : This is pseudocode
 	foo

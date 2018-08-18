@@ -32,7 +32,7 @@
   1	0	1	0	1	4	arrayelem
   1	1	0	0	1	1	artline
   1	1	0	0	1	1	ascii-art
-  1	1	0	1	1	15	autodoc
+  1	1	0	1	1	16	autodoc
   1	0	0	0	1	1	block
   2	0	1	1	2	1	case
   2	1	0	0	2	1	catch
@@ -53,7 +53,8 @@
   2	1	0	0	2	1	finally
   1	1	0	1	1	2	fproperty
   2	1	1	0	2	1	freetextOrSection
-  1	1	1	1	1	5	function
+  1	1	1	1	1	6	function
+  1	1	1	0	1	1	functions
   1	1	0	1	1	3	get
   1	1	0	1	1	1	hide
   1	1	0	0	1	1	html code
@@ -64,8 +65,8 @@
   1	1	0	0	1	0	introcomment
   1	1	0	1	0	1	javascript
   3	2	0	1	3	1	jdoc
-  2	2	0	0	2	31	jdocu
-  1	1	0	0	1	16	jdtag
+  2	2	0	0	2	33	jdocu
+  1	1	0	0	1	17	jdtag
   2	2	0	0	2	1	label
   1	0	0	0	1	1	left
   1	1	1	1	1	1	listline

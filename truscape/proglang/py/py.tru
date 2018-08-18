@@ -1,4 +1,4 @@
-VERSION	4.0
+VERSION	4.0a
 USAGE	py_tru [Options] [<file> ....]
 
 	produces a python file
@@ -34,6 +34,8 @@ actions
 	  bar	x
 	    pass
 	a = foo("World")
+      Limitations :
+        Do not use names beginning with pytru for your variables.
     >
       #->introcomment
       setmark("mark_scriptTop");
@@ -60,6 +62,12 @@ actions
       setmark("mark_usage");
       setmark("mark_optiontext");
 	  """)
+  o
+    continued
+    >
+      $offset-=2;
+    <
+      $offset+=2;
   Option	comment
     continued
       py_tru makes use of argparse

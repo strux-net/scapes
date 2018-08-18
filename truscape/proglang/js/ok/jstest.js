@@ -1,4 +1,4 @@
-// based on jstest.jsTR , version : 3.0
+// based on jstest.jsTR , version : 4.0
 /**
 *  When done, call this function
 */
@@ -331,9 +331,10 @@ function example2() {
             ?                                      // f
               ?                                    // g
   }
-  foo                                              // args
-    // code for foob
-    
+
+function foo(args) {
+  // code for foob
+}
 
 function bar() {
   // start of plan shifted plan
@@ -342,7 +343,7 @@ function bar() {
   So nothing should come after this line;
 }
 
-function* generator(i) {
+function * generator(i) {
   yield i*i;
 }
 class Polygon {
