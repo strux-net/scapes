@@ -1,0 +1,11 @@
+building csv2tab
+perl_tru csv2tab.plTR >csv2tab
+GOOD	csv2tab
+chmod +x csv2tab
+{ echo "csv2tab\n  $Title\n    usage"; ./csv2tab -? 2>&1 | i -it 1 ; } >docs/README.txt
+GOOD	docs/README.txt
+{ sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
+GOOD	docs/README.html
+testing csv2tab
+perl csv2tab in >in.out
+GOOD	in.out

@@ -1,0 +1,33 @@
+VERSION	1.0
+usage	csv2tab [Option] [<file> ...]
+	csv2tab reads all files given as argument and replaces real field-separators by tab
+	the input is supposed to be separated by ;
+
+	only sepaparators outside of quoted strings are treated (single or double-quote)
+	unless disabled multiple sequences of TabTab are translated to Tab Tab
+
+	If no file is specified the input is taken from stdin.
+	The output is written to stdout
+main
+  doc	tabify an csv-file
+    an entry can either be
+      bare	$quote == 0
+      '-quoted	$quote&1 is set
+      "-quoted	$quote&2 is set
+  Option
+    n		do not put spaces between the tabs
+  W	<>
+    $quote=0
+    $result=""
+    F	$i=0;$i<length;$i=$i+1
+      $c=substr($_,$i,1);
+      ?	$c eq'"'
+        $quote^=2 unless $quote&1
+      ?-	$c eq"'"
+        $quote^=1 unless $quote&2
+      ?-	$c eq';'
+        $c="\t" unless $quote
+      substr($result,$i,1) = $c
+    !	$opt_n
+      W	$result =~ s/\t\t/\t \t/g
+    "$result"
