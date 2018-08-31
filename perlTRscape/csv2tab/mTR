@@ -3,7 +3,9 @@ csv2tab	csv2tab.plTR
   doc
     { echo "csv2tab\n  $Title\n    usage"; ./csv2tab -? 2>&1 | i -it 1 ; }	docs/README.txt
     { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru	docs/README.html
-  test	in
+  test
+    ./csv2tab      in
+    ./csv2tab -d , in
   install
     2struxbin
 

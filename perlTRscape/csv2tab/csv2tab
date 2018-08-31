@@ -9,10 +9,11 @@
 sub usage;
 sub main;
 $opt_n = 0;
+$opt_d = ';';
 if (@ARGV == 1 and $ARGV[0] eq '-?') {
   usage();
 }
-# based on csv2tab.plTR , version : 1.0
+# based on csv2tab.plTR , version : 1.0a
 
 sub usage
 {
@@ -28,6 +29,8 @@ If no file is specified the input is taken from stdin.
 The output is written to stdout
 OPTIONS:
   -n	do not put spaces between the tabs
+  -d:<delim>	use this delimiter, Good candidate is ,
+	default for <delim> is ;
   -version	show version information
 EOU
   exit(1);
@@ -37,7 +40,7 @@ sub main
 {
   if ( $ARGV[0] eq "-version" ) {
     print "Version :\n";
-    print "  csv2tab.plTR	1.0\n";
+    print "  csv2tab.plTR	1.0a\n";
     exit 0
   }
   #****************************************
@@ -49,18 +52,19 @@ sub main
   #   "-quoted	$quote&2 is set
   #****************************************
   use Getopt::Long;
-  usage() if !GetOptions('n');
+  usage() if !GetOptions('d=s','n');
     # -n : do not put spaces between the tabs
+    # -d : use this delimiter, Good candidate is ,
   while (<>) {
     $quote=0;
     $result="";
     for ($i=0;$i<length;$i=$i+1) {
       $c=substr($_,$i,1);
-      if ($c eq'"') {
+      if ($c eq '"') {
         $quote^=2 unless $quote&1;
-      } elsif ($c eq"'") {
+      } elsif ($c eq "'") {
         $quote^=1 unless $quote&2;
-      } elsif ($c eq';') {
+      } elsif ($c eq $opt_d) {
         $c="\t" unless $quote;
       }
       substr($result,$i,1) = $c;

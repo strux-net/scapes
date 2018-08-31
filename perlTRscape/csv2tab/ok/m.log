@@ -7,5 +7,9 @@ GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
 testing csv2tab
-perl csv2tab in >in.out
-GOOD	in.out
+./csv2tab      in
+a	b	'c;d'	e	 	f
+A,B,'C,D',E,,F
+./csv2tab -d , in
+a;b;'c;d';e;;f
+A	B	'C,D'	E	 	F

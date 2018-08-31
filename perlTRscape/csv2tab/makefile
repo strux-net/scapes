@@ -25,13 +25,12 @@ install_csv2tab:
 	@${m_copy} csv2tab ok/csv2tab
 	@${m_copy} docs/README.txt ok/docs/README.txt
 	@${m_copy} docs/README.html ok/docs/README.html
-	@${m_copy} in.out ok/in.out
 	@${m_copy} csv2tab ~/strux/bin/csv2tab
 	
 test_csv2tab: csv2tab
 	@echo  testing csv2tab
-	perl csv2tab in >in.out
-	@${m_diff} in.out
+	./csv2tab      in
+	./csv2tab -d , in
 csv2tab:
 	@echo  building csv2tab
 	perl_tru csv2tab.plTR >csv2tab

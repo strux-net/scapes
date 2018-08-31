@@ -1,4 +1,4 @@
-VERSION	1.0
+VERSION	1.0a
 usage	csv2tab [Option] [<file> ...]
 	csv2tab reads all files given as argument and replaces real field-separators by tab
 	the input is supposed to be separated by ;
@@ -16,16 +16,17 @@ main
       "-quoted	$quote&2 is set
   Option
     n		do not put spaces between the tabs
+    d:delim[;]	use this delimiter, Good candidate is ,
   W	<>
     $quote=0
     $result=""
     F	$i=0;$i<length;$i=$i+1
       $c=substr($_,$i,1);
-      ?	$c eq'"'
+      ?	$c eq '"'
         $quote^=2 unless $quote&1
-      ?-	$c eq"'"
+      ?-	$c eq "'"
         $quote^=1 unless $quote&2
-      ?-	$c eq';'
+      ?-	$c eq $opt_d
         $c="\t" unless $quote
       substr($result,$i,1) = $c
     !	$opt_n

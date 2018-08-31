@@ -12,4 +12,6 @@ csv2tab
 	The output is written to stdout
 	OPTIONS:
 	  -n	do not put spaces between the tabs
+	  -d:<delim>	use this delimiter, Good candidate is ,
+		default for <delim> is ;
 	  -version	show version information
