@@ -1,4 +1,4 @@
-VERSION	4.0a
+VERSION	4.1
 OPTIONS
 	allowP			enables the P (Plan) structure item
 		this must be allowed explicitely since this item is potentially insecure
@@ -1026,12 +1026,14 @@ actions
     l	tablevel
     a Tab Aligned Block
       Parameters :
-        TAB		indicator	.*
+        TAB		indicator	.*<?
         pre		optional	.+	text to be put before the block
         post	optional	.+	text to be put after the block
       The lines in a TAB block are taken as a whole (including all interfield tabs).
       These lines have to start at or after the next tab-position, that is at least 2 characters right of the left/right indicator.
       Of the indent only the part after this position survives.
+
+      In the form TAB< the result of the Block is shifted to the very left.
 
       For the use of pre and post see the example (second and third poem)
 
@@ -1059,17 +1061,25 @@ actions
 	  doc	using pre and post, as well as left and right
 	  TAB	return "another poem"		;
 	    + "								"
-		                  this line
-		                and this line
-		            have never been read
-		  So don't try to read them or you may drop dead
+		                this line
+		              and this line
+		          have never been read
+		So don't try to read them or you may drop dead
+	  doc	using pre and post, shift to the left
+	  TAB<	return "	";
+			  this line
+			and this line
+		    are worth to remember
+		at least until next september
     >
       $tablevel=$level;
+      $level=$tablevel=0 if ($TAB eq "TAB<");
       if ($pre ne "") {
-        $tablevel += 2;
+        $tablevel += 2 unless ($TAB eq "TAB<");
 	$pre
       }
     <
+      $level=0 if ($TAB eq "TAB<");
       if ($post ne "")
 	$post
       $left = $right = "";	# they shall not survive, we are done with them
@@ -1224,7 +1234,7 @@ group
 	  case		[statement]	comment					>o0		.+
 	    nobreak								=	nobreak
 	o	*								>2		o
-	TAB			[pre]		post				>2		TAB
+	TAB			[pre]		post				>2		TAB<?
 	    TABline		*						=t*
 	  left	[right]
 	    TABline		*						=t*

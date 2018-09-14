@@ -15,7 +15,7 @@ GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\n  Title\tconvert .vimTR to .vim" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
 trudoc_tru ./vim_tru >docs/vim_tru.html
-'gives' is empty for action 'main' in file vim.tru line 1663
+'gives' is empty for action 'main' in file vim.tru line 1680
 GOOD	docs/vim_tru.html
 testing vim_tru
 ./vim_tru test.vimTR >test.vim

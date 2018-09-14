@@ -147,7 +147,7 @@ OPTIONS:
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_case">case</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[statement]</ping><pong><a title="here is a Tab">	</a>comment</pong></td><td>&gt;o0</td><td>.+</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_nobreak">nobreak</a></td><td>=</td><td>nobreak</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_o">o</a><ping><a title="here is a Tab">	</a>*</ping></td><td>&gt;2</td><td>o</td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB&lt;?</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_left">left</a><ping><a title="here is a Tab">	</a>[right]</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
@@ -4746,7 +4746,7 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>TAB<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
+<tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a>TAB<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB&lt;?</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_left">left</a><ping><a title="here is a Tab">	</a>[right]</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
@@ -4762,7 +4762,7 @@ OPTIONS:
     </signatureDiv>
     <br/><br/>
     <table class="parameters" cellpadding="4" cellspacing="0" frame="box" rules="cols">
-      <tr><td>TAB</td><td>Indicator</td><td>.*</td><td></td></tr>
+      <tr><td>TAB</td><td>Indicator</td><td>.*&lt;?</td><td></td></tr>
       <tr><td>pre</td><td>optional</td><td>.+</td><td>text to be put before the block</td></tr>
       <tr><td>post</td><td>optional</td><td>.+</td><td>text to be put after the block</td></tr>
     </table>
@@ -4770,6 +4770,8 @@ OPTIONS:
     <desc>The lines in a TAB block are taken as a whole (including all interfield tabs).</desc><br/>
     <desc>These lines have to start at or after the next tab-position, that is at least 2 characters right of the left/right indicator.</desc><br/>
     <desc>Of the indent only the part after this position survives.</desc><br/>
+    <desc></desc><br/>
+    <desc>In the form TAB&lt; the result of the Block is shifted to the very left.</desc><br/>
     <desc></desc><br/>
     <desc>For the use of pre and post see the example (second and third poem)</desc><br/>
     <desc></desc><br/>
@@ -4805,10 +4807,16 @@ OPTIONS:
 <a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>using pre and post, as well as left and right</ping>
 <a title = "Indent : 2">  </a>TAB<ping><a title="here is a Tab">	</a>return &quot;another poem&quot;</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>;</pong>
 <a title = "Indent : 4">    </a>+ &quot;<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>&quot;</ping>
-<a title = "Indent : 26">                          </a>this line
-<a title = "Indent : 24">                        </a>and this line
-<a title = "Indent : 20">                    </a>have never been read
-<a title = "Indent : 10">          </a>So don&lsquo;t try to read them or you may drop dead
+<a title = "Indent : 24">                        </a>this line
+<a title = "Indent : 22">                      </a>and this line
+<a title = "Indent : 18">                  </a>have never been read
+<a title = "Indent : 8">        </a>So don&lsquo;t try to read them or you may drop dead
+<a title = "Indent : 2">  </a>doc<ping><a title="here is a Tab">	</a>using pre and post, shift to the left</ping>
+<a title = "Indent : 2">  </a>TAB&lt;<ping><a title="here is a Tab">	</a>return &quot;</ping><pong><a title="here is a Tab">	</a>&quot;;</pong>
+<a title = "Indent : 18">                  </a>this line
+<a title = "Indent : 16">                </a>and this line
+<a title = "Indent : 12">            </a>are worth to remember
+<a title = "Indent : 8">        </a>at least until next september
 </listing>
     <br/>
     <part>gives :</part>
@@ -4847,11 +4855,20 @@ OPTIONS:
 <a title = "Indent : 2">  </a>&quot; using pre and post, as well as left and right
 <a title = "Indent : 2">  </a>&quot;****************************************
 <a title = "Indent : 2">  </a>return &quot;another poem&quot;
-<a title = "Indent : 4">    </a>+ &quot;                  this line&quot;
-<a title = "Indent : 4">    </a>+ &quot;                and this line&quot;
-<a title = "Indent : 4">    </a>+ &quot;            have never been read&quot;
-<a title = "Indent : 4">    </a>+ &quot;  So don&lsquo;t try to read them or you may drop dead&quot;
+<a title = "Indent : 4">    </a>+ &quot;                this line&quot;
+<a title = "Indent : 4">    </a>+ &quot;              and this line&quot;
+<a title = "Indent : 4">    </a>+ &quot;          have never been read&quot;
+<a title = "Indent : 4">    </a>+ &quot;So don&lsquo;t try to read them or you may drop dead&quot;
 <a title = "Indent : 2">  </a>;
+<a title = "Indent : 2">  </a>&quot;****************************************
+<a title = "Indent : 2">  </a>&quot; using pre and post, shift to the left
+<a title = "Indent : 2">  </a>&quot;****************************************
+<a title = "Indent : 0"></a>return &quot;
+<a title = "Indent : 10">          </a>this line
+<a title = "Indent : 8">        </a>and this line
+<a title = "Indent : 4">    </a>are worth to remember
+<a title = "Indent : 0"></a>at least until next september
+<a title = "Indent : 0"></a>&quot;;
 <a title = "Indent : 0"></a>endfunc
 </listing>
     <br/>
@@ -4867,7 +4884,7 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB&lt;?</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a>left<ping><a title="here is a Tab">	</a>[right]</ping></td><td>=</td><td></td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a><A href="#A_TABline">TABline</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
@@ -4907,10 +4924,10 @@ OPTIONS:
   <br/><br/>
 <table class="structure" rules="cols">
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB&lt;?</td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>TABline<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 <tr><td><a class="structureInd" title="vimcoll.tru">structure</a></td><td></td><td></td></tr>
-<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB</td></tr>
+<tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 0">       |</a><A href="#A_TAB">TAB</a><ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a><a title="here is a Tab">	</a>[pre]</ping><pong><a title="here is a Tab">	</a><a title="here is a Tab">	</a>post</pong></td><td>&gt;2</td><td>TAB&lt;?</td></tr>
 <tr class="structure"><td><a class="tabSep" title = "Indent (not counting leading tab) : 2">       |  </a><A href="#A_left">left</a><ping><a title="here is a Tab">	</a>[right]</ping></td><td>=</td><td></td></tr>
 <tr class="hit"><td><a class="tabSep" title = "Indent (not counting leading tab) : 4">       |    </a>TABline<ping><a title="here is a Tab">	</a><a title="here is a Tab">	</a>*</ping></td><td>=t*</td><td></td></tr>
 </table>
