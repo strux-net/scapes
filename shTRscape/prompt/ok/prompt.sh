@@ -7,10 +7,10 @@
 #
 if [ "$1" = "-version" ] ; then
   echo "Version :"
-  echo "  prompt.shTR	4.0"
+  echo "  prompt.shTR	4.0a"
   exit 0
 fi
-# based on prompt.shTR , version : 4.0
+# based on prompt.shTR , version : 4.0a
 #****************************************
 # Copyright
 #****************************************
@@ -39,6 +39,7 @@ fi
 #       linux console
 #       putty
 #       cygwin
+#       screen
 # What prompt.sh does
 #   sets bash's and zsh's prompting capability to prompt as follows
 #       user@host 3 /tmp 2/502 20:21:18 1 OK
@@ -101,7 +102,7 @@ if [ "$BASH_VERSINFO" -ge 2 -o "$ZSH_NAME" = "zsh" ] ; then
   #****************************************
   # xterm and it's clones know how to use colors
   #****************************************
-  if [[ "$TERM" == xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]] ; then
+  if [[ "$TERM" == *xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]] ; then
      normal=$'\e[0m'
      Inverse=$'\e[7m'
      White=$'\e[1;37m'

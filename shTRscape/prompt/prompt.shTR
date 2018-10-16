@@ -1,4 +1,4 @@
-VERSION	4.0
+VERSION	4.0a
 doc	Copyright
   This file is in the public domain.
   Use it at your won risk.
@@ -22,6 +22,7 @@ doc	README
 	linux console
 	putty
 	cygwin
+	screen
   What prompt.sh does
     sets bash's and zsh's prompting capability to prompt as follows
 	user@host 3 /tmp 2/502 20:21:18 1 OK
@@ -72,7 +73,7 @@ normal=`tput rmso 2>/dev/null`
 doc	Best prompt with bash 2 or better or zsh
 ?	[ "$BASH_VERSINFO" -ge 2 -o "$ZSH_NAME" = "zsh" ]
   doc	xterm and it's clones know how to use colors
-  ?	[[ "$TERM" == xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]]
+  ?	[[ "$TERM" == *xterm* || "$TERM" = "Eterm"  || "$TERM" = "linux" || "$TERM" = "cygwin" || "$TERM" = "screen" ]]
 
     M	 	=$'\e[		m'
       normal		0
