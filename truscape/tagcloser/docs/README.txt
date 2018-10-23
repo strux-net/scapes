@@ -12,6 +12,9 @@ tagcloser_tru
 	  <H1> This tag will not be closed, because it already is </H1>
 	  <span>
 	    This span will be automatically closed
+	  <div
+	    id="whatever">
+	    This div will be automatically closed
 	  <span>
 	    This span will not be closed
 	  </span>

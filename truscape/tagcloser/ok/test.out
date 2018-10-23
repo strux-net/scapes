@@ -6,6 +6,9 @@
   </head>
   <body>
     <tarea 51></tarea>
+    <div
+      id="whatever">
+    </div>
     <area 51>
     <base 2>
     <span>closed span 1</span><br>

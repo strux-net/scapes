@@ -1,4 +1,4 @@
-VERSION	3.0
+VERSION	3.1
 USAGE	tagcloser_tru [options] [<file> ....]
 	reads xml-input and produces xml-output, where
 	the unclosed tags are automatically closed, except for
@@ -10,6 +10,9 @@ USAGE	tagcloser_tru [options] [<file> ....]
 	  <H1> This tag will not be closed, because it already is </H1>
 	  <span>
 	    This span will be automatically closed
+	  <div
+	    id="whatever">
+	    This div will be automatically closed
 	  <span>
 	    This span will not be closed
 	  </span>
@@ -58,9 +61,9 @@ actions
         if ($_ =~ /^<!--/) {
           $close = "-->"
         } else {
-          $close =~ s/>.*/>/;
-          $close =~ s/ .*/>/;
+          $close =~ s/[> ].*//;
           $close =~ s:^<:</:;
+          $close =~ s:$:>:
         }
       }
       if ($_ ne "") {
