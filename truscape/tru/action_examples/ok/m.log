@@ -278,7 +278,7 @@ one
 two
 <:one:style1:one	eins:one eins
 testing arguments_tru
-perl arguments_tru arguments.in
+perl arguments_tru arguments.in | sed "s/v5.*/hidden for m_log/"
 country : Brunei
 city    : Bandar Seri Begawan
   Brunei	Bandar Seri Begawan
@@ -335,7 +335,7 @@ solar system is in the chain of galaxy solar system
 earth is in the chain of galaxy solar system earth
 europe is in the chain of galaxy solar system earth europe
 germany is in the chain of galaxy solar system earth europe germany
-PERL_VERSION : v5.22.1
+PERL_VERSION : hidden for m_log
 PERL_VERSION : a value for a problematic arg
 PERL_VERSION : a value for a problematic arg
 testing perl_code_tru

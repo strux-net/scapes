@@ -160,7 +160,7 @@ install_arguments_tru:
 	@${m_copy} arguments_tru ok/arguments_tru
 test_arguments_tru: arguments_tru
 	@echo  testing arguments_tru
-	perl arguments_tru arguments.in
+	perl arguments_tru arguments.in | sed "s/v5.*/hidden for m_log/"
 arguments_tru:
 	@echo  building arguments_tru
 	perl ../tru arguments.tru >arguments_tru

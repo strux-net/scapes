@@ -49,7 +49,7 @@ arguments_tru
   build
     perl ../tru arguments.tru							arguments_tru
   test
-    perl arguments_tru arguments.in
+    perl arguments_tru arguments.in | sed "s/v5.*/hidden for m_log/"
   helpers
     tru.jar ./arguments_tru arguments.in
 perl_code_tru
