@@ -23,7 +23,7 @@ bash ./test.sh	exec in ~/scapes/perlTRscape/ftrace (/bin/bash) ran any sec, retu
   rm bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/bbb	removed
   ln -s tfil bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/ln) ran any sec, returned 0
-    ~/scapes/perlTRscape/ftrace/bbb	symlinked to tfil
+    ~/scapes/perlTRscape/ftrace/bbb	symlinked from ~/scapes/perlTRscape/ftrace/tfil
   rm bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/bbb	removed
   rmdir xd	exec in ~/scapes/perlTRscape/ftrace (/bin/rmdir) ran any sec, returned 1
@@ -46,7 +46,7 @@ bash ./test.sh	exec in ~/scapes/perlTRscape/ftrace (/bin/bash) ran any sec, retu
   rm x1	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/ok/x1	removed
   ln -fs ../tfil .	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/ln) ran any sec, returned 0
-    ~/scapes/perlTRscape/ftrace/ok/tfil	symlinked to ../tfil
+    ~/scapes/perlTRscape/ftrace/ok/tfil	symlinked from ~/scapes/perlTRscape/ftrace/ok/../tfil
   rm tfil	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/ok/tfil	removed
   cp tfil xx	exec in ~/scapes/perlTRscape/ftrace (/bin/cp) ran any sec, returned 0
@@ -104,6 +104,7 @@ Notes :
     ftrace has to figure out what the current cwd of the process to be attached is.
     then ftrace attaches to this process.
     If between these two steps the cwd of the process changes, then some (or all) paths may be wrong.
+    You can interrupt ftrace any time. The traced Process will continue running unchanged and the gathered information will be output.
   You will most likely never need to set strace-options.
     ftrace will provide the needed options automatically
   It can also parse exiting trace-files

@@ -19,6 +19,7 @@ sub xexecve;
 sub asplit($);
 sub xchmod;
 sub xlinkat;
+sub xsymlinkat;
 sub xsymlink;
 sub xlink;
 sub xrename;
@@ -79,6 +80,7 @@ Notes :
     ftrace has to figure out what the current cwd of the process to be attached is.
     then ftrace attaches to this process.
     If between these two steps the cwd of the process changes, then some (or all) paths may be wrong.
+    You can interrupt ftrace any time. The traced Process will continue running unchanged and the gathered information will be output.
   You will most likely never need to set strace-options.
     ftrace will provide the needed options automatically
   It can also parse exiting trace-files
@@ -190,7 +192,7 @@ sub main
       map {
         s/(.*)/"$1"/;
       } @ARGV;
-      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace");
+      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,symlinkat,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace");
     }
     if ($opt_p) {
       if (open (FP,"/proc/$opt_p/cmdline")) {
@@ -258,6 +260,7 @@ sub main
           if ($retval == 0  and $call eq "mkdir") { xmkdir() ; last };
           if ($retval == 0  and $call eq "execve") { xexecve() ; last };
           if ($retval == 0  and $call eq "symlink") { xsymlink() ; last };
+          if ($retval == 0  and $call eq "symlinkat") { xsymlinkat() ; last };
           if ($retval == 0  and $call eq "linkat") { xlinkat() ; last };
           if ($retval == 0  and $call eq "link") { xlink() ; last };
           if ($retval == 0  and $call eq "utimensat") { xutimensat() ; last };
@@ -432,10 +435,12 @@ sub xrmdir
 ### 
 #  args looks like
 #    "/bin/cp", ["cp", "a.rc", "xx"], [/* 67 vars */]
+#  or on newer strace
+#    "/bin/cp", ["cp", "a.rc", "xx"], 0xsomething [/* 67 vars */]
 
 sub xexecve
 {
-  $args =~ s:\], \[/\*.*::;
+  $args =~ s@\], ((0x[[:xdigit:]]+ )|(\[/\*)).*@@;
   $args =~ s:, \[:,:;
   ($binary,$command,$args) = split(/, */,$args,3);
   #"pre  : $args\n"
@@ -487,12 +492,24 @@ sub xlinkat
   pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to);
   push @{$Process{$pid}{Files}},{ name => $to , flags => "hardlinked to $from"};
 }
+### 
+#  args look like
+#    AT_FDCWD, "from", AT_FDCWD, "to", 0
+#  or
+#    3, "from", AT_FDCWD, "to", 0
+
+sub xsymlinkat
+{
+  ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/);
+  pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to);
+  push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked from $from"};
+}
 
 sub xsymlink
 {
   ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/);
   pathCorrectat("AT_FDCWD",\$to);
-  push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked to $from"};
+  push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked from $from"};
 }
 
 sub xlink

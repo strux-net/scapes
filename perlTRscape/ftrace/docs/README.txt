@@ -25,6 +25,7 @@ ftrace
 	    ftrace has to figure out what the current cwd of the process to be attached is.
 	    then ftrace attaches to this process.
 	    If between these two steps the cwd of the process changes, then some (or all) paths may be wrong.
+	    You can interrupt ftrace any time. The traced Process will continue running unchanged and the gathered information will be output.
 	  You will most likely never need to set strace-options.
 	    ftrace will provide the needed options automatically
 	  It can also parse exiting trace-files

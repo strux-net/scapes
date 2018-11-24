@@ -23,6 +23,7 @@ usage	ftrace [options] [ -- strace-options ] [ command [ args ] ]
 	    ftrace has to figure out what the current cwd of the process to be attached is.
 	    then ftrace attaches to this process.
 	    If between these two steps the cwd of the process changes, then some (or all) paths may be wrong.
+	    You can interrupt ftrace any time. The traced Process will continue running unchanged and the gathered information will be output.
 	  You will most likely never need to set strace-options.
 	    ftrace will provide the needed options automatically
 	  It can also parse exiting trace-files
@@ -95,7 +96,7 @@ main
       exec(@ARGV)	silently run the command untraced if we are already beeing traced
     -
       map	@ARGV	s/(.*)/"$1"/
-      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace")
+      system("strace -q -f -ttt -etrace=open,openat,unlink,unlinkat,chmod,write,chdir,fchdir,rename,execve,clone,rmdir,mkdir,symlink,symlinkat,linkat,link,dup,dup2,dup3,fcntl,fcntl64,vfork,utimensat -e signal=!chld -o $tracefile @ARGV $pid2trace")
     ?	$opt_p
       ?	open (FP,"/proc/$opt_p/cmdline")
 	map	@CMDLINE = split(/\x00/,<FP>)
@@ -132,7 +133,7 @@ main
 	FOREVER
 	  R/syscall/	qw(open openat write dup dup2 dup3 fcntl fcntl64 clone)
 	    if ($retval != -1 and $call eq "syscall") { xsyscall() ; last };
-	  R/syscall/	qw(chmod unlink unlinkat chdir fchdir rename rmdir mkdir execve symlink linkat link utimensat)
+	  R/syscall/	qw(chmod unlink unlinkat chdir fchdir rename rmdir mkdir execve symlink symlinkat linkat link utimensat)
 	    if ($retval == 0  and $call eq "syscall") { xsyscall() ; last };
 	  R/syscall/	qw(vfork)
 	    if ($retval != 0  and $call eq "syscall") { xsyscall() ; last };
@@ -229,7 +230,9 @@ subs
   xexecve
       args looks like
 	"/bin/cp", ["cp", "a.rc", "xx"], [/* 67 vars */]
-    $args =~ s:\], \[/\*.*::
+      or on newer strace
+	"/bin/cp", ["cp", "a.rc", "xx"], 0xsomething [/* 67 vars */]
+    $args =~ s@\], ((0x[[:xdigit:]]+ )|(\[/\*)).*@@
     $args =~ s:, \[:,:
     ($binary,$command,$args) = split(/, */,$args,3)
     #"pre  : $args\n"
@@ -263,10 +266,18 @@ subs
     ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
     pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
     push @{$Process{$pid}{Files}},{ name => $to , flags => "hardlinked to $from"}
+  xsymlinkat
+      args look like
+	AT_FDCWD, "from", AT_FDCWD, "to", 0
+      or
+	3, "from", AT_FDCWD, "to", 0
+    ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
+    pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked from $from"}
   xsymlink
     ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
     pathCorrectat("AT_FDCWD",\$to)
-    push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked to $from"}
+    push @{$Process{$pid}{Files}},{ name => $to , flags => "symlinked from $from"}
   xlink
     ($from,$to) = ($args =~ m/"(.*)".*"(.*)"/)
     pathCorrectat("AT_FDCWD",\$from);pathCorrectat("AT_FDCWD",\$to)
