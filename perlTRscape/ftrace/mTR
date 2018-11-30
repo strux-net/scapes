@@ -4,7 +4,7 @@ ftrace	ftrace.plTR
     { echo "ftrace\n  $Title\n    usage"; ./ftrace -? 2>&1 | i -it 1 ; }	docs/README.txt
     { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru	docs/README.html
   test
-    umask 0022; ./ftrace -v -q -s bash ./test.sh | sed 's/ran .* sec/ran any sec/'
+    umask 0022; ./ftrace -v -q -s bash ./test.sh | sed -e 's/ran .* sec/ran any sec/' -e 's/symlinked from.*/hidden_for_m.log/'
     ./ftrace    -q -o ft ls ftrace.plTR a.rc
     -./ftrace -invalid
     sed 's/ran .* sec/ran any sec/' < ft

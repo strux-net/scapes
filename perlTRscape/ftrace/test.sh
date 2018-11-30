@@ -5,8 +5,8 @@ echo no
 echo yes > tfil
 ln -f tfil bbb
 rm bbb
-ln -s tfil bbb
-rm bbb
+ln -s tfil1 bbbb
+rm bbbb
 rmdir xd
 mkdir xd
 cp tfil xx

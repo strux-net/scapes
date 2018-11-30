@@ -7,7 +7,7 @@ GOOD	docs/README.txt
 { sed "s/^    usage$/    code/" docs/README.txt ; echo "style\\n  Title\\t$Title" ; } | html_tru >docs/README.html
 GOOD	docs/README.html
 testing ftrace
-umask 0022; ./ftrace -v -q -s bash ./test.sh | sed 's/ran .* sec/ran any sec/'
+umask 0022; ./ftrace -v -q -s bash ./test.sh | sed -e 's/ran .* sec/ran any sec/' -e 's/symlinked from.*/hidden_for_m.log/'
 ls: cannot access ' Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very Very long command': File name too long
 rm: cannot remove 'bbb': No such file or directory
 rmdir: failed to remove 'xd': No such file or directory
@@ -22,10 +22,10 @@ bash ./test.sh	exec in ~/scapes/perlTRscape/ftrace (/bin/bash) ran any sec, retu
     ~/scapes/perlTRscape/ftrace/bbb	hardlinked to ~/scapes/perlTRscape/ftrace/tfil
   rm bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/bbb	removed
-  ln -s tfil bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/ln) ran any sec, returned 0
-    ~/scapes/perlTRscape/ftrace/bbb	symlinked from ~/scapes/perlTRscape/ftrace/tfil
-  rm bbb	exec in ~/scapes/perlTRscape/ftrace (/bin/rm) ran any sec, returned 0
-    ~/scapes/perlTRscape/ftrace/bbb	removed
+  ln -s tfil1 bbbb	exec in ~/scapes/perlTRscape/ftrace (/bin/ln) ran any sec, returned 0
+    ~/scapes/perlTRscape/ftrace/bbbb	hidden_for_m.log
+  rm bbbb	exec in ~/scapes/perlTRscape/ftrace (/bin/rm) ran any sec, returned 0
+    ~/scapes/perlTRscape/ftrace/bbbb	removed
   rmdir xd	exec in ~/scapes/perlTRscape/ftrace (/bin/rmdir) ran any sec, returned 1
   mkdir xd	exec in ~/scapes/perlTRscape/ftrace (/bin/mkdir) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/xd	directory created
@@ -46,7 +46,7 @@ bash ./test.sh	exec in ~/scapes/perlTRscape/ftrace (/bin/bash) ran any sec, retu
   rm x1	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/ok/x1	removed
   ln -fs ../tfil .	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/ln) ran any sec, returned 0
-    ~/scapes/perlTRscape/ftrace/ok/tfil	symlinked from ~/scapes/perlTRscape/ftrace/ok/../tfil
+    ~/scapes/perlTRscape/ftrace/ok/tfil	hidden_for_m.log
   rm tfil	exec in ~/scapes/perlTRscape/ftrace/ok (/bin/rm) ran any sec, returned 0
     ~/scapes/perlTRscape/ftrace/ok/tfil	removed
   cp tfil xx	exec in ~/scapes/perlTRscape/ftrace (/bin/cp) ran any sec, returned 0

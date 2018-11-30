@@ -29,7 +29,7 @@ install_ftrace:
 	@${m_copy} ftrace.vim ~/.vim/syntax/
 test_ftrace: ftrace
 	@echo  testing ftrace
-	umask 0022; ./ftrace -v -q -s bash ./test.sh | sed 's/ran .* sec/ran any sec/'
+	umask 0022; ./ftrace -v -q -s bash ./test.sh | sed -e 's/ran .* sec/ran any sec/' -e 's/symlinked from.*/hidden_for_m.log/'
 	./ftrace    -q -o ft ls ftrace.plTR a.rc
 	-./ftrace -invalid
 	sed 's/ran .* sec/ran any sec/' < ft
